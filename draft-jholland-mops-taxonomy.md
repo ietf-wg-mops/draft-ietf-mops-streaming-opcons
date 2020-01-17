@@ -1,8 +1,8 @@
 ---
-title: Taxonomy of Issues in Internet Media
-abbrev: Taxonomy
-docname: draft-jholland-mops-taxonomy-00
-date: 2019-07-07
+title: Operational Considerations for Streaming Media
+abbrev: Media Streaming Ops
+docname: draft-jholland-mops-taxonomy-01
+date: 2020-01-17
 category: info
 
 ipr: trust200902
@@ -23,10 +23,6 @@ author:
     country: United States of America
     email: jakeholland.net@gmail.com
 
-normative:
-  RFC2119:
-  RFC8174:
-
 informative:
   CVNI:
     target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
@@ -39,12 +35,14 @@ informative:
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
     seriesinfo:
       "ISO/IEC": 23009-1:2014
+    date: 2014-05
   MSOD:
     title: "Media Services On Demand: Encoder Best Practices"
     author:
       - 
         org: "Akamai Technologies, Inc."
     target: https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html
+    date: 2019
   RFC2309:
   RFC3168:
   RFC5762:
@@ -55,9 +53,9 @@ informative:
 
 --- abstract
 
-This document provides a taxonomy of networking issues that pertain
-to quality of experience in delivery of video or other high-bitrate
-media over the internet.
+This document provides an overview of operational networking issues
+that pertain to quality of experience in delivery of video and other
+high-bitrate media over the internet.
 
 --- middle
 
@@ -87,8 +85,8 @@ between common assumptions in existing networking documents and
 observations of video delivery issues in practice.
 
 Making specific recommendations for mitigating these issues
-is out of scope (though some existing mitigations might be mentioned
-in passing).  The intent is to provide a point of reference for
+is out of scope, though some existing mitigations are mentioned
+in passing.  The intent is to provide a point of reference for
 future solution proposals to use in describing how new
 technologies address or avoid these existing observed problems.
 
@@ -152,12 +150,12 @@ caching with delivery of replicated objects over individual
 connections, and/or by packet-level replication using multicast.
 
 To the extent that replication of popular content can be performed,
-bandwidth requirements at peering or ingest points can sometimes be
-reduced to a per-feed requirement instead of a per-user requirement.
+bandwidth requirements at peering or ingest points can be reduced to
+as low as a per-feed requirement instead of a per-user requirement.
 
 ##Caching Systems
 
-TBD: pros and cons of caching decisions at different locations within
+TBD: pros, cons, tradeoffs of caching designs at different locations within
 the network?
 
 Peak vs. average provisioning, and effects on peering point congestion
@@ -263,6 +261,33 @@ unresponsive to using feedback signaling to change encoder settings
 (as in {{RFC5762}}), or to use fewer enhancement layers (as in
 {{RFC6190}}), to proprietary methods for detecting quality of
 experience issues and cutting off video.
+
+# Doc History and Side Notes
+
+Note to RFC Editor: Please remove this section before publication
+
+TBD: suggestion from mic at IETF 106 (Mark Nottingham): dive into
+the different constraints coming from different parts of the network
+or distribution channels. (regarding questions about how to describe
+the disconnect between demand vs. capacity, while keeping good archival
+value.)
+https://www.youtube.com/watch?v=4_k340xT2jM&t=13m
+
+TBD: suggestion from mic at IETF 106 (Dave Oran + Glenn Deen responding):
+pre-placement for many use cases is useful--distinguish between live vs.
+cacheable.  "People assume high-demand == live, but not always true" with
+popular netflix example.
+
+(Glenn): something about latency requirements for cached vs. streaming on
+live vs.  pre-recorded content, and breaking requirements into 2 separate
+charts.  also: "Standardized ladder" for adaptive bit rate rates suggested,
+declined as out of scope.
+https://www.youtube.com/watch?v=4_k340xT2jM&t=14m15s
+
+TBD: suggestion at the mic from IETF 106 (Aaron Falk): include
+industry standard metrics from citations, some standard scoping metrics
+may be already defined.
+https://www.youtube.com/watch?v=4_k340xT2jM&t=19m15s
 
 #IANA Considerations
 
