@@ -31,11 +31,21 @@ informative:
       - 
         org: "Cisco Systems, Inc."
     date: 2019-02-27
+  PCC:
+    target: https://ieeexplore.ieee.org/document/8571288
+    title: "Emerging MPEG Standards for Point Cloud Compression"
+    author: Sebastian Schwarz et al.
+    date: Mar. 2019
+  NOSSDAV12:
+    target: https://dl.acm.org/doi/10.1145/2229087.2229092
+    title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
+    author: Saamer Akhshabi et al.
+    date: June 2012  
   DASH:
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
     seriesinfo:
-      "ISO/IEC": 23009-1:2014
-    date: 2014-05
+      "ISO/IEC": 23009-1:2019
+    date: 2019
   MSOD:
     title: "Media Services On Demand: Encoder Best Practices"
     author:
@@ -96,50 +106,48 @@ technologies address or avoid these existing observed problems.
 
 ###Video Bitrates
 
-Video bit-rate selection depends on many variables.  Different
+Video bitrate selection depends on many variables.  Different
 providers give different guidelines, but an equation that
 approximately matches the bandwidth requirement estimates
 from several video providers is given in {{MSOD}}:
 
 ~~~
-Kbps = (HEIGHT * WIDTH * FRAME_RATE) / (7 * 1024)
+Kbps = (HEIGHT * WIDTH * FRAME_RATE) / (15 * 1024)
 ~~~
 
-Height and width are in pixels, and frame rate in frames per second.
-The actual bit-rate required for a specific video will also depend on the
-codec used and some other characteristics of the video itself, such
-as the frequency of high-detail motion, which may influence the
+Height and width are in pixels, and frame rate is in frames per second.
+The actual bitrate required for a specific video will also depend on the
+codec used, fidelity desired and some other characteristics of the video itself, such
+as the amount and frequency of high-detail motion, which may influence the
 compressability of the content, but this equation provides a rough
 estimate.
 
 Here are a few common resolutions used for video content, with their
-minimum per-user bandwidth requirements according to this formula:
+typical per-user bandwidth requirements according to this formula:
 
-| Name | Width x Height | Approximate Bit-rate for 60fps
+| Name | Width x Height | Approximate Bitrate for 60fps
 | -----+----------------+-------------------------------
-| DVD |  720 x 480 | 3 Mbps
-| 720p | 1280 x 720 | 8 Mbps
-| 1080p | 1920 x 1080 | 18 Mbps
-| 2160p (4k) | 3840 x 2160 | 70 Mbps
+| DVD |  720 x 480 | 1.3 Mbps
+| 720p (1K) | 1280 x 720 | 3.6 Mbps
+| 1080p (2K) | 1920 x 1080 | 8.1 Mbps
+| 2160p (4k) | 3840 x 2160 | 32 Mbps
 
 ###Virtual Reality Bitrates
 
-TBD: Reference and/or adapt content from expired
-work-in-progress {{I-D.han-iccrg-arvr-transport-problem}}.
+Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time. 
 
-The punchline is that it starts at a bare minimum of 22 Mbps
-mean with a 130 Mbps peak rate, up to 3.3 Gbps mean with 38 Gbps
-peak for high-end technology.
+In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{PCC}} for more details.  
+
 
 ##Path Requirements
 
-The bit-rate requirements in {{scaling}} are per end-user actively
-consuming a media feed, so in the worst case, the bit-rate demands
+The bitrate requirements in {{scaling}} are per end-user actively
+consuming a media feed, so in the worst case, the bitrate demands
 can be multiplied by the number of simultaneous users to find the
 bandwidth requirements for a router on the delivery path with that
 number of users downstream.  For example, at a node with 10,000
 downstream users simultaneously consuming video streams,
-approximately up to 180 Gbps would be necessary in order for all
+approximately up to 80 Gbps would be necessary in order for all
 of them to get 1080p resolution at 60 fps.
 
 However, when there is some overlap in the feeds being consumed by
@@ -165,6 +173,8 @@ Provisioning issues for caching systems?
 
 ##Predictable Usage Profiles
 
+Historical data shows that users consume more video and videos at higher bitrates than they did in the past on their connected devices. Improvements in the codecs that help with reducing the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainement as well as conversational video.
+
 TBD: insert charts showing historical relative data usage patterns with
 error bars by time of day in consumer networks?
 
@@ -174,53 +184,53 @@ here, but it seems worth making the point that demand projections can
 be used to help with e.g. power consumption with routing architectures
 that provide for modular scalability.
 
-#Adaptive Bit Rate
+#Adaptive BitRate
 
 ##Overview
 
-Adaptive Bit-Rate (ABR) is a sort of application-level congestion
+Adaptive BitRate (ABR) is a sort of application-level
 response strategy in which the receiving media player attempts to
 detect the available bandwidth of the network path by experiment
 or by observing the successful application-layer download speed,
-then chooses a video bitrate that fits within that bandwidth,
+then chooses a video bitrate (among the limited number of available options) that fits within that bandwidth,
 typically adjusting as changes in available bandwidth occur in
-the network.
+the network or changes in capabilities occur in the player (such as available memory, CPU, display size, etc.).
 
-The choice of bit-rate occurs within the context of optimizing for
+The choice of bitrate occurs within the context of optimizing for
 some metric monitored by the video player, such as highest achievable
 video quality, or lowest rate of expected rebuffering events.
 
 ##Segmented Delivery
 
-ABR strategies are commonly implemented by video players using HLS
-{{RFC8216}} or DASH {{DASH}} to perform a reliable segment delivery
-of video data over HTTP.  Different player implementations and
+ABR playback is commonly implemented by video players using HLS
+{{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
+of video data over HTTP. Different player implementations and
 receiving devices use different strategies, often proprietary
-algorithms, to perform the bit-rate selection and available
-bandwidth estimation.
+algorithms (called rate adaptation or bitrate selection algorithms), to perform available
+bandwidth estimation/prediction and the bitrate selection. Most players only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
 
-This kind of bandwidth-detection system can experience trouble in
+This kind of bandwidth-measurement systems can experience trouble in
 several ways that can be affected by networking design choices.
 
-###Idle Time Between Segments
+###Idle Time between Segments
 
-When the bit-rate selection is successfully chosen below the
+When the bitrate selection is successfully chosen below the
 available capacity of the network path, the response to a
-segment request will complete in less absolute time than the
-video bit-rate speed.
-
-The resulting idle time within the connection carrying the
+segment request will typically complete in less absolute time than the
+duration of the requested segment. The resulting idle time within the connection carrying the
 segments has a few surprising consequences:
 
  * Mobile flow-bandwidth spectrum and timing mapping.
 
- * TCP Slow-start when restarting after idle requires multiple
+ * TCP slow-start when restarting after idle requires multiple
    RTTs to re-establish a throughput at the network's available
-   capacity.  On high-RTT paths or with small enough segments,
+   capacity. On high-RTT paths or with small enough segments,
    this can produce a falsely low application-visible measurement
    of the available network capacity.
 
-###Head of Line Blocking
+A detailed investigation of this phenomenon is available in {{NOSSDAV12}}.
+
+###Head-of-Line Blocking
 
 In the event of a lost packet on a TCP connection with SACK
 support (a common case for segmented delivery in practice), loss
@@ -250,9 +260,9 @@ In contrast to segmented delivery, several applications use UDP or
 unreliable SCTP to deliver RTP or raw TS-formatted video.
 
 Under congestion and loss, this approach generally experiences more
-video artifacts with fewer delay or head of line blocking effects.
+video artifacts with fewer delay or head-of-line blocking effects.
 Often one of the key goals is to reduce latency, to better support
-applications like video conferencing, or for other live-action
+applications like videoconferencing, or for other live-action
 video with interactive components, such as some sporting events.
 
 Congestion avoidance strategies for this kind of deployment vary
