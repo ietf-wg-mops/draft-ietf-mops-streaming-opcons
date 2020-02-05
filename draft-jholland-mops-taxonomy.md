@@ -1,8 +1,8 @@
 ---
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
-docname: draft-jholland-mops-taxonomy-01
-date: 2020-01-17
+docname: draft-jholland-mops-taxonomy-02
+date: 2020-02-04
 category: info
 
 ipr: trust200902
