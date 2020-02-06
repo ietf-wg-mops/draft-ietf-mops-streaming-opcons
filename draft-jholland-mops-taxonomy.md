@@ -2,12 +2,12 @@
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
 docname: draft-jholland-mops-taxonomy-02
-date: 2020-02-04
+date: 2020-02-05
 category: info
 
 ipr: trust200902
-area: Ops
-workgroup: Mops
+area: OPS
+workgroup: MOPS
 keyword: Internet-Draft
 
 stand_alone: yes
@@ -90,6 +90,16 @@ is out of scope, though some existing mitigations are mentioned
 in passing.  The intent is to provide a point of reference for
 future solution proposals to use in describing how new
 technologies address or avoid these existing observed problems.
+
+##Venues for Contribution and Discussion
+
+Note to RFC Editor: Please remove this section before publication
+
+(To the editor: check this repository URL after the draft is adopted. The working group may create its own repository)
+
+This document is in the Github repository at https://github.com/GrumpyOldTroll/ietf-mops-drafts. Readers are welcome to open issues and send pull requests for this document. 
+
+Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
 
 #Bandwidth Provisioning
 
@@ -309,6 +319,10 @@ This document requires no actions from IANA.
 #Security Considerations
 
 This document introduces no new security issues.
+
+#Acknowledgements
+
+(Your name could go here!)
 
 --- back
 
