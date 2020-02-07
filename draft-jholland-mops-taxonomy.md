@@ -34,12 +34,16 @@ informative:
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
     title: "Emerging MPEG Standards for Point Cloud Compression"
-    author: Sebastian Schwarz et al.
+    author:
+      -
+        name: Sebastian Schwarz et al.
     date: Mar. 2019
   NOSSDAV12:
     target: https://dl.acm.org/doi/10.1145/2229087.2229092
     title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
-    author: Saamer Akhshabi et al.
+    author:
+      -
+        name: Saamer Akhshabi et al.
     date: June 2012  
   DASH:
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
