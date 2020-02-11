@@ -26,11 +26,13 @@ author:
     ins: A. Begen
     name: Ali Begen
     org: Networked Media
+    country: Turkey
     email: ali.begen@networked.media
  -
     ins: S. Dawkins
     name: Spencer Dawkins
     org: Tencent America LLC
+    country: United States of America
     email: spencerdawkins.ietf@gmail.com
 
 informative:
