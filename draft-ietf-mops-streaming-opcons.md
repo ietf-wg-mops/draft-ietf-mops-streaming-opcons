@@ -347,7 +347,8 @@ This document introduces no new security issues.
 
 #Acknowledgements
 
-(Your name could go here!)
+Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose,
+and Leslie Daigle for their very helpful reviews and comments.
 
 --- back
 
