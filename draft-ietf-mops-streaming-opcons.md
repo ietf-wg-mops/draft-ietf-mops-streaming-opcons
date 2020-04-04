@@ -138,25 +138,33 @@ approximately matches the bandwidth requirement estimates
 from several video providers is given in {{MSOD}}:
 
 ~~~
-Kbps = (HEIGHT * WIDTH * FRAME_RATE) / (15 * 1024)
+Kbps = (HEIGHT * WIDTH * FRAME_RATE) / (MOTION_FACTOR * 1024)
 ~~~
 
-Height and width are in pixels, and frame rate is in frames per second.
-The actual bitrate required for a specific video will also depend on the
-codec used, fidelity desired and some other characteristics of the video itself, such
-as the amount and frequency of high-detail motion, which may influence the
-compressability of the content, but this equation provides a rough
-estimate.
+Height and width are in pixels, frame rate is in frames per second, and
+the motion factor is a value that ranges from 20 for a low-motion talking
+heads video to 7 for sports, and content with a lot of screen changes.
+
+The motion factor captures the variability in bitrate due to the amount
+and frequency of high-detail motion, which generally influences the
+compressability of the content.
+
+The exact bitrate required for a particular video also depends on a
+number of specifics about the codec used and how the codec-specific
+tuning parameters are matched to the content, but this equation provides
+a rough estimate that approximates the usual bitrate characteristics using
+the most common codecs and settings for production traffic.
 
 Here are a few common resolutions used for video content, with their
-typical per-user bandwidth requirements according to this formula:
+typical and peak per-user bandwidth requirements for 60 frames per
+second (FPS):
 
-| Name | Width x Height | Approximate Bitrate for 60fps
+| Name | Width x Height | Typical | Peak
 | -----+----------------+-------------------------------
-| DVD |  720 x 480 | 1.3 Mbps
-| 720p (1K) | 1280 x 720 | 3.6 Mbps
-| 1080p (2K) | 1920 x 1080 | 8.1 Mbps
-| 2160p (4k) | 3840 x 2160 | 32 Mbps
+| DVD |  720 x 480 | 1.3 Mbps | 3 Mbps
+| 720p (1K) | 1280 x 720 | 3.6 Mbps | 5 Mbps
+| 1080p (2K) | 1920 x 1080 | 8.1 Mbps | 18 Mbps
+| 2160p (4k) | 3840 x 2160 | 32 Mbps | 70 Mbps
 
 ###Virtual Reality Bitrates
 
@@ -173,8 +181,10 @@ can be multiplied by the number of simultaneous users to find the
 bandwidth requirements for a router on the delivery path with that
 number of users downstream.  For example, at a node with 10,000
 downstream users simultaneously consuming video streams,
-approximately up to 80 Gbps would be necessary in order for all
-of them to get 1080p resolution at 60 fps.
+approximately 80 Gbps would be necessary in order for all of them
+to get typical content at 1080p resolution at 60 fps, or up to
+180 Gbps to get sustained high-motion content such as sports,
+while maintaining the same resolution.
 
 However, when there is some overlap in the feeds being consumed by
 end users, it is sometimes possible to reduce the bandwidth
