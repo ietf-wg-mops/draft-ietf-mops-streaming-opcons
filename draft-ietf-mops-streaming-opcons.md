@@ -310,25 +310,24 @@ development and discussion on the draft so far.
 
 ##Venues for Contribution and Discussion
 
-(To the editor: check this repository URL after the draft is adopted. The working group may create its own repository)
+This document is in the Github repository at:
 
-This document is in the Github repository at https://github.com/GrumpyOldTroll/ietf-mops-drafts. Readers are welcome to open issues and send pull requests for this document. 
+https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons
+
+Readers are welcome to open issues and send pull requests for this document. 
 
 Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
+
+ * Join: https://www.ietf.org/mailman/listinfo/mops
+ * Search: https://mailarchive.ietf.org/arch/browse/mops/
 
 ## History of Public Discussion
 
 Presentations:
 
- * IETF 105 BOF:
-   https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
+ * IETF 105 BOF: https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
 
- * IETF 106 Mops meeting:
-   https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
-
-List archive search for doc mentions:
-
-https://mailarchive.ietf.org/arch/browse/mops/?q=draft-ietf-mops-streaming-opcons
+ * IETF 106 meeting: https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
 #IANA Considerations
 
