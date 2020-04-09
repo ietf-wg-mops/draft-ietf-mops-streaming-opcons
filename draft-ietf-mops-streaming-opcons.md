@@ -122,16 +122,6 @@ in passing.  The intent is to provide a point of reference for
 future solution proposals to use in describing how new
 technologies address or avoid these existing observed problems.
 
-##Venues for Contribution and Discussion
-
-Note to RFC Editor: Please remove this section before publication
-
-(To the editor: check this repository URL after the draft is adopted. The working group may create its own repository)
-
-This document is in the Github repository at https://github.com/GrumpyOldTroll/ietf-mops-drafts. Readers are welcome to open issues and send pull requests for this document. 
-
-Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
-
 #Bandwidth Provisioning
 
 ##Scaling Requirements for Media Delivery {#scaling}
@@ -359,30 +349,32 @@ experience issues and cutting off video.
 
 # Doc History and Side Notes
 
-Note to RFC Editor: Please remove this section before publication
+Note to RFC Editor: Please remove this section and its subsections
+before publication.
 
-TBD: suggestion from mic at IETF 106 (Mark Nottingham): dive into
-the different constraints coming from different parts of the network
-or distribution channels. (regarding questions about how to describe
-the disconnect between demand vs. capacity, while keeping good archival
-value.)
-https://www.youtube.com/watch?v=4_k340xT2jM&t=13m
+This section is to provide references to make it easier to review the
+development and discussion on the draft so far.
 
-TBD: suggestion from mic at IETF 106 (Dave Oran + Glenn Deen responding):
-pre-placement for many use cases is useful--distinguish between live vs.
-cacheable.  "People assume high-demand == live, but not always true" with
-popular netflix example.
+##Venues for Contribution and Discussion
 
-(Glenn): something about latency requirements for cached vs. streaming on
-live vs.  pre-recorded content, and breaking requirements into 2 separate
-charts.  also: "Standardized ladder" for adaptive bit rate rates suggested,
-declined as out of scope.
-https://www.youtube.com/watch?v=4_k340xT2jM&t=14m15s
+This document is in the Github repository at:
 
-TBD: suggestion at the mic from IETF 106 (Aaron Falk): include
-industry standard metrics from citations, some standard scoping metrics
-may be already defined.
-https://www.youtube.com/watch?v=4_k340xT2jM&t=19m15s
+https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons
+
+Readers are welcome to open issues and send pull requests for this document. 
+
+Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
+
+ * Join: https://www.ietf.org/mailman/listinfo/mops
+ * Search: https://mailarchive.ietf.org/arch/browse/mops/
+
+## History of Public Discussion
+
+Presentations:
+
+ * IETF 105 BOF: https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
+
+ * IETF 106 meeting: https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
 #IANA Considerations
 
