@@ -85,7 +85,7 @@ high-bitrate media over the internet.
 
 --- middle
 
-#Introduction {#intro}
+# Introduction {#intro}
 
 As the internet has grown, an increasingly large share of the traffic
 delivered to end users has become video.  Estimates
@@ -115,6 +115,68 @@ is out of scope, though some existing mitigations are mentioned
 in passing.  The intent is to provide a point of reference for
 future solution proposals to use in describing how new
 technologies address or avoid these existing observed problems.
+
+## Notes for Contributors and Reviewers
+
+Note to RFC Editor: Please remove this section and its subsections
+before publication.
+
+This section is to provide references to make it easier to review the
+development and discussion on the draft so far.
+
+### Venues for Contribution and Discussion {#venue}
+
+This document is in the Github repository at:
+
+https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons
+
+Readers are welcome to open issues and send pull requests for this document. 
+
+Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
+
+ * Join: https://www.ietf.org/mailman/listinfo/mops
+ * Search: https://mailarchive.ietf.org/arch/browse/mops/
+
+### Template for Contributions
+ 
+Contributions are solicited regarding issues and considerations
+that have an impact on media streaming operations.
+ 
+Please note that contributions may be merged and substantially
+edited, and as a reminder, please carefully consider the Note Well
+before contributing: https://datatracker.ietf.org/submit/note-well/
+ 
+Contributions can be emailed to mops@ietf.org, submitted as issues
+to the issue tracker of the repository in {{venue}}, or emailed to the
+document authors at draft-ietf-mops-streaming-opcons@ietf.org.
+ 
+Contributors describing an issue not yet addressed in the draft are
+requested to provide the following information, where applicable:
+ 
+ * a suggested title or name for the issue
+ * a long-term pointer to the best reference describing the issue
+ * a short description of the nature of the issue and its impact on media quality of service, including:
+   * where in the network this issue has root causes
+   * who can detect this issue when it occurs
+ * an overview of the issue's known prevalence in practice.  pointers to write-ups of high-profile incidents are a plus.
+ * a list of known mitigation techniques, with (for each known mitigation):
+   * a name for the mitigation technique
+   * a long-term pointer to the best reference describing it
+   * a short description of the technique:
+     * what it does
+     * where in the network it operates
+     * an overview of the tradeoffs involved--how and why it's helpful, what it costs.
+   * supplemental information about the technique's deployment prevalence and status
+
+### History of Public Discussion
+
+Presentations:
+
+ * IETF 105 BOF:\\
+   https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
+
+ * IETF 106 meeting:\\
+   https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
 #Bandwidth Provisioning
 
@@ -299,35 +361,6 @@ unresponsive to using feedback signaling to change encoder settings
 (as in {{RFC5762}}), or to use fewer enhancement layers (as in
 {{RFC6190}}), to proprietary methods for detecting quality of
 experience issues and cutting off video.
-
-# Doc History and Side Notes
-
-Note to RFC Editor: Please remove this section and its subsections
-before publication.
-
-This section is to provide references to make it easier to review the
-development and discussion on the draft so far.
-
-##Venues for Contribution and Discussion
-
-This document is in the Github repository at:
-
-https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons
-
-Readers are welcome to open issues and send pull requests for this document. 
-
-Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
-
- * Join: https://www.ietf.org/mailman/listinfo/mops
- * Search: https://mailarchive.ietf.org/arch/browse/mops/
-
-## History of Public Discussion
-
-Presentations:
-
- * IETF 105 BOF: https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
-
- * IETF 106 meeting: https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
 #IANA Considerations
 
