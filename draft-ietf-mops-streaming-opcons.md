@@ -97,7 +97,6 @@ informative:
     title: "Network traffic insights in the time of COVID-19: April 9 update"
     author:
       - ins: C. Labovitz
-      - org: Nokia
       - org: Nokia Deepfield
     target: https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/
     date: Apr 9, 2020
