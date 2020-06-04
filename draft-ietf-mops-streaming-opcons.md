@@ -98,8 +98,16 @@ informative:
     author:
       - ins: C. Labovitz
       - org: Nokia
+      - org: Nokia Deepfield
     target: https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/
     date: Apr 9, 2020
+  LabovitzDDoS:
+    title: "Why the game industry is still vulnerable to DDoS attacks"
+    author:
+      - ins: D. Takahashi
+      - org: Venture Beat
+    target:  https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/
+    date: May 13, 2018
   RFC2309:
   RFC3168:
   RFC5594:
@@ -313,14 +321,14 @@ In his talk, Sanjay Mishra {{Mishra}} reported that after the CoViD-19 pandemic 
  
 - Comcast’s streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30 {{Comcast}},
 - AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
-social networking and web browsing remaining the highest percentage (almost a quarter each) of overall mobility traffic {{ATT}}, and 
+social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic {{ATT}}, and 
 - Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19) {{Verizon}}.
 
 We note that other operators saw similar spikes during this time period. Craig Labowitz {{Labovitz}} reported 
 
 - Weekday peak traffic increases over 45%-50% from pre-lockdown levels, 
 - A 30% increase in upstream traffic over their pre-pandemic levels, and
-- A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks, as gaming usage also increased.)
+- A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks ({{LabovitzDDoS}}), as gaming usage also increased.)
 
 #Adaptive Bitrate
 
