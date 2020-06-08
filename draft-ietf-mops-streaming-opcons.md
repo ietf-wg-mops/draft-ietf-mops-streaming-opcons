@@ -2,7 +2,7 @@
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
 docname: draft-ietf-mops-streaming-opcons-01
-date: 2020-05-29
+date: 2020-06-08
 category: info
 
 ipr: trust200902
@@ -26,11 +26,13 @@ author:
     ins: A. Begen
     name: Ali Begen
     org: Networked Media
+    country: Turkey
     email: ali.begen@networked.media
  -
     ins: S. Dawkins
     name: Spencer Dawkins
     org: Tencent America LLC
+    country: United States of America
     email: spencerdawkins.ietf@gmail.com
 
 informative:
