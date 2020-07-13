@@ -1,8 +1,8 @@
 ---
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
-docname: draft-ietf-mops-streaming-opcons-00
-date: 2020-04-04
+docname: draft-ietf-mops-streaming-opcons-01
+date: 2020-06-08
 category: info
 
 ipr: trust200902
@@ -69,6 +69,46 @@ informative:
         org: "Akamai Technologies, Inc."
     target: https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html
     date: 2019
+  Mishra:
+    title: "An update on Streaming Video Alliance"
+    author:
+      - ins: S. Mishra
+      - ins: J. Thibeault
+    target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
+    date: 2020
+  Comcast:
+    title: "Comcast sees network traffic surge amid coronavirus outbreak"
+    author:
+      - org: CNBC
+    target: https://www.cnbc.com/video/2020/03/30/comcast-sees-network-traffic-surge-amid-coronavirus-outbreak.html
+    date: March 30, 2020
+  ATT:
+    title: "Tuesday (March 24, 2020) Network Insights"
+    author:
+      - org: AT&T
+    target: https://about.att.com/pages/COVID-19/updates.html
+    date: March 24, 2020
+  Verizon:
+    title: "Verizon: U.S. network usage starts to normalize as subscribers settle into new routines"
+    author:
+      - ins: M. Rorbuck
+      - org: Fierce Telecom
+    target: https://www.fiercetelecom.com/telecom/verizon-u-s-network-usage-starts-to-normalize-as-subscribers-settle-into-new-routines
+    date: Apr 9, 2020
+  Labovitz:
+    title: "Network traffic insights in the time of COVID-19: April 9 update"
+    author:
+      - ins: C. Labovitz
+      - org: Nokia Deepfield
+    target: https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/
+    date: Apr 9, 2020
+  LabovitzDDoS:
+    title: "Why the game industry is still vulnerable to DDoS attacks"
+    author:
+      - ins: D. Takahashi
+      - org: Venture Beat
+    target:  https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/
+    date: May 13, 2018
   RFC2309:
   RFC3168:
   RFC5594:
@@ -262,7 +302,7 @@ here, but it seems worth making the point that demand projections can
 be used to help with e.g. power consumption with routing architectures
 that provide for modular scalability.
 
-##Unpredictable Usage Profiles
+##Unpredictable Usage Profiles {#sec-unpredictable}
 
 Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become quite large. 
 
@@ -273,6 +313,23 @@ One example of this type of change was when peer-to-peer file sharing applicatio
 The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large ISP to attempt to "throttle" these transfers, to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, similar to an arms race, and set off discussions about "Net Neutrality" and calls for regulatory action.
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content. 
+
+##Extremely Unpredictable Usage Profiles
+
+The causes of unpredictable usage described in {{sec-unpredictable}} were more or less the result of human choices, but we were reminded during a post-IETF 107 meeting that humans are not always in control, and forces of nature can cause enormous fluctuations in traffic patterns.
+
+In his talk, Sanjay Mishra {{Mishra}} reported that after the CoViD-19 pandemic broke out in early 2020,
+ 
+- Comcast’s streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30 {{Comcast}},
+- AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
+social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic {{ATT}}, and 
+- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19) {{Verizon}}.
+
+We note that other operators saw similar spikes during this time period. Craig Labowitz {{Labovitz}} reported 
+
+- Weekday peak traffic increases over 45%-50% from pre-lockdown levels, 
+- A 30% increase in upstream traffic over their pre-pandemic levels, and
+- A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks ({{LabovitzDDoS}}), as gaming usage also increased.)
 
 #Adaptive Bitrate
 
