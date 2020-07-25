@@ -1,8 +1,8 @@
 ---
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
-docname: draft-ietf-mops-streaming-opcons-01
-date: 2020-06-08
+docname: draft-ietf-mops-streaming-opcons-02
+date: 2020-07-12
 category: info
 
 ipr: trust200902
