@@ -440,7 +440,8 @@ This document introduces no new security issues.
 #Acknowledgements
 
 Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose,
-and Leslie Daigle for their very helpful reviews and comments.
+Leslie Daigle, Lucas Pardue, Matt Stock, and Alexandre Gouaillard for
+their very helpful reviews and comments.
 
 --- back
 
