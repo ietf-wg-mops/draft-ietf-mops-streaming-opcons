@@ -62,6 +62,10 @@ informative:
     seriesinfo:
       "ISO/IEC": 23009-1:2019
     date: 2019
+  LL-DASH:
+    title: "Low-latency Modes for DASH"
+    date: March 2020
+    target: https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf
   MSOD:
     title: "Media Services On Demand: Encoder Best Practices"
     author:
@@ -109,13 +113,45 @@ informative:
       - org: Venture Beat
     target:  https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/
     date: May 13, 2018
+  TS102929:
+    title: "Speech and multimedia Transmission Quality (STQ); Procedures for the identification and selection of common modes of de-jitter buffers and echo cancellers"
+    seriesinfo:
+      "ETSI TS 102 929 V2.3.1 (2018-03)"
+    date: March 2018
+    target: https://www.etsi.org/deliver/etsi_ts/102900_102999/102929/02.03.01_60/ts_102929v020301p.pdf
+  TS26448:
+    title: "3rd Generation Partnership Project; Technical Specification Group Services and System Aspects; Codec for Enhanced Voice Services (EVS); Jitter Buffer Management"
+    seriesinfo:
+      "3GPP TS 26.448 V12.1.0 (2014-12)"
+    date: December 2014
+    target: https://www.etsi.org/deliver/etsi_ts/126400_126499/126448/12.00.00_60/ts_126448v120000p.pdf
+  CMAF-CTE:
+    title: "Ultra-Low-Latency Streaming Using Chunked-Encoded and ChunkedTransferred CMAF"
+    author:
+      -
+        name: Will Law
+        org: "Akamai Technologies, Inc."
+    date: October 2018
+    target: https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf
+  WEBRTC:
+    title: "WebRTC 1.0: Real-time Communication Between Browsers"
+    date: October 2020
+    seriesinfo:
+      "W3C.WD-webrtc-20201015"
+    target: https://www.w3.org/TR/2020/CRD-webrtc-20201015/
   RFC2309:
   RFC3168:
+  RFC3550:
+  RFC4733:
   RFC5594:
   RFC5762:
   RFC6190:
+  RFC6843:
+  RFC7656:
   RFC8033:
   RFC8216:
+  I-D.draft-ietf-rtcweb-overview-19:
+  I-D.draft-pantos-hls-rfc8216bis-07:
 
 --- abstract
 
@@ -142,14 +178,8 @@ important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
 
-This document aims to provide a taxonomy of networking issues as
-they relate to quality of experience in internet video delivery.
-The focus is on capturing characteristics of video delivery that
-have surprised network designers or transport experts without
-specific video expertise, since these highlight key differences
-between common assumptions in existing networking documents and
-observations of video delivery issues in practice.
-
+This document aims to provide a taxonomy of networking issues as they relate to quality of experience in internet-based streaming video delivery.  The focus is on capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.
+ 
 Making specific recommendations for mitigating these issues
 is out of scope, though some existing mitigations are mentioned
 in passing.  The intent is to provide a point of reference for
@@ -340,6 +370,60 @@ We note that other operators saw similar spikes during this time period. Craig L
 - Weekday peak traffic increases over 45%-50% from pre-lockdown levels, 
 - A 30% increase in upstream traffic over their pre-pandemic levels, and
 - A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks ({{LabovitzDDoS}}), as gaming usage also increased.)
+
+# Latency Considerations
+
+Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurence of a recorded event and the media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from end to end) because it includes video encoding time, and for most cases also ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
+
+Streaming media can be usefully categorized according to the application's latency requirements into a few rough categories:
+
+  * ultra low latency    (less than 1 second)
+  * low latency live     (less than 10 seconds)
+  * non-low-latency live (10 seconds to a few minutes)
+  * on-demand            (hours or more)
+
+## Ultra Low Latency
+
+Ultra low latency delivery of media is defined here as having a glass-to-glass delay target under one second.
+
+This level of latency is sometimes necessary for real-time interactive applications such as video conferencing, operation of remote control devices or vehicles, or remotely hosted real-time gaming systems.  Some media content providers aim to achieve this level of latency for live media events involving sports, but have usually so far been unsuccessful over the internet at scale, though it is often possible within a localized environment with a controlled network, such as inside a specific venue connected to the event.  Applications operating in this domain that encounter transient network events such as loss or reordering of some packets often experience user-visible artifacts in the media.
+
+Applications requiring ultra low latency for media delivery are usually tightly constrained on the available choices for media transport technologies, and sometimes may need to operate in controlled environments to reliably achieve their latency and quality goals.
+
+Most applications operating over IP networks and requiring latency this low use the real-time transport protocol (RTP) {{RFC3550}} or WebRTC {{I-D.draft-ietf-rtcweb-overview-19}}{{WEBRTC}}, which uses RTP for the media transport as well as several other protocols necessary for safe operation in browsers.
+
+Worth noting is that many applications for ultra low latency delivery do not need to scale to more than one user at a time, which simplifies many delivery considerations relative to other use cases.  For applications that need to replicate streams to multiple users, especially at a scale exceeding tens of users, this level of latency has historically been nearly impossible to achieve except with the use of multicast or planned provisioning in controlled networks.
+
+Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}.  Applications with further-specialized latency requirements are out of scope for this document, but {{TS102929}} and {{TS26448}} may be helpful as further reading for operators who need to consider attempting to achieve latency at this scale.
+
+## Low Latency Live
+
+Low latency live delivery of media is defined here as having a glass-to-glass delay target under 10 seconds.
+
+This level of latency is targeted to have a user experience similar to traditional broadcast TV delivery.  A frequently cited problem with failing to achieve this level of latency for live sporting events is the user experience failure from having crowds within earshot of one another who react audibly to an important play, or from users who learn of an event in the match via some other channel, for example a messaging application such as Twitter, before it has happened on the screen showing the sporting event.
+
+Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what's feasible in a higher latency service.  The tradeoffs may include higher costs, or delivering a lower quality video, or reduced flexibility for adaptive bitrates, or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display.  Low latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
+
+Implementation of a low latency live video service can be achieved with the use of specialized low latency profiles of HLS {{I-D.draft-pantos-hls-rfc8216bis-07}} and DASH {{LL-DASH}} \[TBD: update LL-DASH reference once standardized\].  For lower values of latency in the "low latency live" category, it is also necessary to use the Common Media Application Format (CMAF) with chunked transfer encoding {{CMAF-CTE}}, and supporting features are required both from the CDN or video delivery service and from the client-side players.
+
+RTP or WebRTC can also be used for low latency live video delivery.  {{RFC4733}} and {{RFC6843}} describes some mechanisms for tuning the playout delay and some benefits to the playback reliability that can be realized by using an extended playout delay buffer.
+
+## Non-low-latency Live
+
+Non-low-latency live delivery of media is defined here as a live stream that does not have a delay target shorter than 10 seconds for the glass-to-glass delay.
+
+This level of latency is the historically common case for segmented video delivery using HLS {{RFC8216}} and DASH {{DASH}}, and generally .  This level of latency is often considered adequate for content like news, or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players don't have the necessary support for the features necessary to support low latency live streaming.
+
+This level of latency can typically be achieved at scale with commodity CDN services for HTTP or HTTPS delivery, and in some cases the increased time windows can allow for production of a wider range of encoding options relative to the requirements for a lower latency service without the need for increasing the hardware footprint, which can allow for wider device interoperability.
+
+## On-Demand
+
+On-Demand media streaming refers to playback of pre-recorded media based on a user's action.  In some cases on-demand media is produced as a by-product of a live media production, using the same segments as the live event, but freezing the manifest after the live event has finished.  In other cases, on-demand media is constructed out of pre-recorded assets with no streaming necessarily involved during the production of the on-demand content.
+
+On-demand media generally is not subject to latency concerns, but other timing-related considerations can still be as important or even more important to the user experience than the same considerations with live events.  These considerations include the startup time, the stability of the media stream's playback quality, and avoidance of stalls and video artifacts during the playback under all but the most severe network conditions.
+
+In some applications, optimizations are available to on-demand video that are not always available to live events, such as pre-loading the first segment for a startup time that doesn't have to wait for a network download to begin.
+
 
 #Adaptive Bitrate
 
