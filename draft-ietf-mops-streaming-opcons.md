@@ -218,6 +218,12 @@ Presentations:
  * IETF 106 meeting:\\
    https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
+ * MOPS Interim Meeting 2020-04-15:\\
+   https://www.youtube.com/watch?v=QExiajdC0IY&t=10m25s
+
+ * IETF 108 meeting:\\
+   https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s
+
 #Bandwidth Provisioning
 
 ##Scaling Requirements for Media Delivery {#scaling}
