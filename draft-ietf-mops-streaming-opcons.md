@@ -118,6 +118,7 @@ informative:
   RFC8216:
   RFC6817:
   RFC8622:
+  RFC7234:
 
 --- abstract
 
@@ -293,7 +294,7 @@ as low as a per-feed requirement instead of a per-user requirement.
 
 ##Caching Systems
 
-When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre=loading caches to respond quickly to initial requests, is often useful. This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
+When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests, is often useful (for example, HTTP/1.1 caching is described in {{RFC7234}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
 
 It is worth noting that not all high-demand content is also "live" content. One popular example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
 
