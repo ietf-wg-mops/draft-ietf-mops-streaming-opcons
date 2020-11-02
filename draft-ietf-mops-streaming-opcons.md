@@ -448,9 +448,7 @@ This document introduces no new security issues.
 
 #Acknowledgements
 
-Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose,
-Leslie Daigle, Lucas Pardue, Matt Stock, and Alexandre Gouaillard for
-their very helpful reviews and comments.
+Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard, and Mike English for their very helpful reviews and comments.
 
 --- back
 
