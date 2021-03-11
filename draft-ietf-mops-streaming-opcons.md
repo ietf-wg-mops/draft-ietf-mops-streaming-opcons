@@ -76,25 +76,6 @@ informative:
       - ins: J. Thibeault
     target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
     date: 2020
-  Comcast:
-    title: "Comcast sees network traffic surge amid coronavirus outbreak"
-    author:
-      - org: CNBC
-    target: https://www.cnbc.com/video/2020/03/30/comcast-sees-network-traffic-surge-amid-coronavirus-outbreak.html
-    date: March 30, 2020
-  ATT:
-    title: "Tuesday (March 24, 2020) Network Insights"
-    author:
-      - org: AT&T
-    target: https://about.att.com/pages/COVID-19/updates.html
-    date: March 24, 2020
-  Verizon:
-    title: "Verizon: U.S. network usage starts to normalize as subscribers settle into new routines"
-    author:
-      - ins: M. Rorbuck
-      - org: Fierce Telecom
-    target: https://www.fiercetelecom.com/telecom/verizon-u-s-network-usage-starts-to-normalize-as-subscribers-settle-into-new-routines
-    date: Apr 9, 2020
   Labovitz:
     title: "Network traffic insights in the time of COVID-19: April 9 update"
     author:
@@ -350,10 +331,10 @@ The causes of unpredictable usage described in {{sec-unpredict}} were more or le
 
 In his talk, Sanjay Mishra {{Mishra}} reported that after the CoViD-19 pandemic broke out in early 2020,
  
-- Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30 {{Comcast}},
+- Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30,
 - AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
-social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic {{ATT}}, and 
-- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19) {{Verizon}}.
+social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic, and 
+- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.
 
 We note that other operators saw similar spikes during this time period. Craig Labowitz {{Labovitz}} reported 
 
