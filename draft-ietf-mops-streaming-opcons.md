@@ -1,8 +1,8 @@
 ---
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
-docname: draft-ietf-mops-streaming-opcons-03
-date: 2020-11-01
+docname: draft-ietf-mops-streaming-opcons-latest
+date:
 category: info
 
 ipr: trust200902
@@ -109,6 +109,14 @@ informative:
       - org: Venture Beat
     target:  https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/
     date: May 13, 2018
+
+  IABcovid:
+    title: Report from the IAB COVID-19 Network Impacts Workshop 2020
+    author:
+      - ins: Jari Arkko / Stephen Farrel / Mirja Kühlewind / Colin Perkins 
+    target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
+    date: November 2020
+
   RFC2309:
   RFC3168:
   RFC5594:
@@ -207,7 +215,7 @@ requested to provide the following information, where applicable:
    * a long-term pointer to the best reference describing it
    * a short description of the technique:
      * what it does
-     * where in the network it operates
+     * wIs here in the network it operates
      * an overview of the tradeoffs involved--how and why it's helpful, what it costs.
    * supplemental information about the technique's deployment prevalence and status
 
@@ -226,6 +234,9 @@ Presentations:
 
  * IETF 108 meeting:\\
    https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s
+
+ * MOPS 2020-10-30 Interim meeting:\\
+   https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
 
 #Bandwidth Provisioning
 
@@ -349,6 +360,15 @@ We note that other operators saw similar spikes during this time period. Craig L
 - Weekday peak traffic increases over 45%-50% from pre-lockdown levels, 
 - A 30% increase in upstream traffic over their pre-pandemic levels, and
 - A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks ({{LabovitzDDoS}}), as gaming usage also increased.)
+
+Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. Given a larger number of reports and more time to reflect, the following observations from the draft workshop report are worth considering.
+
+- Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
+- Mobile networks saw traffic reductions and residential networks saw significant increases.
+- Reported traffic increases from ISPs and IXPs of 15-20 percent within a few weeks matched the usual traffic growth rate for most years.
+- The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications. 
+- The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
+- At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
 #Adaptive Bitrate
 
