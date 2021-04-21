@@ -1,8 +1,8 @@
 ---
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
-docname: draft-ietf-mops-streaming-opcons-03
-date: 2020-11-01
+docname: draft-ietf-mops-streaming-opcons-latest
+date:
 category: info
 
 ipr: trust200902
@@ -76,25 +76,6 @@ informative:
       - ins: J. Thibeault
     target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
     date: 2020
-  Comcast:
-    title: "Comcast sees network traffic surge amid coronavirus outbreak"
-    author:
-      - org: CNBC
-    target: https://www.cnbc.com/video/2020/03/30/comcast-sees-network-traffic-surge-amid-coronavirus-outbreak.html
-    date: March 30, 2020
-  ATT:
-    title: "Tuesday (March 24, 2020) Network Insights"
-    author:
-      - org: AT&T
-    target: https://about.att.com/pages/COVID-19/updates.html
-    date: March 24, 2020
-  Verizon:
-    title: "Verizon: U.S. network usage starts to normalize as subscribers settle into new routines"
-    author:
-      - ins: M. Rorbuck
-      - org: Fierce Telecom
-    target: https://www.fiercetelecom.com/telecom/verizon-u-s-network-usage-starts-to-normalize-as-subscribers-settle-into-new-routines
-    date: Apr 9, 2020
   Labovitz:
     title: "Network traffic insights in the time of COVID-19: April 9 update"
     author:
@@ -109,6 +90,14 @@ informative:
       - org: Venture Beat
     target:  https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/
     date: May 13, 2018
+
+  IABcovid:
+    title: Report from the IAB COVID-19 Network Impacts Workshop 2020
+    author:
+      - ins: Jari Arkko / Stephen Farrel / Mirja Kühlewind / Colin Perkins 
+    target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
+    date: November 2020
+
   RFC2309:
   RFC3168:
   RFC5594:
@@ -227,6 +216,9 @@ Presentations:
  * IETF 108 meeting:\\
    https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s
 
+ * MOPS 2020-10-30 Interim meeting:\\
+   https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
+
 #Bandwidth Provisioning
 
 ##Scaling Requirements for Media Delivery {#scaling}
@@ -339,16 +331,26 @@ The causes of unpredictable usage described in {{sec-unpredict}} were more or le
 
 In his talk, Sanjay Mishra {{Mishra}} reported that after the CoViD-19 pandemic broke out in early 2020,
  
-- Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30 {{Comcast}},
+- Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30,
 - AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
-social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic {{ATT}}, and 
-- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19) {{Verizon}}.
+social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic, and 
+- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.
 
 We note that other operators saw similar spikes during this time period. Craig Labowitz {{Labovitz}} reported 
 
 - Weekday peak traffic increases over 45%-50% from pre-lockdown levels, 
 - A 30% increase in upstream traffic over their pre-pandemic levels, and
 - A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks ({{LabovitzDDoS}}), as gaming usage also increased.)
+
+Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. Given a larger number of reports and more time to reflect, the following observations from the draft workshop report are worth considering.
+
+- Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
+- Mobile networks saw traffic reductions and residential networks saw significant increases.
+- Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated. 
+- At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.  
+- The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications. 
+- The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
+- At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
 #Adaptive Bitrate
 
