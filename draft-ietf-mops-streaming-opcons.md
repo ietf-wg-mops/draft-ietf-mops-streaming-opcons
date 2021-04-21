@@ -196,7 +196,7 @@ requested to provide the following information, where applicable:
    * a long-term pointer to the best reference describing it
    * a short description of the technique:
      * what it does
-     * wIs here in the network it operates
+     * where in the network it operates
      * an overview of the tradeoffs involved--how and why it's helpful, what it costs.
    * supplemental information about the technique's deployment prevalence and status
 
@@ -346,7 +346,8 @@ Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impac
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
-- Reported traffic increases from ISPs and IXPs of 15-20 percent within a few weeks matched the usual traffic growth rate for most years.
+- Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated. 
+- At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.  
 - The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications. 
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
