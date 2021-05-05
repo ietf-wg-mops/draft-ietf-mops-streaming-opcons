@@ -98,6 +98,34 @@ informative:
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
 
+  Jacobson-Karels:
+    title: Congestion Avoidance and Control
+    target: https://ee.lbl.gov/papers/congavoid.pdf
+    date: November 1988
+    author:
+      - 
+        name: Van Jacobson
+        ins: V. Jacobson
+      - 
+        name: Mike Karels
+        ins: M. Karels
+
+  COPA:
+    title: "Copa: Practical Delay-Based Congestion Control for the Internet"
+    target: https://web.mit.edu/copa/
+    date: 2018
+    author:
+      - 
+        name: Venkat Arun
+        ins: V. Arun
+      - 
+        name:  Hari Balakrishnan
+        ins:  H. Balakrishnan
+
+  I-D.cardwell-iccrg-bbr-congestion-control:
+
+  RFC0793:
+  RFC2001:
   RFC2309:
   RFC3168:
   RFC5594:
@@ -218,6 +246,22 @@ Presentations:
 
  * MOPS 2020-10-30 Interim meeting:\\
    https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
+
+#Interaction between Contention, Fairness, and Quality of Experience for Streaming Media Users
+
+Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users.
+
+For most of the history of the Internet, the dominant transport protocols in use have been UDP and TCP. 
+
+For most of the history of the Internet, we have trusted UDP-based applications to limit their impact on other users. One of the strategies used was to use UDP for simple query-response application protocols, such as DNS, which is often used to send a single-packet request to look up the IP address for a DNS name, and return a single-packet response containing the IP address. Although it is possible to saturate a path between a DNS client and DNS server with DNS requests, in practice, that was rare enough that DNS included few mechanisms to resolve contention between DNS users and other users (whether they are also using DNS, or using other application protocols. 
+
+For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that required multiple packets, in either or both directions, on other users. Although TCP was not particularly good at liminting this impact early on {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and how when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not. 
+
+In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level mechanisms such as RTP with RTCP have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way UDP-based applications interact with other users has changed.
+
+In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly. 
+
+Content providers have been driving much of this work on delay-based transport mechanisms, so we can assume that this trend will continue for the foreseeable future. 
 
 #Bandwidth Provisioning
 
