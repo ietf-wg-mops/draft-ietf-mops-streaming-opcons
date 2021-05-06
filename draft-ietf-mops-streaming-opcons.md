@@ -294,7 +294,7 @@ Because networking resources are shared between users, a good place to start our
 
 For most of the history of the Internet, the dominant transport protocols in use have been UDP and TCP, and they have each had relatively consistent behaviors, although those behaviors have changed over time. 
 
-## UDP and UDP behaviors {#udp-behavior}
+## UDP and UDP Protocol Behaviors {#udp-behavior}
 
 For most of the history of the Internet, we have trusted UDP-based applications to limit their impact on other users. One of the strategies used was to use UDP for simple query-response application protocols, such as DNS, which is often used to send a single-packet request to look up the IP address for a DNS name, and return a single-packet response containing the IP address. Although it is possible to saturate a path between a DNS client and DNS server with DNS requests, in practice, that was rare enough that DNS included few mechanisms to resolve contention between DNS users and other users (whether they are also using DNS, or using other application protocols. 
 
@@ -304,7 +304,7 @@ It's also worth pointing out that because UDP has no transport-layer feedback me
 
 The notion of "Circuit Breakers" has also been applied to other UDP applications, such as tunneling packets that are potentially not congestion-controlled over UDP, in {{RFC8084}}.
 
-## TCP and TCP Behaviors {#tcp-behavior}
+## TCP and TCP Protocol Behaviors {#tcp-behavior}
 
 For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and how when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not. 
 
