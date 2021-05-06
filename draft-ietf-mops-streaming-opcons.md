@@ -94,7 +94,18 @@ informative:
   IABcovid:
     title: Report from the IAB COVID-19 Network Impacts Workshop 2020
     author:
-      - ins: Jari Arkko / Stephen Farrel / Mirja Kühlewind / Colin Perkins 
+      - 
+        name: Jari Arkko
+        ins: J. Arkko
+      - 
+        name:  Stephen Farrel
+        ins:  S. Farrel
+      - 
+        name: Mirja Kühlewind
+        ins: M. Kühlewind
+      - 
+        name:  Colin Perkins
+        ins:  C. Perkins
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
 
@@ -122,12 +133,38 @@ informative:
         name:  Hari Balakrishnan
         ins:  H. Balakrishnan
 
+  Port443:
+    title: "Service Name and Transport Protocol Port Number Registry"
+    target: https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+    date: 2021-04-29
+
+  CDiD:
+    title: "(A call for) Congestion Defense in Depth"
+    target: https://datatracker.ietf.org/meeting/105/materials/slides-105-tsvarea-congestion-defense-in-depth-00
+    date: July 2019
+    author:
+      - 
+        name: Christian Huitema
+        ins: C. Huitema
+      - 
+        name:  Brian Trammell
+        ins:  B. Trammell
+
+  tsvarea-105:
+    title: "TSVAREA Minutes - IETF 105"
+    target: https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00
+    date: 2019
+
   I-D.cardwell-iccrg-bbr-congestion-control:
+  I-D.ietf-quic-transport:
+  I-D.ietf-quic-recovery:
+  I-D.ietf-quic-http:
 
   RFC0793:
   RFC2001:
   RFC2309:
   RFC3168:
+  RFC3550:
   RFC5594:
   RFC5762:
   RFC6190:
@@ -136,6 +173,10 @@ informative:
   RFC6817:
   RFC8622:
   RFC7234:
+  RFC8083:
+  RFC8084:
+  RFC6582:
+  RFC8312:
 
 --- abstract
 
@@ -247,21 +288,45 @@ Presentations:
  * MOPS 2020-10-30 Interim meeting:\\
    https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
 
-#Interaction between Contention, Fairness, and Quality of Experience for Streaming Media Users
+#Evolution of Transport Protocols and Transport Protocol Behaviors
 
-Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users.
+Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to the usage of transport protocols and transport protocol behaviors. 
 
-For most of the history of the Internet, the dominant transport protocols in use have been UDP and TCP. 
+For most of the history of the Internet, the dominant transport protocols in use have been UDP and TCP, and they have each had relatively consistent behaviors, although those behaviors have changed over time. 
+
+## UDP and UDP behaviors {#udp-behavior}
 
 For most of the history of the Internet, we have trusted UDP-based applications to limit their impact on other users. One of the strategies used was to use UDP for simple query-response application protocols, such as DNS, which is often used to send a single-packet request to look up the IP address for a DNS name, and return a single-packet response containing the IP address. Although it is possible to saturate a path between a DNS client and DNS server with DNS requests, in practice, that was rare enough that DNS included few mechanisms to resolve contention between DNS users and other users (whether they are also using DNS, or using other application protocols. 
 
-For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that required multiple packets, in either or both directions, on other users. Although TCP was not particularly good at liminting this impact early on {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and how when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not. 
+In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level protocols such as RTP {{RFC3550}} have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way these UDP-based applications interact with other users has changed.
 
-In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level mechanisms such as RTP with RTCP have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way UDP-based applications interact with other users has changed.
+It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that expect to send and receive substantial amounts of information must provide their own feedback mechanisms. RTP replies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss. 
+
+The notion of "Circuit Breakers" has also been applied to other UDP applications, such as tunneling packets that are potentially not congestion-controlled over UDP, in {{RFC8084}}.
+
+## TCP and TCP Behaviors {#tcp-behavior}
+
+For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and how when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not. 
+
+The success of the largely TCP-based Internet is evidence that the mechanisms used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful, even if the specific mechanisms used to reach equilibrium have change over time. Because TCP provides a common tool to avoid contention, new TCP-based applications (for example, HTTP) have had the same transport behavior as older TCP-based applications (for example, FTP). 
 
 In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly. 
 
-Content providers have been driving much of this work on delay-based transport mechanisms, so we can assume that this trend will continue for the foreseeable future. 
+Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change, even with the widespread use of automated operating system update installation on many end-user systems, so that streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term. 
+
+## The QUIC Protocol and QUIC Protocol Behavior
+
+The QUIC protocol {{I-D.ietf-quic-transport}}, developed from a proprietary protocol into an IETF standards-track protocol {{I-D.ietf-quic-transport}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads. 
+
+The standardized QUIC protocol is used to carry HTTP traffic, but instead of being TCP-based, HTTP/3 {{I-D.ietf-quic-http}} is encapsulated in QUIC, which is then encapsulated in UDP, so streaming operators (and network operators) will see traffic that looks like HTTP, but is carried over UDP (specifically, using UDP port 443 {{Port443}}). Network operators may already be blocking UDP traffic on this port, since HTTP over TLS/SSL has used TCP, not UDP. Even if UDP traffic using this port is not blocked, traffic using this port may be severely rate-limited, since HTTP/3 over QUIC has the potential to send much more traffic over UDP than the network operator expects. 
+
+As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to perform analytics or even participate in current HTTP conversations will not work for HTTP/3 without making changes to their networks.
+
+As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The standardized QUIC protocol includes a congestion-control mechanism {{I-D.ietf-quic-recovery}} that is loss-based, and is intended to have roughly the behavior of TCP NewReno {{RFC6582}}, but the signals QUIC provides for congestion control are intended to be generic, and a sender can unilaterally chose a different algorithm to use, which might be loss-based, like CUBIC {{RFC8312}}, a delay-based congestion controller like COPA or BBR, or something completely different. 
+
+We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in {{tcp-behavior}} about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC with applications.
+
+The decision to deploy a new version of QUIC is relatively uncontrolled, compared to other widely used transport protocols, and "a new version of QUIC" can include "a new congestion controller", so QUIC protocol behavior can change quickly, without much notice. At IETF 105, Christian Huitema and Brian Trammell presented a talk on "Congestion Defense in Depth" {{CDiD}}, that explored potential concerns about new QUIC congestion controllers being broadly deployed without the testing and instrumentation that current major content providers routinely include. The sense of the room at IETF 105 was that the current major content providers understood what is at stake when they deploy new congestion controllers, but this presentation, and the related discussion in TSVAREA minutes from IETF 105 ({{tsvarea-105}}, are still worth a look from new and rapidly growing content providers. 
 
 #Bandwidth Provisioning
 
