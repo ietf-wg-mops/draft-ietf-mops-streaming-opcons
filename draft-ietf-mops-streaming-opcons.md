@@ -300,7 +300,7 @@ For most of the history of the Internet, we have trusted UDP-based applications 
 
 In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level protocols such as RTP {{RFC3550}} have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way these UDP-based applications interact with other users has changed.
 
-It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that expect to send and receive substantial amounts of information must provide their own feedback mechanisms. RTP replies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss. 
+It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that expect to send and receive substantial amounts of information must provide their own feedback mechanisms. RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss. 
 
 The notion of "Circuit Breakers" has also been applied to other UDP applications, such as tunneling packets that are potentially not congestion-controlled over UDP, in {{RFC8084}}.
 
@@ -562,4 +562,3 @@ This document introduces no new security issues.
 Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard, and Mike English for their very helpful reviews and comments.
 
 --- back
-
