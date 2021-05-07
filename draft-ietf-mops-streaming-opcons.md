@@ -159,6 +159,7 @@ informative:
   I-D.ietf-quic-transport:
   I-D.ietf-quic-recovery:
   I-D.ietf-quic-http:
+  I-D.ietf-quic-manageability:
 
   RFC0793:
   RFC2001:
@@ -294,7 +295,7 @@ Because networking resources are shared between users, a good place to start our
 
 For most of the history of the Internet, the dominant transport protocols in use have been UDP and TCP, and they have each had relatively consistent behaviors, although those behaviors have changed over time. 
 
-## UDP and UDP Protocol Behaviors {#udp-behavior}
+## UDP and Its Behavior {#udp-behavior}
 
 For most of the history of the Internet, we have trusted UDP-based applications to limit their impact on other users. One of the strategies used was to use UDP for simple query-response application protocols, such as DNS, which is often used to send a single-packet request to look up the IP address for a DNS name, and return a single-packet response containing the IP address. Although it is possible to saturate a path between a DNS client and DNS server with DNS requests, in practice, that was rare enough that DNS included few mechanisms to resolve contention between DNS users and other users (whether they are also using DNS, or using other application protocols. 
 
@@ -304,29 +305,35 @@ It's also worth pointing out that because UDP has no transport-layer feedback me
 
 The notion of "Circuit Breakers" has also been applied to other UDP applications, such as tunneling packets that are potentially not congestion-controlled over UDP, in {{RFC8084}}.
 
-## TCP and TCP Protocol Behaviors {#tcp-behavior}
+## TCP and Its Behavior {#tcp-behavior}
 
 For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not. 
 
-The success of the largely TCP-based Internet is evidence that the mechanisms used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful, even if the specific mechanisms used to reach equilibrium have change over time. Because TCP provides a common tool to avoid contention, new TCP-based applications (for example, HTTP) have had the same transport behavior as older TCP-based applications (for example, FTP). 
+The success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful. The Internet continued to work even when the specific mechanisms used to reach equilibrium changed over time. Because TCP provides a common tool to avoid contention, as some TCP-based applications like FTP were largely replaced by other TCP-based applications like HTTP, the transport behavior remained consistent. 
 
 In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly. 
 
-Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change, even with the widespread use of automated operating system update installation on many end-user systems, so that streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term. 
+Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term. 
 
-## The QUIC Protocol and QUIC Protocol Behavior
+## The QUIC Protocol and Its Behavior
 
-The QUIC protocol {{I-D.ietf-quic-transport}}, developed from a proprietary protocol into an IETF standards-track protocol {{I-D.ietf-quic-transport}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads. 
+The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{I-D.ietf-quic-transport}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads. 
 
-The standardized QUIC protocol is used to carry HTTP traffic, but instead of being TCP-based, HTTP/3 {{I-D.ietf-quic-http}} is encapsulated in QUIC, which is then encapsulated in UDP, so streaming operators (and network operators) will see traffic that looks like HTTP, but is carried over UDP (specifically, using UDP port 443 {{Port443}}). Network operators may already be blocking UDP traffic on this port, since HTTP over TLS/SSL has used TCP, not UDP. Even if UDP traffic using this port is not blocked, traffic using this port may be severely rate-limited, since HTTP/3 over QUIC has the potential to send much more traffic over UDP than the network operator expects. 
+Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to perform analytics or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks.
 
-As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to perform analytics or even participate in current HTTP conversations will not work for HTTP/3 without making changes to their networks.
+While QUIC is designed as a general-purpose transport protocol, and can carry different application-later protocols, the current standardized mapping is for HTTP/3 {{I-D.ietf-quic-http}}, which describes how QUIC transport features are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 {{Port443}} but this is not a strict requirement. 
 
-As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The standardized QUIC protocol includes a congestion-control mechanism {{I-D.ietf-quic-recovery}} that is loss-based, and is intended to have roughly the behavior of TCP NewReno {{RFC6582}}, but the signals QUIC provides for congestion control are intended to be generic, and a sender can unilaterally chose a different algorithm to use, which might be loss-based, like CUBIC {{RFC8312}}, a delay-based congestion controller like COPA or BBR, or something completely different. 
+When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, this means that streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. Since earlier versions of HTTP(S) rely on TCP, UDP ports may blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and HTTP/3 can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming, over the UDP ports that HTTP/3 tends to use.
+
+As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{I-D.ietf-quic-recovery}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
 
 We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in {{tcp-behavior}} about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC with applications.
 
-The decision to deploy a new version of QUIC is relatively uncontrolled, compared to other widely used transport protocols, and "a new version of QUIC" can include "a new congestion controller", so QUIC protocol behavior can change quickly, without much notice. At IETF 105, Christian Huitema and Brian Trammell presented a talk on "Congestion Defense in Depth" {{CDiD}}, that explored potential concerns about new QUIC congestion controllers being broadly deployed without the testing and instrumentation that current major content providers routinely include. The sense of the room at IETF 105 was that the current major content providers understood what is at stake when they deploy new congestion controllers, but this presentation, and the related discussion in TSVAREA minutes from IETF 105 ({{tsvarea-105}}, are still worth a look from new and rapidly growing content providers. 
+The decision to deploy a new version of QUIC is relatively uncontrolled, compared to other widely used transport protocols, and this can include new transport behaviors that appear without much notice except to the QUIC endpoints. At IETF 105, Christian Huitema and Brian Trammell presented a talk on "Congestion Defense in Depth" {{CDiD}}, that explored potential concerns about new QUIC congestion controllers being broadly deployed without the testing and instrumentation that current major content providers routinely include. 
+
+The sense of the room at IETF 105 was that the current major content providers understood what is at stake when they deploy new congestion controllers, but this presentation, and the related discussion in TSVAREA minutes from IETF 105 ({{tsvarea-105}}, are still worth a look for new and rapidly growing content providers. 
+
+More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. 
 
 #Bandwidth Provisioning
 
@@ -557,7 +564,7 @@ This document requires no actions from IANA.
 
 This document introduces no new security issues.
 
-#Acknowledgements
+#Acknowledgments
 
 Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard, and Mike English for their very helpful reviews and comments.
 
