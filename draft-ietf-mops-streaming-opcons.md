@@ -1,8 +1,8 @@
 ---
 title: Operational Considerations for Streaming Media
 abbrev: Media Streaming Ops
-docname: draft-ietf-mops-streaming-opcons-02
-date: 2020-07-12
+docname: draft-ietf-mops-streaming-opcons-latest
+date:
 category: info
 
 ipr: trust200902
@@ -38,26 +38,29 @@ author:
 informative:
   CVNI:
     target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
-    title: "Cisco Visual Networking Index: Forecast and Trends, 2017–2022 White Paper"
+    title: "Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"
     author:
-      - 
-        org: "Cisco Systems, Inc."
+      - ins: "Cisco Systems, Inc."
     date: 2019-02-27
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
     title: "Emerging MPEG Standards for Point Cloud Compression"
     author:
-      -
-        name: Sebastian Schwarz et al.
+      - ins: Sebastian Schwarz et al.
     date: Mar. 2019
+  MPEGI:
+    target: https://ieeexplore.ieee.org/document/9374648 
+    title: "MPEG Immersive Video Coding Standard"
+    author: 
+    - ins: J. M. Boyce et al.
   NOSSDAV12:
     target: https://dl.acm.org/doi/10.1145/2229087.2229092
     title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
     author:
-      -
-        name: Saamer Akhshabi et al.
+      - ins: Saamer Akhshabi et al.
     date: June 2012  
   DASH:
+    target: https://www.iso.org/standard/79329.html
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
     seriesinfo:
       "ISO/IEC": 23009-1:2019
@@ -66,11 +69,16 @@ informative:
     title: "Low-latency Modes for DASH"
     date: March 2020
     target: https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf
+  ABRSurvey:
+    target: https://ieeexplore.ieee.org/abstract/document/8424813
+    title: "A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"
+    author:
+      - ins: Abdelhak Bentaleb et al.
+    date: 2019
   MSOD:
     title: "Media Services On Demand: Encoder Best Practices"
     author:
-      - 
-        org: "Akamai Technologies, Inc."
+      - ins: "Akamai Technologies, Inc."
     target: https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html
     date: 2019
   Mishra:
@@ -80,25 +88,6 @@ informative:
       - ins: J. Thibeault
     target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
     date: 2020
-  Comcast:
-    title: "Comcast sees network traffic surge amid coronavirus outbreak"
-    author:
-      - org: CNBC
-    target: https://www.cnbc.com/video/2020/03/30/comcast-sees-network-traffic-surge-amid-coronavirus-outbreak.html
-    date: March 30, 2020
-  ATT:
-    title: "Tuesday (March 24, 2020) Network Insights"
-    author:
-      - org: AT&T
-    target: https://about.att.com/pages/COVID-19/updates.html
-    date: March 24, 2020
-  Verizon:
-    title: "Verizon: U.S. network usage starts to normalize as subscribers settle into new routines"
-    author:
-      - ins: M. Rorbuck
-      - org: Fierce Telecom
-    target: https://www.fiercetelecom.com/telecom/verizon-u-s-network-usage-starts-to-normalize-as-subscribers-settle-into-new-routines
-    date: Apr 9, 2020
   Labovitz:
     title: "Network traffic insights in the time of COVID-19: April 9 update"
     author:
@@ -139,6 +128,14 @@ informative:
     seriesinfo:
       "W3C.WD-webrtc-20201015"
     target: https://www.w3.org/TR/2020/CRD-webrtc-20201015/
+
+  IABcovid:
+    title: Report from the IAB COVID-19 Network Impacts Workshop 2020
+    author:
+      - ins: Jari Arkko / Stephen Farrel / Mirja Kühlewind / Colin Perkins 
+    target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
+    date: November 2020
+
   RFC2309:
   RFC3168:
   RFC3550:
@@ -146,17 +143,20 @@ informative:
   RFC5594:
   RFC5762:
   RFC6190:
+  RFC6817:
   RFC6843:
+  RFC7234:
   RFC7656:
   RFC8033:
   RFC8216:
+  RFC8622:
   I-D.draft-ietf-rtcweb-overview-19:
   I-D.draft-pantos-hls-rfc8216bis-07:
 
 --- abstract
 
 This document provides an overview of operational networking issues
-that pertain to quality of experience in delivery of video and other
+that pertain to quality of experience in streaming of video and other
 high-bitrate media over the internet.
 
 --- middle
@@ -170,6 +170,10 @@ to grow to 82% by 2022.  What's more, this estimate projects the
 gross volume of video traffic will more than double during this time,
 based on a compound annual growth rate continuing at 34% (from Appendix
 D of {{CVNI}}).
+
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds. 
+
+This document specifically focuses on the streaming applications and defines streaming as follows: Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client. Here, continous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play. This has two implications. First, server's transmission rate must (loosely or tightly) match to client's consumption rate for an uninterrupted playback. That is, the client must not run out of data (buffer underrun) or take more than it can keep (buffer overrun) as any excess media is simply discarded. Second, client's consumption rate is limited by not only bandwidth availability but also the real-time constraints. That is, the client cannot fetch media that is not available yet. 
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
@@ -248,6 +252,15 @@ Presentations:
  * IETF 106 meeting:\\
    https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
+ * MOPS Interim Meeting 2020-04-15:\\
+   https://www.youtube.com/watch?v=QExiajdC0IY&t=10m25s
+
+ * IETF 108 meeting:\\
+   https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s
+
+ * MOPS 2020-10-30 Interim meeting:\\
+   https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
+
 #Bandwidth Provisioning
 
 ##Scaling Requirements for Media Delivery {#scaling}
@@ -292,7 +305,7 @@ second (FPS):
 
 Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time. 
 
-In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{PCC}} for more details.  
+In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.  
 
 
 ##Path Requirements
@@ -321,15 +334,15 @@ as low as a per-feed requirement instead of a per-user requirement.
 
 ##Caching Systems
 
-TBD: pros, cons, tradeoffs of caching designs at different locations within
-the network?
+When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests, is often useful (for example, HTTP/1.1 caching is described in {{RFC7234}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
 
-Peak vs. average provisioning, and effects on peering point congestion
-under peak load?
+It is worth noting that not all high-demand content is also "live" content. One popular example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
 
-Provisioning issues for caching systems?
+Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, and could be pre-loaded during off-peak hours, using "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms. 
 
-##Predictable Usage Profiles
+All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}, {{sec-extreme}}).
+
+##Predictable Usage Profiles {#sec-predict}
 
 Historical data shows that users consume more video and videos at higher bitrates than they did in the past on their connected devices. Improvements in the codecs that help with reducing the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainement as well as conversational video.
 
@@ -342,7 +355,7 @@ here, but it seems worth making the point that demand projections can
 be used to help with e.g. power consumption with routing architectures
 that provide for modular scalability.
 
-##Unpredictable Usage Profiles {#sec-unpredictable}
+##Unpredictable Usage Profiles {#sec-unpredict}
 
 Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become quite large. 
 
@@ -354,16 +367,16 @@ The combination of the large volume of "torrents" and the peer-to-peer character
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content. 
 
-##Extremely Unpredictable Usage Profiles
+##Extremely Unpredictable Usage Profiles {#sec-extreme}
 
-The causes of unpredictable usage described in {{sec-unpredictable}} were more or less the result of human choices, but we were reminded during a post-IETF 107 meeting that humans are not always in control, and forces of nature can cause enormous fluctuations in traffic patterns.
+The causes of unpredictable usage described in {{sec-unpredict}} were more or less the result of human choices, but we were reminded during a post-IETF 107 meeting that humans are not always in control, and forces of nature can cause enormous fluctuations in traffic patterns.
 
 In his talk, Sanjay Mishra {{Mishra}} reported that after the CoViD-19 pandemic broke out in early 2020,
  
-- Comcast’s streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30 {{Comcast}},
+- Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30,
 - AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
-social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic {{ATT}}, and 
-- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19) {{Verizon}}.
+social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic, and 
+- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.
 
 We note that other operators saw similar spikes during this time period. Craig Labowitz {{Labovitz}} reported 
 
@@ -424,31 +437,38 @@ On-demand media generally is not subject to latency concerns, but other timing-r
 
 In some applications, optimizations are available to on-demand video that are not always available to live events, such as pre-loading the first segment for a startup time that doesn't have to wait for a network download to begin.
 
+Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. Given a larger number of reports and more time to reflect, the following observations from the draft workshop report are worth considering.
+
+- Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
+- Mobile networks saw traffic reductions and residential networks saw significant increases.
+- Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated. 
+- At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.  
+- The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications. 
+- The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
+- At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
 #Adaptive Bitrate
 
 ##Overview
 
 Adaptive BitRate (ABR) is a sort of application-level
-response strategy in which the receiving media player attempts to
-detect the available bandwidth of the network path by experiment
-or by observing the successful application-layer download speed,
-then chooses a video bitrate (among the limited number of available options) that fits within that bandwidth,
+response strategy in which the streaming client attempts to
+detect the available bandwidth of the network path by observing the successful application-layer download speed,
+then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth,
 typically adjusting as changes in available bandwidth occur in
-the network or changes in capabilities occur in the player (such as available memory, CPU, display size, etc.).
+the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 The choice of bitrate occurs within the context of optimizing for
-some metric monitored by the video player, such as highest achievable
-video quality, or lowest rate of expected rebuffering events.
+some metric monitored by the client, such as highest achievable
+video quality or lowest chances for a rebuffering (playback stall).
 
 ##Segmented Delivery
 
-ABR playback is commonly implemented by video players using HLS
+ABR playback is commonly implemented by streaming clients using HLS
 {{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
-of video data over HTTP. Different player implementations and
-receiving devices use different strategies, often proprietary
-algorithms (called rate adaptation or bitrate selection algorithms), to perform available
-bandwidth estimation/prediction and the bitrate selection. Most players only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
+of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often proprietary
+algorithms (called rate adaptation or bitrate selection algorithms) to perform available
+bandwidth estimation/prediction and the bitrate selection. Most clients only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
 
 This kind of bandwidth-measurement systems can experience trouble in
 several ways that can be affected by networking design choices.
@@ -523,9 +543,7 @@ This document introduces no new security issues.
 
 #Acknowledgements
 
-Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose,
-Leslie Daigle, Lucas Pardue, Matt Stock, and Alexandre Gouaillard for
-their very helpful reviews and comments.
+Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard, and Mike English for their very helpful reviews and comments.
 
 --- back
 
