@@ -112,7 +112,7 @@ informative:
 --- abstract
 
 This document provides an overview of operational networking issues
-that pertain to quality of experience in delivery of video and other
+that pertain to quality of experience in streaming of video and other
 high-bitrate media over the internet.
 
 --- middle
@@ -126,6 +126,10 @@ to grow to 82% by 2022.  What's more, this estimate projects the
 gross volume of video traffic will more than double during this time,
 based on a compound annual growth rate continuing at 34% (from Appendix
 D of {{CVNI}}).
+
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds. 
+
+This document specifically focuses on the streaming applications and defines streaming as follows: Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client. Here, continous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play. This has two implications. First, server's transmission rate must (loosely or tightly) match to client's consumption rate for an uninterrupted playback. That is, the client must not run out of data (buffer underrun) or take more than it can keep (buffer overrun) as any excess media is simply discarded. Second, client's consumption rate is limited by not only bandwidth availability but also the real-time constraints. That is, the client cannot fetch media that is not available yet. 
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
