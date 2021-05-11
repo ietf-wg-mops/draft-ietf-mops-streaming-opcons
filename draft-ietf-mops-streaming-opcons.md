@@ -40,33 +40,41 @@ informative:
     target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
     title: "Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"
     author:
-      - 
-        org: "Cisco Systems, Inc."
+      - ins: "Cisco Systems, Inc."
     date: 2019-02-27
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
     title: "Emerging MPEG Standards for Point Cloud Compression"
     author:
-      -
-        name: Sebastian Schwarz et al.
+      - ins: Sebastian Schwarz et al.
     date: Mar. 2019
+  MPEGI:
+    target: https://ieeexplore.ieee.org/document/9374648 
+    title: "MPEG Immersive Video Coding Standard"
+    author: 
+    - ins: J. M. Boyce et al.
   NOSSDAV12:
     target: https://dl.acm.org/doi/10.1145/2229087.2229092
     title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
     author:
-      -
-        name: Saamer Akhshabi et al.
+      - ins: Saamer Akhshabi et al.
     date: June 2012  
   DASH:
+    target: https://www.iso.org/standard/79329.html
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
     seriesinfo:
       "ISO/IEC": 23009-1:2019
     date: 2019
+  ABRSurvey:
+    target: https://ieeexplore.ieee.org/abstract/document/8424813
+    title: "A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"
+    author:
+      - ins: Abdelhak Bentaleb et al.
+    date: 2019
   MSOD:
     title: "Media Services On Demand: Encoder Best Practices"
     author:
-      - 
-        org: "Akamai Technologies, Inc."
+      - ins: "Akamai Technologies, Inc."
     target: https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html
     date: 2019
   Mishra:
@@ -112,7 +120,7 @@ informative:
 --- abstract
 
 This document provides an overview of operational networking issues
-that pertain to quality of experience in delivery of video and other
+that pertain to quality of experience in streaming of video and other
 high-bitrate media over the internet.
 
 --- middle
@@ -126,6 +134,10 @@ to grow to 82% by 2022.  What's more, this estimate projects the
 gross volume of video traffic will more than double during this time,
 based on a compound annual growth rate continuing at 34% (from Appendix
 D of {{CVNI}}).
+
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds. 
+
+This document specifically focuses on the streaming applications and defines streaming as follows: Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client. Here, continous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play. This has two implications. First, server's transmission rate must (loosely or tightly) match to client's consumption rate for an uninterrupted playback. That is, the client must not run out of data (buffer underrun) or take more than it can keep (buffer overrun) as any excess media is simply discarded. Second, client's consumption rate is limited by not only bandwidth availability but also the real-time constraints. That is, the client cannot fetch media that is not available yet. 
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
@@ -263,7 +275,7 @@ second (FPS):
 
 Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time. 
 
-In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{PCC}} for more details.  
+In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.  
 
 
 ##Path Requirements
@@ -357,25 +369,23 @@ Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impac
 ##Overview
 
 Adaptive BitRate (ABR) is a sort of application-level
-response strategy in which the receiving media player attempts to
-detect the available bandwidth of the network path by experiment
-or by observing the successful application-layer download speed,
-then chooses a video bitrate (among the limited number of available options) that fits within that bandwidth,
+response strategy in which the streaming client attempts to
+detect the available bandwidth of the network path by observing the successful application-layer download speed,
+then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth,
 typically adjusting as changes in available bandwidth occur in
-the network or changes in capabilities occur in the player (such as available memory, CPU, display size, etc.).
+the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 The choice of bitrate occurs within the context of optimizing for
-some metric monitored by the video player, such as highest achievable
-video quality, or lowest rate of expected rebuffering events.
+some metric monitored by the client, such as highest achievable
+video quality or lowest chances for a rebuffering (playback stall).
 
 ##Segmented Delivery
 
-ABR playback is commonly implemented by video players using HLS
+ABR playback is commonly implemented by streaming clients using HLS
 {{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
-of video data over HTTP. Different player implementations and
-receiving devices use different strategies, often proprietary
-algorithms (called rate adaptation or bitrate selection algorithms), to perform available
-bandwidth estimation/prediction and the bitrate selection. Most players only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
+of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often proprietary
+algorithms (called rate adaptation or bitrate selection algorithms) to perform available
+bandwidth estimation/prediction and the bitrate selection. Most clients only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
 
 This kind of bandwidth-measurement systems can experience trouble in
 several ways that can be affected by networking design choices.
