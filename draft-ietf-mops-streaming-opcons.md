@@ -174,6 +174,7 @@ informative:
   RFC6817:
   RFC8622:
   RFC7234:
+  RFC7510:
   RFC8083:
   RFC8084:
   RFC6582:
@@ -425,7 +426,7 @@ Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impac
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
-#Adaptive Bitrate
+#Adaptive Bitrate {#sec-abr}
 
 ##Overview
 
@@ -515,9 +516,15 @@ experience issues and cutting off video.
 
 #Evolution of Transport Protocols and Transport Protocol Behaviors
 
-Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to the usage of transport protocols and transport protocol behaviors. 
+**Note to Reviewers^^ - this section includes some material that may be tutorial for some readers. We can decide how to say that, if the tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless you participated in the QUIC working group. 
 
-For most of the history of the Internet, the dominant transport protocols in use have been UDP and TCP, and they have each had relatively consistent behaviors, although those behaviors have changed over time. 
+Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors. 
+
+As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics. 
+
+For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{I-D.ietf-quic-transport}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols. 
+
+For this reason, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve over time. 
 
 ## UDP and Its Behavior {#udp-behavior}
 
@@ -525,11 +532,12 @@ For most of the history of the Internet, we have trusted UDP-based applications 
 
 In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level protocols such as RTP {{RFC3550}} have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way some UDP-based applications interact with other users has changed.
 
-It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
+It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to 
+provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
 
 RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss. 
 
-The notion of "Circuit Breakers" has also been applied to other UDP applications, such as tunneling packets that are potentially not congestion-controlled over UDP, in {{RFC8084}}.
+The notion of "Circuit Breakers" has also been applied to other UDP applications in {{RFC8084}}, such as tunneling packets over UDP that are potentially not congestion-controlled (for example, "Encapsulating MPLS in UDP", as described in {{RFC7510}}). If streaming media is carried in tunnels encapsulated in UDP, these media streams may encounter "tripped circuit breakers", with resulting user-visible impacts.
 
 ## TCP and Its Behavior {#tcp-behavior}
 
