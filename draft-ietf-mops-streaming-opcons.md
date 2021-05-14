@@ -99,12 +99,18 @@ informative:
     date: November 2020
 
   codaspy:
-    title: Identifying HTTPS-Protected Netflix Videos in Real-Time
+    title: "Identifying HTTPS-Protected Netflix Videos in Real-Time in CODASPY '17: Proceedings of the Seventh ACM on Conference on Data and Application Security and Privacy pp 361-368"
     author:
-      - ins: Andrew Reed
-      - ins: Michael Kranch
-    target: http://library.usc.edu.ph/ACM/SIGSAC%202017/codaspy/p361.pdf
-    date: 2017
+      - 
+       initials: A.
+       surname: Reed
+       fullname: Andrew Reed 
+      - 
+       initials: M.
+       surname: Kranch
+       fullname: Michael Kranch
+    target: https://dl.acm.org/doi/10.1145/3029806.3029821
+    date: March 2017
 
   DASH-SAND:
     title: Dynamic adaptive streaming over HTTP (DASH) — Part 5 - Server and network assisted DASH (SAND)
@@ -469,33 +475,29 @@ experience issues and cutting off video.
 
 #Streaming Encrypted Media
 
-"Encrypted Media" has at least two meanings:
+"Encrypted Media" has at least three meanings:
 
- * Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically retaining this encryption "at rest", when it is stored at senders and receivers, and 
- * Media encrypted at the transport layer (potentially in addition to being encrypted at the application layer) 
+ * Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically retaining this encryption "at rest", when it is stored at senders and receivers, 
+ * Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as "end-to-end media encryption"), and
+ * Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is *not* the ultimate media consumer, but has credentials allowing descryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as "hop-by-hop media encryption")
  
- In this document, we will focus on media encrypted at the transport layer.
- 
- Transport layer encryption may be divided into two categories:
- 
- * "end to end" media encryption, where media content is encrypted from sender to receiver, and
- * "hop by hop" media encryption, where some or all of the media content is encrypted from sender to an intermediary, which may decrypt and transform the media content in some way, before forwarding re-encrypted media content to the receiver. 
- 
-##End-to-End and Hop-by-Hop Media Encryption
- 
- Both "End-to-End" and "Hop-by-Hop" media encryption have implications for streaming operators. 
- 
-###Considerations for "End to End" Media Encryption
- 
- "End to End" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed. 
- 
- "End to End" media encryption became much more widespread in the years since {{RFC7258}} was issued, where the decision to use HTTPS protection - HTTP over TLS - became a routine practice, with content providers who had used HTTPS protection in exceptional cases began using HTTPS for most/all content being delivered.
- 
- Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to TCP-level transport information, such as the size of transfers at the transport layer, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{I-D.ietf-quic-transport}} as its transport layer relying only on the TLS 1.3 initial handshake for key exchange {{I-D.ietf-quic-tls}}, and encrypting almost all transport parameters, with the exception of a few invariant fields {{I-D.ietf-quic-invariants}}, which are sent "in the clear". HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2. 
- 
-Although end-to-end media encryption does prevent Deep Packet Inspection, even encrypted content streams may be vulnerable to traffic analysis. If an intermediary can identify an encrypted media stream, it may be possible to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. {{codaspy}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. 
+Both "hop-by-hop" and "end-to-end" encrypted transport may carry media that is, in addition, encrypted at the application layer. 
 
-###Considerations for "Hop by Hop" Media Encryption
+Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.  This document does not take a position on whether those goals are "valid" (whatever that might mean). 
+ 
+In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end".
+
+Both "End-to-End" and "Hop-by-Hop" media encryption have implications for streaming operators.
+ 
+##General Considerations for Media Encryption
+ 
+The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either an intermediary or the ultimate media consumer, and this does prevent Deep Packet Inspection by any intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An intermediary that can identify an encrypted media stream without decrypting it, may be able to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. {{codaspy}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. 
+
+If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining descrypted traffic. 
+
+Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{I-D.ietf-quic-transport}} as its transport layer. QUIC relies only on the TLS 1.3 initial handshake for key exchange {{I-D.ietf-quic-tls}}, and encrypts almost all transport parameters, with the exception of a few invariant fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the destination connection ID {{I-D.ietf-quic-invariants}}. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2. 
+
+##Considerations for "Hop-by-Hop" Media Encryption
  
 Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries. 
 
@@ -509,9 +511,15 @@ Assuming that a content provider does intend to allow intermediaries to particip
 
 * Server And Network assisted DASH {{DASH-SAND}} - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
 * "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees. 
-* Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content mechanisms, a more recent proposal for Secure Media Frames {{SFRAME}}, which also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols like QUIC. 
+* Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP. 
 
-If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end to end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might be helpful are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
+If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
+
+##Considerations for "End-to-End" Media Encryption
+ 
+"End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed. 
+ 
+"End-to-end" media encryption became much more widespread in the years since {{RFC7258}} was issued, which identified pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
  
 #IANA Considerations
 
