@@ -40,33 +40,41 @@ informative:
     target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
     title: "Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"
     author:
-      - 
-        org: "Cisco Systems, Inc."
+      - ins: "Cisco Systems, Inc."
     date: 2019-02-27
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
     title: "Emerging MPEG Standards for Point Cloud Compression"
     author:
-      -
-        name: Sebastian Schwarz et al.
+      - ins: Sebastian Schwarz et al.
     date: Mar. 2019
+  MPEGI:
+    target: https://ieeexplore.ieee.org/document/9374648 
+    title: "MPEG Immersive Video Coding Standard"
+    author: 
+    - ins: J. M. Boyce et al.
   NOSSDAV12:
     target: https://dl.acm.org/doi/10.1145/2229087.2229092
     title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
     author:
-      -
-        name: Saamer Akhshabi et al.
+      - ins: Saamer Akhshabi et al.
     date: June 2012  
   DASH:
+    target: https://www.iso.org/standard/79329.html
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
     seriesinfo:
       "ISO/IEC": 23009-1:2019
     date: 2019
+  ABRSurvey:
+    target: https://ieeexplore.ieee.org/abstract/document/8424813
+    title: "A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"
+    author:
+      - ins: Abdelhak Bentaleb et al.
+    date: 2019
   MSOD:
     title: "Media Services On Demand: Encoder Best Practices"
     author:
-      - 
-        org: "Akamai Technologies, Inc."
+      - ins: "Akamai Technologies, Inc."
     target: https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html
     date: 2019
   Mishra:
@@ -155,15 +163,40 @@ informative:
     target: https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00
     date: 2019
 
-  I-D.cardwell-iccrg-bbr-congestion-control:
+  codaspy:
+    title: "Identifying HTTPS-Protected Netflix Videos in Real-Time in CODASPY '17: Proceedings of the Seventh ACM on Conference on Data and Application Security and Privacy pp 361-368"
+    author:
+      - 
+       initials: A.
+       surname: Reed
+       fullname: Andrew Reed 
+      - 
+       initials: M.
+       surname: Kranch
+       fullname: Michael Kranch
+    target: https://dl.acm.org/doi/10.1145/3029806.3029821
+    date: March 2017
+
+  DASH-SAND:
+    title: Dynamic adaptive streaming over HTTP (DASH) — Part 5 - Server and network assisted DASH (SAND)
+    target: https://www.iso.org/standard/69079.html
+    date: 2017-02
+
+  SFRAME:
+    target: https://datatracker.ietf.org/doc/charter-ietf-sframe/
+    title: "Secure Media Frames Working Group (Home Page)"
+
   I-D.ietf-quic-transport:
-  I-D.ietf-quic-recovery:
   I-D.ietf-quic-http:
+  I-D.ietf-quic-tls:
+  I-D.ietf-quic-invariants:
   I-D.ietf-quic-manageability:
+  I-D.cardwell-iccrg-bbr-congestion-control:
 
   RFC0793:
   RFC2001:
   RFC2309:
+  RFC3135:
   RFC3168:
   RFC3550:
   RFC5594:
@@ -174,17 +207,20 @@ informative:
   RFC6817:
   RFC8622:
   RFC7234:
+  RFC7258:
   RFC7510:
   RFC8083:
   RFC8084:
   RFC6582:
   RFC8085:
   RFC8312:
+  RFC8723:
+  RFC8825:
 
 --- abstract
 
 This document provides an overview of operational networking issues
-that pertain to quality of experience in delivery of video and other
+that pertain to quality of experience in streaming of video and other
 high-bitrate media over the internet.
 
 --- middle
@@ -198,6 +234,10 @@ to grow to 82% by 2022.  What's more, this estimate projects the
 gross volume of video traffic will more than double during this time,
 based on a compound annual growth rate continuing at 34% (from Appendix
 D of {{CVNI}}).
+
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds. 
+
+This document specifically focuses on the streaming applications and defines streaming as follows: Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client. Here, continous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play. This has two implications. First, server's transmission rate must (loosely or tightly) match to client's consumption rate for an uninterrupted playback. That is, the client must not run out of data (buffer underrun) or take more than it can keep (buffer overrun) as any excess media is simply discarded. Second, client's consumption rate is limited by not only bandwidth availability but also the real-time constraints. That is, the client cannot fetch media that is not available yet. 
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
@@ -337,7 +377,7 @@ second (FPS):
 
 Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time. 
 
-In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{PCC}} for more details.  
+In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.  
 
 
 ##Path Requirements
@@ -431,25 +471,23 @@ Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impac
 ##Overview
 
 Adaptive BitRate (ABR) is a sort of application-level
-response strategy in which the receiving media player attempts to
-detect the available bandwidth of the network path by experiment
-or by observing the successful application-layer download speed,
-then chooses a video bitrate (among the limited number of available options) that fits within that bandwidth,
+response strategy in which the streaming client attempts to
+detect the available bandwidth of the network path by observing the successful application-layer download speed,
+then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth,
 typically adjusting as changes in available bandwidth occur in
-the network or changes in capabilities occur in the player (such as available memory, CPU, display size, etc.).
+the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 The choice of bitrate occurs within the context of optimizing for
-some metric monitored by the video player, such as highest achievable
-video quality, or lowest rate of expected rebuffering events.
+some metric monitored by the client, such as highest achievable
+video quality or lowest chances for a rebuffering (playback stall).
 
 ##Segmented Delivery
 
-ABR playback is commonly implemented by video players using HLS
+ABR playback is commonly implemented by streaming clients using HLS
 {{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
-of video data over HTTP. Different player implementations and
-receiving devices use different strategies, often proprietary
-algorithms (called rate adaptation or bitrate selection algorithms), to perform available
-bandwidth estimation/prediction and the bitrate selection. Most players only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
+of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often proprietary
+algorithms (called rate adaptation or bitrate selection algorithms) to perform available
+bandwidth estimation/prediction and the bitrate selection. Most clients only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
 
 This kind of bandwidth-measurement systems can experience trouble in
 several ways that can be affected by networking design choices.
@@ -569,6 +607,54 @@ It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traf
 
 More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
+#Streaming Encrypted Media
+
+"Encrypted Media" has at least three meanings:
+
+ * Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically retaining this encryption "at rest", when it is stored at senders and receivers, 
+ * Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as "end-to-end media encryption"), and
+ * Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is *not* the ultimate media consumer, but has credentials allowing descryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as "hop-by-hop media encryption")
+ 
+Both "hop-by-hop" and "end-to-end" encrypted transport may carry media that is, in addition, encrypted at the application layer. 
+
+Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.  This document does not take a position on whether those goals are "valid" (whatever that might mean). 
+ 
+In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end".
+
+Both "End-to-End" and "Hop-by-Hop" media encryption have implications for streaming operators.
+ 
+##General Considerations for Media Encryption
+ 
+The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either an intermediary or the ultimate media consumer, and this does prevent Deep Packet Inspection by any intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An intermediary that can identify an encrypted media stream without decrypting it, may be able to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. This protection can be lessened if a media provider is repeatedly encrypting the same content. {{codaspy}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. 
+
+If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining decrypted traffic. 
+
+Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{I-D.ietf-quic-transport}} as its transport layer. QUIC relies only on the TLS 1.3 initial handshake for key exchange {{I-D.ietf-quic-tls}}, and encrypts almost all transport parameters, with the exception of a few invariant fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the destination connection ID {{I-D.ietf-quic-invariants}}. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2. 
+
+##Considerations for "Hop-by-Hop" Media Encryption
+ 
+Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries. 
+
+There are a variety of ways to involve intermediaries, and some are much more intrusive than others. 
+
+From a content provider's perspective, a number of considerations are in play. The first question is likely whether the content provider intends that intermediaries are explicitly addressed from endpoints, or whether the content provider is willing to allow intermediaries to "intercept" streaming content transparently, with no awareness or permission from either endpoint.
+
+If a content provider does not actively work to avoid interception by intermediaries, the effect will be indistinguishable from "impersonation attacks", and endpoints cannot be assumed of any level of privacy. 
+
+Assuming that a content provider does intend to allow intermediaries to participate in content streaming, and does intend to provide some level of privacy for endpoints, there are a number of possible tools, either already available or still being specified. These include
+
+* Server And Network assisted DASH {{DASH-SAND}} - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
+* "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees. 
+* Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP. 
+
+If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
+
+##Considerations for "End-to-End" Media Encryption
+ 
+"End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed. 
+ 
+"End-to-end" media encryption became much more widespread in the years since {{RFC7258}} was issued, which identified pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
+ 
 #IANA Considerations
 
 This document requires no actions from IANA.
