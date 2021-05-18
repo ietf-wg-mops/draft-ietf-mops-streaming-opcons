@@ -384,6 +384,10 @@ the network or changes in capabilities occur during the playback (such as availa
 
 Media servers can provide media streams at various bitrates because the media has been encoded at various bitrates. This is a so-called "ladder" of bitrates, that can be offered to media players as part of the manifest that describes the media being requested by the media player, so that the media player can select among the available bitrate choices.
 
+The media server may also choose to alter which bitrates are made available to players by adding or removing bitrate options from the ladder delivered to the player in subsequent manifests built and sent to the player.
+
+In this way both the player, through its selection of bitrate to request from the manifest, and the server, through its construction of the bitrates offered in the manifest, are able to affect network utilization.
+
 ##Adaptive Segmented Delivery {#adapt-deliver}
 
 ABR playback is commonly implemented by streaming clients using HLS
@@ -392,7 +396,7 @@ of media over HTTP. Different implementations use different strategies {{ABRSurv
 algorithms (called rate adaptation or bitrate selection algorithms) to perform available
 bandwidth estimation/prediction and the bitrate selection. 
 
-Most clients only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
+Many server-player systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bit rate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
 The choice of bitrate occurs within the context of optimizing for
 some metric monitored by the client, such as highest achievable
