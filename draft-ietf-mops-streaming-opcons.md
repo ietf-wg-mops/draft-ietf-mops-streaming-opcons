@@ -102,9 +102,66 @@ informative:
   IABcovid:
     title: Report from the IAB COVID-19 Network Impacts Workshop 2020
     author:
-      - ins: Jari Arkko / Stephen Farrel / Mirja Kühlewind / Colin Perkins 
+      - 
+        name: Jari Arkko
+        ins: J. Arkko
+      - 
+        name:  Stephen Farrel
+        ins:  S. Farrel
+      - 
+        name: Mirja Kühlewind
+        ins: M. Kühlewind
+      - 
+        name:  Colin Perkins
+        ins:  C. Perkins
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
+
+  Jacobson-Karels:
+    title: Congestion Avoidance and Control
+    target: https://ee.lbl.gov/papers/congavoid.pdf
+    date: November 1988
+    author:
+      - 
+        name: Van Jacobson
+        ins: V. Jacobson
+      - 
+        name: Mike Karels
+        ins: M. Karels
+
+  COPA:
+    title: "Copa: Practical Delay-Based Congestion Control for the Internet"
+    target: https://web.mit.edu/copa/
+    date: 2018
+    author:
+      - 
+        name: Venkat Arun
+        ins: V. Arun
+      - 
+        name:  Hari Balakrishnan
+        ins:  H. Balakrishnan
+
+  Port443:
+    title: "Service Name and Transport Protocol Port Number Registry"
+    target: https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+    date: 2021-04-29
+
+  CDiD:
+    title: "(A call for) Congestion Defense in Depth"
+    target: https://datatracker.ietf.org/meeting/105/materials/slides-105-tsvarea-congestion-defense-in-depth-00
+    date: July 2019
+    author:
+      - 
+        name: Christian Huitema
+        ins: C. Huitema
+      - 
+        name:  Brian Trammell
+        ins:  B. Trammell
+
+  tsvarea-105:
+    title: "TSVAREA Minutes - IETF 105"
+    target: https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00
+    date: 2019
 
   codaspy:
     title: "Identifying HTTPS-Protected Netflix Videos in Real-Time in CODASPY '17: Proceedings of the Seventh ACM on Conference on Data and Application Security and Privacy pp 361-368"
@@ -130,14 +187,19 @@ informative:
     title: "Secure Media Frames Working Group (Home Page)"
 
   I-D.ietf-quic-transport:
+  I-D.ietf-quic-recovery:
   I-D.ietf-quic-http:
   I-D.ietf-quic-tls:
   I-D.ietf-quic-invariants:
   I-D.ietf-quic-manageability:
+  I-D.cardwell-iccrg-bbr-congestion-control:
 
+  RFC0793:
+  RFC2001:
   RFC2309:
   RFC3135:
   RFC3168:
+  RFC3550:
   RFC5594:
   RFC5762:
   RFC6190:
@@ -147,6 +209,12 @@ informative:
   RFC8622:
   RFC7234:
   RFC7258:
+  RFC7510:
+  RFC8083:
+  RFC8084:
+  RFC6582:
+  RFC8085:
+  RFC8312:
   RFC8723:
   RFC8825:
 
@@ -263,6 +331,8 @@ Presentations:
 
  * MOPS 2020-10-30 Interim meeting:\\
    https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
+
+
 
 #Bandwidth Provisioning
 
@@ -397,7 +467,7 @@ Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impac
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
-#Adaptive Bitrate
+#Adaptive Bitrate {#sec-abr}
 
 ##Overview
 
@@ -483,6 +553,61 @@ unresponsive to using feedback signaling to change encoder settings
 {{RFC6190}}), to proprietary methods for detecting quality of
 experience issues and cutting off video.
 
+#Evolution of Transport Protocols and Transport Protocol Behaviors
+
+**Note to Reviewers^^ - this section includes some material that may be tutorial for some readers. We can decide how to say that, if the tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless you participated in the QUIC working group. 
+
+Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors. 
+
+As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics. 
+
+For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{I-D.ietf-quic-transport}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols. 
+
+For this reason, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve over time. 
+
+## UDP and Its Behavior {#udp-behavior}
+
+For most of the history of the Internet, we have trusted UDP-based applications to limit their impact on other users. One of the strategies used was to use UDP for simple query-response application protocols, such as DNS, which is often used to send a single-packet request to look up the IP address for a DNS name, and return a single-packet response containing the IP address. Although it is possible to saturate a path between a DNS client and DNS server with DNS requests, in practice, that was rare enough that DNS included few mechanisms to resolve contention between DNS users and other users (whether they are also using DNS, or using other application protocols). 
+
+In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level protocols such as RTP {{RFC3550}} have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way some UDP-based applications interact with other users has changed.
+
+It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to 
+provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
+
+RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss. 
+
+The notion of "Circuit Breakers" has also been applied to other UDP applications in {{RFC8084}}, such as tunneling packets over UDP that are potentially not congestion-controlled (for example, "Encapsulating MPLS in UDP", as described in {{RFC7510}}). If streaming media is carried in tunnels encapsulated in UDP, these media streams may encounter "tripped circuit breakers", with resulting user-visible impacts.
+
+## TCP and Its Behavior {#tcp-behavior}
+
+For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not. 
+
+The success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful. The Internet continued to work even when the specific mechanisms used to reach equilibrium changed over time. Because TCP provides a common tool to avoid contention, as some TCP-based applications like FTP were largely replaced by other TCP-based applications like HTTP, the transport behavior remained consistent. 
+
+In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly. 
+
+Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term. 
+
+## The QUIC Protocol and Its Behavior
+
+The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{I-D.ietf-quic-transport}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads. 
+
+Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks.
+
+While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 {{I-D.ietf-quic-http}}, which describes how QUIC transport features are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 {{Port443}} but this is not a strict requirement. 
+
+When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. Since earlier versions of HTTP(S) rely on TCP, UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and HTTP/3 can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
+
+As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{I-D.ietf-quic-recovery}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
+
+We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in {{tcp-behavior}} about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC with applications.
+
+The decision to deploy a new version of QUIC is relatively uncontrolled, compared to other widely used transport protocols, and this can include new transport behaviors that appear without much notice except to the QUIC endpoints. At IETF 105, Christian Huitema and Brian Trammell presented a talk on "Congestion Defense in Depth" {{CDiD}}, that explored potential concerns about new QUIC congestion controllers being broadly deployed without the testing and instrumentation that current major content providers routinely include. The sense of the room at IETF 105 was that the current major content providers understood what is at stake when they deploy new congestion controllers, but this presentation, and the related discussion in TSVAREA minutes from IETF 105 ({{tsvarea-105}}, are still worth a look for new and rapidly growing content providers.
+
+It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traffic are allowed to enter operator networks on roughly equal terms, questions of fairness and contention will be heavily dependent on interactions between the congestion controllers in use for TCP-base HTTP traffic and UDP-based HTTP/3 traffic. 
+
+More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
+
 #Streaming Encrypted Media
 
 "Encrypted Media" has at least three meanings:
@@ -539,9 +664,8 @@ This document requires no actions from IANA.
 
 This document introduces no new security issues.
 
-#Acknowledgements
+#Acknowledgments
 
 Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard, and Mike English for their very helpful reviews and comments.
 
 --- back
-
