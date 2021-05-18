@@ -117,6 +117,11 @@ informative:
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
 
+  Conviva:
+    title: Conviva Insights Portfolio Data Sheet
+    target: http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf
+    date: Retrieved May 18, 2021
+
   Jacobson-Karels:
     title: Congestion Avoidance and Control
     target: https://ee.lbl.gov/papers/congavoid.pdf
@@ -467,6 +472,8 @@ Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impac
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
+#Adaptive Encoding, Adaptive Delivery, and Measurement Collection
+
 #Adaptive Bitrate {#sec-abr}
 
 ##Overview
@@ -478,22 +485,32 @@ then chooses a bitrate for each of the video, audio, subtitles and metadata (amo
 typically adjusting as changes in available bandwidth occur in
 the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
-The choice of bitrate occurs within the context of optimizing for
-some metric monitored by the client, such as highest achievable
-video quality or lowest chances for a rebuffering (playback stall).
+##Adaptive Encoding {#adapt-encode}
 
-##Segmented Delivery
+Media servers can provide media streams at various bitrates because the media has been encoded at various bitrates. This is a so-called "ladder" of bitrates, that can be offered to media players as part of the manifest that describes the media being requested by the media player, so that the media player can select among the available bitrate choices.
+
+The media server may also choose to alter which bitrates are made available to players by adding or removing bitrate options from the ladder delivered to the player in subsequent manifests built and sent to the player.
+
+In this way both the player, through its selection of bitrate to request from the manifest, and the server, through its construction of the bitrates offered in the manifest, are able to affect network utilization.
+
+##Adaptive Segmented Delivery {#adapt-deliver}
 
 ABR playback is commonly implemented by streaming clients using HLS
 {{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
-of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often proprietary
+of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary
 algorithms (called rate adaptation or bitrate selection algorithms) to perform available
-bandwidth estimation/prediction and the bitrate selection. Most clients only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth. 
+bandwidth estimation/prediction and the bitrate selection. 
 
-This kind of bandwidth-measurement systems can experience trouble in
-several ways that can be affected by networking design choices.
+Many server-player systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bit rate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
-###Idle Time between Segments
+The choice of bitrate occurs within the context of optimizing for
+some metric monitored by the client, such as highest achievable
+video quality or lowest chances for a rebuffering event (playback stall).
+
+This kind of bandwidth-measurement system can experience trouble in
+several ways that can be affected by networking design choices. Because adaptive application-level response strategies are typically using application-level protocols, these mechanisms are affected by transport-level protocol behaviors, and the application-level feedback loop is interacting with a transport-level feedback loop, ase described in {{idle-time}} and {{hol-blocking}}.
+
+###Idle Time between Segments {#idle-time}
 
 When the bitrate selection is successfully chosen below the
 available capacity of the network path, the response to a
@@ -511,7 +528,7 @@ segments has a few surprising consequences:
 
 A detailed investigation of this phenomenon is available in {{NOSSDAV12}}.
 
-###Head-of-Line Blocking
+###Head-of-Line Blocking {#hol-blocking}
 
 In the event of a lost packet on a TCP connection with SACK
 support (a common case for segmented delivery in practice), loss
@@ -535,7 +552,11 @@ backoff in flows that use Explicit Congestion Notification-capable
 transport, but by avoiding loss avoids inducing head-of-line blocking
 effects in TCP connections.
 
-##Unreliable Transport
+##Measurement  Collection {#measure-coll}
+
+In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers. {{Conviva}} is an example of one such such measurement collection system in use today. 
+
+##Unreliable Transport {#unreliable}
 
 In contrast to segmented delivery, several applications use UDP or
 unreliable SCTP to deliver RTP or raw TS-formatted video.
