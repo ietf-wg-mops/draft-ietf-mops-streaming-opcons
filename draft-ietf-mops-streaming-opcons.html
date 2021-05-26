@@ -13,28 +13,10 @@
 that pertain to quality of experience in streaming of video and other
 high-bitrate media over the internet. 
     " name="description">
-<meta content="xml2rfc 3.8.0" name="generator">
+<meta content="xml2rfc 2.45.2" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-mops-streaming-opcons-latest" name="ietf.draft">
-<!-- Generator version information:
-  xml2rfc 3.8.0
-    Python 3.8.5
-    appdirs 1.4.4
-    ConfigArgParse 1.4.1
-    google-i18n-address 2.4.0
-    html5lib 1.1
-    intervaltree 3.1.0
-    Jinja2 2.11.3
-    kitchen 1.2.6
-    lxml 4.6.3
-    pycountry 20.7.3
-    pyflakes 2.3.1
-    PyYAML 5.3.1
-    requests 2.22.0
-    setuptools 45.2.0
-    six 1.14.0
--->
-<link href="draft-ietf-mops-streaming-opcons.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-mops-streaming-opcons.xml" type="application/rfc+xml" rel="alternate">
 <link href="#copyright" rel="license">
 <style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
 
@@ -45,7 +27,23 @@ html {
   --link-color: #2a6496;
   --highlight-color: #f9f9f9;
   --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  scrollbar-color: #bbb #eee;
+}
+@media (prefers-color-scheme: dark) {
+html {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
 }
 body {
   max-width: 600px;
@@ -70,18 +68,24 @@ body {
   color: var(--title-color);
 }
 #title {
-  padding: 1em 0 0.2em;
   font-size: 32px;
   line-height: 40px;
   clear: both;
 }
+#title, #rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+#rfcnum + #title {
+  margin: 0.2em 0;
+}
+
 h1, h2, h3 {
   font-size: 22px;
-  line-height: 26px;
+  line-height: 27px;
 }
 h4, h5, h6 {
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 20px;
+  line-height: 24px;
 }
 
 /* general structure */
@@ -154,7 +158,7 @@ svg {
 /* lists */
 ol, ul {
   padding: 0;
-  margin: 0 0 1em 2em;
+  margin: 0 0 0.5em 2em;
 }
 ol ol, ul ul, ol ul, ul ol {
   margin-left: 1em;
@@ -237,6 +241,7 @@ img {
 }
 figure {
   margin: 0.5em 0;
+  padding: 0;
 }
 figure blockquote {
   margin: 0.8em 0.4em 0.4em;
@@ -261,10 +266,6 @@ figcaption, caption {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
-  }
-  table {
-    display: inline-block;
-    overflow-x: auto;
   }
 }
 
@@ -327,7 +328,7 @@ thead+tbody > tr:nth-child(2n+1) > td {
 }
 table caption {
   margin: 0;
-  padding: 3px 1em;
+  padding: 3px 0 3px 1em;
 }
 table p {
   margin: 0;
@@ -336,17 +337,23 @@ table p {
 /* pilcrow */
 a.pilcrow {
   margin-left: 3px;
-  visibility: hidden;
+  opacity: 0.2;
   user-select: none;
 }
-a.pilcrow[href] { color: #ddd; }
+a.pilcrow[href] { color: var(--pilcrow-weak); }
 a.pilcrow[href]:hover { text-decoration: none; }
-@media screen {
+@media not print {
   :hover > a.pilcrow {
-    visibility: visible;
+    opacity: 1;
   }
-  a.pilcrow:hover {
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
     background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
   }
 }
 
@@ -815,7 +822,7 @@ address div.right {
   font-size: 0.9em;
 }
 </style>
-<link href="rfc-local.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <table class="ears">
@@ -916,132 +923,132 @@ high-bitrate media over the internet.<a href="#section-abstract-1" class="pilcro
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
+<nav class="toc"><ul class="compact toc ulEmpty">
+<li class="compact toc ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
 <ul class="compact toc ulEmpty">
 <li class="compact toc ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1.2.1">
-                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="xref">1.1.1</a>.  <a href="#name-venues-for-contribution-and" class="xref">Venues for Contribution and Discussion</a></p>
+                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact toc ulEmpty">
+<li class="compact toc ulEmpty" id="section-toc.1-1.1.2.1.2.1">
+                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="xref">1.1.1</a>.  <a href="#name-venues-for-contribution-and" class="xref">Venues for Contribution and Discussion</a><a href="#section-toc.1-1.1.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1.2.2">
-                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="xref">1.1.2</a>.  <a href="#name-template-for-contributions" class="xref">Template for Contributions</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="xref">1.1.2</a>.  <a href="#name-template-for-contributions" class="xref">Template for Contributions</a><a href="#section-toc.1-1.1.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1.2.3">
-                    <p id="section-toc.1-1.1.2.1.2.3.1" class="keepWithNext"><a href="#section-1.1.3" class="xref">1.1.3</a>.  <a href="#name-history-of-public-discussio" class="xref">History of Public Discussion</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.1.2.1.2.3">
+                    <p id="section-toc.1-1.1.2.1.2.3.1" class="keepWithNext"><a href="#section-1.1.3" class="xref">1.1.3</a>.  <a href="#name-history-of-public-discussio" class="xref">History of Public Discussion</a><a href="#section-toc.1-1.1.2.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                </ul>
+</ul>
 </li>
-            </ul>
+</ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-bandwidth-provisioning" class="xref">Bandwidth Provisioning</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-bandwidth-provisioning" class="xref">Bandwidth Provisioning</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
 <ul class="compact toc ulEmpty">
 <li class="compact toc ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-scaling-requirements-for-me" class="xref">Scaling Requirements for Media Delivery</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1.2.1">
-                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-video-bitrates" class="xref">Video Bitrates</a></p>
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-scaling-requirements-for-me" class="xref">Scaling Requirements for Media Delivery</a><a href="#section-toc.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+<ul class="compact toc ulEmpty">
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-video-bitrates" class="xref">Video Bitrates</a><a href="#section-toc.1-1.2.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1.2.2">
-                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-virtual-reality-bitrates" class="xref">Virtual Reality Bitrates</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.1.2.2">
+                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-virtual-reality-bitrates" class="xref">Virtual Reality Bitrates</a><a href="#section-toc.1-1.2.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                </ul>
+</ul>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.2.2.2">
-                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-path-requirements" class="xref">Path Requirements</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-path-requirements" class="xref">Path Requirements</a><a href="#section-toc.1-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.2.2.3">
-                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-caching-systems" class="xref">Caching Systems</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-caching-systems" class="xref">Caching Systems</a><a href="#section-toc.1-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.2.2.4">
-                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-predictable-usage-profiles" class="xref">Predictable Usage Profiles</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-predictable-usage-profiles" class="xref">Predictable Usage Profiles</a><a href="#section-toc.1-1.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.2.2.5">
-                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-unpredictable-usage-profile" class="xref">Unpredictable Usage Profiles</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.5">
+                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-unpredictable-usage-profile" class="xref">Unpredictable Usage Profiles</a><a href="#section-toc.1-1.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.2.2.6">
-                <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="xref">2.6</a>.  <a href="#name-extremely-unpredictable-usa" class="xref">Extremely Unpredictable Usage Profiles</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.2.2.6">
+                <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="xref">2.6</a>.  <a href="#name-extremely-unpredictable-usa" class="xref">Extremely Unpredictable Usage Profiles</a><a href="#section-toc.1-1.2.2.6.1" class="pilcrow">¶</a></p>
 </li>
-            </ul>
+</ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-adaptive-encoding-adaptive-" class="xref">Adaptive Encoding, Adaptive Delivery, and Measurement Collection</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-adaptive-encoding-adaptive-" class="xref">Adaptive Encoding, Adaptive Delivery, and Measurement Collection</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-adaptive-bitrate" class="xref">Adaptive Bitrate</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-adaptive-bitrate" class="xref">Adaptive Bitrate</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
 <ul class="compact toc ulEmpty">
 <li class="compact toc ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-overview" class="xref">Overview</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-overview" class="xref">Overview</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-adaptive-encoding" class="xref">Adaptive Encoding</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-adaptive-encoding" class="xref">Adaptive Encoding</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-adaptive-segmented-delivery" class="xref">Adaptive Segmented Delivery</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3.2.1">
-                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="xref">4.3.1</a>.  <a href="#name-idle-time-between-segments" class="xref">Idle Time between Segments</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-adaptive-segmented-delivery" class="xref">Adaptive Segmented Delivery</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+<ul class="compact toc ulEmpty">
+<li class="compact toc ulEmpty" id="section-toc.1-1.4.2.3.2.1">
+                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="xref">4.3.1</a>.  <a href="#name-idle-time-between-segments" class="xref">Idle Time between Segments</a><a href="#section-toc.1-1.4.2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3.2.2">
-                    <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="xref">4.3.2</a>.  <a href="#name-head-of-line-blocking" class="xref">Head-of-Line Blocking</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.4.2.3.2.2">
+                    <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="xref">4.3.2</a>.  <a href="#name-head-of-line-blocking" class="xref">Head-of-Line Blocking</a><a href="#section-toc.1-1.4.2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                </ul>
+</ul>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.4.2.4">
-                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-measurement-collection" class="xref">Measurement  Collection</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-measurement-collection" class="xref">Measurement  Collection</a><a href="#section-toc.1-1.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.4.2.5">
-                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-unreliable-transport" class="xref">Unreliable Transport</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-unreliable-transport" class="xref">Unreliable Transport</a><a href="#section-toc.1-1.4.2.5.1" class="pilcrow">¶</a></p>
 </li>
-            </ul>
+</ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-evolution-of-transport-prot" class="xref">Evolution of Transport Protocols and Transport Protocol Behaviors</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-evolution-of-transport-prot" class="xref">Evolution of Transport Protocols and Transport Protocol Behaviors</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
 <ul class="compact toc ulEmpty">
 <li class="compact toc ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-udp-and-its-behavior" class="xref">UDP and Its Behavior</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-udp-and-its-behavior" class="xref">UDP and Its Behavior</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-tcp-and-its-behavior" class="xref">TCP and Its Behavior</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-tcp-and-its-behavior" class="xref">TCP and Its Behavior</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-the-quic-protocol-and-its-b" class="xref">The QUIC Protocol and Its Behavior</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-the-quic-protocol-and-its-b" class="xref">The QUIC Protocol and Its Behavior</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-            </ul>
+</ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-streaming-encrypted-media" class="xref">Streaming Encrypted Media</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-streaming-encrypted-media" class="xref">Streaming Encrypted Media</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
 <ul class="compact toc ulEmpty">
 <li class="compact toc ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-general-considerations-for-" class="xref">General Considerations for Media Encryption</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-general-considerations-for-" class="xref">General Considerations for Media Encryption</a><a href="#section-toc.1-1.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-considerations-for-hop-by-h" class="xref">Considerations for "Hop-by-Hop" Media Encryption</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-considerations-for-hop-by-h" class="xref">Considerations for "Hop-by-Hop" Media Encryption</a><a href="#section-toc.1-1.6.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="compact toc ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-considerations-for-end-to-e" class="xref">Considerations for "End-to-End" Media Encryption</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-considerations-for-end-to-e" class="xref">Considerations for "End-to-End" Media Encryption</a><a href="#section-toc.1-1.6.2.3.1" class="pilcrow">¶</a></p>
 </li>
-            </ul>
+</ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-acknowledgments" class="xref">Acknowledgments</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-informative-references" class="xref">Informative References</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
+<li class="compact toc ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
+</ul>
 </nav>
 </section>
 </div>
@@ -1098,9 +1105,9 @@ development and discussion on the draft so far.<a href="#section-1.1-2" class="p
 <ul class="normal">
 <li class="normal" id="section-1.1.1-5.1">Join: https://www.ietf.org/mailman/listinfo/mops<a href="#section-1.1.1-5.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.1-5.2">Search: https://mailarchive.ietf.org/arch/browse/mops/<a href="#section-1.1.1-5.2" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.1-5.2">Search: https://mailarchive.ietf.org/arch/browse/mops/<a href="#section-1.1.1-5.2" class="pilcrow">¶</a>
 </li>
-          </ul>
+</ul>
 </section>
 </div>
 <div id="template-for-contributions">
@@ -1121,42 +1128,42 @@ requested to provide the following information, where applicable:<a href="#secti
 <ul class="normal">
 <li class="normal" id="section-1.1.2-5.1">a suggested title or name for the issue<a href="#section-1.1.2-5.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.2-5.2">a long-term pointer to the best reference describing the issue<a href="#section-1.1.2-5.2" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.2">a long-term pointer to the best reference describing the issue<a href="#section-1.1.2-5.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.2-5.3">
+<li class="normal" id="section-1.1.2-5.3">
               <p id="section-1.1.2-5.3.1">a short description of the nature of the issue and its impact on media quality of service, including:<a href="#section-1.1.2-5.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1.1.2-5.3.2.1">where in the network this issue has root causes<a href="#section-1.1.2-5.3.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="normal" id="section-1.1.2-5.3.2.2">who can detect this issue when it occurs<a href="#section-1.1.2-5.3.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.3.2.2">who can detect this issue when it occurs<a href="#section-1.1.2-5.3.2.2" class="pilcrow">¶</a>
 </li>
-              </ul>
+</ul>
 </li>
-            <li class="normal" id="section-1.1.2-5.4">an overview of the issue's known prevalence in practice.  pointers to write-ups of high-profile incidents are a plus.<a href="#section-1.1.2-5.4" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.4">an overview of the issue's known prevalence in practice.  pointers to write-ups of high-profile incidents are a plus.<a href="#section-1.1.2-5.4" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.2-5.5">
+<li class="normal" id="section-1.1.2-5.5">
               <p id="section-1.1.2-5.5.1">a list of known mitigation techniques, with (for each known mitigation):<a href="#section-1.1.2-5.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1.1.2-5.5.2.1">a name for the mitigation technique<a href="#section-1.1.2-5.5.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="normal" id="section-1.1.2-5.5.2.2">a long-term pointer to the best reference describing it<a href="#section-1.1.2-5.5.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.5.2.2">a long-term pointer to the best reference describing it<a href="#section-1.1.2-5.5.2.2" class="pilcrow">¶</a>
 </li>
-                <li class="normal" id="section-1.1.2-5.5.2.3">
+<li class="normal" id="section-1.1.2-5.5.2.3">
                   <p id="section-1.1.2-5.5.2.3.1">a short description of the technique:<a href="#section-1.1.2-5.5.2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1.1.2-5.5.2.3.2.1">what it does<a href="#section-1.1.2-5.5.2.3.2.1" class="pilcrow">¶</a>
 </li>
-                    <li class="normal" id="section-1.1.2-5.5.2.3.2.2">where in the network it operates<a href="#section-1.1.2-5.5.2.3.2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.5.2.3.2.2">where in the network it operates<a href="#section-1.1.2-5.5.2.3.2.2" class="pilcrow">¶</a>
 </li>
-                    <li class="normal" id="section-1.1.2-5.5.2.3.2.3">an overview of the tradeoffs involved--how and why it's helpful, what it costs.<a href="#section-1.1.2-5.5.2.3.2.3" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.5.2.3.2.3">an overview of the tradeoffs involved--how and why it's helpful, what it costs.<a href="#section-1.1.2-5.5.2.3.2.3" class="pilcrow">¶</a>
 </li>
-                  </ul>
+</ul>
 </li>
-                <li class="normal" id="section-1.1.2-5.5.2.4">supplemental information about the technique's deployment prevalence and status<a href="#section-1.1.2-5.5.2.4" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-5.5.2.4">supplemental information about the technique's deployment prevalence and status<a href="#section-1.1.2-5.5.2.4" class="pilcrow">¶</a>
 </li>
-              </ul>
+</ul>
 </li>
-          </ul>
+</ul>
 </section>
 </div>
 <div id="history-of-public-discussion">
@@ -1169,19 +1176,19 @@ requested to provide the following information, where applicable:<a href="#secti
 <li class="normal" id="section-1.1.3-2.1">IETF 105 BOF:<br>
 https://www.youtube.com/watch?v=4G3YBVmn9Eo&amp;t=47m21s<a href="#section-1.1.3-2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.2">IETF 106 meeting:<br>
+<li class="normal" id="section-1.1.3-2.2">IETF 106 meeting:<br>
 https://www.youtube.com/watch?v=4_k340xT2jM&amp;t=7m23s<a href="#section-1.1.3-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.3">MOPS Interim Meeting 2020-04-15:<br>
+<li class="normal" id="section-1.1.3-2.3">MOPS Interim Meeting 2020-04-15:<br>
 https://www.youtube.com/watch?v=QExiajdC0IY&amp;t=10m25s<a href="#section-1.1.3-2.3" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.4">IETF 108 meeting:<br>
+<li class="normal" id="section-1.1.3-2.4">IETF 108 meeting:<br>
 https://www.youtube.com/watch?v=ZaRsk0y3O9k&amp;t=2m48s<a href="#section-1.1.3-2.4" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.5">MOPS 2020-10-30 Interim meeting:<br>
+<li class="normal" id="section-1.1.3-2.5">MOPS 2020-10-30 Interim meeting:<br>
 https://www.youtube.com/watch?v=vDZKspv4LXw&amp;t=17m15s<a href="#section-1.1.3-2.5" class="pilcrow">¶</a>
 </li>
-          </ul>
+</ul>
 </section>
 </div>
 </section>
@@ -1350,38 +1357,38 @@ that provide for modular scalability.<a href="#section-2.4-3" class="pilcrow">¶
 <ul class="normal">
 <li class="normal" id="section-2.6-3.1">Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30,<a href="#section-2.6-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-3.2">AT&amp;T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
+<li class="normal" id="section-2.6-3.2">AT&amp;T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
 social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic, and<a href="#section-2.6-3.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-3.3">Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.<a href="#section-2.6-3.3" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-3.3">Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.<a href="#section-2.6-3.3" class="pilcrow">¶</a>
 </li>
-        </ul>
+</ul>
 <p id="section-2.6-4">We note that other operators saw similar spikes during this time period. Craig Labowitz <span>[<a href="#Labovitz" class="xref">Labovitz</a>]</span> reported<a href="#section-2.6-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.6-5.1">Weekday peak traffic increases over 45%-50% from pre-lockdown levels,<a href="#section-2.6-5.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-5.2">A 30% increase in upstream traffic over their pre-pandemic levels, and<a href="#section-2.6-5.2" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-5.2">A 30% increase in upstream traffic over their pre-pandemic levels, and<a href="#section-2.6-5.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-5.3">A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks (<span>[<a href="#LabovitzDDoS" class="xref">LabovitzDDoS</a>]</span>), as gaming usage also increased.)<a href="#section-2.6-5.3" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-5.3">A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks (<span>[<a href="#LabovitzDDoS" class="xref">LabovitzDDoS</a>]</span>), as gaming usage also increased.)<a href="#section-2.6-5.3" class="pilcrow">¶</a>
 </li>
-        </ul>
+</ul>
 <p id="section-2.6-6">Subsequently, the Inernet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop <span>[<a href="#IABcovid" class="xref">IABcovid</a>]</span> in November 2020. Given a larger number of reports and more time to reflect, the following observations from the draft workshop report are worth considering.<a href="#section-2.6-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.6-7.1">Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.<a href="#section-2.6-7.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-7.2">Mobile networks saw traffic reductions and residential networks saw significant increases.<a href="#section-2.6-7.2" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-7.2">Mobile networks saw traffic reductions and residential networks saw significant increases.<a href="#section-2.6-7.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-7.3">Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.<a href="#section-2.6-7.3" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-7.3">Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.<a href="#section-2.6-7.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-7.4">At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.<a href="#section-2.6-7.4" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-7.4">At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.<a href="#section-2.6-7.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-7.5">The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.<a href="#section-2.6-7.5" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-7.5">The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.<a href="#section-2.6-7.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-7.6">The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games.<a href="#section-2.6-7.6" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-7.6">The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games.<a href="#section-2.6-7.6" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.6-7.7">At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.<a href="#section-2.6-7.7" class="pilcrow">¶</a>
+<li class="normal" id="section-2.6-7.7">At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.<a href="#section-2.6-7.7" class="pilcrow">¶</a>
 </li>
-        </ul>
+</ul>
 </section>
 </div>
 </section>
@@ -1450,13 +1457,13 @@ segments has a few surprising consequences:<a href="#section-4.3.1-1" class="pil
 <ul class="normal">
 <li class="normal" id="section-4.3.1-2.1">Mobile flow-bandwidth spectrum and timing mapping.<a href="#section-4.3.1-2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-4.3.1-2.2">TCP slow-start when restarting after idle requires multiple
+<li class="normal" id="section-4.3.1-2.2">TCP slow-start when restarting after idle requires multiple
 RTTs to re-establish a throughput at the network's available
 capacity. On high-RTT paths or with small enough segments,
 this can produce a falsely low application-visible measurement
 of the available network capacity.<a href="#section-4.3.1-2.2" class="pilcrow">¶</a>
 </li>
-          </ul>
+</ul>
 <p id="section-4.3.1-3">A detailed investigation of this phenomenon is available in <span>[<a href="#NOSSDAV12" class="xref">NOSSDAV12</a>]</span>.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1579,11 +1586,11 @@ provide their own feedback mechanisms. This expectation is most recently codifie
 <ul class="normal">
 <li class="normal" id="section-6-2.1">Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically retaining this encryption "at rest", when it is stored at senders and receivers,<a href="#section-6-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-6-2.2">Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as "end-to-end media encryption"), and<a href="#section-6-2.2" class="pilcrow">¶</a>
+<li class="normal" id="section-6-2.2">Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as "end-to-end media encryption"), and<a href="#section-6-2.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-6-2.3">Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is <em>not</em> the ultimate media consumer, but has credentials allowing descryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as "hop-by-hop media encryption")<a href="#section-6-2.3" class="pilcrow">¶</a>
+<li class="normal" id="section-6-2.3">Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is <em>not</em> the ultimate media consumer, but has credentials allowing descryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as "hop-by-hop media encryption")<a href="#section-6-2.3" class="pilcrow">¶</a>
 </li>
-      </ul>
+</ul>
 <p id="section-6-3">Both "hop-by-hop" and "end-to-end" encrypted transport may carry media that is, in addition, encrypted at the application layer.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <p id="section-6-4">Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.  This document does not take a position on whether those goals are "valid" (whatever that might mean).<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end".<a href="#section-6-5" class="pilcrow">¶</a></p>
@@ -1611,11 +1618,11 @@ provide their own feedback mechanisms. This expectation is most recently codifie
 <ul class="normal">
 <li class="normal" id="section-6.2-6.1">Server And Network assisted DASH <span>[<a href="#DASH-SAND" class="xref">DASH-SAND</a>]</span> - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client's performance and status.<a href="#section-6.2-6.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.2-6.2">"Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" <span>[<a href="#RFC8723" class="xref">RFC8723</a>]</span> - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees.<a href="#section-6.2-6.2" class="pilcrow">¶</a>
+<li class="normal" id="section-6.2-6.2">"Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" <span>[<a href="#RFC8723" class="xref">RFC8723</a>]</span> - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees.<a href="#section-6.2-6.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.2-6.3">Secure Media Frames <span>[<a href="#SFRAME" class="xref">SFRAME</a>]</span> - <span>[<a href="#RFC8723" class="xref">RFC8723</a>]</span> is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames <span>[<a href="#SFRAME" class="xref">SFRAME</a>]</span>, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP.<a href="#section-6.2-6.3" class="pilcrow">¶</a>
+<li class="normal" id="section-6.2-6.3">Secure Media Frames <span>[<a href="#SFRAME" class="xref">SFRAME</a>]</span> - <span>[<a href="#RFC8723" class="xref">RFC8723</a>]</span> is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames <span>[<a href="#SFRAME" class="xref">SFRAME</a>]</span>, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP.<a href="#section-6.2-6.3" class="pilcrow">¶</a>
 </li>
-        </ul>
+</ul>
 <p id="section-6.2-7">If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in <span>[<a href="#RFC8825" class="xref">RFC8825</a>]</span> (for WebRTC) and <span>[<a href="#I-D.ietf-quic-manageability" class="xref">I-D.ietf-quic-manageability</a>]</span> (for HTTP/3 and QUIC).<a href="#section-6.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1660,204 +1667,204 @@ provide their own feedback mechanisms. This expectation is most recently codifie
       </h2>
 <dl class="references">
 <dt id="ABRSurvey">[ABRSurvey]</dt>
-      <dd>
-<span class="refAuthor">Abdelhak Bentaleb et al, .</span>, <span class="refTitle">"A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/abstract/document/8424813">https://ieeexplore.ieee.org/abstract/document/8424813</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Abdelhak Bentaleb et al, .</span>, <span class="refTitle">"A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"</span>, <time datetime="2019">2019</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/abstract/document/8424813">https://ieeexplore.ieee.org/abstract/document/8424813</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="CDiD">[CDiD]</dt>
-      <dd>
-<span class="refAuthor">Huitema, C.</span> and <span class="refAuthor">B. Trammell</span>, <span class="refTitle">"(A call for) Congestion Defense in Depth"</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/105/materials/slides-105-tsvarea-congestion-defense-in-depth-00">https://datatracker.ietf.org/meeting/105/materials/slides-105-tsvarea-congestion-defense-in-depth-00</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Huitema, C.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"(A call for) Congestion Defense in Depth"</span>, <time datetime="2019-07">July 2019</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/105/materials/slides-105-tsvarea-congestion-defense-in-depth-00">https://datatracker.ietf.org/meeting/105/materials/slides-105-tsvarea-congestion-defense-in-depth-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="codaspy">[codaspy]</dt>
-      <dd>
-<span class="refAuthor">Reed, A.</span> and <span class="refAuthor">M. Kranch</span>, <span class="refTitle">"Identifying HTTPS-Protected Netflix Videos in Real-Time in CODASPY '17: Proceedings of the Seventh ACM on Conference on Data and Application Security and Privacy pp 361-368"</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://dl.acm.org/doi/10.1145/3029806.3029821">https://dl.acm.org/doi/10.1145/3029806.3029821</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Reed, A.</span><span class="refAuthor"> and M. Kranch</span>, <span class="refTitle">"Identifying HTTPS-Protected Netflix Videos in Real-Time in CODASPY '17: Proceedings of the Seventh ACM on Conference on Data and Application Security and Privacy pp 361-368"</span>, <time datetime="2017-03">March 2017</time>, <span>&lt;<a href="https://dl.acm.org/doi/10.1145/3029806.3029821">https://dl.acm.org/doi/10.1145/3029806.3029821</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Conviva">[Conviva]</dt>
-      <dd>
-<span class="refTitle">"Conviva Insights Portfolio Data Sheet"</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf">http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf</a>&gt;</span>. </dd>
+<dd>
+<span class="refTitle">"Conviva Insights Portfolio Data Sheet"</span>, <time datetime="2021-05">May 2021</time>, <span>&lt;<a href="http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf">http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="COPA">[COPA]</dt>
-      <dd>
-<span class="refAuthor">Arun, V.</span> and <span class="refAuthor">H. Balakrishnan</span>, <span class="refTitle">"Copa: Practical Delay-Based Congestion Control for the Internet"</span>, <time datetime="2018" class="refDate">2018</time>, <span>&lt;<a href="https://web.mit.edu/copa/">https://web.mit.edu/copa/</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Arun, V.</span><span class="refAuthor"> and H. Balakrishnan</span>, <span class="refTitle">"Copa: Practical Delay-Based Congestion Control for the Internet"</span>, <time datetime="2018">2018</time>, <span>&lt;<a href="https://web.mit.edu/copa/">https://web.mit.edu/copa/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="CVNI">[CVNI]</dt>
-      <dd>
-<span class="refAuthor">Cisco Systems, Inc, .</span>, <span class="refTitle">"Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"</span>, <time datetime="2019-02-27" class="refDate">27 February 2019</time>, <span>&lt;<a href="https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html">https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Cisco Systems, Inc, .</span>, <span class="refTitle">"Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"</span>, <time datetime="2019-02-27">27 February 2019</time>, <span>&lt;<a href="https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html">https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="DASH">[DASH]</dt>
-      <dd>
-<span class="refTitle">"Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"</span>, <span class="seriesInfo">ISO/IEC 23009-1:2019</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://www.iso.org/standard/79329.html">https://www.iso.org/standard/79329.html</a>&gt;</span>. </dd>
+<dd>
+<span class="refTitle">"Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"</span>, <span class="seriesInfo">ISO/IEC 23009-1:2019</span>, <time datetime="2019">2019</time>, <span>&lt;<a href="https://www.iso.org/standard/79329.html">https://www.iso.org/standard/79329.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="DASH-SAND">[DASH-SAND]</dt>
-      <dd>
-<span class="refTitle">"Dynamic adaptive streaming over HTTP (DASH) — Part 5 - Server and network assisted DASH (SAND)"</span>, <time datetime="2017-02" class="refDate">February 2017</time>, <span>&lt;<a href="https://www.iso.org/standard/69079.html">https://www.iso.org/standard/69079.html</a>&gt;</span>. </dd>
+<dd>
+<span class="refTitle">"Dynamic adaptive streaming over HTTP (DASH) -- Part 5 - Server and network assisted DASH (SAND)"</span>, <time datetime="2017-02">February 2017</time>, <span>&lt;<a href="https://www.iso.org/standard/69079.html">https://www.iso.org/standard/69079.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.cardwell-iccrg-bbr-congestion-control">[I-D.cardwell-iccrg-bbr-congestion-control]</dt>
-      <dd>
-<span class="refAuthor">Cardwell, N.</span>, <span class="refAuthor">Cheng, Y.</span>, <span class="refAuthor">Yeganeh, S. H.</span>, and <span class="refAuthor">V. Jacobson</span>, <span class="refTitle">"BBR Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-cardwell-iccrg-bbr-congestion-control-00</span>, <time datetime="2017-07-03" class="refDate">3 July 2017</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-cardwell-iccrg-bbr-congestion-control-00.txt">https://www.ietf.org/archive/id/draft-cardwell-iccrg-bbr-congestion-control-00.txt</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Cardwell, N.</span><span class="refAuthor">, Cheng, Y.</span><span class="refAuthor">, Yeganeh, S. H.</span><span class="refAuthor">, and V. Jacobson</span>, <span class="refTitle">"BBR Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-cardwell-iccrg-bbr-congestion-control-00</span>, <time datetime="2017-07-03">3 July 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-cardwell-iccrg-bbr-congestion-control-00.txt">https://datatracker.ietf.org/doc/html/draft-cardwell-iccrg-bbr-congestion-control-00.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-http">[I-D.ietf-quic-http]</dt>
-      <dd>
-<span class="refAuthor">Bishop, M.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-34</span>, <time datetime="2021-02-02" class="refDate">2 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-quic-http-34.txt">https://www.ietf.org/archive/id/draft-ietf-quic-http-34.txt</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Bishop, M.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-34</span>, <time datetime="2021-02-02">2 February 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-http-34.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-http-34.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-invariants">[I-D.ietf-quic-invariants]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-13</span>, <time datetime="2021-01-14">14 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-invariants-13.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-invariants-13.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-manageability">[I-D.ietf-quic-manageability]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-11</span>, <time datetime="2021-04-21">21 April 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-11.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-11.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-recovery">[I-D.ietf-quic-recovery]</dt>
-      <dd>
-<span class="refAuthor">Iyengar, J.</span> and <span class="refAuthor">I. Swett</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-34</span>, <time datetime="2021-01-14" class="refDate">14 January 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-quic-recovery-34.txt">https://www.ietf.org/archive/id/draft-ietf-quic-recovery-34.txt</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Iyengar, J.</span><span class="refAuthor"> and I. Swett</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-34</span>, <time datetime="2021-01-14">14 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-recovery-34.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-recovery-34.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-tls">[I-D.ietf-quic-tls]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Thomson, M.</span><span class="refAuthor"> and S. Turner</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-34</span>, <time datetime="2021-01-14">14 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-tls-34.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-tls-34.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</dt>
-      <dd>
-<span class="refAuthor">Iyengar, J.</span> and <span class="refAuthor">M. Thomson</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-34</span>, <time datetime="2021-01-14" class="refDate">14 January 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-quic-transport-34.txt">https://www.ietf.org/archive/id/draft-ietf-quic-transport-34.txt</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Iyengar, J.</span><span class="refAuthor"> and M. Thomson</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-34</span>, <time datetime="2021-01-14">14 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-transport-34.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-transport-34.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IABcovid">[IABcovid]</dt>
-      <dd>
-<span class="refAuthor">Arkko, J.</span>, <span class="refAuthor">Farrel, S.</span>, <span class="refAuthor">Kühlewind, M.</span>, and <span class="refAuthor">C. Perkins</span>, <span class="refTitle">"Report from the IAB COVID-19 Network Impacts Workshop 2020"</span>, <time datetime="2020-11" class="refDate">November 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/">https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Arkko, J.</span><span class="refAuthor">, Farrel, S.</span><span class="refAuthor">, Kühlewind, M.</span><span class="refAuthor">, and C. Perkins</span>, <span class="refTitle">"Report from the IAB COVID-19 Network Impacts Workshop 2020"</span>, <time datetime="2020-11">November 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/">https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Jacobson-Karels">[Jacobson-Karels]</dt>
-      <dd>
-<span class="refAuthor">Jacobson, V.</span> and <span class="refAuthor">M. Karels</span>, <span class="refTitle">"Congestion Avoidance and Control"</span>, <time datetime="1988-11" class="refDate">November 1988</time>, <span>&lt;<a href="https://ee.lbl.gov/papers/congavoid.pdf">https://ee.lbl.gov/papers/congavoid.pdf</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Jacobson, V.</span><span class="refAuthor"> and M. Karels</span>, <span class="refTitle">"Congestion Avoidance and Control"</span>, <time datetime="1988-11">November 1988</time>, <span>&lt;<a href="https://ee.lbl.gov/papers/congavoid.pdf">https://ee.lbl.gov/papers/congavoid.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Labovitz">[Labovitz]</dt>
-      <dd>
-<span class="refAuthor">Labovitz, C.</span> and <span class="refAuthor">Nokia Deepfield</span>, <span class="refTitle">"Network traffic insights in the time of COVID-19: April 9 update"</span>, <time datetime="2020-04" class="refDate">April 2020</time>, <span>&lt;<a href="https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/">https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Labovitz, C.</span><span class="refAuthor"> and Nokia Deepfield</span>, <span class="refTitle">"Network traffic insights in the time of COVID-19: April 9 update"</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/">https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="LabovitzDDoS">[LabovitzDDoS]</dt>
-      <dd>
-<span class="refAuthor">Takahashi, D.</span> and <span class="refAuthor">Venture Beat</span>, <span class="refTitle">"Why the game industry is still vulnerable to DDoS attacks"</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/">https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Takahashi, D.</span><span class="refAuthor"> and Venture Beat</span>, <span class="refTitle">"Why the game industry is still vulnerable to DDoS attacks"</span>, <time datetime="2018-05">May 2018</time>, <span>&lt;<a href="https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/">https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Mishra">[Mishra]</dt>
-      <dd>
-<span class="refAuthor">Mishra, S.</span> and <span class="refAuthor">J. Thibeault</span>, <span class="refTitle">"An update on Streaming Video Alliance"</span>, <time datetime="2020" class="refDate">2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance">https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Mishra, S.</span><span class="refAuthor"> and J. Thibeault</span>, <span class="refTitle">"An update on Streaming Video Alliance"</span>, <time datetime="2020">2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance">https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MPEGI">[MPEGI]</dt>
-      <dd>
-<span class="refAuthor">Boyce et al, J.M.</span>, <span class="refTitle">"MPEG Immersive Video Coding Standard"</span>, <span>n.d.</span>, <span>&lt;<a href="https://ieeexplore.ieee.org/document/9374648">https://ieeexplore.ieee.org/document/9374648</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Boyce et al, J.M.</span>, <span class="refTitle">"MPEG Immersive Video Coding Standard"</span>, <time datetime="n.d.">n.d.</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/document/9374648">https://ieeexplore.ieee.org/document/9374648</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MSOD">[MSOD]</dt>
-      <dd>
-<span class="refAuthor">Akamai Technologies, Inc, .</span>, <span class="refTitle">"Media Services On Demand: Encoder Best Practices"</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html">https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Akamai Technologies, Inc, .</span>, <span class="refTitle">"Media Services On Demand: Encoder Best Practices"</span>, <time datetime="2019">2019</time>, <span>&lt;<a href="https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html">https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="NOSSDAV12">[NOSSDAV12]</dt>
-      <dd>
-<span class="refAuthor">Saamer Akhshabi et al, .</span>, <span class="refTitle">"What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"</span>, <time datetime="2012-06" class="refDate">June 2012</time>, <span>&lt;<a href="https://dl.acm.org/doi/10.1145/2229087.2229092">https://dl.acm.org/doi/10.1145/2229087.2229092</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Saamer Akhshabi et al, .</span>, <span class="refTitle">"What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"</span>, <time datetime="2012-06">June 2012</time>, <span>&lt;<a href="https://dl.acm.org/doi/10.1145/2229087.2229092">https://dl.acm.org/doi/10.1145/2229087.2229092</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PCC">[PCC]</dt>
-      <dd>
-<span class="refAuthor">Sebastian Schwarz et al, .</span>, <span class="refTitle">"Emerging MPEG Standards for Point Cloud Compression"</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/document/8571288">https://ieeexplore.ieee.org/document/8571288</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Sebastian Schwarz et al, .</span>, <span class="refTitle">"Emerging MPEG Standards for Point Cloud Compression"</span>, <time datetime="2019-03">March 2019</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/document/8571288">https://ieeexplore.ieee.org/document/8571288</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Port443">[Port443]</dt>
-      <dd>
-<span class="refTitle">"Service Name and Transport Protocol Port Number Registry"</span>, <time datetime="2021-04-29" class="refDate">29 April 2021</time>, <span>&lt;<a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt">https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt</a>&gt;</span>. </dd>
+<dd>
+<span class="refTitle">"Service Name and Transport Protocol Port Number Registry"</span>, <time datetime="2021-04-29">29 April 2021</time>, <span>&lt;<a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt">https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC0793">[RFC0793]</dt>
-      <dd>
-<span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Transmission Control Protocol"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 793</span>, <span class="seriesInfo">DOI 10.17487/RFC0793</span>, <time datetime="1981-09" class="refDate">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc793">https://www.rfc-editor.org/info/rfc793</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Transmission Control Protocol"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 793</span>, <span class="seriesInfo">DOI 10.17487/RFC0793</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC0793">https://doi.org/10.17487/RFC0793</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2001">[RFC2001]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Stevens, W.</span>, <span class="refTitle">"TCP Slow Start, Congestion Avoidance, Fast Retransmit, and Fast Recovery Algorithms"</span>, <span class="seriesInfo">RFC 2001</span>, <span class="seriesInfo">DOI 10.17487/RFC2001</span>, <time datetime="1997-01">January 1997</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC2001">https://doi.org/10.17487/RFC2001</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2309">[RFC2309]</dt>
-      <dd>
-<span class="refAuthor">Braden, B.</span>, <span class="refAuthor">Clark, D.</span>, <span class="refAuthor">Crowcroft, J.</span>, <span class="refAuthor">Davie, B.</span>, <span class="refAuthor">Deering, S.</span>, <span class="refAuthor">Estrin, D.</span>, <span class="refAuthor">Floyd, S.</span>, <span class="refAuthor">Jacobson, V.</span>, <span class="refAuthor">Minshall, G.</span>, <span class="refAuthor">Partridge, C.</span>, <span class="refAuthor">Peterson, L.</span>, <span class="refAuthor">Ramakrishnan, K.</span>, <span class="refAuthor">Shenker, S.</span>, <span class="refAuthor">Wroclawski, J.</span>, and <span class="refAuthor">L. Zhang</span>, <span class="refTitle">"Recommendations on Queue Management and Congestion Avoidance in the Internet"</span>, <span class="seriesInfo">RFC 2309</span>, <span class="seriesInfo">DOI 10.17487/RFC2309</span>, <time datetime="1998-04" class="refDate">April 1998</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2309">https://www.rfc-editor.org/info/rfc2309</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Braden, B.</span><span class="refAuthor">, Clark, D.</span><span class="refAuthor">, Crowcroft, J.</span><span class="refAuthor">, Davie, B.</span><span class="refAuthor">, Deering, S.</span><span class="refAuthor">, Estrin, D.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, Jacobson, V.</span><span class="refAuthor">, Minshall, G.</span><span class="refAuthor">, Partridge, C.</span><span class="refAuthor">, Peterson, L.</span><span class="refAuthor">, Ramakrishnan, K.</span><span class="refAuthor">, Shenker, S.</span><span class="refAuthor">, Wroclawski, J.</span><span class="refAuthor">, and L. Zhang</span>, <span class="refTitle">"Recommendations on Queue Management and Congestion Avoidance in the Internet"</span>, <span class="seriesInfo">RFC 2309</span>, <span class="seriesInfo">DOI 10.17487/RFC2309</span>, <time datetime="1998-04">April 1998</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC2309">https://doi.org/10.17487/RFC2309</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3135">[RFC3135]</dt>
-      <dd>
-<span class="refAuthor">Border, J.</span>, <span class="refAuthor">Kojo, M.</span>, <span class="refAuthor">Griner, J.</span>, <span class="refAuthor">Montenegro, G.</span>, and <span class="refAuthor">Z. Shelby</span>, <span class="refTitle">"Performance Enhancing Proxies Intended to Mitigate Link-Related Degradations"</span>, <span class="seriesInfo">RFC 3135</span>, <span class="seriesInfo">DOI 10.17487/RFC3135</span>, <time datetime="2001-06" class="refDate">June 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3135">https://www.rfc-editor.org/info/rfc3135</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Border, J.</span><span class="refAuthor">, Kojo, M.</span><span class="refAuthor">, Griner, J.</span><span class="refAuthor">, Montenegro, G.</span><span class="refAuthor">, and Z. Shelby</span>, <span class="refTitle">"Performance Enhancing Proxies Intended to Mitigate Link-Related Degradations"</span>, <span class="seriesInfo">RFC 3135</span>, <span class="seriesInfo">DOI 10.17487/RFC3135</span>, <time datetime="2001-06">June 2001</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC3135">https://doi.org/10.17487/RFC3135</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3168">[RFC3168]</dt>
-      <dd>
-<span class="refAuthor">Ramakrishnan, K.</span>, <span class="refAuthor">Floyd, S.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09" class="refDate">September 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3168">https://www.rfc-editor.org/info/rfc3168</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Ramakrishnan, K.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, and D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09">September 2001</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC3168">https://doi.org/10.17487/RFC3168</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3550">[RFC3550]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Schulzrinne, H.</span><span class="refAuthor">, Casner, S.</span><span class="refAuthor">, Frederick, R.</span><span class="refAuthor">, and V. Jacobson</span>, <span class="refTitle">"RTP: A Transport Protocol for Real-Time Applications"</span>, <span class="seriesInfo">STD 64</span>, <span class="seriesInfo">RFC 3550</span>, <span class="seriesInfo">DOI 10.17487/RFC3550</span>, <time datetime="2003-07">July 2003</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC3550">https://doi.org/10.17487/RFC3550</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5594">[RFC5594]</dt>
-      <dd>
-<span class="refAuthor">Peterson, J.</span> and <span class="refAuthor">A. Cooper</span>, <span class="refTitle">"Report from the IETF Workshop on Peer-to-Peer (P2P) Infrastructure, May 28, 2008"</span>, <span class="seriesInfo">RFC 5594</span>, <span class="seriesInfo">DOI 10.17487/RFC5594</span>, <time datetime="2009-07" class="refDate">July 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5594">https://www.rfc-editor.org/info/rfc5594</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Peterson, J.</span><span class="refAuthor"> and A. Cooper</span>, <span class="refTitle">"Report from the IETF Workshop on Peer-to-Peer (P2P) Infrastructure, May 28, 2008"</span>, <span class="seriesInfo">RFC 5594</span>, <span class="seriesInfo">DOI 10.17487/RFC5594</span>, <time datetime="2009-07">July 2009</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC5594">https://doi.org/10.17487/RFC5594</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5762">[RFC5762]</dt>
-      <dd>
-<span class="refAuthor">Perkins, C.</span>, <span class="refTitle">"RTP and the Datagram Congestion Control Protocol (DCCP)"</span>, <span class="seriesInfo">RFC 5762</span>, <span class="seriesInfo">DOI 10.17487/RFC5762</span>, <time datetime="2010-04" class="refDate">April 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5762">https://www.rfc-editor.org/info/rfc5762</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Perkins, C.</span>, <span class="refTitle">"RTP and the Datagram Congestion Control Protocol (DCCP)"</span>, <span class="seriesInfo">RFC 5762</span>, <span class="seriesInfo">DOI 10.17487/RFC5762</span>, <time datetime="2010-04">April 2010</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC5762">https://doi.org/10.17487/RFC5762</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6190">[RFC6190]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Wenger, S.</span><span class="refAuthor">, Wang, Y.-K.</span><span class="refAuthor">, Schierl, T.</span><span class="refAuthor">, and A. Eleftheriadis</span>, <span class="refTitle">"RTP Payload Format for Scalable Video Coding"</span>, <span class="seriesInfo">RFC 6190</span>, <span class="seriesInfo">DOI 10.17487/RFC6190</span>, <time datetime="2011-05">May 2011</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC6190">https://doi.org/10.17487/RFC6190</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6582">[RFC6582]</dt>
-      <dd>
-<span class="refAuthor">Henderson, T.</span>, <span class="refAuthor">Floyd, S.</span>, <span class="refAuthor">Gurtov, A.</span>, and <span class="refAuthor">Y. Nishida</span>, <span class="refTitle">"The NewReno Modification to TCP's Fast Recovery Algorithm"</span>, <span class="seriesInfo">RFC 6582</span>, <span class="seriesInfo">DOI 10.17487/RFC6582</span>, <time datetime="2012-04" class="refDate">April 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6582">https://www.rfc-editor.org/info/rfc6582</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Henderson, T.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, Gurtov, A.</span><span class="refAuthor">, and Y. Nishida</span>, <span class="refTitle">"The NewReno Modification to TCP's Fast Recovery Algorithm"</span>, <span class="seriesInfo">RFC 6582</span>, <span class="seriesInfo">DOI 10.17487/RFC6582</span>, <time datetime="2012-04">April 2012</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC6582">https://doi.org/10.17487/RFC6582</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6817">[RFC6817]</dt>
-      <dd>
-<span class="refAuthor">Shalunov, S.</span>, <span class="refAuthor">Hazel, G.</span>, <span class="refAuthor">Iyengar, J.</span>, and <span class="refAuthor">M. Kuehlewind</span>, <span class="refTitle">"Low Extra Delay Background Transport (LEDBAT)"</span>, <span class="seriesInfo">RFC 6817</span>, <span class="seriesInfo">DOI 10.17487/RFC6817</span>, <time datetime="2012-12" class="refDate">December 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6817">https://www.rfc-editor.org/info/rfc6817</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Shalunov, S.</span><span class="refAuthor">, Hazel, G.</span><span class="refAuthor">, Iyengar, J.</span><span class="refAuthor">, and M. Kuehlewind</span>, <span class="refTitle">"Low Extra Delay Background Transport (LEDBAT)"</span>, <span class="seriesInfo">RFC 6817</span>, <span class="seriesInfo">DOI 10.17487/RFC6817</span>, <time datetime="2012-12">December 2012</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC6817">https://doi.org/10.17487/RFC6817</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7234">[RFC7234]</dt>
-      <dd>
-<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Caching"</span>, <span class="seriesInfo">RFC 7234</span>, <span class="seriesInfo">DOI 10.17487/RFC7234</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7234">https://www.rfc-editor.org/info/rfc7234</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Fielding, R., Ed.</span><span class="refAuthor">, Nottingham, M., Ed.</span><span class="refAuthor">, and J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Caching"</span>, <span class="seriesInfo">RFC 7234</span>, <span class="seriesInfo">DOI 10.17487/RFC7234</span>, <time datetime="2014-06">June 2014</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC7234">https://doi.org/10.17487/RFC7234</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7258">[RFC7258]</dt>
-      <dd>
-<span class="refAuthor">Farrell, S.</span> and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Pervasive Monitoring Is an Attack"</span>, <span class="seriesInfo">BCP 188</span>, <span class="seriesInfo">RFC 7258</span>, <span class="seriesInfo">DOI 10.17487/RFC7258</span>, <time datetime="2014-05" class="refDate">May 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7258">https://www.rfc-editor.org/info/rfc7258</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Farrell, S.</span><span class="refAuthor"> and H. Tschofenig</span>, <span class="refTitle">"Pervasive Monitoring Is an Attack"</span>, <span class="seriesInfo">BCP 188</span>, <span class="seriesInfo">RFC 7258</span>, <span class="seriesInfo">DOI 10.17487/RFC7258</span>, <time datetime="2014-05">May 2014</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC7258">https://doi.org/10.17487/RFC7258</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7510">[RFC7510]</dt>
-      <dd>
-<span class="refAuthor">Xu, X.</span>, <span class="refAuthor">Sheth, N.</span>, <span class="refAuthor">Yong, L.</span>, <span class="refAuthor">Callon, R.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"Encapsulating MPLS in UDP"</span>, <span class="seriesInfo">RFC 7510</span>, <span class="seriesInfo">DOI 10.17487/RFC7510</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7510">https://www.rfc-editor.org/info/rfc7510</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Xu, X.</span><span class="refAuthor">, Sheth, N.</span><span class="refAuthor">, Yong, L.</span><span class="refAuthor">, Callon, R.</span><span class="refAuthor">, and D. Black</span>, <span class="refTitle">"Encapsulating MPLS in UDP"</span>, <span class="seriesInfo">RFC 7510</span>, <span class="seriesInfo">DOI 10.17487/RFC7510</span>, <time datetime="2015-04">April 2015</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC7510">https://doi.org/10.17487/RFC7510</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8033">[RFC8033]</dt>
-      <dd>
-<span class="refAuthor">Pan, R.</span>, <span class="refAuthor">Natarajan, P.</span>, <span class="refAuthor">Baker, F.</span>, and <span class="refAuthor">G. White</span>, <span class="refTitle">"Proportional Integral Controller Enhanced (PIE): A Lightweight Control Scheme to Address the Bufferbloat Problem"</span>, <span class="seriesInfo">RFC 8033</span>, <span class="seriesInfo">DOI 10.17487/RFC8033</span>, <time datetime="2017-02" class="refDate">February 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8033">https://www.rfc-editor.org/info/rfc8033</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Pan, R.</span><span class="refAuthor">, Natarajan, P.</span><span class="refAuthor">, Baker, F.</span><span class="refAuthor">, and G. White</span>, <span class="refTitle">"Proportional Integral Controller Enhanced (PIE): A Lightweight Control Scheme to Address the Bufferbloat Problem"</span>, <span class="seriesInfo">RFC 8033</span>, <span class="seriesInfo">DOI 10.17487/RFC8033</span>, <time datetime="2017-02">February 2017</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8033">https://doi.org/10.17487/RFC8033</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8083">[RFC8083]</dt>
-      <dd>
-<span class="refAuthor">Perkins, C.</span> and <span class="refAuthor">V. Singh</span>, <span class="refTitle">"Multimedia Congestion Control: Circuit Breakers for Unicast RTP Sessions"</span>, <span class="seriesInfo">RFC 8083</span>, <span class="seriesInfo">DOI 10.17487/RFC8083</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8083">https://www.rfc-editor.org/info/rfc8083</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Perkins, C.</span><span class="refAuthor"> and V. Singh</span>, <span class="refTitle">"Multimedia Congestion Control: Circuit Breakers for Unicast RTP Sessions"</span>, <span class="seriesInfo">RFC 8083</span>, <span class="seriesInfo">DOI 10.17487/RFC8083</span>, <time datetime="2017-03">March 2017</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8083">https://doi.org/10.17487/RFC8083</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8084">[RFC8084]</dt>
-      <dd>
-<span class="refAuthor">Fairhurst, G.</span>, <span class="refTitle">"Network Transport Circuit Breakers"</span>, <span class="seriesInfo">BCP 208</span>, <span class="seriesInfo">RFC 8084</span>, <span class="seriesInfo">DOI 10.17487/RFC8084</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8084">https://www.rfc-editor.org/info/rfc8084</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Fairhurst, G.</span>, <span class="refTitle">"Network Transport Circuit Breakers"</span>, <span class="seriesInfo">BCP 208</span>, <span class="seriesInfo">RFC 8084</span>, <span class="seriesInfo">DOI 10.17487/RFC8084</span>, <time datetime="2017-03">March 2017</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8084">https://doi.org/10.17487/RFC8084</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8085">[RFC8085]</dt>
-      <dd>
-<span class="refAuthor">Eggert, L.</span>, <span class="refAuthor">Fairhurst, G.</span>, and <span class="refAuthor">G. Shepherd</span>, <span class="refTitle">"UDP Usage Guidelines"</span>, <span class="seriesInfo">BCP 145</span>, <span class="seriesInfo">RFC 8085</span>, <span class="seriesInfo">DOI 10.17487/RFC8085</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8085">https://www.rfc-editor.org/info/rfc8085</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Eggert, L.</span><span class="refAuthor">, Fairhurst, G.</span><span class="refAuthor">, and G. Shepherd</span>, <span class="refTitle">"UDP Usage Guidelines"</span>, <span class="seriesInfo">BCP 145</span>, <span class="seriesInfo">RFC 8085</span>, <span class="seriesInfo">DOI 10.17487/RFC8085</span>, <time datetime="2017-03">March 2017</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8085">https://doi.org/10.17487/RFC8085</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8216">[RFC8216]</dt>
-      <dd>
-<span class="refAuthor">Pantos, R., Ed.</span> and <span class="refAuthor">W. May</span>, <span class="refTitle">"HTTP Live Streaming"</span>, <span class="seriesInfo">RFC 8216</span>, <span class="seriesInfo">DOI 10.17487/RFC8216</span>, <time datetime="2017-08" class="refDate">August 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8216">https://www.rfc-editor.org/info/rfc8216</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Pantos, R., Ed.</span><span class="refAuthor"> and W. May</span>, <span class="refTitle">"HTTP Live Streaming"</span>, <span class="seriesInfo">RFC 8216</span>, <span class="seriesInfo">DOI 10.17487/RFC8216</span>, <time datetime="2017-08">August 2017</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8216">https://doi.org/10.17487/RFC8216</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8312">[RFC8312]</dt>
-      <dd>
-<span class="refAuthor">Rhee, I.</span>, <span class="refAuthor">Xu, L.</span>, <span class="refAuthor">Ha, S.</span>, <span class="refAuthor">Zimmermann, A.</span>, <span class="refAuthor">Eggert, L.</span>, and <span class="refAuthor">R. Scheffenegger</span>, <span class="refTitle">"CUBIC for Fast Long-Distance Networks"</span>, <span class="seriesInfo">RFC 8312</span>, <span class="seriesInfo">DOI 10.17487/RFC8312</span>, <time datetime="2018-02" class="refDate">February 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8312">https://www.rfc-editor.org/info/rfc8312</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Rhee, I.</span><span class="refAuthor">, Xu, L.</span><span class="refAuthor">, Ha, S.</span><span class="refAuthor">, Zimmermann, A.</span><span class="refAuthor">, Eggert, L.</span><span class="refAuthor">, and R. Scheffenegger</span>, <span class="refTitle">"CUBIC for Fast Long-Distance Networks"</span>, <span class="seriesInfo">RFC 8312</span>, <span class="seriesInfo">DOI 10.17487/RFC8312</span>, <time datetime="2018-02">February 2018</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8312">https://doi.org/10.17487/RFC8312</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8622">[RFC8622]</dt>
-      <dd>
-<span class="refAuthor">Bless, R.</span>, <span class="refTitle">"A Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services"</span>, <span class="seriesInfo">RFC 8622</span>, <span class="seriesInfo">DOI 10.17487/RFC8622</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8622">https://www.rfc-editor.org/info/rfc8622</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Bless, R.</span>, <span class="refTitle">"A Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services"</span>, <span class="seriesInfo">RFC 8622</span>, <span class="seriesInfo">DOI 10.17487/RFC8622</span>, <time datetime="2019-06">June 2019</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8622">https://doi.org/10.17487/RFC8622</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8723">[RFC8723]</dt>
-      <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd>
+<span class="refAuthor">Jennings, C.</span><span class="refAuthor">, Jones, P.</span><span class="refAuthor">, Barnes, R.</span><span class="refAuthor">, and A.B. Roach</span>, <span class="refTitle">"Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)"</span>, <span class="seriesInfo">RFC 8723</span>, <span class="seriesInfo">DOI 10.17487/RFC8723</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8723">https://doi.org/10.17487/RFC8723</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8825">[RFC8825]</dt>
-      <dd>
-<span class="refAuthor">Alvestrand, H.</span>, <span class="refTitle">"Overview: Real-Time Protocols for Browser-Based Applications"</span>, <span class="seriesInfo">RFC 8825</span>, <span class="seriesInfo">DOI 10.17487/RFC8825</span>, <time datetime="2021-01" class="refDate">January 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8825">https://www.rfc-editor.org/info/rfc8825</a>&gt;</span>. </dd>
+<dd>
+<span class="refAuthor">Alvestrand, H.</span>, <span class="refTitle">"Overview: Real-Time Protocols for Browser-Based Applications"</span>, <span class="seriesInfo">RFC 8825</span>, <span class="seriesInfo">DOI 10.17487/RFC8825</span>, <time datetime="2021-01">January 2021</time>, <span>&lt;<a href="https://doi.org/10.17487/RFC8825">https://doi.org/10.17487/RFC8825</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SFRAME">[SFRAME]</dt>
-      <dd>
-<span class="refTitle">"Secure Media Frames Working Group (Home Page)"</span>, <span>n.d.</span>, <span>&lt;<a href="https://datatracker.ietf.org/doc/charter-ietf-sframe/">https://datatracker.ietf.org/doc/charter-ietf-sframe/</a>&gt;</span>. </dd>
+<dd>
+<span class="refTitle">"Secure Media Frames Working Group (Home Page)"</span>, <time datetime="n.d.">n.d.</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/charter-ietf-sframe/">https://datatracker.ietf.org/doc/charter-ietf-sframe/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="tsvarea-105">[tsvarea-105]</dt>
-    <dd>
-<span class="refTitle">"TSVAREA Minutes - IETF 105"</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00">https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00</a>&gt;</span>. </dd>
+<dd>
+<span class="refTitle">"TSVAREA Minutes - IETF 105"</span>, <time datetime="2019">2019</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00">https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

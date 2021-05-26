@@ -51,68 +51,46 @@ Copyright Notice
    as described in Section 4.e of the Trust Legal Provisions and are
    provided without warranty as described in the Simplified BSD License.
 
-
-
-Holland, et al.         Expires 26 November 2021                [Page 1]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.1.  Notes for Contributors and Reviewers  . . . . . . . . . .   4
-       1.1.1.  Venues for Contribution and Discussion  . . . . . . .   4
-       1.1.2.  Template for Contributions  . . . . . . . . . . . . .   4
-       1.1.3.  History of Public Discussion  . . . . . . . . . . . .   5
-   2.  Bandwidth Provisioning  . . . . . . . . . . . . . . . . . . .   6
-     2.1.  Scaling Requirements for Media Delivery . . . . . . . . .   6
-       2.1.1.  Video Bitrates  . . . . . . . . . . . . . . . . . . .   6
-       2.1.2.  Virtual Reality Bitrates  . . . . . . . . . . . . . .   7
-     2.2.  Path Requirements . . . . . . . . . . . . . . . . . . . .   7
-     2.3.  Caching Systems . . . . . . . . . . . . . . . . . . . . .   8
-     2.4.  Predictable Usage Profiles  . . . . . . . . . . . . . . .   9
-     2.5.  Unpredictable Usage Profiles  . . . . . . . . . . . . . .   9
-     2.6.  Extremely Unpredictable Usage Profiles  . . . . . . . . .  10
+   1.  Introduction
+     1.1.  Notes for Contributors and Reviewers
+       1.1.1.  Venues for Contribution and Discussion
+       1.1.2.  Template for Contributions
+       1.1.3.  History of Public Discussion
+   2.  Bandwidth Provisioning
+     2.1.  Scaling Requirements for Media Delivery
+       2.1.1.  Video Bitrates
+       2.1.2.  Virtual Reality Bitrates
+     2.2.  Path Requirements
+     2.3.  Caching Systems
+     2.4.  Predictable Usage Profiles
+     2.5.  Unpredictable Usage Profiles
+     2.6.  Extremely Unpredictable Usage Profiles
    3.  Adaptive Encoding, Adaptive Delivery, and Measurement
-           Collection  . . . . . . . . . . . . . . . . . . . . . . .  12
-   4.  Adaptive Bitrate  . . . . . . . . . . . . . . . . . . . . . .  12
-     4.1.  Overview  . . . . . . . . . . . . . . . . . . . . . . . .  12
-     4.2.  Adaptive Encoding . . . . . . . . . . . . . . . . . . . .  12
-     4.3.  Adaptive Segmented Delivery . . . . . . . . . . . . . . .  12
-       4.3.1.  Idle Time between Segments  . . . . . . . . . . . . .  13
-       4.3.2.  Head-of-Line Blocking . . . . . . . . . . . . . . . .  13
-     4.4.  Measurement Collection  . . . . . . . . . . . . . . . . .  14
-     4.5.  Unreliable Transport  . . . . . . . . . . . . . . . . . .  14
+           Collection
+   4.  Adaptive Bitrate
+     4.1.  Overview
+     4.2.  Adaptive Encoding
+     4.3.  Adaptive Segmented Delivery
+       4.3.1.  Idle Time between Segments
+       4.3.2.  Head-of-Line Blocking
+     4.4.  Measurement Collection
+     4.5.  Unreliable Transport
    5.  Evolution of Transport Protocols and Transport Protocol
-           Behaviors . . . . . . . . . . . . . . . . . . . . . . . .  15
-     5.1.  UDP and Its Behavior  . . . . . . . . . . . . . . . . . .  15
-     5.2.  TCP and Its Behavior  . . . . . . . . . . . . . . . . . .  16
-     5.3.  The QUIC Protocol and Its Behavior  . . . . . . . . . . .  17
-   6.  Streaming Encrypted Media . . . . . . . . . . . . . . . . . .  19
-     6.1.  General Considerations for Media Encryption . . . . . . .  20
-     6.2.  Considerations for "Hop-by-Hop" Media Encryption  . . . .  20
-     6.3.  Considerations for "End-to-End" Media Encryption  . . . .  22
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  22
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  22
-   9.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  22
-   10. Informative References  . . . . . . . . . . . . . . . . . . .  22
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  27
-
-
-
-
-
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 2]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
+           Behaviors
+     5.1.  UDP and Its Behavior
+     5.2.  TCP and Its Behavior
+     5.3.  The QUIC Protocol and Its Behavior
+   6.  Streaming Encrypted Media
+     6.1.  General Considerations for Media Encryption
+     6.2.  Considerations for "Hop-by-Hop" Media Encryption
+     6.3.  Considerations for "End-to-End" Media Encryption
+   7.  IANA Considerations
+   8.  Security Considerations
+   9.  Acknowledgments
+   10. Informative References
+   Authors' Addresses
 
 1.  Introduction
 
@@ -156,19 +134,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    traffic continues to grow, it's becoming increasingly important to
    consider the effects of network design decisions on application-level
    performance, with considerations for the impact on video delivery.
-
-
-
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 3]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
    This document aims to provide a taxonomy of networking issues as they
    relate to quality of experience in internet video delivery.  The
@@ -217,15 +182,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    edited, and as a reminder, please carefully consider the Note Well
    before contributing: https://datatracker.ietf.org/submit/note-well/
 
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 4]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    Contributions can be emailed to mops@ietf.org, submitted as issues to
    the issue tracker of the repository in Section 1.1.1, or emailed to
    the document authors at draft-ietf-mops-streaming-opcons@ietf.org.
@@ -273,15 +229,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    *  IETF 105 BOF:
       https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
 
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 5]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    *  IETF 106 meeting:
       https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
 
@@ -327,18 +274,7 @@ Internet-Draft             Media Streaming Ops                  May 2021
    typical and peak per-user bandwidth requirements for 60 frames per
    second (FPS):
 
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 6]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
-           +============+================+==========+=========+
+           +------------+----------------+----------+---------+
            | Name       | Width x Height | Typical  | Peak    |
            +============+================+==========+=========+
            | DVD        | 720 x 480      | 1.3 Mbps | 3 Mbps  |
@@ -385,15 +321,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    to get sustained high-motion content such as sports, while
    maintaining the same resolution.
 
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 7]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    However, when there is some overlap in the feeds being consumed by
    end users, it is sometimes possible to reduce the bandwidth
    provisioning requirements for the network by performing some kind of
@@ -437,18 +364,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    mechanisms to meet the needs of users.  In some cases (Section 2.4),
    this is relatively routine, but in other cases, it is more difficult
    (Section 2.5, Section 2.6).
-
-
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 8]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
 2.4.  Predictable Usage Profiles
 
@@ -498,14 +413,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    applications gained popularity in the early 2000s.  To take one well-
    documented case ([RFC5594]), the Bittorrent application created
    "swarms" of hosts, uploading and downloading files to each other,
-
-
-
-Holland, et al.         Expires 26 November 2021                [Page 9]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    rather than communicating with a server.  Bittorrent favored peers
    who uploaded as much as they downloaded, so that new Bittorrent users
    had an incentive to significantly increase their upstream bandwidth
@@ -552,15 +459,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
 
    We note that other operators saw similar spikes during this time
    period.  Craig Labowitz [Labovitz] reported
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 10]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
    *  Weekday peak traffic increases over 45%-50% from pre-lockdown
       levels,
@@ -610,14 +508,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
       This phenomenon is mostly explained by a higher traffic demand
       from residential users.
 
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 11]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
 3.  Adaptive Encoding, Adaptive Delivery, and Measurement Collection
 
 4.  Adaptive Bitrate
@@ -666,14 +556,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    throughput speed test at the start of a video playback.  This is done
    to get a rough sense of the highest video bit rate in the ABR ladder
    that the network between the server and player will likely be able to
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 12]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    provide under initial network conditions.  After the initial testing,
    clients tend to rely upon passive network observations and will make
    use of player side statistics such as buffer fill rates to monitor
@@ -721,15 +603,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    one missing packet after retransmit, the receiver will suddenly get
    access to a lot of data at the same time.
 
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 13]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    To a receiver measuring bytes received per unit time at the
    application layer, and interpreting it as an estimate of the
    available network bandwidth, this appears as a high jitter in the
@@ -771,20 +644,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    (as in [RFC5762]), or to use fewer enhancement layers (as in
    [RFC6190]), to proprietary methods for detecting quality of
    experience issues and cutting off video.
-
-
-
-
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 14]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
 5.  Evolution of Transport Protocols and Transport Protocol Behaviors
 
@@ -831,16 +690,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    mechanisms to resolve contention between DNS users and other users
    (whether they are also using DNS, or using other application
    protocols).
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 15]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
    In recent times, the usage of UDP-based applications that were not
    simple query-response protocols has grown substantially, and since
@@ -890,14 +739,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    The success of the largely TCP-based Internet is evidence that the
    mechanisms TCP used to achieve equilibrium quickly, at a point where
    TCP senders do not interfere with other TCP senders for sustained
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 16]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    periods of time, have been largely successful.  The Internet
    continued to work even when the specific mechanisms used to reach
    equilibrium changed over time.  Because TCP provides a common tool to
@@ -946,13 +787,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    describes how QUIC transport features are used for HTTP.  The
    convention is for HTTP/3 to run over UDP port 443 [Port443] but this
    is not a strict requirement.
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 17]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
    When HTTP/3 is encapsulated in QUIC, which is then encapsulated in
    UDP, streaming operators (and network operators) might see UDP
@@ -1003,13 +837,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    discussion in TSVAREA minutes from IETF 105 ([tsvarea-105], are still
    worth a look for new and rapidly growing content providers.
 
-
-
-Holland, et al.         Expires 26 November 2021               [Page 18]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    It is worth considering that if TCP-based HTTP traffic and UDP-based
    HTTP/3 traffic are allowed to enter operator networks on roughly
    equal terms, questions of fairness and contention will be heavily
@@ -1057,14 +884,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
 
    In this document, we will focus on media encrypted at the transport
    layer, whether encrypted "hop-by-hop" or "end-to-end".
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 19]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
    Both "End-to-End" and "Hop-by-Hop" media encryption have implications
    for streaming operators.
@@ -1115,13 +934,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    There are a variety of ways to involve intermediaries, and some are
    much more intrusive than others.
 
-
-
-Holland, et al.         Expires 26 November 2021               [Page 20]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    From a content provider's perspective, a number of considerations are
    in play.  The first question is likely whether the content provider
    intends that intermediaries are explicitly addressed from endpoints,
@@ -1167,16 +979,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    longer be able to do that.  Some resources that might inform this
    consideration are in [RFC8825] (for WebRTC) and
    [I-D.ietf-quic-manageability] (for HTTP/3 and QUIC).
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 21]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
 
 6.3.  Considerations for "End-to-End" Media Encryption
 
@@ -1227,13 +1029,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
               Security and Privacy pp 361-368", March 2017,
               <https://dl.acm.org/doi/10.1145/3029806.3029821>.
 
-
-
-Holland, et al.         Expires 26 November 2021               [Page 22]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    [Conviva]  "Conviva Insights Portfolio Data Sheet", May 2021,
               <http://na-ab44.marketo.com/rs/138-XJA-134/images/
               DS_Conviva_Insights_Portfolio.pdf>.
@@ -1254,7 +1049,7 @@ Internet-Draft             Media Streaming Ops                  May 2021
               <https://www.iso.org/standard/79329.html>.
 
    [DASH-SAND]
-              "Dynamic adaptive streaming over HTTP (DASH) — Part 5 -
+              "Dynamic adaptive streaming over HTTP (DASH) -- Part 5 -
               Server and network assisted DASH (SAND)", February 2017,
               <https://www.iso.org/standard/69079.html>.
 
@@ -1262,49 +1057,48 @@ Internet-Draft             Media Streaming Ops                  May 2021
               Cardwell, N., Cheng, Y., Yeganeh, S. H., and V. Jacobson,
               "BBR Congestion Control", Work in Progress, Internet-
               Draft, draft-cardwell-iccrg-bbr-congestion-control-00, 3
-              July 2017, <https://www.ietf.org/archive/id/draft-
+              July 2017, <https://datatracker.ietf.org/doc/html/draft-
               cardwell-iccrg-bbr-congestion-control-00.txt>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
               quic-http-34, 2 February 2021,
-              <https://www.ietf.org/archive/id/draft-ietf-quic-http-
-              34.txt>.
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              http-34.txt>.
 
    [I-D.ietf-quic-invariants]
-              "*** BROKEN REFERENCE ***".
+              Thomson, M., "Version-Independent Properties of QUIC",
+              Work in Progress, Internet-Draft, draft-ietf-quic-
+              invariants-13, 14 January 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              invariants-13.txt>.
 
    [I-D.ietf-quic-manageability]
-              "*** BROKEN REFERENCE ***".
-
-
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 23]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
+              Kuehlewind, M. and B. Trammell, "Manageability of the QUIC
+              Transport Protocol", Work in Progress, Internet-Draft,
+              draft-ietf-quic-manageability-11, 21 April 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              manageability-11.txt>.
 
    [I-D.ietf-quic-recovery]
               Iyengar, J. and I. Swett, "QUIC Loss Detection and
               Congestion Control", Work in Progress, Internet-Draft,
               draft-ietf-quic-recovery-34, 14 January 2021,
-              <https://www.ietf.org/archive/id/draft-ietf-quic-recovery-
-              34.txt>.
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              recovery-34.txt>.
 
    [I-D.ietf-quic-tls]
-              "*** BROKEN REFERENCE ***".
+              Thomson, M. and S. Turner, "Using TLS to Secure QUIC",
+              Work in Progress, Internet-Draft, draft-ietf-quic-tls-34,
+              14 January 2021, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-quic-tls-34.txt>.
 
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
               and Secure Transport", Work in Progress, Internet-Draft,
               draft-ietf-quic-transport-34, 14 January 2021,
-              <https://www.ietf.org/archive/id/draft-ietf-quic-
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
               transport-34.txt>.
 
    [IABcovid] Arkko, J., Farrel, S., Kühlewind, M., and C. Perkins,
@@ -1338,14 +1132,6 @@ Internet-Draft             Media Streaming Ops                  May 2021
    [MPEGI]    Boyce et al, J.M., "MPEG Immersive Video Coding Standard",
               n.d., <https://ieeexplore.ieee.org/document/9374648>.
 
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 24]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    [MSOD]     Akamai Technologies, Inc, ., "Media Services On Demand:
               Encoder Best Practices", 2019, <https://learn.akamai.com/
               en-us/webhelp/media-services-on-demand/media-services-on-
@@ -1368,9 +1154,12 @@ Internet-Draft             Media Streaming Ops                  May 2021
 
    [RFC0793]  Postel, J., "Transmission Control Protocol", STD 7,
               RFC 793, DOI 10.17487/RFC0793, September 1981,
-              <https://www.rfc-editor.org/info/rfc793>.
+              <https://doi.org/10.17487/RFC0793>.
 
-   [RFC2001]  "*** BROKEN REFERENCE ***".
+   [RFC2001]  Stevens, W., "TCP Slow Start, Congestion Avoidance, Fast
+              Retransmit, and Fast Recovery Algorithms", RFC 2001,
+              DOI 10.17487/RFC2001, January 1997,
+              <https://doi.org/10.17487/RFC2001>.
 
    [RFC2309]  Braden, B., Clark, D., Crowcroft, J., Davie, B., Deering,
               S., Estrin, D., Floyd, S., Jacobson, V., Minshall, G.,
@@ -1378,113 +1167,104 @@ Internet-Draft             Media Streaming Ops                  May 2021
               S., Wroclawski, J., and L. Zhang, "Recommendations on
               Queue Management and Congestion Avoidance in the
               Internet", RFC 2309, DOI 10.17487/RFC2309, April 1998,
-              <https://www.rfc-editor.org/info/rfc2309>.
+              <https://doi.org/10.17487/RFC2309>.
 
    [RFC3135]  Border, J., Kojo, M., Griner, J., Montenegro, G., and Z.
               Shelby, "Performance Enhancing Proxies Intended to
               Mitigate Link-Related Degradations", RFC 3135,
               DOI 10.17487/RFC3135, June 2001,
-              <https://www.rfc-editor.org/info/rfc3135>.
+              <https://doi.org/10.17487/RFC3135>.
 
    [RFC3168]  Ramakrishnan, K., Floyd, S., and D. Black, "The Addition
               of Explicit Congestion Notification (ECN) to IP",
               RFC 3168, DOI 10.17487/RFC3168, September 2001,
-              <https://www.rfc-editor.org/info/rfc3168>.
+              <https://doi.org/10.17487/RFC3168>.
 
-   [RFC3550]  "*** BROKEN REFERENCE ***".
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 25]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
+   [RFC3550]  Schulzrinne, H., Casner, S., Frederick, R., and V.
+              Jacobson, "RTP: A Transport Protocol for Real-Time
+              Applications", STD 64, RFC 3550, DOI 10.17487/RFC3550,
+              July 2003, <https://doi.org/10.17487/RFC3550>.
 
    [RFC5594]  Peterson, J. and A. Cooper, "Report from the IETF Workshop
               on Peer-to-Peer (P2P) Infrastructure, May 28, 2008",
               RFC 5594, DOI 10.17487/RFC5594, July 2009,
-              <https://www.rfc-editor.org/info/rfc5594>.
+              <https://doi.org/10.17487/RFC5594>.
 
    [RFC5762]  Perkins, C., "RTP and the Datagram Congestion Control
               Protocol (DCCP)", RFC 5762, DOI 10.17487/RFC5762, April
-              2010, <https://www.rfc-editor.org/info/rfc5762>.
+              2010, <https://doi.org/10.17487/RFC5762>.
 
-   [RFC6190]  "*** BROKEN REFERENCE ***".
+   [RFC6190]  Wenger, S., Wang, Y.-K., Schierl, T., and A.
+              Eleftheriadis, "RTP Payload Format for Scalable Video
+              Coding", RFC 6190, DOI 10.17487/RFC6190, May 2011,
+              <https://doi.org/10.17487/RFC6190>.
 
    [RFC6582]  Henderson, T., Floyd, S., Gurtov, A., and Y. Nishida, "The
               NewReno Modification to TCP's Fast Recovery Algorithm",
               RFC 6582, DOI 10.17487/RFC6582, April 2012,
-              <https://www.rfc-editor.org/info/rfc6582>.
+              <https://doi.org/10.17487/RFC6582>.
 
    [RFC6817]  Shalunov, S., Hazel, G., Iyengar, J., and M. Kuehlewind,
               "Low Extra Delay Background Transport (LEDBAT)", RFC 6817,
               DOI 10.17487/RFC6817, December 2012,
-              <https://www.rfc-editor.org/info/rfc6817>.
+              <https://doi.org/10.17487/RFC6817>.
 
    [RFC7234]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "Hypertext Transfer Protocol (HTTP/1.1): Caching",
               RFC 7234, DOI 10.17487/RFC7234, June 2014,
-              <https://www.rfc-editor.org/info/rfc7234>.
+              <https://doi.org/10.17487/RFC7234>.
 
    [RFC7258]  Farrell, S. and H. Tschofenig, "Pervasive Monitoring Is an
               Attack", BCP 188, RFC 7258, DOI 10.17487/RFC7258, May
-              2014, <https://www.rfc-editor.org/info/rfc7258>.
+              2014, <https://doi.org/10.17487/RFC7258>.
 
    [RFC7510]  Xu, X., Sheth, N., Yong, L., Callon, R., and D. Black,
               "Encapsulating MPLS in UDP", RFC 7510,
               DOI 10.17487/RFC7510, April 2015,
-              <https://www.rfc-editor.org/info/rfc7510>.
+              <https://doi.org/10.17487/RFC7510>.
 
    [RFC8033]  Pan, R., Natarajan, P., Baker, F., and G. White,
               "Proportional Integral Controller Enhanced (PIE): A
               Lightweight Control Scheme to Address the Bufferbloat
               Problem", RFC 8033, DOI 10.17487/RFC8033, February 2017,
-              <https://www.rfc-editor.org/info/rfc8033>.
+              <https://doi.org/10.17487/RFC8033>.
 
    [RFC8083]  Perkins, C. and V. Singh, "Multimedia Congestion Control:
               Circuit Breakers for Unicast RTP Sessions", RFC 8083,
               DOI 10.17487/RFC8083, March 2017,
-              <https://www.rfc-editor.org/info/rfc8083>.
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 26]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
+              <https://doi.org/10.17487/RFC8083>.
 
    [RFC8084]  Fairhurst, G., "Network Transport Circuit Breakers",
               BCP 208, RFC 8084, DOI 10.17487/RFC8084, March 2017,
-              <https://www.rfc-editor.org/info/rfc8084>.
+              <https://doi.org/10.17487/RFC8084>.
 
    [RFC8085]  Eggert, L., Fairhurst, G., and G. Shepherd, "UDP Usage
               Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
-              March 2017, <https://www.rfc-editor.org/info/rfc8085>.
+              March 2017, <https://doi.org/10.17487/RFC8085>.
 
    [RFC8216]  Pantos, R., Ed. and W. May, "HTTP Live Streaming",
               RFC 8216, DOI 10.17487/RFC8216, August 2017,
-              <https://www.rfc-editor.org/info/rfc8216>.
+              <https://doi.org/10.17487/RFC8216>.
 
    [RFC8312]  Rhee, I., Xu, L., Ha, S., Zimmermann, A., Eggert, L., and
               R. Scheffenegger, "CUBIC for Fast Long-Distance Networks",
               RFC 8312, DOI 10.17487/RFC8312, February 2018,
-              <https://www.rfc-editor.org/info/rfc8312>.
+              <https://doi.org/10.17487/RFC8312>.
 
    [RFC8622]  Bless, R., "A Lower-Effort Per-Hop Behavior (LE PHB) for
               Differentiated Services", RFC 8622, DOI 10.17487/RFC8622,
-              June 2019, <https://www.rfc-editor.org/info/rfc8622>.
+              June 2019, <https://doi.org/10.17487/RFC8622>.
 
-   [RFC8723]  "*** BROKEN REFERENCE ***".
+   [RFC8723]  Jennings, C., Jones, P., Barnes, R., and A.B. Roach,
+              "Double Encryption Procedures for the Secure Real-Time
+              Transport Protocol (SRTP)", RFC 8723,
+              DOI 10.17487/RFC8723, April 2020,
+              <https://doi.org/10.17487/RFC8723>.
 
    [RFC8825]  Alvestrand, H., "Overview: Real-Time Protocols for
               Browser-Based Applications", RFC 8825,
               DOI 10.17487/RFC8825, January 2021,
-              <https://www.rfc-editor.org/info/rfc8825>.
+              <https://doi.org/10.17487/RFC8825>.
 
    [SFRAME]   "Secure Media Frames Working Group (Home Page)", n.d.,
               <https://datatracker.ietf.org/doc/charter-ietf-sframe/>.
@@ -1505,15 +1285,6 @@ Authors' Addresses
    Email: jakeholland.net@gmail.com
 
 
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 27]
-
-Internet-Draft             Media Streaming Ops                  May 2021
-
-
    Ali Begen
    Networked Media
    Turkey
@@ -1526,43 +1297,3 @@ Internet-Draft             Media Streaming Ops                  May 2021
    United States of America
 
    Email: spencerdawkins.ietf@gmail.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Holland, et al.         Expires 26 November 2021               [Page 28]
