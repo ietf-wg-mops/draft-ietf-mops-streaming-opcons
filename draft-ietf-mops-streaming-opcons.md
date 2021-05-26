@@ -72,11 +72,11 @@ informative:
       - ins: Abdelhak Bentaleb et al.
     date: 2019
   MSOD:
-    title: "Media Services On Demand: Encoder Best Practices"
+    title: "HLS Authoring Specification for Apple Devices"
     author:
-      - ins: "Akamai Technologies, Inc."
-    target: https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html
-    date: 2019
+      - ins: "Apple, Inc."
+    target: https://developer.apple.com/documentation/http_live_streaming/hls_authoring_specification_for_apple_devices
+    date: 2020
   Mishra:
     title: "An update on Streaming Video Alliance"
     author:
@@ -345,39 +345,16 @@ Presentations:
 
 ###Video Bitrates
 
-Video bitrate selection depends on many variables.  Different
-providers give different guidelines, but an equation that
-approximately matches the bandwidth requirement estimates
-from several video providers is given in {{MSOD}}:
+Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate. 
 
-~~~
-Kbps = (HEIGHT * WIDTH * FRAME_RATE) / (MOTION_FACTOR * 1024)
-~~~
+Here are a few common resolutions used for video content, with typical ranges of bitrae for the two most popular video codecs {{apple-encoding}}.
 
-Height and width are in pixels, frame rate is in frames per second, and
-the motion factor is a value that ranges from 20 for a low-motion talking
-heads video to 7 for sports, and content with a lot of screen changes.
-
-The motion factor captures the variability in bitrate due to the amount
-and frequency of high-detail motion, which generally influences the
-compressability of the content.
-
-The exact bitrate required for a particular video also depends on a
-number of specifics about the codec used and how the codec-specific
-tuning parameters are matched to the content, but this equation provides
-a rough estimate that approximates the usual bitrate characteristics using
-the most common codecs and settings for production traffic.
-
-Here are a few common resolutions used for video content, with their
-typical and peak per-user bandwidth requirements for 60 frames per
-second (FPS):
-
-| Name | Width x Height | Typical | Peak
+| Name | Width x Height | AVC | HEVC
 | -----+----------------+-------------------------------
-| DVD |  720 x 480 | 1.3 Mbps | 3 Mbps
-| 720p (1K) | 1280 x 720 | 3.6 Mbps | 5 Mbps
-| 1080p (2K) | 1920 x 1080 | 8.1 Mbps | 18 Mbps
-| 2160p (4k) | 3840 x 2160 | 32 Mbps | 70 Mbps
+| DVD |  720 x 480 | 1.0 Mbps | 0.5 Mbps
+| 720p (1K) | 1280 x 720 | 3-4.5 Mbps | 2-4 Mbps
+| 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
+| 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
 ###Virtual Reality Bitrates
 
