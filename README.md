@@ -6,7 +6,7 @@ This is the working area for the IETF [MOPS](https://datatracker.ietf.org/group/
 
  * [Editor's Copy](https://htmlpreview.github.io/?https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/blob/gh-pages/draft-ietf-mops-streaming-opcons.html)
  * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-mops-streaming-opcons)
- * [Compare Editor's Copy to WG Draft](https://tools.ietf.org/rfcdiff?url1=draft-ietf-mops-streaming-opcons&url2=https://raw.githubusercontent.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/gh-pages/master/draft-ietf-mops-streaming-opcons.txt)
+ * [Compare Editor's Copy to WG Draft](https://tools.ietf.org/rfcdiff?url1=draft-ietf-mops-streaming-opcons&url2=https://raw.githubusercontent.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/master/draft-ietf-mops-streaming-opcons.txt)
 
 ## Building the Draft
 
@@ -23,4 +23,4 @@ This requires that you have the necessary software installed.  See
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/GrumpyOldTroll/ietf-mops-drafts/blob/master/CONTRIBUTING.md).
+[guidelines for contributions](CONTRIBUTING.md).
