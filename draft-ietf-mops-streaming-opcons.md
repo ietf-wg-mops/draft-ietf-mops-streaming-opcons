@@ -123,7 +123,7 @@ informative:
 
   CTA-5004:
     title: Common Media Client Data (CMCD)
-    target: https://shop.cta.tech/products/web-application-video-ecosystem-common-media-client-data-cta-5005
+    target: https://shop.cta.tech/products/web-application-video-ecosystem-common-media-client-data-cta-5004
 
   Jacobson-Karels:
     title: Congestion Avoidance and Control
