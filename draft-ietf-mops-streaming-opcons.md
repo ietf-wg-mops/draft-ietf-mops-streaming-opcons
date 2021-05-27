@@ -53,12 +53,18 @@ informative:
     title: "MPEG Immersive Video Coding Standard"
     author: 
     - ins: J. M. Boyce et al.
+  MMSys11:
+    target: https://dl.acm.org/doi/10.1145/1943552.1943574
+    title: "An experimental evaluation of rate-adaptation algorithms in adaptive streaming over HTTP"
+    author:
+      - ins: Saamer Akhshabi et al.
+    date: Feb. 2011  
   NOSSDAV12:
     target: https://dl.acm.org/doi/10.1145/2229087.2229092
     title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
     author:
       - ins: Saamer Akhshabi et al.
-    date: June 2012  
+    date: June 2012 
   DASH:
     target: https://www.iso.org/standard/79329.html
     title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
@@ -503,7 +509,7 @@ segments has a few surprising consequences:
    this can produce a falsely low application-visible measurement
    of the available network capacity.
 
-A detailed investigation of this phenomenon is available in {{NOSSDAV12}}.
+How TCP slow-start restart can be avoided by the help of two simultaneous TCP connections is exemplified for Microsoft Smooth Streaming in {{MMSys11}}.
 
 ###Head-of-Line Blocking {#hol-blocking}
 
