@@ -75,6 +75,14 @@ informative:
     title: "Low-latency Modes for DASH"
     date: March 2020
     target: https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf  
+  CMAF-CTE:
+    title: "Ultra-Low-Latency Streaming Using Chunked-Encoded and ChunkedTransferred CMAF"
+    author:
+      -
+        name: Will Law
+        org: "Akamai Technologies, Inc."
+    date: October 2018
+    target: https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf    
   ABRSurvey:
     target: https://ieeexplore.ieee.org/abstract/document/8424813
     title: "A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"
@@ -233,10 +241,13 @@ informative:
   RFC8083:
   RFC8084:
   RFC6582:
+  RFC4733:
+  RFC6843:
   RFC8085:
   RFC8312:
   RFC8723:
   RFC8825:
+  
 
 --- abstract
 
@@ -354,11 +365,11 @@ Presentations:
 
 
 
-#Bandwidth Provisioning
+# Bandwidth Provisioning
 
-##Scaling Requirements for Media Delivery {#scaling}
+## Scaling Requirements for Media Delivery {#scaling}
 
-###Video Bitrates
+### Video Bitrates
 
 Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate. 
 
@@ -371,14 +382,14 @@ Here are a few common resolutions used for video content, with typical ranges of
 | 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
 | 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
-###Virtual Reality Bitrates
+### Virtual Reality Bitrates
 
 Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time. 
 
 In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.  
 
 
-##Path Requirements
+## Path Requirements
 
 The bitrate requirements in {{scaling}} are per end-user actively
 consuming a media feed, so in the worst case, the bitrate demands
@@ -402,7 +413,7 @@ To the extent that replication of popular content can be performed,
 bandwidth requirements at peering or ingest points can be reduced to
 as low as a per-feed requirement instead of a per-user requirement.
 
-##Caching Systems
+## Caching Systems
 
 When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests, is often useful (for example, HTTP/1.1 caching is described in {{RFC7234}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
 
@@ -412,7 +423,7 @@ Caching and pre-loading can also reduce exposure to peering point congestion, si
 
 All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}, {{sec-extreme}}).
 
-##Predictable Usage Profiles {#sec-predict}
+## Predictable Usage Profiles {#sec-predict}
 
 Historical data shows that users consume more video and videos at higher bitrates than they did in the past on their connected devices. Improvements in the codecs that help with reducing the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainment as well as conversational video.
 
@@ -425,7 +436,7 @@ here, but it seems worth making the point that demand projections can
 be used to help with e.g. power consumption with routing architectures
 that provide for modular scalability.
 
-##Unpredictable Usage Profiles {#sec-unpredict}
+## Unpredictable Usage Profiles {#sec-unpredict}
 
 Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become quite large. 
 
@@ -437,7 +448,7 @@ The combination of the large volume of "torrents" and the peer-to-peer character
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content. 
 
-##Extremely Unpredictable Usage Profiles {#sec-extreme}
+## Extremely Unpredictable Usage Profiles {#sec-extreme}
 
 The causes of unpredictable usage described in {{sec-unpredict}} were more or less the result of human choices, but we were reminded during a post-IETF 107 meeting that humans are not always in control, and forces of nature can cause enormous fluctuations in traffic patterns.
 
@@ -464,11 +475,62 @@ Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impa
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games. 
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
-#Adaptive Encoding, Adaptive Delivery, and Measurement Collection
+# Latency Considerations
 
-#Adaptive Bitrate {#sec-abr}
+Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes video encoding/decoding and buffering time, and for most cases also ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
 
-##Overview
+Streaming media can be usefully categorized according to the application's latency requirements into a few rough categories:
+
+  * ultra low-latency    (less than 1 second)
+  * low-latency live     (less than 10 seconds)
+  * non-low-latency live (10 seconds to a few minutes)
+  * on-demand            (hours or more)
+
+## Ultra Low-Latency
+
+Ultra low-latency delivery of media is defined here as having a glass-to-glass delay target under one second.
+
+This level of latency is sometimes necessary for real-time interactive applications such as video conferencing, operation of remote control devices or vehicles, or remotely hosted real-time gaming systems.  Some media content providers aim to achieve this level of latency for live media events involving sports, but have usually so far been unsuccessful over the internet at scale, though it is often possible within a localized environment with a controlled network, such as inside a specific venue connected to the event.  Applications operating in this domain that encounter transient network events such as loss or reordering of some packets often experience user-visible artifacts in the media.
+
+Applications requiring ultra low latency for media delivery are usually tightly constrained on the available choices for media transport technologies, and sometimes may need to operate in controlled environments to reliably achieve their latency and quality goals.
+
+Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}{{WEBRTC}}, which uses RTP for the media transport as well as several other protocols necessary for safe operation in browsers.
+
+Worth noting is that many applications for ultra low-latency delivery do not need to scale to more than one user at a time, which simplifies many delivery considerations relative to other use cases.  For applications that need to replicate streams to multiple users, especially at a scale exceeding tens of users, this level of latency has historically been nearly impossible to achieve except with the use of multicast or planned provisioning in controlled networks.
+
+Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
+
+Applications with further-specialized latency requirements are out of scope for this document.
+
+## Low-Latency Live
+
+Low-latency live delivery of media is defined here as having a glass-to-glass delay target under 10 seconds.
+
+This level of latency is targeted to have a user experience similar to traditional broadcast TV delivery.  A frequently cited problem with failing to achieve this level of latency for live sporting events is the user experience failure from having crowds within earshot of one another who react audibly to an important play, or from users who learn of an event in the match via some other channel, for example social media, before it has happened on the screen showing the sporting event.
+
+Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what's feasible in a higher latency service. The tradeoffs may include higher costs, or delivering a lower quality video, or reduced flexibility for adaptive bitrates, or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
+
+Implementation of a low-latency live video service can be achieved with the use of specialized low-latency profiles of HLS {{I-D.draft-pantos-hls-rfc8216bis-09}} and DASH {{LL-DASH}}. For lower values of latency in the "low-latency live" category, it is also necessary to use the Common Media Application Format (CMAF) with chunked transfer encoding {{CMAF-CTE}}, and supporting features are required both from the CDN or video delivery service and from the client-side players.
+
+## Non-Low-Latency Live
+
+Non-low-latency live delivery of media is defined here as a live stream that does not have a latency target shorter than 10 seconds.
+
+This level of latency is the historically common case for segmented video delivery using HLS {{RFC8216}} and DASH {{DASH}}. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
+
+This level of latency can typically be achieved at scale with commodity CDN services for HTTP(s) delivery, and in some cases the increased time window can allow for production of a wider range of encoding options relative to the requirements for a lower latency service without the need for increasing the hardware footprint, which can allow for wider device interoperability.
+
+## On-Demand
+
+On-Demand media streaming refers to playback of pre-recorded media based on a user's action.  In some cases on-demand media is produced as a by-product of a live media production, using the same segments as the live event, but freezing the manifest after the live event has finished.  In other cases, on-demand media is constructed out of pre-recorded assets with no streaming necessarily involved during the production of the on-demand content.
+
+On-demand media generally is not subject to latency concerns, but other timing-related considerations can still be as important or even more important to the user experience than the same considerations with live events.  These considerations include the startup time, the stability of the media stream's playback quality, and avoidance of stalls and video artifacts during the playback under all but the most severe network conditions.
+
+In some applications, optimizations are available to on-demand video that are not always available to live events, such as pre-loading the first segment for a startup time that doesn't have to wait for a network download to begin.
+
+# Adaptive Encoding, Adaptive Delivery, and Measurement Collection {#sec-abr}
+
+## Overview
 
 Adaptive BitRate (ABR) is a sort of application-level
 response strategy in which the streaming client attempts to
@@ -477,7 +539,7 @@ then chooses a bitrate for each of the video, audio, subtitles and metadata (amo
 typically adjusting as changes in available bandwidth occur in
 the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
-##Adaptive Encoding {#adapt-encode}
+## Adaptive Encoding {#adapt-encode}
 
 Media servers can provide media streams at various bitrates because the media has been encoded at various bitrates. This is a so-called "ladder" of bitrates, that can be offered to media players as part of the manifest that describes the media being requested by the media player, so that the media player can select among the available bitrate choices.
 
@@ -485,7 +547,7 @@ The media server may also choose to alter which bitrates are made available to p
 
 In this way both the player, through its selection of bitrate to request from the manifest, and the server, through its construction of the bitrates offered in the manifest, are able to affect network utilization.
 
-##Adaptive Segmented Delivery {#adapt-deliver}
+## Adaptive Segmented Delivery {#adapt-deliver}
 
 ABR playback is commonly implemented by streaming clients using HLS
 {{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
@@ -502,7 +564,7 @@ video quality or lowest chances for a rebuffering event (playback stall).
 This kind of bandwidth-measurement system can experience trouble in
 several ways that can be affected by networking design choices. Because adaptive application-level response strategies are typically using application-level protocols, these mechanisms are affected by transport-level protocol behaviors, and the application-level feedback loop is interacting with a transport-level feedback loop, ase described in {{idle-time}} and {{hol-blocking}}.
 
-###Idle Time between Segments {#idle-time}
+### Idle Time between Segments {#idle-time}
 
 When the bitrate selection is successfully chosen below the
 available capacity of the network path, the response to a
@@ -520,7 +582,7 @@ segments has a few surprising consequences:
 
 How TCP slow-start restart can be avoided by the help of two simultaneous TCP connections is exemplified for Microsoft Smooth Streaming in {{MMSys11}}. For some use cases, the system-level TCP slow-start restart flag can be disabled {{oreilly-tcpblocks}}.
 
-###Head-of-Line Blocking {#hol-blocking}
+### Head-of-Line Blocking {#hol-blocking}
 
 In the event of a lost packet on a TCP connection with SACK
 support (a common case for segmented delivery in practice), loss
@@ -544,11 +606,11 @@ backoff in flows that use Explicit Congestion Notification-capable
 transport, but by avoiding loss avoids inducing head-of-line blocking
 effects in TCP connections.
 
-##Measurement  Collection {#measure-coll}
+## Measurement Collection {#measure-coll}
 
 In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers. {{Conviva}} is an example of one such measurement collection system in use today. 
 
-##Unreliable Transport {#unreliable}
+## Unreliable Transport {#unreliable}
 
 In contrast to segmented delivery, several applications use UDP or
 unreliable SCTP to deliver RTP or raw TS-formatted video.
@@ -566,7 +628,7 @@ unresponsive to using feedback signaling to change encoder settings
 {{RFC6190}}), to proprietary methods for detecting quality of
 experience issues and cutting off video.
 
-#Evolution of Transport Protocols and Transport Protocol Behaviors
+# Evolution of Transport Protocols and Transport Protocol Behaviors
 
 **Note to Reviewers^^ - this section includes some material that may be tutorial for some readers. We can decide how to say that, if the tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless you participated in the QUIC working group. 
 
@@ -621,7 +683,7 @@ It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traf
 
 More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
-#Streaming Encrypted Media
+# Streaming Encrypted Media
 
 "Encrypted Media" has at least three meanings:
 
@@ -637,7 +699,7 @@ In this document, we will focus on media encrypted at the transport layer, wheth
 
 Both "End-to-End" and "Hop-by-Hop" media encryption have implications for streaming operators.
  
-##General Considerations for Media Encryption
+## General Considerations for Media Encryption
  
 The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either an intermediary or the ultimate media consumer, and this does prevent Deep Packet Inspection by any intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An intermediary that can identify an encrypted media stream without decrypting it, may be able to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. This protection can be lessened if a media provider is repeatedly encrypting the same content. {{codaspy}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. 
 
@@ -645,7 +707,7 @@ If traffic analysis is successful at identifying encrypted content and associati
 
 Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{I-D.ietf-quic-transport}} as its transport layer. QUIC relies only on the TLS 1.3 initial handshake for key exchange {{I-D.ietf-quic-tls}}, and encrypts almost all transport parameters, with the exception of a few invariant fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the destination connection ID {{I-D.ietf-quic-invariants}}. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2. 
 
-##Considerations for "Hop-by-Hop" Media Encryption
+## Considerations for "Hop-by-Hop" Media Encryption
  
 Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries. 
 
@@ -663,21 +725,21 @@ Assuming that a content provider does intend to allow intermediaries to particip
 
 If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
-##Considerations for "End-to-End" Media Encryption
+## Considerations for "End-to-End" Media Encryption
  
 "End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed. 
  
 "End-to-end" media encryption became much more widespread in the years since {{RFC7258}} was issued, which identified pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
  
-#IANA Considerations
+# IANA Considerations
 
 This document requires no actions from IANA.
 
-#Security Considerations
+# Security Considerations
 
 This document introduces no new security issues.
 
-#Acknowledgments
+# Acknowledgments
 
 Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard, and Mike English for their very helpful reviews and comments.
 
