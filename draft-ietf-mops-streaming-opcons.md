@@ -65,18 +65,18 @@ informative:
     author:
       - ins: Saamer Akhshabi et al.
     date: June 2012 
-  DASH:
-    target: https://www.iso.org/standard/79329.html
-    title: "Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"
-    seriesinfo:
-      "ISO/IEC": 23009-1:2019
-    date: 2019
+  MMSP20:
+    target: http://dx.doi.org/10.1109/MMSP48831.2020.9287117
+    title: "Evaluating the performance of Apple's low-latency HLS"
+    author:
+      - ins: Kerem Durak et al.
+    date: Sept. 2020 
   LL-DASH:
     title: "Low-latency Modes for DASH"
     date: March 2020
     target: https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf  
   CMAF-CTE:
-    title: "Ultra-Low-Latency Streaming Using Chunked-Encoded and ChunkedTransferred CMAF"
+    title: "Ultra-Low-Latency Streaming Using Chunked-Encoded and Chunked Transferred CMAF"
     author:
       -
         name: Will Law
@@ -134,11 +134,6 @@ informative:
         ins:  C. Perkins
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
-
-  Conviva:
-    title: Conviva Insights Portfolio Data Sheet
-    target: http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf
-    date: Retrieved May 18, 2021
 
   oreilly-tcpblocks:
     title: High Performance Browser Networking (Chapter 2: Building Blocks of TCP)
@@ -205,23 +200,33 @@ informative:
     target: https://dl.acm.org/doi/10.1145/3029806.3029821
     date: March 2017
 
+  DASH:
+    target: https://www.iso.org/standard/79329.html
+    title: ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP (DASH) — Part 1: Media presentation description and segment formats
+    date: 2019-12
+
   DASH-SAND:
-    title: Dynamic adaptive streaming over HTTP (DASH) — Part 5 - Server and network assisted DASH (SAND)
+    title: ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP (DASH) — Part 5: Server and network assisted DASH (SAND)
     target: https://www.iso.org/standard/69079.html
     date: 2017-02
+
+  CMAF:
+    title: ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) — Part 19: Common media application format (CMAF) for segmented media
+    target: https://www.iso.org/standard/79106.html
+    date: 2020-03
 
   SFRAME:
     target: https://datatracker.ietf.org/doc/charter-ietf-sframe/
     title: "Secure Media Frames Working Group (Home Page)"
-
-  I-D.ietf-quic-transport:
-  I-D.ietf-quic-recovery:
+  
   I-D.ietf-quic-http:
-  I-D.ietf-quic-tls:
-  I-D.ietf-quic-invariants:
   I-D.ietf-quic-manageability:
   I-D.cardwell-iccrg-bbr-congestion-control:
 
+  RFC8999;
+  RFC9000;
+  RFC9001;
+  RFC9002;
   RFC0793:
   RFC2001:
   RFC2309:
@@ -510,7 +515,9 @@ This level of latency is targeted to have a user experience similar to tradition
 
 Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what's feasible in a higher latency service. The tradeoffs may include higher costs, or delivering a lower quality video, or reduced flexibility for adaptive bitrates, or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
 
-Implementation of a low-latency live video service can be achieved with the use of specialized low-latency profiles of HLS {{I-D.draft-pantos-hls-rfc8216bis-09}} and DASH {{LL-DASH}}. For lower values of latency in the "low-latency live" category, it is also necessary to use the Common Media Application Format (CMAF) with chunked transfer encoding {{CMAF-CTE}}, and supporting features are required both from the CDN or video delivery service and from the client-side players.
+Implementation of a low-latency live video service can be achieved with the use of low-latency extensions of HLS (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis-09}} and DASH (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, shorter segments means more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
+
+While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an LL-DASH client uses the chunked transfer encoding feature of the HTTP {{CMAF-CTE}} which allows the LL-DASH client to fetch all the chunks belonging to a segment with a single GET request. An HTTP server can transmit the CMAF chunks to the LL-DASH client as they arrive from the encoder/packager. A detailed comparison of LL-HLS and LL-DASH is given in {{MMSP20}}.
 
 ## Non-Low-Latency Live
 
@@ -636,7 +643,7 @@ Because networking resources are shared between users, a good place to start our
 
 As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics. 
 
-For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{I-D.ietf-quic-transport}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols. 
+For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{RFC9000}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols. 
 
 For this reason, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve over time. 
 
@@ -665,7 +672,7 @@ Although TCP protocol behavior has changed over time, the common practice of imp
 
 ## The QUIC Protocol and Its Behavior
 
-The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{I-D.ietf-quic-transport}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads. 
+The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{RFC9000}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads. 
 
 Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks.
 
@@ -673,7 +680,7 @@ While QUIC is designed as a general-purpose transport protocol, and can carry di
 
 When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. Since earlier versions of HTTP(S) rely on TCP, UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and HTTP/3 can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
 
-As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{I-D.ietf-quic-recovery}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
+As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
 
 We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in {{tcp-behavior}} about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC with applications.
 
@@ -705,7 +712,7 @@ The use of strong encryption does provide confidentiality for encrypted streamin
 
 If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining decrypted traffic. 
 
-Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{I-D.ietf-quic-transport}} as its transport layer. QUIC relies only on the TLS 1.3 initial handshake for key exchange {{I-D.ietf-quic-tls}}, and encrypts almost all transport parameters, with the exception of a few invariant fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the destination connection ID {{I-D.ietf-quic-invariants}}. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2. 
+Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies only on the TLS 1.3 initial handshake for key exchange {{RFC9001}}, and encrypts almost all transport parameters, with the exception of a few invariant fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the destination connection ID {{RFC8999}}. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2. 
 
 ## Considerations for "Hop-by-Hop" Media Encryption
  
