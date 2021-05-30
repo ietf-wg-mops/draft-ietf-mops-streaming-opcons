@@ -128,6 +128,11 @@ informative:
     target: http://na-ab44.marketo.com/rs/138-XJA-134/images/DS_Conviva_Insights_Portfolio.pdf
     date: Retrieved May 18, 2021
 
+  oreilly-tcpblocks:
+    title: High Performance Browser Networking (Chapter 2: Building Blocks of TCP)
+    target: https://hpbn.co/building-blocks-of-tcp/
+    date: Retrieved May 18, 2021
+
   Jacobson-Karels:
     title: Congestion Avoidance and Control
     target: https://ee.lbl.gov/papers/congavoid.pdf
@@ -503,13 +508,13 @@ segments has a few surprising consequences:
 
  * Mobile flow-bandwidth spectrum and timing mapping.
 
- * TCP slow-start when restarting after idle requires multiple
+ * TCP slow-start when restarting after some idle time requires multiple
    RTTs to re-establish a throughput at the network's available
    capacity. On high-RTT paths or with small enough segments,
    this can produce a falsely low application-visible measurement
-   of the available network capacity.
+   of the available network capacity. 
 
-How TCP slow-start restart can be avoided by the help of two simultaneous TCP connections is exemplified for Microsoft Smooth Streaming in {{MMSys11}}.
+How TCP slow-start restart can be avoided by the help of two simultaneous TCP connections is exemplified for Microsoft Smooth Streaming in {{MMSys11}}. For some use cases, the system-level TCP slow-start restart flag can be disabled {{oreilly-tcpblocks}}.
 
 ###Head-of-Line Blocking {#hol-blocking}
 
