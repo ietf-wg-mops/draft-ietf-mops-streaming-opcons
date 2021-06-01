@@ -59,12 +59,7 @@ informative:
     author:
       - ins: Saamer Akhshabi et al.
     date: Feb. 2011  
-  NOSSDAV12:
-    target: https://dl.acm.org/doi/10.1145/2229087.2229092
-    title: "What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"
-    author:
-      - ins: Saamer Akhshabi et al.
-    date: June 2012 
+
   MMSP20:
     target: http://dx.doi.org/10.1109/MMSP48831.2020.9287117
     title: "Evaluating the performance of Apple's low-latency HLS"
@@ -134,6 +129,14 @@ informative:
         ins:  C. Perkins
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
+    
+  CTA-2066:
+    title: Streaming Quality of Experience Events, Properties and Metrics
+    target: https://shop.cta.tech/products/streaming-quality-of-experience-events-properties-and-metrics
+
+  CTA-5004:
+    title: Common Media Client Data (CMCD)
+    target: https://shop.cta.tech/products/web-application-video-ecosystem-common-media-client-data-cta-5004
 
   ELASTIC:
     title: "ELASTIC: A client-side controller for dynamic adaptive streaming over HTTP (DASH)"
@@ -212,16 +215,16 @@ informative:
 
   DASH:
     target: https://www.iso.org/standard/79329.html
-    title: "ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP (DASH) — Part 1: Media presentation description and segment formats"
+    title: "ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP (DASH) - Part 1: Media presentation description and segment formats"
     date: 2019-12
 
   DASH-SAND:
-    title: "ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP (DASH) — Part 5: Server and network assisted DASH (SAND)"
+    title: "ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP (DASH) - Part 5: Server and network assisted DASH (SAND)"
     target: https://www.iso.org/standard/69079.html
     date: 2017-02
 
   CMAF:
-    title: "ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) — Part 19: Common media application format (CMAF) for segmented media"
+    title: "ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) - Part 19: Common media application format (CMAF) for segmented media"
     target: https://www.iso.org/standard/79106.html
     date: 2020-03
 
@@ -270,7 +273,7 @@ informative:
 
 This document provides an overview of operational networking issues
 that pertain to quality of experience in streaming of video and other
-high-bitrate media over the internet.
+high-bitrate media over the Internet.
 
 --- middle
 
@@ -494,7 +497,7 @@ Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impa
 
 # Latency Considerations
 
-Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes video encoding/decoding and buffering time, and for most cases also ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
+Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurrence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes video encoding/decoding and buffering time, and for most cases also ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
 
 Streaming media can be usefully categorized according to the application's latency requirements into a few rough categories:
 
@@ -581,7 +584,7 @@ some metric monitored by the client, such as highest achievable
 video quality or lowest chances for a rebuffering event (playback stall).
 
 This kind of bandwidth-measurement system can experience trouble in
-several ways that can be affected by networking design choices. Because adaptive application-level response strategies are typically using application-level protocols, these mechanisms are affected by transport-level protocol behaviors, and the application-level feedback loop is interacting with a transport-level feedback loop, ase described in {{idle-time}} and {{hol-blocking}}.
+several ways that can be affected by networking design choices. Because adaptive application-level response strategies are typically using application-level protocols, these mechanisms are affected by transport-level protocol behaviors, and the application-level feedback loop is interacting with a transport-level feedback loop, as described in {{idle-time}} and {{hol-blocking}}.
 
 ### Idle Time between Segments {#idle-time}
 
@@ -620,6 +623,16 @@ effects in TCP connections.
 ## Measurement Collection {#measure-coll}
 
 In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.
+
+In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers. To that effect, the Consumer Technology Association (CTA) who owns the Web Application Video Ecosystem (WAVE) project has published two important specifications.
+
+###CTA-2066: Streaming Quality of Experience Events, Properties and Metrics
+
+{{CTA-2066}} specifies a set of media player events, properties, quality of experience (QoE) metrics and associated terminology for representing streaming media quality of experience across systems, media players and analytics vendors. While all these events, properties, metrics and associated terminology is used across a number of proprietary analytics and measurement solutions, they were used in slightly (or vastly) different ways that led to interoperability issues. CTA-2066 attempts to address this issue by defining a common terminology as well as how each metric should be computed for consistent reporting.
+
+###CTA-5004: Common Media Client Data (CMCD)
+
+Many assumes that the CDNs have a holistic view into the health and performance of the streaming clients. However, this is not the case. The CDNs produce millions of log lines per second across hundreds of thousands of clients and they have no concept of a "session" as a client would have, so CDNs are decoupled from the metrics the clients generate and report. A CDN cannot tell which request belongs to which playback session, the duration of any media object, the bitrate, or whether any of the clients have stalled and are rebuffering or are about to stall and will rebuffer. The consequence of this decoupling is that a CDN cannot prioritize delivery for when the client needs it most, prefetch content, or trigger alerts when the network itself may be underperforming. One approach to couple the CDN to the playback sessions is for the clients to communicate standardized media-relevant information to the CDNs while they are fetching data. {{CTA-5004}} was developed exactly for this purpose.
 
 ## Unreliable Transport {#unreliable}
 
