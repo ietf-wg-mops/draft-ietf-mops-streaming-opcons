@@ -1,4 +1,6 @@
 *.redxml
+*.txt
+*.html
 *.pdf
 *.upload
 .tags

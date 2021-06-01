@@ -239,7 +239,7 @@ informative:
 
   RFC0793:
   RFC2001:
-  RFC2309:
+  RFC7567:
   RFC3135:
   RFC3168:
   RFC3550:
@@ -613,7 +613,7 @@ available network bandwidth, this appears as a high jitter in
 the goodput measurement.
 
 Active Queue Management (AQM) systems such as PIE {{RFC8033}} or
-variants of RED {{RFC2309}} that induce early random loss under
+variants of RED {{RFC7567}} that induce early random loss under
 congestion can mitigate this by using ECN {{RFC3168}} where
 available.  ECN provides a congestion signal and induce a similar
 backoff in flows that use Explicit Congestion Notification-capable
