@@ -146,7 +146,7 @@ informative:
     date: December 23, 2013
 
   oreilly-tcpblocks:
-    title: High Performance Browser Networking (Chapter 2: Building Blocks of TCP)
+    title: "High Performance Browser Networking (Chapter 2: Building Blocks of TCP)"
     target: https://hpbn.co/building-blocks-of-tcp/
     date: Retrieved May 18, 2021
 
@@ -212,16 +212,16 @@ informative:
 
   DASH:
     target: https://www.iso.org/standard/79329.html
-    title: ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP (DASH) — Part 1: Media presentation description and segment formats
+    title: "ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP (DASH) — Part 1: Media presentation description and segment formats"
     date: 2019-12
 
   DASH-SAND:
-    title: ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP (DASH) — Part 5: Server and network assisted DASH (SAND)
+    title: "ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP (DASH) — Part 5: Server and network assisted DASH (SAND)"
     target: https://www.iso.org/standard/69079.html
     date: 2017-02
 
   CMAF:
-    title: ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) — Part 19: Common media application format (CMAF) for segmented media
+    title: "ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) — Part 19: Common media application format (CMAF) for segmented media"
     target: https://www.iso.org/standard/79106.html
     date: 2020-03
 
@@ -232,11 +232,8 @@ informative:
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.cardwell-iccrg-bbr-congestion-control:
+  I-D.draft-pantos-hls-rfc8216bis:
 
-  RFC8999;
-  RFC9000;
-  RFC9001;
-  RFC9002;
   RFC0793:
   RFC2001:
   RFC2309:
@@ -254,6 +251,7 @@ informative:
   RFC7661:
   RFC7258:
   RFC7510:
+  RFC7656:
   RFC8083:
   RFC8084:
   RFC6582:
@@ -263,6 +261,10 @@ informative:
   RFC8312:
   RFC8723:
   RFC8825:
+  RFC8999:
+  RFC9000:
+  RFC9001:
+  RFC9002:
 
 --- abstract
 
@@ -388,7 +390,7 @@ Presentations:
 
 Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate. 
 
-Here are a few common resolutions used for video content, with typical ranges of bitrae for the two most popular video codecs {{apple-encoding}}.
+Here are a few common resolutions used for video content, with typical ranges of bitrae for the two most popular video codecs {{MSOD}}.
 
 | Name | Width x Height | AVC | HEVC
 | -----+----------------+-------------------------------
@@ -509,7 +511,7 @@ This level of latency is sometimes necessary for real-time interactive applicati
 
 Applications requiring ultra low latency for media delivery are usually tightly constrained on the available choices for media transport technologies, and sometimes may need to operate in controlled environments to reliably achieve their latency and quality goals.
 
-Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}{{WEBRTC}}, which uses RTP for the media transport as well as several other protocols necessary for safe operation in browsers.
+Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}, which uses RTP for the media transport as well as several other protocols necessary for safe operation in browsers.
 
 Worth noting is that many applications for ultra low-latency delivery do not need to scale to more than one user at a time, which simplifies many delivery considerations relative to other use cases.  For applications that need to replicate streams to multiple users, especially at a scale exceeding tens of users, this level of latency has historically been nearly impossible to achieve except with the use of multicast or planned provisioning in controlled networks.
 
@@ -525,7 +527,7 @@ This level of latency is targeted to have a user experience similar to tradition
 
 Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what's feasible in a higher latency service. The tradeoffs may include higher costs, or delivering a lower quality video, or reduced flexibility for adaptive bitrates, or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
 
-Implementation of a low-latency live video service can be achieved with the use of low-latency extensions of HLS (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis-09}} and DASH (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, shorter segments means more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
+Implementation of a low-latency live video service can be achieved with the use of low-latency extensions of HLS (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} and DASH (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, shorter segments means more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
 
 While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an LL-DASH client uses the chunked transfer encoding feature of the HTTP {{CMAF-CTE}} which allows the LL-DASH client to fetch all the chunks belonging to a segment with a single GET request. An HTTP server can transmit the CMAF chunks to the LL-DASH client as they arrive from the encoder/packager. A detailed comparison of LL-HLS and LL-DASH is given in {{MMSP20}}.
 
@@ -617,7 +619,7 @@ effects in TCP connections.
 
 ## Measurement Collection {#measure-coll}
 
-In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers. {{Conviva}} is an example of one such measurement collection system in use today. 
+In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.
 
 ## Unreliable Transport {#unreliable}
 
