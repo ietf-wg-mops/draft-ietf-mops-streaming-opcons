@@ -135,6 +135,16 @@ informative:
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     date: November 2020
 
+  ELASTIC:
+    title: "ELASTIC: A client-side controller for dynamic adaptive streaming over HTTP (DASH)"
+    author:
+      - ins: L. De Cicco
+      - ins: V. Caldaralo
+      - ins: V. Palmisano
+      - ins: S. Mascolo
+    target: https://ieeexplore.ieee.org/document/6691442
+    date: December 23, 2013
+
   oreilly-tcpblocks:
     title: "High Performance Browser Networking (Chapter 2: Building Blocks of TCP)"
     target: https://hpbn.co/building-blocks-of-tcp/
@@ -238,6 +248,7 @@ informative:
   RFC6817:
   RFC8622:
   RFC7234:
+  RFC7661:
   RFC7258:
   RFC7510:
   RFC7656:
@@ -254,7 +265,6 @@ informative:
   RFC9000:
   RFC9001:
   RFC9002:
-  
 
 --- abstract
 
@@ -575,21 +585,13 @@ several ways that can be affected by networking design choices. Because adaptive
 
 ### Idle Time between Segments {#idle-time}
 
-When the bitrate selection is successfully chosen below the
-available capacity of the network path, the response to a
-segment request will typically complete in less absolute time than the
-duration of the requested segment. The resulting idle time within the connection carrying the
-segments has a few surprising consequences:
+When the bitrate selection is chosen substantially below the available capacity of the network path, the response to a segment request will typically complete in much less absolute time than the duration of the requested segment, leaving significant idle time between segment downloads.  This can have a few surprising consequences:
 
- * Mobile flow-bandwidth spectrum and timing mapping.
+* TCP slow-start when restarting after idle requires multiple RTTs to re-establish a throughput at the network's available capacity.  When the active transmission time for segments is substantially shorter than the time between segments leaving an idle gap between segments that triggers a restart of TCP slow-start, the estimate of the successful download speed coming from the application-visible receive rate on the socket can thus end up much lower than the actual available network capacity, preventing a shift to the most appropriate bitrate.  {{RFC7661}} provides some mitigations for this effect at the TCP transport layer, for senders who anticipate a high incidence of this problem.
 
- * TCP slow-start when restarting after some idle time requires multiple
-   RTTs to re-establish a throughput at the network's available
-   capacity. On high-RTT paths or with small enough segments,
-   this can produce a falsely low application-visible measurement
-   of the available network capacity. 
+* Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks.  The carrier capacity assigned to a link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
 
-How TCP slow-start restart can be avoided by the help of two simultaneous TCP connections is exemplified for Microsoft Smooth Streaming in {{MMSys11}}. For some use cases, the system-level TCP slow-start restart flag can be disabled {{oreilly-tcpblocks}}.
+Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect. Another way to mitigate this effect is by the help of two simultaneous TCP connections is explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can be disabled {{oreilly-tcpblocks}}.
 
 ### Head-of-Line Blocking {#hol-blocking}
 
