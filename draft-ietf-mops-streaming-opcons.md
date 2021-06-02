@@ -59,7 +59,6 @@ informative:
     author:
       - ins: Saamer Akhshabi et al.
     date: Feb. 2011  
-
   MMSP20:
     target: http://dx.doi.org/10.1109/MMSP48831.2020.9287117
     title: "Evaluating the performance of Apple's low-latency HLS"
@@ -84,7 +83,7 @@ informative:
     author:
       - ins: Abdelhak Bentaleb et al.
     date: 2019
-  MSOD:
+  Encodings:
     title: "HLS Authoring Specification for Apple Devices"
     author:
       - ins: "Apple, Inc."
@@ -148,7 +147,7 @@ informative:
     target: https://ieeexplore.ieee.org/document/6691442
     date: December 23, 2013
 
-  oreilly-tcpblocks:
+  OReilly-HPBN:
     title: "High Performance Browser Networking (Chapter 2: Building Blocks of TCP)"
     target: https://hpbn.co/building-blocks-of-tcp/
     date: Retrieved May 18, 2021
@@ -165,7 +164,7 @@ informative:
         name: Mike Karels
         ins: M. Karels
 
-  COPA:
+  COPA18:
     title: "Copa: Practical Delay-Based Congestion Control for the Internet"
     target: https://web.mit.edu/copa/
     date: 2018
@@ -199,7 +198,7 @@ informative:
     target: https://datatracker.ietf.org/meeting/105/materials/minutes-105-tsvarea-00
     date: 2019
 
-  codaspy:
+  CODASPY17:
     title: "Identifying HTTPS-Protected Netflix Videos in Real-Time in CODASPY '17: Proceedings of the Seventh ACM on Conference on Data and Application Security and Privacy pp 361-368"
     author:
       - 
@@ -213,17 +212,17 @@ informative:
     target: https://dl.acm.org/doi/10.1145/3029806.3029821
     date: March 2017
 
-  DASH:
+  MPEG-DASH:
     target: https://www.iso.org/standard/79329.html
     title: "ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP (DASH) - Part 1: Media presentation description and segment formats"
     date: 2019-12
 
-  DASH-SAND:
+  MPEG-DASH-SAND:
     title: "ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP (DASH) - Part 5: Server and network assisted DASH (SAND)"
     target: https://www.iso.org/standard/69079.html
     date: 2017-02
 
-  CMAF:
+  MPEG-CMAF:
     title: "ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) - Part 19: Common media application format (CMAF) for segmented media"
     target: https://www.iso.org/standard/79106.html
     date: 2020-03
@@ -393,7 +392,7 @@ Presentations:
 
 Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate. 
 
-Here are a few common resolutions used for video content, with typical ranges of bitrae for the two most popular video codecs {{MSOD}}.
+Here are a few common resolutions used for video content, with typical ranges of bitrae for the two most popular video codecs {{Encodings}}.
 
 | Name | Width x Height | AVC | HEVC
 | -----+----------------+-------------------------------
@@ -530,7 +529,7 @@ This level of latency is targeted to have a user experience similar to tradition
 
 Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what's feasible in a higher latency service. The tradeoffs may include higher costs, or delivering a lower quality video, or reduced flexibility for adaptive bitrates, or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
 
-Implementation of a low-latency live video service can be achieved with the use of low-latency extensions of HLS (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} and DASH (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, shorter segments means more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
+Implementation of a low-latency live video service can be achieved with the use of low-latency extensions of HLS (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} and DASH (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{MPEG-CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, shorter segments means more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
 
 While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an LL-DASH client uses the chunked transfer encoding feature of the HTTP {{CMAF-CTE}} which allows the LL-DASH client to fetch all the chunks belonging to a segment with a single GET request. An HTTP server can transmit the CMAF chunks to the LL-DASH client as they arrive from the encoder/packager. A detailed comparison of LL-HLS and LL-DASH is given in {{MMSP20}}.
 
@@ -538,7 +537,7 @@ While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an
 
 Non-low-latency live delivery of media is defined here as a live stream that does not have a latency target shorter than 10 seconds.
 
-This level of latency is the historically common case for segmented video delivery using HLS {{RFC8216}} and DASH {{DASH}}. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
+This level of latency is the historically common case for segmented video delivery using HLS {{RFC8216}} and DASH {{MPEG-DASH}}. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
 
 This level of latency can typically be achieved at scale with commodity CDN services for HTTP(s) delivery, and in some cases the increased time window can allow for production of a wider range of encoding options relative to the requirements for a lower latency service without the need for increasing the hardware footprint, which can allow for wider device interoperability.
 
@@ -572,7 +571,7 @@ In this way both the player, through its selection of bitrate to request from th
 ## Adaptive Segmented Delivery {#adapt-deliver}
 
 ABR playback is commonly implemented by streaming clients using HLS
-{{RFC8216}} or DASH {{DASH}} to perform a reliable segmented delivery
+{{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery
 of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary
 algorithms (called rate adaptation or bitrate selection algorithms) to perform available
 bandwidth estimation/prediction and the bitrate selection. 
@@ -594,7 +593,7 @@ When the bitrate selection is chosen substantially below the available capacity 
 
 * Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks.  The carrier capacity assigned to a link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
 
-Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect. Another way to mitigate this effect is by the help of two simultaneous TCP connections is explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can be disabled {{oreilly-tcpblocks}}.
+Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect. Another way to mitigate this effect is by the help of two simultaneous TCP connections is explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can be disabled {{OReilly-HPBN}}.
 
 ### Head-of-Line Blocking {#hol-blocking}
 
@@ -658,7 +657,7 @@ experience issues and cutting off video.
 
 Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors. 
 
-As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics. 
+As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{MPEG-DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics. 
 
 For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{RFC9000}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols. 
 
@@ -683,7 +682,7 @@ For most of the history of the Internet, we have trusted the TCP protocol to lim
 
 The success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful. The Internet continued to work even when the specific mechanisms used to reach equilibrium changed over time. Because TCP provides a common tool to avoid contention, as some TCP-based applications like FTP were largely replaced by other TCP-based applications like HTTP, the transport behavior remained consistent. 
 
-In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly. 
+In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA18}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly. 
 
 Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term. 
 
@@ -725,7 +724,7 @@ Both "End-to-End" and "Hop-by-Hop" media encryption have implications for stream
  
 ## General Considerations for Media Encryption
  
-The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either an intermediary or the ultimate media consumer, and this does prevent Deep Packet Inspection by any intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An intermediary that can identify an encrypted media stream without decrypting it, may be able to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. This protection can be lessened if a media provider is repeatedly encrypting the same content. {{codaspy}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. 
+The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either an intermediary or the ultimate media consumer, and this does prevent Deep Packet Inspection by any intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An intermediary that can identify an encrypted media stream without decrypting it, may be able to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. This protection can be lessened if a media provider is repeatedly encrypting the same content. {{CODASPY17}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. 
 
 If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining decrypted traffic. 
 
@@ -743,7 +742,7 @@ If a content provider does not actively work to avoid interception by intermedia
 
 Assuming that a content provider does intend to allow intermediaries to participate in content streaming, and does intend to provide some level of privacy for endpoints, there are a number of possible tools, either already available or still being specified. These include
 
-* Server And Network assisted DASH {{DASH-SAND}} - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
+* Server And Network assisted DASH {{MPEG-DASH-SAND}} - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
 * "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees. 
 * Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP. 
 
