@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Operational Considerations for Streaming Media</title>
+<meta content="Jake Holland" name="author">
+<meta content="Ali Begen" name="author">
+<meta content="Spencer Dawkins" name="author">
+<meta content="
+       This document provides an overview of operational networking issues
+that pertain to quality of experience in delivery of video and other
+high-bitrate media over the internet. 
+    " name="description">
+<meta content="xml2rfc 2.39.0" name="generator">
+<meta content="Internet-Draft" name="keyword">
+<meta content="draft-ietf-mops-streaming-opcons-02" name="ietf.draft">
+<link href="draft-ietf-mops-streaming-opcons.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
+
+html {
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --small-font-size: 14.5px;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+#title {
+  padding: 1em 0 0.2em;
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 26px;
+}
+h4, h5, h6 {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 18px;
+  line-height: 24px;
+}
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+dd.break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href].selfRef {
+  color: var(--text-color);
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px 'Oxygen Mono', monospace;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  pre {
+    display: inline-block;
+    overflow-x: auto;
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  pre + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+  table {
+    display: inline-block;
+    overflow-x: auto;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  text-align: left;
+  background-color: #eee;
+}
+tr:nth-child(2n) > td {
+  background-color: var(--background-color);
+}
+tr:nth-child(2n+1) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody > tr:nth-child(2n) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody > tr:nth-child(2n+1) > td {
+  background-color: var(--background-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 1em;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  visibility: hidden;
+  user-select: none;
+}
+a.pilcrow[href] { color: #ddd; }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media screen {
+  :hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 8em;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  margin: 0;
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0 0 0 calc(1em + var(--identifier-width));
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 500px) {
+  .index ul {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  .index ul ul {
+    column-count: 1;
+    column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul p, #toc ul li {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left, table .text-left {
+  text-align: left;
+}
+table .text-center, table .text-center {
+  text-align: center;
+}
+table .text-right, table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Media Streaming Ops</td>
+<td class="right">July 2020</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Holland, et al.</td>
+<td class="center">Expires 13 January 2021</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">MOPS</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-mops-streaming-opcons-02</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2020-07-12" class="published">12 July 2020</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2021-01-13">13 January 2021</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">J. Holland</div>
+<div class="org">Akamai Technologies, Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">A. Begen</div>
+<div class="org">Networked Media</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Dawkins</div>
+<div class="org">Tencent America LLC</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Operational Considerations for Streaming Media</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document provides an overview of operational networking issues
+that pertain to quality of experience in delivery of video and other
+high-bitrate media over the internet.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 13 January 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2020 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Simplified BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1.2.1.2.1">
+                    <p id="section-toc.1-1.1.2.1.2.1.1"><a href="#section-1.1.1" class="xref">1.1.1</a>.  <a href="#name-venues-for-contribution-and" class="xref">Venues for Contribution and Discussion</a><a href="#section-toc.1-1.1.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1"><a href="#section-1.1.2" class="xref">1.1.2</a>.  <a href="#name-template-for-contributions" class="xref">Template for Contributions</a><a href="#section-toc.1-1.1.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.1.2.1.2.3">
+                    <p id="section-toc.1-1.1.2.1.2.3.1"><a href="#section-1.1.3" class="xref">1.1.3</a>.  <a href="#name-history-of-public-discussio" class="xref">History of Public Discussion</a><a href="#section-toc.1-1.1.2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-bandwidth-provisioning" class="xref">Bandwidth Provisioning</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-scaling-requirements-for-me" class="xref">Scaling Requirements for Media Delivery</a><a href="#section-toc.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-video-bitrates" class="xref">Video Bitrates</a><a href="#section-toc.1-1.2.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.1.2.2">
+                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-virtual-reality-bitrates" class="xref">Virtual Reality Bitrates</a><a href="#section-toc.1-1.2.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-path-requirements" class="xref">Path Requirements</a><a href="#section-toc.1-1.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-caching-systems" class="xref">Caching Systems</a><a href="#section-toc.1-1.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-predictable-usage-profiles" class="xref">Predictable Usage Profiles</a><a href="#section-toc.1-1.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.5">
+                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-unpredictable-usage-profile" class="xref">Unpredictable Usage Profiles</a><a href="#section-toc.1-1.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.6">
+                <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="xref">2.6</a>.  <a href="#name-extremely-unpredictable-usa" class="xref">Extremely Unpredictable Usage Profiles</a><a href="#section-toc.1-1.2.2.6.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-adaptive-bitrate" class="xref">Adaptive Bitrate</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-overview" class="xref">Overview</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-segmented-delivery" class="xref">Segmented Delivery</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.2.2.1">
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-idle-time-between-segments" class="xref">Idle Time between Segments</a><a href="#section-toc.1-1.3.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.2.2.2">
+                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="xref">3.2.2</a>.  <a href="#name-head-of-line-blocking" class="xref">Head-of-Line Blocking</a><a href="#section-toc.1-1.3.2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-unreliable-transport" class="xref">Unreliable Transport</a><a href="#section-toc.1-1.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</nav>
+</section>
+</div>
+<div id="intro">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">As the internet has grown, an increasingly large share of the traffic
+delivered to end users has become video.  Estimates
+put the total share of internet video traffic at 75% in 2019, expected
+to grow to 82% by 2022.  What's more, this estimate projects the
+gross volume of video traffic will more than double during this time,
+based on a compound annual growth rate continuing at 34% (from Appendix
+D of <span>[<a href="#CVNI" class="xref">CVNI</a>]</span>).<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">In many contexts, video traffic can be handled transparently as
+generic application-level traffic.  However, as the volume of
+video traffic continues to grow, it's becoming increasingly
+important to consider the effects of network design decisions
+on application-level performance, with considerations for
+the impact on video delivery.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document aims to provide a taxonomy of networking issues as
+they relate to quality of experience in internet video delivery.
+The focus is on capturing characteristics of video delivery that
+have surprised network designers or transport experts without
+specific video expertise, since these highlight key differences
+between common assumptions in existing networking documents and
+observations of video delivery issues in practice.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">Making specific recommendations for mitigating these issues
+is out of scope, though some existing mitigations are mentioned
+in passing.  The intent is to provide a point of reference for
+future solution proposals to use in describing how new
+technologies address or avoid these existing observed problems.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<div id="notes-for-contributors-and-reviewers">
+<section id="section-1.1">
+        <h3 id="name-notes-for-contributors-and-">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-notes-for-contributors-and-" class="section-name selfRef">Notes for Contributors and Reviewers</a>
+        </h3>
+<p id="section-1.1-1">Note to RFC Editor: Please remove this section and its subsections
+before publication.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">This section is to provide references to make it easier to review the
+development and discussion on the draft so far.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<div id="venue">
+<section id="section-1.1.1">
+          <h4 id="name-venues-for-contribution-and">
+<a href="#section-1.1.1" class="section-number selfRef">1.1.1. </a><a href="#name-venues-for-contribution-and" class="section-name selfRef">Venues for Contribution and Discussion</a>
+          </h4>
+<p id="section-1.1.1-1">This document is in the Github repository at:<a href="#section-1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-2">https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons<a href="#section-1.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-3">Readers are welcome to open issues and send pull requests for this document.<a href="#section-1.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-1.1.1-4">Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).<a href="#section-1.1.1-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1.1-5.1">Join: https://www.ietf.org/mailman/listinfo/mops<a href="#section-1.1.1-5.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.1-5.2">Search: https://mailarchive.ietf.org/arch/browse/mops/<a href="#section-1.1.1-5.2" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="template-for-contributions">
+<section id="section-1.1.2">
+          <h4 id="name-template-for-contributions">
+<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-template-for-contributions" class="section-name selfRef">Template for Contributions</a>
+          </h4>
+<p id="section-1.1.2-1">Contributions are solicited regarding issues and considerations
+that have an impact on media streaming operations.<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-2">Please note that contributions may be merged and substantially
+edited, and as a reminder, please carefully consider the Note Well
+before contributing: https://datatracker.ietf.org/submit/note-well/<a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-3">Contributions can be emailed to mops@ietf.org, submitted as issues
+to the issue tracker of the repository in <a href="#venue" class="xref">Section 1.1.1</a>, or emailed to the
+document authors at draft-ietf-mops-streaming-opcons@ietf.org.<a href="#section-1.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-4">Contributors describing an issue not yet addressed in the draft are
+requested to provide the following information, where applicable:<a href="#section-1.1.2-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1.2-5.1">a suggested title or name for the issue<a href="#section-1.1.2-5.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.2">a long-term pointer to the best reference describing the issue<a href="#section-1.1.2-5.2" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.3">
+              <p id="section-1.1.2-5.3.1">a short description of the nature of the issue and its impact on media quality of service, including:<a href="#section-1.1.2-5.3.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1.2-5.3.2.1">where in the network this issue has root causes<a href="#section-1.1.2-5.3.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.3.2.2">who can detect this issue when it occurs<a href="#section-1.1.2-5.3.2.2" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+<li id="section-1.1.2-5.4">an overview of the issue's known prevalence in practice.  pointers to write-ups of high-profile incidents are a plus.<a href="#section-1.1.2-5.4" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.5">
+              <p id="section-1.1.2-5.5.1">a list of known mitigation techniques, with (for each known mitigation):<a href="#section-1.1.2-5.5.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1.2-5.5.2.1">a name for the mitigation technique<a href="#section-1.1.2-5.5.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.5.2.2">a long-term pointer to the best reference describing it<a href="#section-1.1.2-5.5.2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.5.2.3">
+                  <p id="section-1.1.2-5.5.2.3.1">a short description of the technique:<a href="#section-1.1.2-5.5.2.3.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1.2-5.5.2.3.2.1">what it does<a href="#section-1.1.2-5.5.2.3.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.5.2.3.2.2">where in the network it operates<a href="#section-1.1.2-5.5.2.3.2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1.2-5.5.2.3.2.3">an overview of the tradeoffs involved-how and why it's helpful, what it costs.<a href="#section-1.1.2-5.5.2.3.2.3" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+<li id="section-1.1.2-5.5.2.4">supplemental information about the technique's deployment prevalence and status<a href="#section-1.1.2-5.5.2.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</div>
+<div id="history-of-public-discussion">
+<section id="section-1.1.3">
+          <h4 id="name-history-of-public-discussio">
+<a href="#section-1.1.3" class="section-number selfRef">1.1.3. </a><a href="#name-history-of-public-discussio" class="section-name selfRef">History of Public Discussion</a>
+          </h4>
+<p id="section-1.1.3-1">Presentations:<a href="#section-1.1.3-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1.3-2.1">
+              <p id="section-1.1.3-2.1.1">IETF 105 BOF:<a href="#section-1.1.3-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-1.1.3-2.1.2">
+https://www.youtube.com/watch?v=4G3YBVmn9Eo&amp;t=47m21s<a href="#section-1.1.3-2.1.2" class="pilcrow">¶</a></p>
+</li>
+<li id="section-1.1.3-2.2">
+              <p id="section-1.1.3-2.2.1">IETF 106 meeting:<a href="#section-1.1.3-2.2.1" class="pilcrow">¶</a></p>
+<p id="section-1.1.3-2.2.2">
+https://www.youtube.com/watch?v=4_k340xT2jM&amp;t=7m23s<a href="#section-1.1.3-2.2.2" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="bandwidth-provisioning">
+<section id="section-2">
+      <h2 id="name-bandwidth-provisioning">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-bandwidth-provisioning" class="section-name selfRef">Bandwidth Provisioning</a>
+      </h2>
+<div id="scaling">
+<section id="section-2.1">
+        <h3 id="name-scaling-requirements-for-me">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-scaling-requirements-for-me" class="section-name selfRef">Scaling Requirements for Media Delivery</a>
+        </h3>
+<div id="video-bitrates">
+<section id="section-2.1.1">
+          <h4 id="name-video-bitrates">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-video-bitrates" class="section-name selfRef">Video Bitrates</a>
+          </h4>
+<p id="section-2.1.1-1">Video bitrate selection depends on many variables.  Different
+providers give different guidelines, but an equation that
+approximately matches the bandwidth requirement estimates
+from several video providers is given in <span>[<a href="#MSOD" class="xref">MSOD</a>]</span>:<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-2.1.1-2">
+<pre>
+Kbps = (HEIGHT * WIDTH * FRAME_RATE) / (MOTION_FACTOR * 1024)
+</pre><a href="#section-2.1.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1.1-3">Height and width are in pixels, frame rate is in frames per second, and
+the motion factor is a value that ranges from 20 for a low-motion talking
+heads video to 7 for sports, and content with a lot of screen changes.<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-4">The motion factor captures the variability in bitrate due to the amount
+and frequency of high-detail motion, which generally influences the
+compressability of the content.<a href="#section-2.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-5">The exact bitrate required for a particular video also depends on a
+number of specifics about the codec used and how the codec-specific
+tuning parameters are matched to the content, but this equation provides
+a rough estimate that approximates the usual bitrate characteristics using
+the most common codecs and settings for production traffic.<a href="#section-2.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-6">Here are a few common resolutions used for video content, with their
+typical and peak per-user bandwidth requirements for 60 frames per
+second (FPS):<a href="#section-2.1.1-6" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+            <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+              <tr>
+                <th class="text-left" rowspan="1" colspan="1">Name</th>
+                <th class="text-left" rowspan="1" colspan="1">Width x Height</th>
+                <th class="text-left" rowspan="1" colspan="1">Typical</th>
+                <th class="text-left" rowspan="1" colspan="1">Peak</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">DVD</td>
+                <td class="text-left" rowspan="1" colspan="1">720 x 480</td>
+                <td class="text-left" rowspan="1" colspan="1">1.3 Mbps</td>
+                <td class="text-left" rowspan="1" colspan="1">3 Mbps</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">720p (1K)</td>
+                <td class="text-left" rowspan="1" colspan="1">1280 x 720</td>
+                <td class="text-left" rowspan="1" colspan="1">3.6 Mbps</td>
+                <td class="text-left" rowspan="1" colspan="1">5 Mbps</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">1080p (2K)</td>
+                <td class="text-left" rowspan="1" colspan="1">1920 x 1080</td>
+                <td class="text-left" rowspan="1" colspan="1">8.1 Mbps</td>
+                <td class="text-left" rowspan="1" colspan="1">18 Mbps</td>
+              </tr>
+              <tr>
+                <td class="text-left" rowspan="1" colspan="1">2160p (4k)</td>
+                <td class="text-left" rowspan="1" colspan="1">3840 x 2160</td>
+                <td class="text-left" rowspan="1" colspan="1">32 Mbps</td>
+                <td class="text-left" rowspan="1" colspan="1">70 Mbps</td>
+              </tr>
+            </tbody>
+          </table>
+</section>
+</div>
+<div id="virtual-reality-bitrates">
+<section id="section-2.1.2">
+          <h4 id="name-virtual-reality-bitrates">
+<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-virtual-reality-bitrates" class="section-name selfRef">Virtual Reality Bitrates</a>
+          </h4>
+<p id="section-2.1.2-1">Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-2">In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to <span>[<a href="#PCC" class="xref">PCC</a>]</span> for more details.<a href="#section-2.1.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="path-requirements">
+<section id="section-2.2">
+        <h3 id="name-path-requirements">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-path-requirements" class="section-name selfRef">Path Requirements</a>
+        </h3>
+<p id="section-2.2-1">The bitrate requirements in <a href="#scaling" class="xref">Section 2.1</a> are per end-user actively
+consuming a media feed, so in the worst case, the bitrate demands
+can be multiplied by the number of simultaneous users to find the
+bandwidth requirements for a router on the delivery path with that
+number of users downstream.  For example, at a node with 10,000
+downstream users simultaneously consuming video streams,
+approximately 80 Gbps would be necessary in order for all of them
+to get typical content at 1080p resolution at 60 fps, or up to
+180 Gbps to get sustained high-motion content such as sports,
+while maintaining the same resolution.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">However, when there is some overlap in the feeds being consumed by
+end users, it is sometimes possible to reduce the bandwidth
+provisioning requirements for the network by performing some kind
+of replication within the network.  This can be achieved via object
+caching with delivery of replicated objects over individual
+connections, and/or by packet-level replication using multicast.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">To the extent that replication of popular content can be performed,
+bandwidth requirements at peering or ingest points can be reduced to
+as low as a per-feed requirement instead of a per-user requirement.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="caching-systems">
+<section id="section-2.3">
+        <h3 id="name-caching-systems">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-caching-systems" class="section-name selfRef">Caching Systems</a>
+        </h3>
+<p id="section-2.3-1">TBD: pros, cons, tradeoffs of caching designs at different locations within
+the network?<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">Peak vs. average provisioning, and effects on peering point congestion
+under peak load?<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">Provisioning issues for caching systems?<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="predictable-usage-profiles">
+<section id="section-2.4">
+        <h3 id="name-predictable-usage-profiles">
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-predictable-usage-profiles" class="section-name selfRef">Predictable Usage Profiles</a>
+        </h3>
+<p id="section-2.4-1">Historical data shows that users consume more video and videos at higher bitrates than they did in the past on their connected devices. Improvements in the codecs that help with reducing the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainement as well as conversational video.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-2">TBD: insert charts showing historical relative data usage patterns with
+error bars by time of day in consumer networks?<a href="#section-2.4-2" class="pilcrow">¶</a></p>
+<p id="section-2.4-3">Cross-ref vs. video quality by time of day in practice for some case
+study?  Not sure if there's a good way to capture a generalized insight
+here, but it seems worth making the point that demand projections can
+be used to help with e.g. power consumption with routing architectures
+that provide for modular scalability.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-unpredictable">
+<section id="section-2.5">
+        <h3 id="name-unpredictable-usage-profile">
+<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-unpredictable-usage-profile" class="section-name selfRef">Unpredictable Usage Profiles</a>
+        </h3>
+<p id="section-2.5-1">Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become quite large.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.5-2">For this reason, operators may pay more attention to downstream bandwidth utilization when planning and managing capacity. In addition, operators have been able to deploy access networks for end users using underlying technologies that are inherently asymetric, favoring downstream bandwidth (e.g. ADSL, cellular technologies, most IEEE 802.11 variants), assuming that users will need less upstream bandwidth than downstream bandwidth. This strategy usually works, except when it does not, because application bandwidth usage patterns have changed.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+<p id="section-2.5-3">One example of this type of change was when peer-to-peer file sharing applications gained popularity in the early 2000s. To take one well-documented case (<span>[<a href="#RFC5594" class="xref">RFC5594</a>]</span>), the Bittorrent application created "swarms" of hosts, uploading and downloading files to each other, rather than communicating with a server. Bittorrent favored peers who uploaded as much as they downloaded, so that new Bittorrent users had an incentive to significantly increase their upstream bandwidth utilization.<a href="#section-2.5-3" class="pilcrow">¶</a></p>
+<p id="section-2.5-4">The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large ISP to attempt to "throttle" these transfers, to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, similar to an arms race, and set off discussions about "Net Neutrality" and calls for regulatory action.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
+<p id="section-2.5-5">Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="extremely-unpredictable-usage-profiles">
+<section id="section-2.6">
+        <h3 id="name-extremely-unpredictable-usa">
+<a href="#section-2.6" class="section-number selfRef">2.6. </a><a href="#name-extremely-unpredictable-usa" class="section-name selfRef">Extremely Unpredictable Usage Profiles</a>
+        </h3>
+<p id="section-2.6-1">The causes of unpredictable usage described in <a href="#sec-unpredictable" class="xref">Section 2.5</a> were more or less the result of human choices, but we were reminded during a post-IETF 107 meeting that humans are not always in control, and forces of nature can cause enormous fluctuations in traffic patterns.<a href="#section-2.6-1" class="pilcrow">¶</a></p>
+<p id="section-2.6-2">In his talk, Sanjay Mishra <span>[<a href="#Mishra" class="xref">Mishra</a>]</span> reported that after the CoViD-19 pandemic broke out in early 2020,<a href="#section-2.6-2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-2.6-3.1">Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30 <span>[<a href="#Comcast" class="xref">Comcast</a>]</span>,<a href="#section-2.6-3.1" class="pilcrow">¶</a>
+</li>
+<li id="section-2.6-3.2">AT&amp;T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
+social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic <span>[<a href="#ATT" class="xref">ATT</a>]</span>, and<a href="#section-2.6-3.2" class="pilcrow">¶</a>
+</li>
+<li id="section-2.6-3.3">Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19) <span>[<a href="#Verizon" class="xref">Verizon</a>]</span>.<a href="#section-2.6-3.3" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-2.6-4">We note that other operators saw similar spikes during this time period. Craig Labowitz <span>[<a href="#Labovitz" class="xref">Labovitz</a>]</span> reported<a href="#section-2.6-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-2.6-5.1">Weekday peak traffic increases over 45%-50% from pre-lockdown levels,<a href="#section-2.6-5.1" class="pilcrow">¶</a>
+</li>
+<li id="section-2.6-5.2">A 30% increase in upstream traffic over their pre-pandemic levels, and<a href="#section-2.6-5.2" class="pilcrow">¶</a>
+</li>
+<li id="section-2.6-5.3">A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks (<span>[<a href="#LabovitzDDoS" class="xref">LabovitzDDoS</a>]</span>), as gaming usage also increased.)<a href="#section-2.6-5.3" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+<div id="adaptive-bitrate">
+<section id="section-3">
+      <h2 id="name-adaptive-bitrate">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-adaptive-bitrate" class="section-name selfRef">Adaptive Bitrate</a>
+      </h2>
+<div id="overview">
+<section id="section-3.1">
+        <h3 id="name-overview">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
+        </h3>
+<p id="section-3.1-1">Adaptive BitRate (ABR) is a sort of application-level
+response strategy in which the receiving media player attempts to
+detect the available bandwidth of the network path by experiment
+or by observing the successful application-layer download speed,
+then chooses a video bitrate (among the limited number of available options) that fits within that bandwidth,
+typically adjusting as changes in available bandwidth occur in
+the network or changes in capabilities occur in the player (such as available memory, CPU, display size, etc.).<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">The choice of bitrate occurs within the context of optimizing for
+some metric monitored by the video player, such as highest achievable
+video quality, or lowest rate of expected rebuffering events.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="segmented-delivery">
+<section id="section-3.2">
+        <h3 id="name-segmented-delivery">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-segmented-delivery" class="section-name selfRef">Segmented Delivery</a>
+        </h3>
+<p id="section-3.2-1">ABR playback is commonly implemented by video players using HLS
+<span>[<a href="#RFC8216" class="xref">RFC8216</a>]</span> or DASH <span>[<a href="#DASH" class="xref">DASH</a>]</span> to perform a reliable segmented delivery
+of video data over HTTP. Different player implementations and
+receiving devices use different strategies, often proprietary
+algorithms (called rate adaptation or bitrate selection algorithms), to perform available
+bandwidth estimation/prediction and the bitrate selection. Most players only use passive observations, i.e., they do not generate probe traffic to measure the available bandwidth.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">This kind of bandwidth-measurement systems can experience trouble in
+several ways that can be affected by networking design choices.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<div id="idle-time-between-segments">
+<section id="section-3.2.1">
+          <h4 id="name-idle-time-between-segments">
+<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-idle-time-between-segments" class="section-name selfRef">Idle Time between Segments</a>
+          </h4>
+<p id="section-3.2.1-1">When the bitrate selection is successfully chosen below the
+available capacity of the network path, the response to a
+segment request will typically complete in less absolute time than the
+duration of the requested segment. The resulting idle time within the connection carrying the
+segments has a few surprising consequences:<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.2.1-2.1">Mobile flow-bandwidth spectrum and timing mapping.<a href="#section-3.2.1-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-3.2.1-2.2">TCP slow-start when restarting after idle requires multiple
+RTTs to re-establish a throughput at the network's available
+capacity. On high-RTT paths or with small enough segments,
+this can produce a falsely low application-visible measurement
+of the available network capacity.<a href="#section-3.2.1-2.2" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-3.2.1-3">A detailed investigation of this phenomenon is available in <span>[<a href="#NOSSDAV12" class="xref">NOSSDAV12</a>]</span>.<a href="#section-3.2.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="head-of-line-blocking">
+<section id="section-3.2.2">
+          <h4 id="name-head-of-line-blocking">
+<a href="#section-3.2.2" class="section-number selfRef">3.2.2. </a><a href="#name-head-of-line-blocking" class="section-name selfRef">Head-of-Line Blocking</a>
+          </h4>
+<p id="section-3.2.2-1">In the event of a lost packet on a TCP connection with SACK
+support (a common case for segmented delivery in practice), loss
+of a packet can provide a confusing bandwidth signal to the
+receiving application.  Because of the sliding window in TCP,
+many packets may be accepted by the receiver without being available
+to the application until the missing packet arrives.  Upon arrival
+of the one missing packet after retransmit, the receiver will
+suddenly get access to a lot of data at the same time.<a href="#section-3.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.2-2">To a receiver measuring bytes received per unit time at the
+application layer, and interpreting it as an estimate of the
+available network bandwidth, this appears as a high jitter in
+the goodput measurement.<a href="#section-3.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2.2-3">Active Queue Management (AQM) systems such as PIE <span>[<a href="#RFC8033" class="xref">RFC8033</a>]</span> or
+variants of RED <span>[<a href="#RFC2309" class="xref">RFC2309</a>]</span> that induce early random loss under
+congestion can mitigate this by using ECN <span>[<a href="#RFC3168" class="xref">RFC3168</a>]</span> where
+available.  ECN provides a congestion signal and induce a similar
+backoff in flows that use Explicit Congestion Notification-capable
+transport, but by avoiding loss avoids inducing head-of-line blocking
+effects in TCP connections.<a href="#section-3.2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="unreliable-transport">
+<section id="section-3.3">
+        <h3 id="name-unreliable-transport">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-unreliable-transport" class="section-name selfRef">Unreliable Transport</a>
+        </h3>
+<p id="section-3.3-1">In contrast to segmented delivery, several applications use UDP or
+unreliable SCTP to deliver RTP or raw TS-formatted video.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Under congestion and loss, this approach generally experiences more
+video artifacts with fewer delay or head-of-line blocking effects.
+Often one of the key goals is to reduce latency, to better support
+applications like videoconferencing, or for other live-action
+video with interactive components, such as some sporting events.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">Congestion avoidance strategies for this kind of deployment vary
+widely in practice, ranging from some streams that are entirely
+unresponsive to using feedback signaling to change encoder settings
+(as in <span>[<a href="#RFC5762" class="xref">RFC5762</a>]</span>), or to use fewer enhancement layers (as in
+<span>[<a href="#RFC6190" class="xref">RFC6190</a>]</span>), to proprietary methods for detecting quality of
+experience issues and cutting off video.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-4">
+      <h2 id="name-iana-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-4-1">This document requires no actions from IANA.<a href="#section-4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-5">
+      <h2 id="name-security-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-5-1">This document introduces no new security issues.<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="acknowledgements">
+<section id="section-6">
+      <h2 id="name-acknowledgements">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="section-6-1">Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle Rose,
+and Leslie Daigle for their very helpful reviews and comments.<a href="#section-6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-7">
+      <h2 id="name-informative-references">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+      </h2>
+<dl class="references">
+<dt id="ATT">[ATT]</dt>
+<dd>
+<span class="refAuthor">AT&amp;T</span>, <span class="refTitle">"Tuesday (March 24, 2020) Network Insights"</span>, <time datetime="2020-03">March 2020</time>, <span>&lt;<a href="https://about.att.com/pages/COVID-19/updates.html">https://about.att.com/pages/COVID-19/updates.html</a>&gt;</span>. </dd>
+<dt id="Comcast">[Comcast]</dt>
+<dd>
+<span class="refAuthor">CNBC</span>, <span class="refTitle">"Comcast sees network traffic surge amid coronavirus outbreak"</span>, <time datetime="2020-03">March 2020</time>, <span>&lt;<a href="https://www.cnbc.com/video/2020/03/30/comcast-sees-network-traffic-surge-amid-coronavirus-outbreak.html">https://www.cnbc.com/video/2020/03/30/comcast-sees-network-traffic-surge-amid-coronavirus-outbreak.html</a>&gt;</span>. </dd>
+<dt id="CVNI">[CVNI]</dt>
+<dd>
+<span class="refAuthor">Cisco Systems, Inc.</span>, <span class="refTitle">"Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"</span>, <time datetime="2019-02-27">27 February 2019</time>, <span>&lt;<a href="https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html">https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html</a>&gt;</span>. </dd>
+<dt id="DASH">[DASH]</dt>
+<dd>
+<span class="refTitle">"Information technology -- Dynamic adaptive streaming over HTTP (DASH) -- Part 1: Media presentation description and segment formats"</span>, <span class="seriesInfo">ISO/IEC 23009-1:2019</span>, <time datetime="2019">2019</time>. </dd>
+<dt id="Labovitz">[Labovitz]</dt>
+<dd>
+<span class="refAuthor">Labovitz, C.</span><span class="refAuthor"> and Nokia Deepfield</span>, <span class="refTitle">"Network traffic insights in the time of COVID-19: April 9 update"</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/">https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/</a>&gt;</span>. </dd>
+<dt id="LabovitzDDoS">[LabovitzDDoS]</dt>
+<dd>
+<span class="refAuthor">Takahashi, D.</span><span class="refAuthor"> and Venture Beat</span>, <span class="refTitle">"Why the game industry is still vulnerable to DDoS attacks"</span>, <time datetime="2018-05">May 2018</time>, <span>&lt;<a href="https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/">https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/</a>&gt;</span>. </dd>
+<dt id="Mishra">[Mishra]</dt>
+<dd>
+<span class="refAuthor">Mishra, S.</span><span class="refAuthor"> and J. Thibeault</span>, <span class="refTitle">"An update on Streaming Video Alliance"</span>, <time datetime="2020">2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance">https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance</a>&gt;</span>. </dd>
+<dt id="MSOD">[MSOD]</dt>
+<dd>
+<span class="refAuthor">Akamai Technologies, Inc.</span>, <span class="refTitle">"Media Services On Demand: Encoder Best Practices"</span>, <time datetime="2019">2019</time>, <span>&lt;<a href="https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html">https://learn.akamai.com/en-us/webhelp/media-services-on-demand/media-services-on-demand-encoder-best-practices/GUID-7448548A-A96F-4D03-9E2D-4A4BBB6EC071.html</a>&gt;</span>. </dd>
+<dt id="NOSSDAV12">[NOSSDAV12]</dt>
+<dd>
+<span class="refAuthor">al., S.A.e.</span>, <span class="refTitle">"What Happens When HTTP Adaptive Streaming Players Compete for Bandwidth?"</span>, <time datetime="2012-06">June 2012</time>, <span>&lt;<a href="https://dl.acm.org/doi/10.1145/2229087.2229092">https://dl.acm.org/doi/10.1145/2229087.2229092</a>&gt;</span>. </dd>
+<dt id="PCC">[PCC]</dt>
+<dd>
+<span class="refAuthor">al., S.S.e.</span>, <span class="refTitle">"Emerging MPEG Standards for Point Cloud Compression"</span>, <time datetime="2019-03">March 2019</time>, <span>&lt;<a href="https://ieeexplore.ieee.org/document/8571288">https://ieeexplore.ieee.org/document/8571288</a>&gt;</span>. </dd>
+<dt id="RFC2309">[RFC2309]</dt>
+<dd>
+<span class="refAuthor">Braden, B.</span><span class="refAuthor">, Clark, D.</span><span class="refAuthor">, Crowcroft, J.</span><span class="refAuthor">, Davie, B.</span><span class="refAuthor">, Deering, S.</span><span class="refAuthor">, Estrin, D.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, Jacobson, V.</span><span class="refAuthor">, Minshall, G.</span><span class="refAuthor">, Partridge, C.</span><span class="refAuthor">, Peterson, L.</span><span class="refAuthor">, Ramakrishnan, K.</span><span class="refAuthor">, Shenker, S.</span><span class="refAuthor">, Wroclawski, J.</span><span class="refAuthor">, and L. Zhang</span>, <span class="refTitle">"Recommendations on Queue Management and Congestion Avoidance in the Internet"</span>, <span class="seriesInfo">RFC 2309</span>, <span class="seriesInfo">DOI 10.17487/RFC2309</span>, <time datetime="1998-04">April 1998</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2309">https://www.rfc-editor.org/info/rfc2309</a>&gt;</span>. </dd>
+<dt id="RFC3168">[RFC3168]</dt>
+<dd>
+<span class="refAuthor">Ramakrishnan, K.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, and D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09">September 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3168">https://www.rfc-editor.org/info/rfc3168</a>&gt;</span>. </dd>
+<dt id="RFC5594">[RFC5594]</dt>
+<dd>
+<span class="refAuthor">Peterson, J.</span><span class="refAuthor"> and A. Cooper</span>, <span class="refTitle">"Report from the IETF Workshop on Peer-to-Peer (P2P) Infrastructure, May 28, 2008"</span>, <span class="seriesInfo">RFC 5594</span>, <span class="seriesInfo">DOI 10.17487/RFC5594</span>, <time datetime="2009-07">July 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5594">https://www.rfc-editor.org/info/rfc5594</a>&gt;</span>. </dd>
+<dt id="RFC5762">[RFC5762]</dt>
+<dd>
+<span class="refAuthor">Perkins, C.</span>, <span class="refTitle">"RTP and the Datagram Congestion Control Protocol (DCCP)"</span>, <span class="seriesInfo">RFC 5762</span>, <span class="seriesInfo">DOI 10.17487/RFC5762</span>, <time datetime="2010-04">April 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5762">https://www.rfc-editor.org/info/rfc5762</a>&gt;</span>. </dd>
+<dt id="RFC6190">[RFC6190]</dt>
+<dd>
+<span class="refAuthor">Wenger, S.</span><span class="refAuthor">, Wang, Y.-K.</span><span class="refAuthor">, Schierl, T.</span><span class="refAuthor">, and A. Eleftheriadis</span>, <span class="refTitle">"RTP Payload Format for Scalable Video Coding"</span>, <span class="seriesInfo">RFC 6190</span>, <span class="seriesInfo">DOI 10.17487/RFC6190</span>, <time datetime="2011-05">May 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6190">https://www.rfc-editor.org/info/rfc6190</a>&gt;</span>. </dd>
+<dt id="RFC8033">[RFC8033]</dt>
+<dd>
+<span class="refAuthor">Pan, R.</span><span class="refAuthor">, Natarajan, P.</span><span class="refAuthor">, Baker, F.</span><span class="refAuthor">, and G. White</span>, <span class="refTitle">"Proportional Integral Controller Enhanced (PIE): A Lightweight Control Scheme to Address the Bufferbloat Problem"</span>, <span class="seriesInfo">RFC 8033</span>, <span class="seriesInfo">DOI 10.17487/RFC8033</span>, <time datetime="2017-02">February 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8033">https://www.rfc-editor.org/info/rfc8033</a>&gt;</span>. </dd>
+<dt id="RFC8216">[RFC8216]</dt>
+<dd>
+<span class="refAuthor">Pantos, R., Ed.</span><span class="refAuthor"> and W. May</span>, <span class="refTitle">"HTTP Live Streaming"</span>, <span class="seriesInfo">RFC 8216</span>, <span class="seriesInfo">DOI 10.17487/RFC8216</span>, <time datetime="2017-08">August 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8216">https://www.rfc-editor.org/info/rfc8216</a>&gt;</span>. </dd>
+<dt id="Verizon">[Verizon]</dt>
+<dd>
+<span class="refAuthor">Rorbuck, M.</span><span class="refAuthor"> and Fierce Telecom</span>, <span class="refTitle">"Verizon: U.S. network usage starts to normalize as subscribers settle into new routines"</span>, <time datetime="2020-04">April 2020</time>, <span>&lt;<a href="https://www.fiercetelecom.com/telecom/verizon-u-s-network-usage-starts-to-normalize-as-subscribers-settle-into-new-routines">https://www.fiercetelecom.com/telecom/verizon-u-s-network-usage-starts-to-normalize-as-subscribers-settle-into-new-routines</a>&gt;</span>. </dd>
+</dl>
+</section>
+<div id="authors-addresses">
+<section id="section-appendix.a">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jake Holland</span></div>
+<div dir="auto" class="left"><span class="org">Akamai Technologies, Inc.</span></div>
+<div dir="auto" class="left"><span class="street-address">150 Broadway</span></div>
+<div dir="auto" class="left">
+<span class="locality">Cambridge, MA 02144</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:jakeholland.net@gmail.com" class="email">jakeholland.net@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Ali Begen</span></div>
+<div dir="auto" class="left"><span class="org">Networked Media</span></div>
+<div dir="auto" class="left"><span class="country-name">Turkey</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ali.begen@networked.media" class="email">ali.begen@networked.media</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Spencer Dawkins</span></div>
+<div dir="auto" class="left"><span class="org">Tencent America LLC</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:spencerdawkins.ietf@gmail.com" class="email">spencerdawkins.ietf@gmail.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>var toc = document.getElementById("toc");
+var tocToggle = toc.querySelector("h2");
+var tocNav = toc.querySelector("nav");
+
+// mobile menu toggle
+tocToggle.onclick = function(event) {
+    if (window.innerWidth < 1024) {
+ var tocNavDisplay = tocNav.currentStyle ? tocNav.currentStyle.display : getComputedStyle(tocNav, null).display;
+ if (tocNavDisplay == "none") {
+     tocNav.style.display = "block";
+ } else {
+     tocNav.style.display = "none";
+ }
+    }
+}
+
+// toc anchor scroll to anchor
+tocNav.addEventListener("click", function (event) {
+    event.preventDefault();
+    if (event.target.nodeName == 'A') {
+ if (window.innerWidth < 1024) {
+     tocNav.style.display = "none";
+ }
+ var href = event.target.getAttribute("href");
+ var anchorId = href.substr(1);
+ var anchor =  document.getElementById(anchorId);
+ anchor.scrollIntoView(true);
+ window.history.pushState("","",href);
+    }
+});
+
+// switch toc mode when window resized
+window.onresize = function () {
+    if (window.innerWidth < 1024) {
+ tocNav.style.display = "none";
+    } else {
+ tocNav.style.display = "block";
+    }
+}
+</script>
+</body>
+</html>
