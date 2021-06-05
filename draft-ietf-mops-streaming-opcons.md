@@ -228,10 +228,24 @@ informative:
     target: https://www.iso.org/standard/79106.html
     date: 2020-03
 
+  MPEG-TS:
+    title: "H.222.0 : Information technology - Generic coding of moving pictures and associated audio information: Systems"
+    target: https://www.itu.int/rec/T-REC-H.222.0
+    date: 2018-08-29
+
   SFRAME:
     target: https://datatracker.ietf.org/doc/charter-ietf-sframe/
     title: "Secure Media Frames Working Group (Home Page)"
-  
+
+  SRT:
+    title: "Secure Reliable Transport (SRT) Protocol Overview"
+    author:
+      -
+       name: Maxim Sharabayko
+       ins: M. Sharabayko
+    target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
+    date: 2020-04-15
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.cardwell-iccrg-bbr-congestion-control:
@@ -243,6 +257,7 @@ informative:
   RFC3135:
   RFC3168:
   RFC3550:
+  RFC3758:
   RFC5594:
   RFC5762:
   RFC6190:
@@ -636,25 +651,21 @@ Many assumes that the CDNs have a holistic view into the health and performance 
 
 ## Unreliable Transport {#unreliable}
 
-In contrast to segmented delivery, several applications use UDP or
-unreliable SCTP to deliver RTP or raw TS-formatted video.
+In contrast to segmented delivery, several applications use unreliable UDP or SCTP with its "partial reliability" extension {{RFC3758}} to deliver Media encapsulated in RTP RTP {{RFC3550}} or raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}}, when the media is being delivered in situations such as broadcast and live streaming, that better tolerate occasional packet loss without retransmission. 
 
-Under congestion and loss, this approach generally experiences more
-video artifacts with fewer delay or head-of-line blocking effects.
-Often one of the key goals is to reduce latency, to better support
-applications like videoconferencing, or for other live-action
-video with interactive components, such as some sporting events.
+Under congestion and loss, this approach generally experiences more video artifacts with fewer delay or head-of-line blocking effects. Often one of the key goals is to reduce latency, to better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
 
-Congestion avoidance strategies for this kind of deployment vary
-widely in practice, ranging from some streams that are entirely
-unresponsive to using feedback signaling to change encoder settings
-(as in {{RFC5762}}), or to use fewer enhancement layers (as in
-{{RFC6190}}), to proprietary methods for detecting quality of
-experience issues and cutting off video.
+The Secure Reliable Transport protocol {{SRT}} also uses UDP in an effort to achieve lower latency for streaming media, although it adds reliability at the application layer. 
+
+Congestion avoidance strategies for deployments using unreliable transport protocols vary widely in practice, ranging from being entirely unresponsive to congestion, to using feedback signaling to change encoder settings (as in {{RFC5762}}), to using fewer enhancement layers (as in {{RFC6190}}), to using proprietary methods to detect "quality of experience" issues and turn off video in order to allow less bandwidth-intensive media such as audio to be delivered.
+
+More details about congestion avoidance strategies used with unreliable transport protocols are included in {{udp-behavior}}.
 
 # Evolution of Transport Protocols and Transport Protocol Behaviors
 
-**Note to Reviewers^^ - this section includes some material that may be tutorial for some readers. We can decide how to say that, if the tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless you participated in the QUIC working group. 
+**Note to Reviewers**
+
+This section includes some material on UDP and TCP that may be tutorial for some readers. We can decide how to explain that, if the working group feels that this tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless the reader participated in the QUIC working group. 
 
 Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors. 
 
@@ -670,8 +681,7 @@ For most of the history of the Internet, we have trusted UDP-based applications 
 
 In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level protocols such as RTP {{RFC3550}} have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way some UDP-based applications interact with other users has changed.
 
-It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to 
-provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
+It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
 
 RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss. 
 
