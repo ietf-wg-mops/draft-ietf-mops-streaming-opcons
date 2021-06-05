@@ -39,14 +39,14 @@ informative:
   CVNI:
     target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
     title: "Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"
-    author:
-      - ins: "Cisco Systems, Inc."
     date: 2019-02-27
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
     title: "Emerging MPEG Standards for Point Cloud Compression"
     author:
-      - ins: Sebastian Schwarz et al.
+      - 
+        name: Sebastian Schwarz et al.
+        ins: S. Schwarz et al.
     date: Mar. 2019
   MPEGI:
     target: https://ieeexplore.ieee.org/document/9374648 
@@ -57,14 +57,18 @@ informative:
     target: https://dl.acm.org/doi/10.1145/1943552.1943574
     title: "An experimental evaluation of rate-adaptation algorithms in adaptive streaming over HTTP"
     author:
-      - ins: Saamer Akhshabi et al.
+      - 
+       name: Saamer Akhshabi et al.
+       ins: S. Akhshabi et al.
     date: Feb. 2011  
 
   MMSP20:
     target: http://dx.doi.org/10.1109/MMSP48831.2020.9287117
     title: "Evaluating the performance of Apple's low-latency HLS"
     author:
-      - ins: Kerem Durak et al.
+      - 
+       name: Kerem Durak et al.
+       ins: K. Durak et al.
     date: Sept. 2020 
   LL-DASH:
     title: "Low-latency Modes for DASH"
@@ -75,6 +79,7 @@ informative:
     author:
       -
         name: Will Law
+        ins: W. Law
         org: "Akamai Technologies, Inc."
     date: October 2018
     target: https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf    
@@ -82,12 +87,12 @@ informative:
     target: https://ieeexplore.ieee.org/abstract/document/8424813
     title: "A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"
     author:
-      - ins: Abdelhak Bentaleb et al.
+      - 
+       name: Abdelhak Bentaleb et al.
+       ins: A. Bentaleb et al.
     date: 2019
   MSOD:
     title: "HLS Authoring Specification for Apple Devices"
-    author:
-      - ins: "Apple, Inc."
     target: https://developer.apple.com/documentation/http_live_streaming/hls_authoring_specification_for_apple_devices
     date: 2020
   Mishra:
