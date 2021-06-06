@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 7 December 2021                                 Networked Media
+Expires: 8 December 2021                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                             5 June 2021
+                                                             6 June 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 December 2021.
+   This Internet-Draft will expire on 8 December 2021.
 
 Copyright Notice
 
@@ -838,8 +838,8 @@ Table of Contents
 
    In contrast to segmented delivery, several applications use
    unreliable UDP or SCTP with its "partial reliability" extension
-   [RFC3758] to deliver Media encapsulated in RTP RTP [RFC3550] or raw
-   MPEG Transport Stream ("MPEG-TS")-formatted video [MPEG-TS], when the
+   [RFC3758] to deliver Media encapsulated in RTP [RFC3550] or raw MPEG
+   Transport Stream ("MPEG-TS")-formatted video [MPEG-TS], when the
    media is being delivered in situations such as broadcast and live
    streaming, that better tolerate occasional packet loss without
    retransmission.
