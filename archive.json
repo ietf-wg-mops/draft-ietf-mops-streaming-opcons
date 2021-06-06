@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-05T14:52:13.815718+00:00",
+  "timestamp": "2021-06-06T14:28:20.140239+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -988,9 +988,17 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-05-20T19:22:14Z",
-      "updatedAt": "2021-05-20T19:22:14Z",
+      "updatedAt": "2021-06-05T17:08:24Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this one is also ready to close. Opinions?",
+          "createdAt": "2021-06-05T17:08:24Z",
+          "updatedAt": "2021-06-05T17:08:24Z"
+        }
+      ]
     },
     {
       "number": 50,
@@ -1006,9 +1014,17 @@
       "labels": [],
       "body": "SRT, TS-Multicast over UDP, etc. ",
       "createdAt": "2021-05-20T19:26:52Z",
-      "updatedAt": "2021-05-20T19:32:01Z",
+      "updatedAt": "2021-06-05T16:08:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I THINK this is requesting a change in the \"Unreliable Transport\" section.",
+          "createdAt": "2021-06-05T16:08:54Z",
+          "updatedAt": "2021-06-05T16:08:54Z"
+        }
+      ]
     },
     {
       "number": 51,
@@ -3453,7 +3469,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-05-11T03:58:36Z",
-      "updatedAt": "2021-06-01T18:18:12Z",
+      "updatedAt": "2021-06-06T12:47:13Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "21a0c1be43fa8ecfd362c38153aa467a5f9f169f",
@@ -4093,6 +4109,169 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 61,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjYyNDcxODQ1",
+      "title": "Clean up references without ins: for author names",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/61",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "This should be fabulously non-controversial, but I'm creating a branch and PR for visibility to others ... ",
+      "createdAt": "2021-06-05T14:54:38Z",
+      "updatedAt": "2021-06-06T06:53:35Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "master",
+      "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "ref-form",
+      "headRefOid": "2b4af316568944f363c9469c970d6591c2bfb0c7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Any objections?",
+          "createdAt": "2021-06-05T14:55:30Z",
+          "updatedAt": "2021-06-05T14:55:30Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njc2ODMyNzQ2",
+          "commit": {
+            "abbreviatedOid": "2b4af31"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2021-06-06T06:53:35Z",
+          "updatedAt": "2021-06-06T06:53:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjYyNTE3NjY4",
+      "title": "Add details about Unreliable Transports",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/62",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "Also clarified relationship with UDP Behaviors section",
+      "createdAt": "2021-06-05T17:04:10Z",
+      "updatedAt": "2021-06-06T07:03:49Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "master",
+      "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "unrel-trans",
+      "headRefOid": "787257d349b80ac08d03b7a3222186879f703a5a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this is ready to merge. Opinions?",
+          "createdAt": "2021-06-05T17:05:36Z",
+          "updatedAt": "2021-06-05T17:05:36Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I was more concerned about overlap when I opened #49, but what's in the section on Unreliable Transport and what's in the section on UDP behaviors seems to read pretty well to me. Opinions?",
+          "createdAt": "2021-06-05T17:10:34Z",
+          "updatedAt": "2021-06-05T17:10:34Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njc2ODMzMjMy",
+          "commit": {
+            "abbreviatedOid": "787257d"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-06T06:59:20Z",
+          "updatedAt": "2021-06-06T07:03:49Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "Nit: RTP RTP (probably only need one)",
+              "createdAt": "2021-06-06T06:59:20Z",
+              "updatedAt": "2021-06-06T07:03:49Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjYyNTQ2Nzc2",
+      "title": "Edits to the section on encryption",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/63",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "I did add a few paragraphs of text, but don't expect it to be too controversial. Any thoughts?",
+      "createdAt": "2021-06-05T18:25:20Z",
+      "updatedAt": "2021-06-06T07:10:04Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "master",
+      "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "Media-Encryption-and-Contention/Fairness",
+      "headRefOid": "ed12e894cae1f821c974d138c6675694100b17e6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njc2ODM0MTQ2",
+          "commit": {
+            "abbreviatedOid": "ed12e89"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-06T07:10:04Z",
+          "updatedAt": "2021-06-06T07:10:04Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "Nit: \"to continue to continue\" should probably just be one \"to continue\".",
+              "createdAt": "2021-06-06T07:10:04Z",
+              "updatedAt": "2021-06-06T07:10:04Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
