@@ -1263,8 +1263,8 @@ Table of Contents
 10.  Informative References
 
    [ABRSurvey]
-              Abdelhak Bentaleb et al, ., "A Survey on Bitrate
-              Adaptation Schemes for Streaming Media Over HTTP", 2019,
+              Bentaleb et al, A., "A Survey on Bitrate Adaptation
+              Schemes for Streaming Media Over HTTP", 2019,
               <https://ieeexplore.ieee.org/abstract/document/8424813>.
 
    [CDiD]     Huitema, C. and B. Trammell, "(A call for) Congestion
@@ -1300,9 +1300,9 @@ Table of Contents
               <https://shop.cta.tech/products/web-application-video-
               ecosystem-common-media-client-data-cta-5004>.
 
-   [CVNI]     Cisco Systems, Inc, ., "Cisco Visual Networking Index:
-              Forecast and Trends, 2017-2022 White Paper", 27 February
-              2019, <https://www.cisco.com/c/en/us/solutions/collateral/
+   [CVNI]     "Cisco Visual Networking Index: Forecast and Trends,
+              2017-2022 White Paper", 27 February 2019,
+              <https://www.cisco.com/c/en/us/solutions/collateral/
               service-provider/visual-networking-index-vni/white-paper-
               c11-741490.html>.
 
@@ -1393,20 +1393,19 @@ Table of Contents
               01-sessa-april-15-2020-mops-interim-an-update-on-
               streaming-video-alliance>.
 
-   [MMSP20]   Kerem Durak et al, ., "Evaluating the performance of
-              Apple's low-latency HLS", September 2020,
+   [MMSP20]   Durak et al, K., "Evaluating the performance of Apple's
+              low-latency HLS", September 2020,
               <http://dx.doi.org/10.1109/MMSP48831.2020.9287117>.
 
-   [MMSys11]  Saamer Akhshabi et al, ., "An experimental evaluation of
-              rate-adaptation algorithms in adaptive streaming over
-              HTTP", February 2011,
+   [MMSys11]  Akhshabi et al, S., "An experimental evaluation of rate-
+              adaptation algorithms in adaptive streaming over HTTP",
+              February 2011,
               <https://dl.acm.org/doi/10.1145/1943552.1943574>.
 
    [MPEGI]    Boyce et al, J.M., "MPEG Immersive Video Coding Standard",
               n.d., <https://ieeexplore.ieee.org/document/9374648>.
 
-   [MSOD]     Apple, Inc, ., "HLS Authoring Specification for Apple
-              Devices", 2020,
+   [MSOD]     "HLS Authoring Specification for Apple Devices", 2020,
               <https://developer.apple.com/documentation/
               http_live_streaming/
               hls_authoring_specification_for_apple_devices>.
@@ -1416,8 +1415,8 @@ Table of Contents
               Blocks of TCP)", May 2021,
               <https://hpbn.co/building-blocks-of-tcp/>.
 
-   [PCC]      Sebastian Schwarz et al, ., "Emerging MPEG Standards for
-              Point Cloud Compression", March 2019,
+   [PCC]      Schwarz et al, S., "Emerging MPEG Standards for Point
+              Cloud Compression", March 2019,
               <https://ieeexplore.ieee.org/document/8571288>.
 
    [Port443]  "Service Name and Transport Protocol Port Number
