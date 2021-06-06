@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 7 December 2021                                 Networked Media
+Expires: 8 December 2021                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                             5 June 2021
+                                                             6 June 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 December 2021.
+   This Internet-Draft will expire on 8 December 2021.
 
 Copyright Notice
 
@@ -1223,8 +1223,7 @@ Table of Contents
    [RFC7258] said that "The IETF will strive to produce specifications
    that mitigate pervasive monitoring attacks", so streaming operators
    should expect the IETF's direction toward preventing unauthorized
-   monitoring of IETF protocols to continue to continue for the
-   forseeable future.
+   monitoring of IETF protocols to continue for the forseeable future.
 
 7.  IANA Considerations
 
