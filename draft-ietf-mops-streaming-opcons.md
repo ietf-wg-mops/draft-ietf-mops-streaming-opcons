@@ -237,10 +237,24 @@ informative:
     title: "ISO/IEC 23000-19:2020 Multimedia application format (MPEG-A) - Part 19: Common media application format (CMAF) for segmented media"
     date: 2020-03
 
+  MPEG-TS:
+    title: "H.222.0 : Information technology - Generic coding of moving pictures and associated audio information: Systems"
+    target: https://www.itu.int/rec/T-REC-H.222.0
+    date: 2018-08-29
+
   SFRAME:
     target: https://datatracker.ietf.org/doc/charter-ietf-sframe/
     title: "Secure Media Frames Working Group (Home Page)"
-  
+
+  SRT:
+    title: "Secure Reliable Transport (SRT) Protocol Overview"
+    author:
+      -
+       name: Maxim Sharabayko
+       ins: M. Sharabayko
+    target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
+    date: 2020-04-15
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
@@ -257,6 +271,7 @@ informative:
   RFC3135:
   RFC3168:
   RFC3550:
+  RFC3758:
   RFC5594:
   RFC5762:
   RFC6190:
@@ -276,6 +291,7 @@ informative:
   RFC6843:
   RFC8085:
   RFC8312:
+  RFC8446:
   RFC8723:
   RFC8825:
   RFC8999:
@@ -428,10 +444,8 @@ can be multiplied by the number of simultaneous users to find the
 bandwidth requirements for a router on the delivery path with that
 number of users downstream.  For example, at a node with 10,000
 downstream users simultaneously consuming video streams,
-approximately 80 Gbps would be necessary in order for all of them
-to get typical content at 1080p resolution at 60 fps, or up to
-180 Gbps to get sustained high-motion content such as sports,
-while maintaining the same resolution.
+approximately 80 Gbps might be necessary in order for all of them
+to get typical content at 1080p resolution.
 
 However, when there is some overlap in the feeds being consumed by
 end users, it is sometimes possible to reduce the bandwidth
@@ -446,11 +460,11 @@ as low as a per-feed requirement instead of a per-user requirement.
 
 ## Caching Systems
 
-When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests, is often useful (for example, HTTP/1.1 caching is described in {{RFC7234}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
+When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in {{RFC7234}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
 
-It is worth noting that not all high-demand content is also "live" content. One popular example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
+It is worth noting that not all high-demand content is "live" content. One popular example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
 
-Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, and could be pre-loaded during off-peak hours, using "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms.
+Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, especially when the content can be pre-loaded during off-peak hours, and especially if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms 
 
 All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}, {{sec-extreme}}).
 
@@ -633,25 +647,21 @@ Many assumes that the CDNs have a holistic view into the health and performance 
 
 ## Unreliable Transport {#unreliable}
 
-In contrast to segmented delivery, several applications use UDP or
-unreliable SCTP to deliver RTP or raw TS-formatted video.
+In contrast to segmented delivery, several applications use unreliable UDP or SCTP with its "partial reliability" extension {{RFC3758}} to deliver Media encapsulated in RTP {{RFC3550}} or raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}}, when the media is being delivered in situations such as broadcast and live streaming, that better tolerate occasional packet loss without retransmission. 
 
-Under congestion and loss, this approach generally experiences more
-video artifacts with fewer delay or head-of-line blocking effects.
-Often one of the key goals is to reduce latency, to better support
-applications like videoconferencing, or for other live-action
-video with interactive components, such as some sporting events.
+Under congestion and loss, this approach generally experiences more video artifacts with fewer delay or head-of-line blocking effects. Often one of the key goals is to reduce latency, to better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
 
-Congestion avoidance strategies for this kind of deployment vary
-widely in practice, ranging from some streams that are entirely
-unresponsive to using feedback signaling to change encoder settings
-(as in {{RFC5762}}), or to use fewer enhancement layers (as in
-{{RFC6190}}), to proprietary methods for detecting quality of
-experience issues and cutting off video.
+The Secure Reliable Transport protocol {{SRT}} also uses UDP in an effort to achieve lower latency for streaming media, although it adds reliability at the application layer. 
+
+Congestion avoidance strategies for deployments using unreliable transport protocols vary widely in practice, ranging from being entirely unresponsive to congestion, to using feedback signaling to change encoder settings (as in {{RFC5762}}), to using fewer enhancement layers (as in {{RFC6190}}), to using proprietary methods to detect "quality of experience" issues and turn off video in order to allow less bandwidth-intensive media such as audio to be delivered.
+
+More details about congestion avoidance strategies used with unreliable transport protocols are included in {{udp-behavior}}.
 
 # Evolution of Transport Protocols and Transport Protocol Behaviors
 
-**Note to Reviewers^^ - this section includes some material that may be tutorial for some readers. We can decide how to say that, if the tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless you participated in the QUIC working group.
+**Note to Reviewers**
+
+This section includes some material on UDP and TCP that may be tutorial for some readers. We can decide how to explain that, if the working group feels that this tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless the reader participated in the QUIC working group. 
 
 Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors.
 
@@ -667,8 +677,7 @@ For most of the history of the Internet, we have trusted UDP-based applications 
 
 In recent times, the usage of UDP-based applications that were not simple query-response protocols has grown substantially, and since UDP does not provide any feedback mechanism to senders to help limit impacts on other users, application-level protocols such as RTP {{RFC3550}} have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. So, the way some UDP-based applications interact with other users has changed.
 
-It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to
-provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
+It's also worth pointing out that because UDP has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to provide their own feedback mechanisms. This expectation is most recently codified in Best Current Practice {{RFC8085}}.
 
 RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss.
 
@@ -688,7 +697,7 @@ Although TCP protocol behavior has changed over time, the common practice of imp
 
 The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{RFC9000}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads.
 
-Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks.
+Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks. {{stream-encrypt-media}} describes the implications of media encryption in more detail.
 
 While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 {{I-D.ietf-quic-http}}, which describes how QUIC transport features are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 {{Port443}} but this is not a strict requirement.
 
@@ -708,7 +717,7 @@ It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traf
 
 More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
-# Streaming Encrypted Media
+# Streaming Encrypted Media {#stream-encrypt-media}
 
 "Encrypted Media" has at least three meanings:
 
@@ -730,10 +739,10 @@ The use of strong encryption does provide confidentiality for encrypted streamin
 
 If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining decrypted traffic.
 
-Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies only on the TLS 1.3 initial handshake for key exchange {{RFC9001}}, and encrypts almost all transport parameters, with the exception of a few invariant fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the destination connection ID {{RFC8999}}. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2.
+Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies on the TLS 1.3 initial handshake {{RFC8446}} only for key exchange {{RFC9001}}, and encrypts almost all transport parameters itself, with the exception of a few invariant header fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the Destination Connection ID {{RFC8999}}, and even in the QUIC long header, the only transport-level parameters sent "in the clear" are the Version, Destination Connection ID, and Source Connection ID. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2.
 
-## Considerations for "Hop-by-Hop" Media Encryption
-
+## Considerations for "Hop-by-Hop" Media Encryption {#hop-by-hop-encrypt}
+ 
 Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries.
 
 There are a variety of ways to involve intermediaries, and some are much more intrusive than others.
@@ -750,12 +759,16 @@ Assuming that a content provider does intend to allow intermediaries to particip
 
 If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
-## Considerations for "End-to-End" Media Encryption
-
+## Considerations for "End-to-End" Media Encryption {#e2em-encrypt}
+ 
 "End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed.
+ 
+"End-to-end" media encryption has become much more widespread in the years since the IETF issued "Pervasive Monitoring Is an Attack" {{RFC7258}} as a Best Current Practice, describing pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
 
-"End-to-end" media encryption became much more widespread in the years since {{RFC7258}} was issued, which identified pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
+Unfortunately, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an "attacker", while allowing monitoring by a more benign entity who "only" wants to use DPI to examine HTTP requests and responses in order to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, intermediary streaming operators are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary streaming operator who is explicitly authorized to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
 
+{{RFC7258}} said that "The IETF will strive to produce specifications that mitigate pervasive monitoring attacks", so streaming operators should expect the IETF's direction toward preventing unauthorized monitoring of IETF protocols to continue for the forseeable future.
+ 
 # IANA Considerations
 
 This document requires no actions from IANA.
