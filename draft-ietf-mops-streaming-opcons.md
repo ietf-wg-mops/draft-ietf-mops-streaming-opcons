@@ -623,12 +623,6 @@ application layer, and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
 the goodput measurement.
 
-Although Explicit Congestion Notification (ECN) has not been widely deployed, Active Queue Management (AQM) systems such as PIE ({{RFC8033}}, {{RFC8034}}), CoDel ({{RFC8289}}, {{RFC8290}}), or variants of RED {{RFC7567}} that would ordinarily induce early random loss under congestion by discarding packets, and since the bytes contained in the delivered packet are still available to the application, ECN usage can mitigate head-of-line blocking where it is available. 
-
-"Classic" ECN, as defined in {{RFC3168}}, provides a congestion signal to induce a sending rate backoff in flows that use Explicit Congestion Notification-capable transport. This backoff is similar to sender behavior when packets are lost, but since packets are marked with a congestion indicator instead of being discarded, the bytes contained in these packets are still delivered to receivers, and this avoids head-of-line blocking effects caused by potential congestion unless packets are actually lost.
-
-An experimental ECN mechanism, "low-latency, low-loss, scalable throughput (L4S)", still being specified, would allow more gradual changes in sending rates for L4S-capable transports when they are available. Although L4S doesn't have an immediate effect on head-of-line blocking beyond Classic ECN, since marked packets are not lost, the expectation is that L4S-capable senders responding to L4S ECN signals would be less likely to  experience a Classic ECN "Congestion Experienced (CE)" signal that is interpreted as packet loss, or even overrun available buffer space and cause actual packet loss. These more gradual responses are also expected to reduce jitter as measured at the application layer, so that streaming senders can respond more accurately to actual conditions on the path to the receiver. {{I-D.ietf-tsvwg-l4sops}} provides an operator's view of L4S and its impact on existing ECN deployments. 
-
 It's worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See {{quic-behavior}} for more details. 
 
 ## Measurement Collection {#measure-coll}
