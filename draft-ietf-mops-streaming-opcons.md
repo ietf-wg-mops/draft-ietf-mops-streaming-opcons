@@ -38,9 +38,10 @@ informative:
 
   CVNI:
     target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
-    title: "Cisco Annual Internet Report (2018-2023) White Paper"
     date: 2020-03
-  
+    title: "Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"
+    date: 2019-02-27
+
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
     title: "Emerging MPEG Standards for Point Cloud Compression"
@@ -48,15 +49,15 @@ informative:
       - ins: S. Schwarz
       - ins: et al.
     date: 2019-03
-    refcontent: IEEE Journal on Emerging and Selected Topics in Circuits and Systems
-  
+    seriesinfo: IEEE Journal on Emerging and Selected Topics in Circuits and Systems
+
   MPEGI:
     target: https://ieeexplore.ieee.org/document/9374648
     title: "MPEG Immersive Video Coding Standard"
     author:
     - ins: J. M. Boyce
     - ins: et al.
-    refcontent: Proceedings of the IEEE
+    seriesinfo: Proceedings of the IEEE
   
   MMSys11:
     target: https://dl.acm.org/doi/10.1145/1943552.1943574
@@ -66,8 +67,8 @@ informative:
       - ins: A. C. Begen
       - ins: C. Dovrolis
     date: 2011-02
-    refcontent: ACM MMSys
-  
+    seriesinfo: ACM MMSys
+
   MMSP20:
     target: https://ieeexplore.ieee.org/document/9287117
     title: "Evaluating the performance of Apple's low-latency HLS"
@@ -75,7 +76,7 @@ informative:
       - ins: K. Durak
       - ins: et al.
     date: 2020-09
-    refcontent: IEEE MMSP
+    seriesinfo: IEEE MMSP
   
   LL-DASH:
     target: https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf
@@ -88,20 +89,25 @@ informative:
     target: https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf
     title: "Ultra-Low-Latency Streaming Using Chunked-Encoded and Chunked Transferred CMAF"
     author:
-      - ins: W. Law
+      -
+        name: Will Law
+        ins: W. Law
+        org: "Akamai Technologies, Inc."
     date: 2018-10
-  
+
   ABRSurvey:
     target: https://ieeexplore.ieee.org/abstract/document/8424813
     title: "A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP"
     author:
-      - ins: A. Bentaleb
       - ins: B. Taani
       - ins: A. C. Begen
       - ins: C. Timmerer
       - ins: R. Zimmermann
+      - 
+       name: Abdelhak Bentaleb et al.
+       ins: A. Bentaleb et al.
     date: 2019
-    refcontent: IEEE Communications Surveys & Tutorials
+    seriesinfo: IEEE Communications Surveys & Tutorials
   
   Encodings:
     target: https://developer.apple.com/documentation/http_live_streaming/hls_authoring_specification_for_apple_devices
@@ -109,7 +115,7 @@ informative:
     author:
       - ins: Apple, Inc.
     date: 2020-06
-  
+
   Mishra:
     target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
     title: "An update on Streaming Video Alliance"
@@ -146,13 +152,15 @@ informative:
     target: https://shop.cta.tech/products/streaming-quality-of-experience-events-properties-and-metrics
     title: Streaming Quality of Experience Events, Properties and Metrics
     author:
-      - name: Consumer Technology Association
+      - org: Consumer Technology Association
+    date: 2020-03
 
   CTA-5004:
     target: https://shop.cta.tech/products/web-application-video-ecosystem-common-media-client-data-cta-5004
     title: Common Media Client Data (CMCD)
     author:
       - ins: CTA
+    date: 2020-09
 
   ELASTIC:
     target: https://ieeexplore.ieee.org/document/6691442
@@ -163,7 +171,7 @@ informative:
       - ins: V. Palmisano
       - ins: S. Mascolo
     date: 2013-12
-    refcontent: Packet Video Workshop
+    seriesinfo: Packet Video Workshop
 
   OReilly-HPBN:
     target: https://hpbn.co/building-blocks-of-tcp/
@@ -185,7 +193,7 @@ informative:
       - ins: V. Arun
       - ins:  H. Balakrishnan
     date: 2018-04
-    refcontent: USENIX NSDI
+    seriesinfo: USENIX NSDI
 
   Port443:
     target: https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
@@ -212,7 +220,7 @@ informative:
       - ins: A. Reed
       - ins: M. Kranch
     date: 2017-03
-    refcontent: ACM CODASPY
+    seriesinfo: ACM CODASPY
 
   MPEG-DASH:
     target: https://www.iso.org/standard/79329.html
@@ -235,12 +243,17 @@ informative:
   
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
+  I-D.ietf-quic-datagram:
+  I-D.ietf-tsvwg-l4sops:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
 
   RFC0793:
   RFC2001:
   RFC7567:
+  RFC8034:
+  RFC8289:
+  RFC8290:
   RFC3135:
   RFC3168:
   RFC3550:
@@ -596,13 +609,13 @@ application layer, and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
 the goodput measurement.
 
-Active Queue Management (AQM) systems such as PIE {{RFC8033}} or
-variants of RED {{RFC7567}} that induce early random loss under
-congestion can mitigate this by using ECN {{RFC3168}} where
-available.  ECN provides a congestion signal and induce a similar
-backoff in flows that use Explicit Congestion Notification-capable
-transport, but by avoiding loss avoids inducing head-of-line blocking
-effects in TCP connections.
+Although Explicit Congestion Notification (ECN) has not been widely deployed, Active Queue Management (AQM) systems such as PIE ({{RFC8033}}, {{RFC8034}}), CoDel ({{RFC8289}}, {{RFC8290}}), or variants of RED {{RFC7567}} that would ordinarily induce early random loss under congestion by discarding packets, and since the bytes contained in the delivered packet are still available to the application, ECN usage can mitigate head-of-line blocking where it is available. 
+
+"Classic" ECN, as defined in {{RFC3168}}, provides a congestion signal to induce a sending rate backoff in flows that use Explicit Congestion Notification-capable transport. This backoff is similar to sender behavior when packets are lost, but since packets are marked with a congestion indicator instead of being discarded, the bytes contained in these packets are still delivered to receivers, and this avoids head-of-line blocking effects caused by potential congestion unless packets are actually lost.
+
+An experimental ECN mechanism, "low-latency, low-loss, scalable throughput (L4S)", still being specified, would allow more gradual changes in sending rates for L4S-capable transports when they are available. Although L4S doesn't have an immediate effect on head-of-line blocking beyond Classic ECN, since marked packets are not lost, the expectation is that L4S-capable senders responding to L4S ECN signals would be less likely to  experience a Classic ECN "Congestion Experienced (CE)" signal that is interpreted as packet loss, or even overrun available buffer space and cause actual packet loss. These more gradual responses are also expected to reduce jitter as measured at the application layer, so that streaming senders can respond more accurately to actual conditions on the path to the receiver. {{I-D.ietf-tsvwg-l4sops}} provides an operator's view of L4S and its impact on existing ECN deployments. 
+
+It's worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See {{quic-behavior}} for more details. 
 
 ## Measurement Collection {#measure-coll}
 
@@ -671,7 +684,7 @@ In recent times, the TCP goal of probing for available bandwidth, and "backing o
 
 Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
 
-## The QUIC Protocol and Its Behavior
+## The QUIC Protocol and Its Behavior {#quic-behavior}
 
 The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{RFC9000}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads.
 
@@ -680,6 +693,10 @@ Although QUIC provides an alternative to the TCP and UDP transport protocols, QU
 While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 {{I-D.ietf-quic-http}}, which describes how QUIC transport features are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 {{Port443}} but this is not a strict requirement.
 
 When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. Since earlier versions of HTTP(S) rely on TCP, UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and HTTP/3 can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
+
+As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes "head-of-line blocking", so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until the lost packet is retransmitted, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed. 
+
+A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP is not. 
 
 As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
 
