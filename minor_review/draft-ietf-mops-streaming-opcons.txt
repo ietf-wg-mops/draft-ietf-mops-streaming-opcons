@@ -774,13 +774,41 @@ Table of Contents
    available network bandwidth, this appears as a high jitter in the
    goodput measurement.
 
-   Active Queue Management (AQM) systems such as PIE [RFC8033] or
-   variants of RED [RFC7567] that induce early random loss under
-   congestion can mitigate this by using ECN [RFC3168] where available.
-   ECN provides a congestion signal and induce a similar backoff in
-   flows that use Explicit Congestion Notification-capable transport,
-   but by avoiding loss avoids inducing head-of-line blocking effects in
-   TCP connections.
+   Although Explicit Congestion Notification (ECN) has not been widely
+   deployed, Active Queue Management (AQM) systems such as PIE
+   ([RFC8033], [RFC8034]), CoDel ([RFC8289], [RFC8290]), or variants of
+   RED [RFC7567] that would ordinarily induce early random loss under
+   congestion by discarding packets, and since the bytes contained in
+   the delivered packet are still available to the application, ECN
+   usage can mitigate head-of-line blocking where it is available.
+
+   "Classic" ECN, as defined in [RFC3168], provides a congestion signal
+   to induce a sending rate backoff in flows that use Explicit
+   Congestion Notification-capable transport.  This backoff is similar
+   to sender behavior when packets are lost, but since packets are
+   marked with a congestion indicator instead of being discarded, the
+   bytes contained in these packets are still delivered to receivers,
+   and this avoids head-of-line blocking effects caused by potential
+   congestion unless packets are actually lost.
+
+   An experimental ECN mechanism, "low-latency, low-loss, scalable
+   throughput (L4S)", still being specified, would allow more gradual
+   changes in sending rates for L4S-capable transports when they are
+   available.  Although L4S doesn't have an immediate effect on head-of-
+   line blocking beyond Classic ECN, since marked packets are not lost,
+   the expectation is that L4S-capable senders responding to L4S ECN
+   signals would be less likely to experience a Classic ECN "Congestion
+   Experienced (CE)" signal that is interpreted as packet loss, or even
+   overrun available buffer space and cause actual packet loss.  These
+   more gradual responses are also expected to reduce jitter as measured
+   at the application layer, so that streaming senders can respond more
+   accurately to actual conditions on the path to the receiver.
+   [I-D.ietf-tsvwg-l4sops] provides an operator's view of L4S and its
+   impact on existing ECN deployments.
+
+   It's worth noting that more modern transport protocols such as QUIC
+   have mitigation of head-of-line blocking as a protocol design goal.
+   See Section 5.3 for more details.
 
 4.4.  Measurement Collection
 
@@ -1006,6 +1034,21 @@ Table of Contents
    traffic such as streaming media over the UDP ports that HTTP/3 is
    using.
 
+   As noted in Section 4.3.2, because TCP provides a reliable, in-order
+   delivery service for applications, any packet loss for a TCP
+   connection causes "head-of-line blocking", so that no TCP segments
+   arriving after a packet is lost will be delivered to the receiving
+   application until the lost packet is retransmitted, allowing in-order
+   delivery to the application to continue.  As described in [RFC9000],
+   QUIC connections can carry multiple streams, and when packet losses
+   do occur, only the streams carried in the lost packet are delayed.
+
+   A QUIC extension currently being specified ([I-D.ietf-quic-datagram])
+   adds the capability for "unreliable" delivery, similar to the service
+   provided by UDP, but these datagrams are still subject to the QUIC
+   connection's congestion controller, providing some transport-level
+   congestion avoidance measures, which UDP is not.
+
    As noted in Section 5.2, there is increasing interest in transport
    protocol behaviors that responds to delay measurements, instead of
    responding to packet loss.  These behaviors may deliver improved user
@@ -1220,8 +1263,8 @@ Table of Contents
 10.  Informative References
 
    [ABRSurvey]
-              Abdelhak Bentaleb et al, ., "A Survey on Bitrate
-              Adaptation Schemes for Streaming Media Over HTTP", 2019,
+              Bentaleb et al, A., "A Survey on Bitrate Adaptation
+              Schemes for Streaming Media Over HTTP", 2019,
               <https://ieeexplore.ieee.org/abstract/document/8424813>.
 
    [CDiD]     Huitema, C. and B. Trammell, "(A call for) Congestion
@@ -1257,9 +1300,9 @@ Table of Contents
               <https://shop.cta.tech/products/web-application-video-
               ecosystem-common-media-client-data-cta-5004>.
 
-   [CVNI]     Cisco Systems, Inc, ., "Cisco Visual Networking Index:
-              Forecast and Trends, 2017-2022 White Paper", 27 February
-              2019, <https://www.cisco.com/c/en/us/solutions/collateral/
+   [CVNI]     "Cisco Visual Networking Index: Forecast and Trends,
+              2017-2022 White Paper", 27 February 2019,
+              <https://www.cisco.com/c/en/us/solutions/collateral/
               service-provider/visual-networking-index-vni/white-paper-
               c11-741490.html>.
 
@@ -1291,6 +1334,13 @@ Table of Contents
               27 April 2021, <https://datatracker.ietf.org/doc/html/
               draft-pantos-hls-rfc8216bis-09.txt>.
 
+   [I-D.ietf-quic-datagram]
+              Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
+              Datagram Extension to QUIC", Work in Progress, Internet-
+              Draft, draft-ietf-quic-datagram-02, 16 February 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
+              datagram-02.txt>.
+
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
@@ -1304,6 +1354,13 @@ Table of Contents
               draft-ietf-quic-manageability-11, 21 April 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
               manageability-11.txt>.
+
+   [I-D.ietf-tsvwg-l4sops]
+              White, G., "Operational Guidance for Deployment of L4S in
+              the Internet", Work in Progress, Internet-Draft, draft-
+              ietf-tsvwg-l4sops-00, 5 May 2021,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-
+              l4sops-00.txt>.
 
    [IABcovid] Arkko, J., Farrel, S., Kühlewind, M., and C. Perkins,
               "Report from the IAB COVID-19 Network Impacts Workshop
@@ -1336,20 +1393,19 @@ Table of Contents
               01-sessa-april-15-2020-mops-interim-an-update-on-
               streaming-video-alliance>.
 
-   [MMSP20]   Kerem Durak et al, ., "Evaluating the performance of
-              Apple's low-latency HLS", September 2020,
+   [MMSP20]   Durak et al, K., "Evaluating the performance of Apple's
+              low-latency HLS", September 2020,
               <http://dx.doi.org/10.1109/MMSP48831.2020.9287117>.
 
-   [MMSys11]  Saamer Akhshabi et al, ., "An experimental evaluation of
-              rate-adaptation algorithms in adaptive streaming over
-              HTTP", February 2011,
+   [MMSys11]  Akhshabi et al, S., "An experimental evaluation of rate-
+              adaptation algorithms in adaptive streaming over HTTP",
+              February 2011,
               <https://dl.acm.org/doi/10.1145/1943552.1943574>.
 
    [MPEGI]    Boyce et al, J.M., "MPEG Immersive Video Coding Standard",
               n.d., <https://ieeexplore.ieee.org/document/9374648>.
 
-   [MSOD]     Apple, Inc, ., "HLS Authoring Specification for Apple
-              Devices", 2020,
+   [MSOD]     "HLS Authoring Specification for Apple Devices", 2020,
               <https://developer.apple.com/documentation/
               http_live_streaming/
               hls_authoring_specification_for_apple_devices>.
@@ -1359,8 +1415,8 @@ Table of Contents
               Blocks of TCP)", May 2021,
               <https://hpbn.co/building-blocks-of-tcp/>.
 
-   [PCC]      Sebastian Schwarz et al, ., "Emerging MPEG Standards for
-              Point Cloud Compression", March 2019,
+   [PCC]      Schwarz et al, S., "Emerging MPEG Standards for Point
+              Cloud Compression", March 2019,
               <https://ieeexplore.ieee.org/document/8571288>.
 
    [Port443]  "Service Name and Transport Protocol Port Number
@@ -1464,6 +1520,12 @@ Table of Contents
               Problem", RFC 8033, DOI 10.17487/RFC8033, February 2017,
               <https://datatracker.ietf.org/doc/html/rfc8033>.
 
+   [RFC8034]  White, G. and R. Pan, "Active Queue Management (AQM) Based
+              on Proportional Integral Controller Enhanced PIE) for
+              Data-Over-Cable Service Interface Specifications (DOCSIS)
+              Cable Modems", RFC 8034, DOI 10.17487/RFC8034, February
+              2017, <https://datatracker.ietf.org/doc/html/rfc8034>.
+
    [RFC8083]  Perkins, C. and V. Singh, "Multimedia Congestion Control:
               Circuit Breakers for Unicast RTP Sessions", RFC 8083,
               DOI 10.17487/RFC8083, March 2017,
@@ -1481,6 +1543,17 @@ Table of Contents
    [RFC8216]  Pantos, R., Ed. and W. May, "HTTP Live Streaming",
               RFC 8216, DOI 10.17487/RFC8216, August 2017,
               <https://datatracker.ietf.org/doc/html/rfc8216>.
+
+   [RFC8289]  Nichols, K., Jacobson, V., McGregor, A., Ed., and J.
+              Iyengar, Ed., "Controlled Delay Active Queue Management",
+              RFC 8289, DOI 10.17487/RFC8289, January 2018,
+              <https://datatracker.ietf.org/doc/html/rfc8289>.
+
+   [RFC8290]  Hoeiland-Joergensen, T., McKenney, P., Taht, D., Gettys,
+              J., and E. Dumazet, "The Flow Queue CoDel Packet Scheduler
+              and Active Queue Management Algorithm", RFC 8290,
+              DOI 10.17487/RFC8290, January 2018,
+              <https://datatracker.ietf.org/doc/html/rfc8290>.
 
    [RFC8312]  Rhee, I., Xu, L., Ha, S., Zimmermann, A., Eggert, L., and
               R. Scheffenegger, "CUBIC for Fast Long-Distance Networks",
