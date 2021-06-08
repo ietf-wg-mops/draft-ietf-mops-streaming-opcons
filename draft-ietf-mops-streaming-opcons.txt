@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 8 December 2021                                 Networked Media
+Expires: 10 December 2021                                Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                             6 June 2021
+                                                             8 June 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 December 2021.
+   This Internet-Draft will expire on 10 December 2021.
 
 Copyright Notice
 
@@ -1014,7 +1014,8 @@ Table of Contents
    network operators may be using to troubleshoot HTTP streaming media
    performance issues, perform analytics, or even intercept exchanges in
    current applications will not work for QUIC-based applications
-   without making changes to their networks.
+   without making changes to their networks.  Section 6 describes the
+   implications of media encryption in more detail.
 
    While QUIC is designed as a general-purpose transport protocol, and
    can carry different application-layer protocols, the current
@@ -1166,13 +1167,16 @@ Table of Contents
    and some carriers exploited this information in attempts to improve
    transport-layer performance [RFC3135].  The most recent standardized
    version of HTTPS, HTTP/3 [I-D.ietf-quic-http], uses the QUIC protocol
-   [RFC9000] as its transport layer.  QUIC relies only on the TLS 1.3
-   initial handshake for key exchange [RFC9001], and encrypts almost all
-   transport parameters, with the exception of a few invariant fields.
-   In the QUIC short header, the only transport-level parameter which is
-   sent "in the clear" is the destination connection ID [RFC8999].  For
-   these reasons, HTTP/3 is significantly more "opaque" than HTTPS with
-   HTTP/1 or HTTP/2.
+   [RFC9000] as its transport layer.  QUIC relies on the TLS 1.3 initial
+   handshake [RFC8446] only for key exchange [RFC9001], and encrypts
+   almost all transport parameters itself, with the exception of a few
+   invariant header fields.  In the QUIC short header, the only
+   transport-level parameter which is sent "in the clear" is the
+   Destination Connection ID [RFC8999], and even in the QUIC long
+   header, the only transport-level parameters sent "in the clear" are
+   the Version, Destination Connection ID, and Source Connection ID.
+   For these reasons, HTTP/3 is significantly more "opaque" than HTTPS
+   with HTTP/1 or HTTP/2.
 
 6.2.  Considerations for "Hop-by-Hop" Media Encryption
 
@@ -1238,13 +1242,31 @@ Table of Contents
    request and response headers and identify the media content being
    streamed.
 
-   "End-to-end" media encryption became much more widespread in the
-   years since [RFC7258] was issued, which identified pervasive
-   monitoring as a much greater threat than previously appreciated.
-   After the Snowden disclosures, many content providers made the
-   decision to use HTTPS protection - HTTP over TLS - for most or all
-   content being delivered as a routine practice, rather than in
-   exceptional cases for content that was considered "sensitive".
+   "End-to-end" media encryption has become much more widespread in the
+   years since the IETF issued "Pervasive Monitoring Is an Attack"
+   [RFC7258] as a Best Current Practice, describing pervasive monitoring
+   as a much greater threat than previously appreciated.  After the
+   Snowden disclosures, many content providers made the decision to use
+   HTTPS protection - HTTP over TLS - for most or all content being
+   delivered as a routine practice, rather than in exceptional cases for
+   content that was considered "sensitive".
+
+   Unfortunately, as noted in [RFC7258], there is no way to prevent
+   pervasive monitoring by an "attacker", while allowing monitoring by a
+   more benign entity who "only" wants to use DPI to examine HTTP
+   requests and responses in order to provide a better user experience.
+   If a modern encrypted transport protocol is used for end-to-end media
+   encryption, intermediary streaming operators are unable to examine
+   transport and application protocol behavior.  As described in
+   Section 6.2, only an intermediary streaming operator who is
+   explicitly authorized to examine packet payloads, rather than
+   intercepting packets and examining them without authorization, can
+   continue these practices.
+
+   [RFC7258] said that "The IETF will strive to produce specifications
+   that mitigate pervasive monitoring attacks", so streaming operators
+   should expect the IETF's direction toward preventing unauthorized
+   monitoring of IETF protocols to continue for the forseeable future.
 
 7.  IANA Considerations
 
@@ -1559,6 +1581,10 @@ Table of Contents
               R. Scheffenegger, "CUBIC for Fast Long-Distance Networks",
               RFC 8312, DOI 10.17487/RFC8312, February 2018,
               <https://datatracker.ietf.org/doc/html/rfc8312>.
+
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://datatracker.ietf.org/doc/html/rfc8446>.
 
    [RFC8622]  Bless, R., "A Lower-Effort Per-Hop Behavior (LE PHB) for
               Differentiated Services", RFC 8622, DOI 10.17487/RFC8622,
