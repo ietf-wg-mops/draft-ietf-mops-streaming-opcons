@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-06T14:28:20.140239+00:00",
+  "timestamp": "2021-06-08T16:46:52.045960+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -757,7 +757,7 @@
       "id": "MDU6SXNzdWU4ODgyNzAwMjU=",
       "title": "Need to clean up references so they format correctly in the References section",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/38",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -766,8 +766,8 @@
       "labels": [],
       "body": "Not just ins:, and insert processing directive for sorted references.",
       "createdAt": "2021-05-11T19:10:41Z",
-      "updatedAt": "2021-05-11T19:11:51Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-06T14:45:24Z",
+      "closedAt": "2021-06-06T14:45:24Z",
       "comments": []
     },
     {
@@ -1040,7 +1040,7 @@
       "labels": [],
       "body": "As a meta-issue, we're starting to add material that is more forward-looking than in previous versions of the draft. \r\n\r\nQUIC is actually \"approved for publication\" now, but how far out should we be going?",
       "createdAt": "2021-05-20T19:47:21Z",
-      "updatedAt": "2021-06-05T14:30:28Z",
+      "updatedAt": "2021-06-07T17:57:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -1056,6 +1056,20 @@
           "body": "@SpencerDawkins opened this when we started writing text about QUIC, especially when the QUIC protocol was still in the IETF working group. Now that QUICv1 has been published as RFCs, Spencer is OK with deleting this issue and continuing to provide guidance about what's coming up for streaming operators. @squarooticus and @squarooticus, any objection to where we're headed with the draft? If not, I'll close the issue. ",
           "createdAt": "2021-06-05T02:10:15Z",
           "updatedAt": "2021-06-05T02:10:15Z"
+        },
+        {
+          "author": "squarooticus",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I'm okay with this. I think you meant to tag @ldaigle rather than myself twice?",
+          "createdAt": "2021-06-07T14:06:49Z",
+          "updatedAt": "2021-06-07T14:06:49Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@squarooticus - sigh. Yes, absolutely. Apparently I've been spoiled by anycast wg-chairs email addresses? \r\n\r\n@ldaigle - my apologies. If you have thoughts, we'd love to hear them, even if I can't seem to tag you correctly on my first attempts!",
+          "createdAt": "2021-06-07T17:57:15Z",
+          "updatedAt": "2021-06-07T17:57:15Z"
         }
       ]
     },
@@ -4115,7 +4129,7 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjYyNDcxODQ1",
       "title": "Clean up references without ins: for author names",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/61",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4124,17 +4138,19 @@
       "labels": [],
       "body": "This should be fabulously non-controversial, but I'm creating a branch and PR for visibility to others ... ",
       "createdAt": "2021-06-05T14:54:38Z",
-      "updatedAt": "2021-06-06T06:53:35Z",
+      "updatedAt": "2021-06-06T14:45:36Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "ref-form",
       "headRefOid": "2b4af316568944f363c9469c970d6591c2bfb0c7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-06-06T14:45:24Z",
+      "mergedAt": "2021-06-06T14:45:24Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "bff4df9c9f370c48064ded0b458ed6553e2052e1"
+      },
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -4142,6 +4158,13 @@
           "body": "Any objections?",
           "createdAt": "2021-06-05T14:55:30Z",
           "updatedAt": "2021-06-05T14:55:30Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merged after @GrumpyOldTroll's review (I told you it would not be controversial!)",
+          "createdAt": "2021-06-06T14:45:32Z",
+          "updatedAt": "2021-06-06T14:45:32Z"
         }
       ],
       "reviews": [
@@ -4174,13 +4197,13 @@
       "labels": [],
       "body": "Also clarified relationship with UDP Behaviors section",
       "createdAt": "2021-06-05T17:04:10Z",
-      "updatedAt": "2021-06-06T07:03:49Z",
+      "updatedAt": "2021-06-06T14:49:43Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "unrel-trans",
-      "headRefOid": "787257d349b80ac08d03b7a3222186879f703a5a",
+      "headRefOid": "1168b0a8b5119cab9ae673f58e82adb72223a52f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4221,6 +4244,26 @@
               "updatedAt": "2021-06-06T07:03:49Z"
             }
           ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njc2ODczOTcx",
+          "commit": {
+            "abbreviatedOid": "787257d"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-06T14:49:43Z",
+          "updatedAt": "2021-06-06T14:49:43Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "Thanks for spotting this - change is made. ",
+              "createdAt": "2021-06-06T14:49:43Z",
+              "updatedAt": "2021-06-06T14:49:43Z"
+            }
+          ]
         }
       ]
     },
@@ -4238,13 +4281,13 @@
       "labels": [],
       "body": "I did add a few paragraphs of text, but don't expect it to be too controversial. Any thoughts?",
       "createdAt": "2021-06-05T18:25:20Z",
-      "updatedAt": "2021-06-06T07:10:04Z",
+      "updatedAt": "2021-06-06T14:53:36Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "Media-Encryption-and-Contention/Fairness",
-      "headRefOid": "ed12e894cae1f821c974d138c6675694100b17e6",
+      "headRefOid": "f1338066605e4e0901635ceb82d28ddf7d526de5",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4270,8 +4313,54 @@
               "updatedAt": "2021-06-06T07:10:04Z"
             }
           ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njc2ODc0MzQ0",
+          "commit": {
+            "abbreviatedOid": "ed12e89"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-06T14:53:36Z",
+          "updatedAt": "2021-06-06T14:53:36Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "Thanks for spotting this! Fixed in the branch. ",
+              "createdAt": "2021-06-06T14:53:36Z",
+              "updatedAt": "2021-06-06T14:53:36Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 64,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjY1MDg0Njk5",
+      "title": "mostly minor updates during a read-through",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/64",
+      "state": "OPEN",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-06-08T16:46:43Z",
+      "updatedAt": "2021-06-08T16:46:43Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "master",
+      "baseRefOid": "bff4df9c9f370c48064ded0b458ed6553e2052e1",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "minor_review",
+      "headRefOid": "c1cbefa38a14753b71aa23e54b11c62d0fc08d4c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
