@@ -169,6 +169,7 @@ Table of Contents
    This document is in the Github repository at:
 
    https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons
+   (https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons)
 
    Readers are welcome to open issues and send pull requests for this
    document.
@@ -177,8 +178,10 @@ Table of Contents
    working group mailing list (mops@ietf.org).
 
    *  Join: https://www.ietf.org/mailman/listinfo/mops
+      (https://www.ietf.org/mailman/listinfo/mops)
 
    *  Search: https://mailarchive.ietf.org/arch/browse/mops/
+      (https://mailarchive.ietf.org/arch/browse/mops/)
 
 1.1.2.  Template for Contributions
 
@@ -188,6 +191,7 @@ Table of Contents
    Please note that contributions may be merged and substantially
    edited, and as a reminder, please carefully consider the Note Well
    before contributing: https://datatracker.ietf.org/submit/note-well/
+   (https://datatracker.ietf.org/submit/note-well/)
 
    Contributions can be emailed to mops@ietf.org, submitted as issues to
    the issue tracker of the repository in Section 1.1.1, or emailed to
@@ -235,18 +239,23 @@ Table of Contents
 
    *  IETF 105 BOF:
       https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s
+      (https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s)
 
    *  IETF 106 meeting:
       https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s
+      (https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s)
 
    *  MOPS Interim Meeting 2020-04-15:
       https://www.youtube.com/watch?v=QExiajdC0IY&t=10m25s
+      (https://www.youtube.com/watch?v=QExiajdC0IY&t=10m25s)
 
    *  IETF 108 meeting:
       https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s
+      (https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s)
 
    *  MOPS 2020-10-30 Interim meeting:
       https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s
+      (https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s)
 
 2.  Bandwidth Provisioning
 
@@ -266,8 +275,8 @@ Table of Contents
    bitrate.
 
    Here are a few common resolutions used for video content, with
-   typical ranges of bitrate for two of the most popular video codecs
-   [MSOD].
+   typical ranges of bitrae for the two most popular video codecs
+   [Encodings].
 
          +============+================+============+============+
          | Name       | Width x Height | AVC        | HEVC       |
@@ -351,8 +360,7 @@ Table of Contents
    can be pre-loaded during off-peak hours, and especially if the
    transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for
    Differentiated Services" [RFC8622], "Low Extra Delay Background
-   Transport (LEDBAT)" [RFC6817], or similar mechanisms that make use of
-   unutilized capacity while yielding priority to other traffic.
+   Transport (LEDBAT)" [RFC6817], or similar mechanisms
 
    All of this depends, of course, on the ability of a content provider
    to predict usage and provision bandwidth, caching, and other
@@ -600,15 +608,15 @@ Table of Contents
    with the use of low-latency extensions of HLS (called LL-HLS)
    [I-D.draft-pantos-hls-rfc8216bis] and DASH (called LL-DASH)
    [LL-DASH].  These extensions use the Common Media Application Format
-   (CMAF) standard [CMAF] that allows the media to be packaged into and
-   transmitted in units smaller than segments, which are called chunks
-   in CMAF language.  This way, the latency can be decoupled from the
-   duration of the media segments.  Without a CMAF-like packaging, lower
-   latencies can only be achieved by using very short segment durations.
-   However, shorter segments means more frequent intra-coded frames and
-   that is detrimental to video encoding quality.  CMAF allows us to
-   still use longer segments (improving encoding quality) without
-   penalizing latency.
+   (CMAF) standard [MPEG-CMAF] that allows the media to be packaged into
+   and transmitted in units smaller than segments, which are called
+   chunks in CMAF language.  This way, the latency can be decoupled from
+   the duration of the media segments.  Without a CMAF-like packaging,
+   lower latencies can only be achieved by using very short segment
+   durations.  However, shorter segments means more frequent intra-coded
+   frames and that is detrimental to video encoding quality.  CMAF
+   allows us to still use longer segments (improving encoding quality)
+   without penalizing latency.
 
    While an LL-HLS client retrieves each chunk with a separate HTTP GET
    request, an LL-DASH client uses the chunked transfer encoding feature
@@ -624,8 +632,8 @@ Table of Contents
    stream that does not have a latency target shorter than 10 seconds.
 
    This level of latency is the historically common case for segmented
-   video delivery using HLS [RFC8216] and DASH [DASH].  This level of
-   latency is often considered adequate for content like news or pre-
+   video delivery using HLS [RFC8216] and DASH [MPEG-DASH].  This level
+   of latency is often considered adequate for content like news or pre-
    recorded content.  This level of latency is also sometimes achieved
    as a fallback state when some part of the delivery system or the
    client-side players do not have the necessary support for the
@@ -687,21 +695,19 @@ Table of Contents
    The media server may also choose to alter which bitrates are made
    available to players by adding or removing bitrate options from the
    ladder delivered to the player in subsequent manifests built and sent
-   to the player.
-
-   In this way both the player, through its selection of bitrate to
-   request from the manifest, and the server, through its construction
-   of the bitrates offered in the manifest, are able to affect network
-   utilization.
+   to the player.  This way, both the player, through its selection of
+   bitrate to request from the manifest, and the server, through its
+   construction of the bitrates offered in the manifest, are able to
+   affect network utilization.
 
 4.3.  Adaptive Segmented Delivery
 
    ABR playback is commonly implemented by streaming clients using HLS
-   [RFC8216] or DASH [DASH] to perform a reliable segmented delivery of
-   media over HTTP.  Different implementations use different strategies
-   [ABRSurvey], often relying on proprietary algorithms (called rate
-   adaptation or bitrate selection algorithms) to perform available
-   bandwidth estimation/prediction and the bitrate selection.
+   [RFC8216] or DASH [MPEG-DASH] to perform a reliable segmented
+   delivery of media over HTTP.  Different implementations use different
+   strategies [ABRSurvey], often relying on proprietary algorithms
+   (called rate adaptation or bitrate selection algorithms) to perform
+   available bandwidth estimation/prediction and the bitrate selection.
 
    Many server-player systems will do an initial probe or a very simple
    throughput speed test at the start of a video playback.  This is done
@@ -756,7 +762,7 @@ Table of Contents
    try to avoid this effect.  Another way to mitigate this effect is by
    the help of two simultaneous TCP connections is explained in
    [MMSys11] for Microsoft Smooth Streaming.  In some cases, the system-
-   level TCP slow-start restart can be disabled [oreilly-tcpblocks].
+   level TCP slow-start restart can be disabled [OReilly-HPBN].
 
 4.3.2.  Head-of-Line Blocking
 
@@ -911,9 +917,9 @@ Table of Contents
    to transport protocol behaviors.
 
    As noted in Section 4, Adaptive Bitrate response strategies such as
-   HLS [RFC8216] or DASH [DASH] are attempting to respond to changing
-   path characteristics, and underlying transport protocols are also
-   attempting to respond to changing path characteristics.
+   HLS [RFC8216] or DASH [MPEG-DASH] are attempting to respond to
+   changing path characteristics, and underlying transport protocols are
+   also attempting to respond to changing path characteristics.
 
    For most of the history of the Internet, these transport protocols,
    described in Section 5.1 and Section 5.2, have had relatively
@@ -1000,8 +1006,8 @@ Table of Contents
    "backing off" when a network path is saturated, has been supplanted
    by the goal of avoiding growing queues along network paths, which
    prevent TCP senders from reacting quickly when a network path is
-   saturated.  Congestion control mechanisms such as COPA [COPA] and BBR
-   [I-D.cardwell-iccrg-bbr-congestion-control] make these decisions
+   saturated.  Congestion control mechanisms such as COPA [COPA18] and
+   BBR [I-D.cardwell-iccrg-bbr-congestion-control] make these decisions
    based on measured path delays, assuming that if the measured path
    delay is increasing, the sender is injecting packets onto the network
    path faster than the receiver can accept them, so the sender should
@@ -1166,7 +1172,7 @@ Table of Contents
    "fingerprint" the encrypted media stream of known content, and then
    match the targeted media stream against the fingerprints of known
    content.  This protection can be lessened if a media provider is
-   repeatedly encrypting the same content. [codaspy] is an example of
+   repeatedly encrypting the same content.  [CODASPY17] is an example of
    what is possible when identifying HTTPS-protected videos over TCP
    transport, based either on the length of entire resources being
    transferred, or on characteristic packet patterns at the beginning of
@@ -1219,13 +1225,13 @@ Table of Contents
    level of privacy for endpoints, there are a number of possible tools,
    either already available or still being specified.  These include
 
-   *  Server And Network assisted DASH [DASH-SAND] - this specification
-      introduces explicit messaging between DASH clients and network
-      elements or between various network elements for the purpose of
-      improving the efficiency of streaming sessions by providing
-      information about real-time operational characteristics of
-      networks, servers, proxies, caches, CDNs, as well as DASH client's
-      performance and status.
+   *  Server And Network assisted DASH [MPEG-DASH-SAND] - this
+      specification introduces explicit messaging between DASH clients
+      and network elements or between various network elements for the
+      purpose of improving the efficiency of streaming sessions by
+      providing information about real-time operational characteristics
+      of networks, servers, proxies, caches, CDNs, as well as DASH
+      client's performance and status.
 
    *  "Double Encryption Procedures for the Secure Real-Time Transport
       Protocol (SRTP)" [RFC8723] - this specification provides a
@@ -1300,8 +1306,10 @@ Table of Contents
 10.  Informative References
 
    [ABRSurvey]
-              Bentaleb et al, A., "A Survey on Bitrate Adaptation
-              Schemes for Streaming Media Over HTTP", 2019,
+              Taani, B., Begen, A.C., Timmerer, C., Zimmermann, R., and
+              A. Bentaleb et al, "A Survey on Bitrate Adaptation Schemes
+              for Streaming Media Over HTTP", IEEE Communications
+              Surveys & Tutorials , 2019,
               <https://ieeexplore.ieee.org/abstract/document/8424813>.
 
    [CDiD]     Huitema, C. and B. Trammell, "(A call for) Congestion
@@ -1309,31 +1317,26 @@ Table of Contents
               <https://datatracker.ietf.org/meeting/105/materials/
               slides-105-tsvarea-congestion-defense-in-depth-00>.
 
-   [CMAF]     "ISO/IEC 23000-19:2020 Multimedia application format
-              (MPEG-A) - Part 19: Common media application format (CMAF)
-              for segmented media", March 2020,
-              <https://www.iso.org/standard/79106.html>.
-
    [CMAF-CTE] Law, W., "Ultra-Low-Latency Streaming Using Chunked-
               Encoded and Chunked Transferred CMAF", October 2018,
               <https://www.akamai.com/us/en/multimedia/documents/white-
               paper/low-latency-streaming-cmaf-whitepaper.pdf>.
 
-   [codaspy]  Reed, A. and M. Kranch, "Identifying HTTPS-Protected
-              Netflix Videos in Real-Time in CODASPY '17: Proceedings of
-              the Seventh ACM on Conference on Data and Application
-              Security and Privacy pp 361-368", March 2017,
+   [CODASPY17]
+              Reed, A. and M. Kranch, "Identifying HTTPS-Protected
+              Netflix Videos in Real-Time", ACM CODASPY , March 2017,
               <https://dl.acm.org/doi/10.1145/3029806.3029821>.
 
-   [COPA]     Arun, V. and H. Balakrishnan, "Copa: Practical Delay-Based
-              Congestion Control for the Internet", 2018,
-              <https://web.mit.edu/copa/>.
+   [COPA18]   Arun, V. and H. Balakrishnan, "Copa: Practical Delay-Based
+              Congestion Control for the Internet", USENIX NSDI , April
+              2018, <https://web.mit.edu/copa/>.
 
-   [CTA-2066] "Streaming Quality of Experience Events, Properties and
-              Metrics", n.d., <https://shop.cta.tech/products/streaming-
-              quality-of-experience-events-properties-and-metrics>.
+   [CTA-2066] Consumer Technology Association, "Streaming Quality of
+              Experience Events, Properties and Metrics", March 2020,
+              <https://shop.cta.tech/products/streaming-quality-of-
+              experience-events-properties-and-metrics>.
 
-   [CTA-5004] "Common Media Client Data (CMCD)", n.d.,
+   [CTA-5004] CTA, ., "Common Media Client Data (CMCD)", September 2020,
               <https://shop.cta.tech/products/web-application-video-
               ecosystem-common-media-client-data-cta-5004>.
 
@@ -1343,20 +1346,18 @@ Table of Contents
               service-provider/visual-networking-index-vni/white-paper-
               c11-741490.html>.
 
-   [DASH]     "ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP
-              (DASH) - Part 1: Media presentation description and
-              segment formats", December 2019,
-              <https://www.iso.org/standard/79329.html>.
-
-   [DASH-SAND]
-              "ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP
-              (DASH) - Part 5: Server and network assisted DASH (SAND)",
-              February 2017, <https://www.iso.org/standard/69079.html>.
-
    [ELASTIC]  De Cicco, L., Caldaralo, V., Palmisano, V., and S.
               Mascolo, "ELASTIC: A client-side controller for dynamic
-              adaptive streaming over HTTP (DASH)", December 2013,
+              adaptive streaming over HTTP (DASH)", Packet Video
+              Workshop , December 2013,
               <https://ieeexplore.ieee.org/document/6691442>.
+
+   [Encodings]
+              Apple, Inc, ., "HLS Authoring Specification for Apple
+              Devices", June 2020,
+              <https://developer.apple.com/documentation/
+              http_live_streaming/
+              hls_authoring_specification_for_apple_devices>.
 
    [I-D.cardwell-iccrg-bbr-congestion-control]
               Cardwell, N., Cheng, Y., Yeganeh, S. H., and V. Jacobson,
@@ -1409,62 +1410,77 @@ Table of Contents
               Control", November 1988,
               <https://ee.lbl.gov/papers/congavoid.pdf>.
 
-   [Labovitz] Labovitz, C. and Nokia Deepfield, "Network traffic
-              insights in the time of COVID-19: April 9 update", April
-              2020, <https://www.nokia.com/blog/network-traffic-
-              insights-time-covid-19-april-9-update/>.
+   [Labovitz] Labovitz, C., "Network traffic insights in the time of
+              COVID-19: April 9 update", April 2020,
+              <https://www.nokia.com/blog/network-traffic-insights-time-
+              covid-19-april-9-update/>.
 
    [LabovitzDDoS]
-              Takahashi, D. and Venture Beat, "Why the game industry is
-              still vulnerable to DDoS attacks", May 2018,
+              Takahashi, D., "Why the game industry is still vulnerable
+              to DDoS attacks", May 2018,
               <https://venturebeat.com/2018/05/13/why-the-game-industry-
               is-still-vulnerable-to-distributed-denial-of-service-
               attacks/>.
 
-   [LL-DASH]  "Low-latency Modes for DASH", March 2020,
+   [LL-DASH]  DASH-IF, ., "Low-latency Modes for DASH", March 2020,
               <https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf>.
 
    [Mishra]   Mishra, S. and J. Thibeault, "An update on Streaming Video
-              Alliance", 2020, <https://datatracker.ietf.org/meeting/
-              interim-2020-mops-01/materials/slides-interim-2020-mops-
-              01-sessa-april-15-2020-mops-interim-an-update-on-
-              streaming-video-alliance>.
+              Alliance", April 2020,
+              <https://datatracker.ietf.org/meeting/interim-2020-mops-
+              01/materials/slides-interim-2020-mops-01-sessa-april-
+              15-2020-mops-interim-an-update-on-streaming-video-
+              alliance>.
 
-   [MMSP20]   Durak et al, K., "Evaluating the performance of Apple's
-              low-latency HLS", September 2020,
-              <http://dx.doi.org/10.1109/MMSP48831.2020.9287117>.
+   [MMSP20]   Durak, K. and . et al, "Evaluating the performance of
+              Apple's low-latency HLS", IEEE MMSP , September 2020,
+              <https://ieeexplore.ieee.org/document/9287117>.
 
-   [MMSys11]  Akhshabi et al, S., "An experimental evaluation of rate-
-              adaptation algorithms in adaptive streaming over HTTP",
-              February 2011,
+   [MMSys11]  Akhshabi, S., Begen, A.C., and C. Dovrolis, "An
+              experimental evaluation of rate-adaptation algorithms in
+              adaptive streaming over HTTP", ACM MMSys , February 2011,
               <https://dl.acm.org/doi/10.1145/1943552.1943574>.
+
+   [MPEG-CMAF]
+              "ISO/IEC 23000-19:2020 Multimedia application format
+              (MPEG-A) - Part 19: Common media application format (CMAF)
+              for segmented media", March 2020,
+              <https://www.iso.org/standard/79106.html>.
+
+   [MPEG-DASH]
+              "ISO/IEC 23009-1:2019 Dynamic adaptive streaming over HTTP
+              (DASH) - Part 1: Media presentation description and
+              segment formats", December 2019,
+              <https://www.iso.org/standard/79329.html>.
+
+   [MPEG-DASH-SAND]
+              "ISO/IEC 23009-5:2017 Dynamic adaptive streaming over HTTP
+              (DASH) - Part 5: Server and network assisted DASH (SAND)",
+              February 2017, <https://www.iso.org/standard/69079.html>.
 
    [MPEG-TS]  "H.222.0 : Information technology - Generic coding of
               moving pictures and associated audio information:
               Systems", 29 August 2018,
               <https://www.itu.int/rec/T-REC-H.222.0>.
 
-   [MPEGI]    Boyce et al, J.M., "MPEG Immersive Video Coding Standard",
-              n.d., <https://ieeexplore.ieee.org/document/9374648>.
+   [MPEGI]    Boyce, J.M. and . et al, "MPEG Immersive Video Coding
+              Standard", Proceedings of the IEEE , n.d.,
+              <https://ieeexplore.ieee.org/document/9374648>.
 
-   [MSOD]     "HLS Authoring Specification for Apple Devices", 2020,
-              <https://developer.apple.com/documentation/
-              http_live_streaming/
-              hls_authoring_specification_for_apple_devices>.
-
-   [oreilly-tcpblocks]
+   [OReilly-HPBN]
               "High Performance Browser Networking (Chapter 2: Building
               Blocks of TCP)", May 2021,
               <https://hpbn.co/building-blocks-of-tcp/>.
 
-   [PCC]      Schwarz et al, S., "Emerging MPEG Standards for Point
-              Cloud Compression", March 2019,
+   [PCC]      Schwarz, S. and . et al, "Emerging MPEG Standards for
+              Point Cloud Compression", IEEE Journal on Emerging and
+              Selected Topics in Circuits and Systems , March 2019,
               <https://ieeexplore.ieee.org/document/8571288>.
 
    [Port443]  "Service Name and Transport Protocol Port Number
-              Registry", 29 April 2021,
-              <https://www.iana.org/assignments/service-names-port-
-              numbers/service-names-port-numbers.txt>.
+              Registry", April 2021, <https://www.iana.org/assignments/
+              service-names-port-numbers/service-names-port-
+              numbers.txt>.
 
    [RFC0793]  Postel, J., "Transmission Control Protocol", STD 7,
               RFC 793, DOI 10.17487/RFC0793, September 1981,
@@ -1656,7 +1672,7 @@ Table of Contents
               alliance>.
 
    [tsvarea-105]
-              "TSVAREA Minutes - IETF 105", 2019,
+              "TSVAREA Minutes - IETF 105", July 2019,
               <https://datatracker.ietf.org/meeting/105/materials/
               minutes-105-tsvarea-00>.
 
