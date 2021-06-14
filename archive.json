@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-08T16:46:52.045960+00:00",
+  "timestamp": "2021-06-14T01:16:47.854627+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -775,7 +775,7 @@
       "id": "MDU6SXNzdWU4ODgzNzk0MDA=",
       "title": "Encryption discussion is split between Media Encryption and Contention/Fairness",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/39",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -784,8 +784,8 @@
       "labels": [],
       "body": "Needs to be edited and possibly some text migrated. ",
       "createdAt": "2021-05-11T19:41:51Z",
-      "updatedAt": "2021-05-11T19:41:51Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-08T17:04:26Z",
+      "closedAt": "2021-06-08T17:04:26Z",
       "comments": []
     },
     {
@@ -887,7 +887,7 @@
       "id": "MDU6SXNzdWU4OTIyMjIwMTE=",
       "title": "How badly do we need to describe ECN in ###Head-of-Line Blocking?",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/42",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -896,8 +896,8 @@
       "labels": [],
       "body": "I'm looking at ###Head-of-Line Blocking, and most of this text looks plausible, but the last paragraph includes a short description of \"classic ECN\", which (AFAIK) is still not hugely employed **and turned on.** TSVWG has been actively discussing(!) proposals hat use ECT(1) as a signal that does NOT \"mean the same thing as a packet loss\", but until that's agreed upon and deployed - and I believe mechanisms like L4S are still targeting Experimental status, so that may take some time - there's not much difference between losing a packet and receiving a packet with one of the ECT bits set.\r\n\r\nI can type more about the details in the draft if necessary, but do we need to talk about ECN at all?",
       "createdAt": "2021-05-14T20:31:11Z",
-      "updatedAt": "2021-05-25T17:25:54Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-08T18:16:36Z",
+      "closedAt": "2021-06-08T18:16:36Z",
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -905,6 +905,13 @@
           "body": "Consensus of the editors is that the description of ECN can be removed. ",
           "createdAt": "2021-05-20T19:51:23Z",
           "updatedAt": "2021-05-20T19:51:23Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We deleted the ECN material on an editors call. ",
+          "createdAt": "2021-06-08T18:16:36Z",
+          "updatedAt": "2021-06-08T18:16:36Z"
         }
       ]
     },
@@ -979,7 +986,7 @@
       "id": "MDU6SXNzdWU4OTczMjQ3NDE=",
       "title": "Rationalize any overlap between \"Unreliable Transport\" and UDP section.",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/49",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -988,8 +995,8 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-05-20T19:22:14Z",
-      "updatedAt": "2021-06-05T17:08:24Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-08T17:12:49Z",
+      "closedAt": "2021-06-08T17:12:49Z",
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -1005,7 +1012,7 @@
       "id": "MDU6SXNzdWU4OTczMjk4MTg=",
       "title": "Mention that other protocols also provide unreliable transport ",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/50",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1014,8 +1021,8 @@
       "labels": [],
       "body": "SRT, TS-Multicast over UDP, etc. ",
       "createdAt": "2021-05-20T19:26:52Z",
-      "updatedAt": "2021-06-05T16:08:55Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-08T17:12:49Z",
+      "closedAt": "2021-06-08T17:12:49Z",
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -1031,7 +1038,7 @@
       "id": "MDU6SXNzdWU4OTczNTk2MzU=",
       "title": "How forward-looking is this draft going to be? ",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/51",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1040,8 +1047,8 @@
       "labels": [],
       "body": "As a meta-issue, we're starting to add material that is more forward-looking than in previous versions of the draft. \r\n\r\nQUIC is actually \"approved for publication\" now, but how far out should we be going?",
       "createdAt": "2021-05-20T19:47:21Z",
-      "updatedAt": "2021-06-07T17:57:15Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-09T13:29:34Z",
+      "closedAt": "2021-06-09T13:29:34Z",
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -1070,6 +1077,13 @@
           "body": "@squarooticus - sigh. Yes, absolutely. Apparently I've been spoiled by anycast wg-chairs email addresses? \r\n\r\n@ldaigle - my apologies. If you have thoughts, we'd love to hear them, even if I can't seem to tag you correctly on my first attempts!",
           "createdAt": "2021-06-07T17:57:15Z",
           "updatedAt": "2021-06-07T17:57:15Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm going to go ahead and close this issue, because the draft contents are at least current with what the IETF has done since -00 of Jake's individual draft at https://datatracker.ietf.org/doc/draft-jholland-mops-taxonomy/, so I think this ship has sailed. \r\n\r\nIf we decide that the bar is \"advice to streaming operators that has achieved widespread acceptance and has proven to be valuable\", that would be a pretty serious reset. ",
+          "createdAt": "2021-06-09T13:29:34Z",
+          "updatedAt": "2021-06-09T13:29:34Z"
         }
       ]
     },
@@ -1178,6 +1192,102 @@
           "updatedAt": "2021-06-01T18:22:15Z"
         }
       ]
+    },
+    {
+      "number": 67,
+      "id": "MDU6SXNzdWU5MTUzMjA3MDQ=",
+      "title": "Refactoring HOL section to focus on reasons why signals are lower or higher than they should be",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/67",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "GrumpyOldTroll"
+      ],
+      "labels": [],
+      "body": "The editors are 2:1 in favor of dropping ECN. Spencer is graciously in the rough. \r\n\r\nWe should be talking more broadly about what happens when you lose *any* packets, \r\n\r\nIf ECN belongs in the draft, it belongs somewhere else. \r\n\r\n\"Coming improvements in transport behaviors\" more broadly - we're talking about BBR and about end-to-end transport encryption now. Maybe we should talk about things like edge computing, etc ... but @GrumpyOldTroll will talk to the working group about this before we start a major refactor. ",
+      "createdAt": "2021-06-08T18:06:05Z",
+      "updatedAt": "2021-06-08T18:13:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 69,
+      "id": "MDU6SXNzdWU5MTU0MzQ0NzI=",
+      "title": "This document isn't a taxonomy any more, is it? I think this may be left over from Jake's individual draft",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/69",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "We should probably talk about how to update \r\n\r\n   This document aims to provide a taxonomy of networking issues as they\r\n   relate to quality of experience in internet video delivery.  The\r\n   focus is on capturing characteristics of video delivery that have\r\n   surprised network designers or transport experts without specific\r\n   video expertise, since these highlight key differences between common\r\n   assumptions in existing networking documents and observations of\r\n   video delivery issues in practice.\r\n\r\n@SpencerDawkins might suggest this (but didn't put it in -05):\r\n\r\n   This document \r\n   focuses is on capturing characteristics of video delivery that have\r\n   surprised network designers or transport experts without specific\r\n   video expertise, since these highlight key differences between common\r\n   assumptions in existing networking documents and observations of\r\n   video delivery issues in practice.\r\n\r\nThoughts from @GrumpyOldTroll or @acbegen?",
+      "createdAt": "2021-06-08T20:06:16Z",
+      "updatedAt": "2021-06-09T00:59:03Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sure, that works for me.",
+          "createdAt": "2021-06-09T00:59:03Z",
+          "updatedAt": "2021-06-09T00:59:03Z"
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "MDU6SXNzdWU5MTU0Mzc2MTU=",
+      "title": "We should probably delete Section 1.1.2.  Template for Contributions",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/70",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This was a brillant ideq, and has worked in other groups, but I can't remember any contribution that was made using this template ... ",
+      "createdAt": "2021-06-08T20:08:46Z",
+      "updatedAt": "2021-06-08T20:08:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 71,
+      "id": "MDU6SXNzdWU5MTU0NTAzMjc=",
+      "title": "Expansion and references for Table 1",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/71",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "acbegen"
+      ],
+      "labels": [],
+      "body": "@acbegen - could you provide the appropriate references for AVC and HEVC, and an expansion for DVD, included in Table 1? I can make the change if you can provide the information. ",
+      "createdAt": "2021-06-08T20:19:29Z",
+      "updatedAt": "2021-06-08T20:19:40Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 72,
+      "id": "MDU6SXNzdWU5MTU1MzMxNjI=",
+      "title": "Review ACKs section",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/72",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "We've been getting help from people, but the ACKs section hasn't changed much since -03 was submitted in November 2020. ",
+      "createdAt": "2021-06-08T21:27:51Z",
+      "updatedAt": "2021-06-08T21:27:51Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -1647,9 +1757,9 @@
       "labels": [],
       "body": "",
       "createdAt": "2020-04-09T20:36:28Z",
-      "updatedAt": "2021-05-20T19:55:04Z",
+      "updatedAt": "2021-06-08T18:09:51Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
-      "baseRefName": "master",
+      "baseRefName": "main",
       "baseRefOid": "0c1a7dd704a0b807eac50f2c88a05cc78670df74",
       "headRepository": "mattstock/ietf-mops-drafts",
       "headRefName": "master",
@@ -4188,7 +4298,7 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjYyNTE3NjY4",
       "title": "Add details about Unreliable Transports",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/62",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4197,17 +4307,19 @@
       "labels": [],
       "body": "Also clarified relationship with UDP Behaviors section",
       "createdAt": "2021-06-05T17:04:10Z",
-      "updatedAt": "2021-06-06T14:49:43Z",
+      "updatedAt": "2021-06-08T17:12:53Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "unrel-trans",
       "headRefOid": "1168b0a8b5119cab9ae673f58e82adb72223a52f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-06-08T17:12:49Z",
+      "mergedAt": "2021-06-08T17:12:48Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "c2298810b34e65ecb6eee9225797cf8635acb500"
+      },
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -4272,7 +4384,7 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjYyNTQ2Nzc2",
       "title": "Edits to the section on encryption",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/63",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4281,17 +4393,19 @@
       "labels": [],
       "body": "I did add a few paragraphs of text, but don't expect it to be too controversial. Any thoughts?",
       "createdAt": "2021-06-05T18:25:20Z",
-      "updatedAt": "2021-06-06T14:53:36Z",
+      "updatedAt": "2021-06-08T17:04:30Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "511ed5ace03141f87f73228b9dbdf5c64a47b7bb",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "Media-Encryption-and-Contention/Fairness",
       "headRefOid": "f1338066605e4e0901635ceb82d28ddf7d526de5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-06-08T17:04:26Z",
+      "mergedAt": "2021-06-08T17:04:26Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "9cd1d6f022ad224878aea28c1103b5f0ae68962d"
+      },
       "comments": [],
       "reviews": [
         {
@@ -4341,25 +4455,147 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjY1MDg0Njk5",
       "title": "mostly minor updates during a read-through",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "GrumpyOldTroll",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2021-06-08T16:46:43Z",
-      "updatedAt": "2021-06-08T16:46:43Z",
+      "updatedAt": "2021-06-08T17:15:35Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "master",
       "baseRefOid": "bff4df9c9f370c48064ded0b458ed6553e2052e1",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "minor_review",
-      "headRefOid": "c1cbefa38a14753b71aa23e54b11c62d0fc08d4c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2a2c327a7cc553adb43d4ac82e9269761685fa55",
+      "closedAt": "2021-06-08T17:15:31Z",
+      "mergedAt": "2021-06-08T17:15:30Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "ceb065f9da655bfdc829a66feb5bdbf2c172a4fd"
+      },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 65,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjY1MDkwNDA0",
+      "title": "Minor fixes",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/65",
+      "state": "MERGED",
+      "author": "acbegen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-06-08T16:55:43Z",
+      "updatedAt": "2021-06-08T17:54:22Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "master",
+      "baseRefOid": "bff4df9c9f370c48064ded0b458ed6553e2052e1",
+      "headRepository": "acbegen/ietf-mops-drafts",
+      "headRefName": "master",
+      "headRefOid": "d0f2da4eb3baccf3dd5035e472d34d4f4fb3a1ff",
+      "closedAt": "2021-06-08T17:54:22Z",
+      "mergedAt": "2021-06-08T17:54:22Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "370aacf2733047caf6c3cc1f919c84f3de3b97fb"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 66,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjY1MTM4NTE3",
+      "title": "Fixed merge conflicts from Ali's pr",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/66",
+      "state": "MERGED",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-06-08T17:54:08Z",
+      "updatedAt": "2021-06-08T17:58:46Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "master",
+      "baseRefOid": "ceb065f9da655bfdc829a66feb5bdbf2c172a4fd",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "ali-minor1",
+      "headRefOid": "f43f9e791a097a09a5e1e62af4f436db79bdecfb",
+      "closedAt": "2021-06-08T17:54:21Z",
+      "mergedAt": "2021-06-08T17:54:21Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "1b100edd756bf239f51970ce0bbb044aa09e97b9"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 68,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjY1MTU2NDM0",
+      "title": "partial fix for issue 67",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/68",
+      "state": "MERGED",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Just removing the ECN stuff.",
+      "createdAt": "2021-06-08T18:15:30Z",
+      "updatedAt": "2021-06-08T21:01:43Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "1b100edd756bf239f51970ce0bbb044aa09e97b9",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "ECN-gone",
+      "headRefOid": "df955527ecc16d0e408fd54fc7c511e86b7fdfe9",
+      "closedAt": "2021-06-08T18:20:31Z",
+      "mergedAt": "2021-06-08T18:20:31Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "a3fb2d01c6c09130ae96cdf1a337fd25d0e9729e"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 73,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjY1MzkxMDYx",
+      "title": "Spencer's first careful read-through",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/73",
+      "state": "MERGED",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Also removed ECN - I thought we did that!",
+      "createdAt": "2021-06-08T22:21:29Z",
+      "updatedAt": "2021-06-14T01:16:24Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "a3fb2d01c6c09130ae96cdf1a337fd25d0e9729e",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "pre-05-readthrough",
+      "headRefOid": "814ad401dac3da45c61640440086f860ff480b25",
+      "closedAt": "2021-06-14T01:16:23Z",
+      "mergedAt": "2021-06-14T01:16:23Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "9a01661cc5aaa7459de2d1fd7b6d054fcd21e7e0"
+      },
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Submitted as -05",
+          "createdAt": "2021-06-14T01:16:48Z",
+          "updatedAt": "2021-06-14T01:16:48Z"
+        }
+      ],
       "reviews": []
     }
   ]
