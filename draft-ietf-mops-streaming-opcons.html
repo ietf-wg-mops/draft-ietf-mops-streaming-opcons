@@ -29,7 +29,7 @@ high-bitrate media over the Internet.
     lxml 4.6.3
     pycountry 20.7.3
     pyflakes 2.2.0
-    PyYAML 5.4.1
+    PyYAML 5.3.1
     requests 2.25.1
     setuptools 51.3.3
     six 1.15.0
@@ -851,7 +851,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Holland, et al.</td>
-<td class="center">Expires 10 December 2021</td>
+<td class="center">Expires 16 December 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -864,12 +864,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-mops-streaming-opcons-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-06-08" class="published">8 June 2021</time>
+<time datetime="2021-06-14" class="published">14 June 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-12-10">10 December 2021</time></dd>
+<dd class="expires"><time datetime="2021-12-16">16 December 2021</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -913,7 +913,7 @@ high-bitrate media over the Internet.<a href="#section-abstract-1" class="pilcro
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 December 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 December 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1100,30 +1100,43 @@ high-bitrate media over the Internet.<a href="#section-abstract-1" class="pilcro
 <p id="section-1-1">As the internet has grown, an increasingly large share of the traffic
 delivered to end users has become video.  Estimates
 put the total share of internet video traffic at 75% in 2019, expected
-to grow to 82% by 2022.  What's more, this estimate projects the
+to grow to 82% by 2022.  This estimate projects the
 gross volume of video traffic will more than double during this time,
 based on a compound annual growth rate continuing at 34% (from Appendix
 D of <span>[<a href="#CVNI" class="xref">CVNI</a>]</span>).<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document specifically focuses on the streaming applications and defines streaming as follows: Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client. Here, continuous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play. This has two implications. First, server's transmission rate must (loosely or tightly) match to client's consumption rate for an uninterrupted playback. That is, the client must not run out of data (buffer underrun) or take more than it can keep (buffer overrun) as any excess media is simply discarded. Second, client's consumption rate is limited by not only bandwidth availability but also the real-time constraints. That is, the client cannot fetch media that is not available yet.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">In many contexts, video traffic can be handled transparently as
+<p id="section-1-3">This document specifically focuses on the streaming applications and defines streaming as follows:<a href="#section-1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-4.1">Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client.<a href="#section-1-4.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-1-4.2">Here, continuous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play.<a href="#section-1-4.2" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-1-5">This has two implications.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1-6.1">First, the server's transmission rate must (loosely or tightly) match to client's consumption rate in order to provide uninterrupted playback. That is, the client must not run out of data (buffer underrun) or accept more data than it can buffer before playback (buffer overrun) as any excess media is simply discarded.<a href="#section-1-6.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-1-6.2">Second, the client's consumption rate is limited not only by bandwidth availability but also real-time constraints. That is, the client cannot fetch media that is not available from a server yet.<a href="#section-1-6.2" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-1-7">In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
 video traffic continues to grow, it's becoming increasingly
 important to consider the effects of network design decisions
 on application-level performance, with considerations for
-the impact on video delivery.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">This document aims to provide a taxonomy of networking issues as
+the impact on video delivery.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8">This document aims to provide a taxonomy of networking issues as
 they relate to quality of experience in internet video delivery.
 The focus is on capturing characteristics of video delivery that
 have surprised network designers or transport experts without
 specific video expertise, since these highlight key differences
 between common assumptions in existing networking documents and
-observations of video delivery issues in practice.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">Making specific recommendations for mitigating these issues
+observations of video delivery issues in practice.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">Making specific recommendations for mitigating these issues
 is out of scope, though some existing mitigations are mentioned
 in passing.  The intent is to provide a point of reference for
 future solution proposals to use in describing how new
-technologies address or avoid these existing observed problems.<a href="#section-1-6" class="pilcrow">¶</a></p>
+technologies address or avoid these existing observed problems.<a href="#section-1-9" class="pilcrow">¶</a></p>
 <div id="notes-for-contributors-and-reviewers">
 <section id="section-1.1">
         <h3 id="name-notes-for-contributors-and-">
@@ -1245,13 +1258,13 @@ requested to provide the following information, where applicable:<a href="#secti
         <h3 id="name-scaling-requirements-for-me">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-scaling-requirements-for-me" class="section-name selfRef">Scaling Requirements for Media Delivery</a>
         </h3>
-<div id="video-bitrates">
+<div id="bvr">
 <section id="section-2.1.1">
           <h4 id="name-video-bitrates">
 <a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-video-bitrates" class="section-name selfRef">Video Bitrates</a>
           </h4>
 <p id="section-2.1.1-1">Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.1-2">Here are a few common resolutions used for video content, with typical ranges of bitrae for the two most popular video codecs <span>[<a href="#Encodings" class="xref">Encodings</a>]</span>.<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-2">Here are a few common resolutions used for video content, with typical ranges of bitrate for the two most popular video codecs <span>[<a href="#Encodings" class="xref">Encodings</a>]</span>.<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
             <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -1296,8 +1309,9 @@ requested to provide the following information, where applicable:<a href="#secti
           <h4 id="name-virtual-reality-bitrates">
 <a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-virtual-reality-bitrates" class="section-name selfRef">Virtual Reality Bitrates</a>
           </h4>
-<p id="section-2.1.2-1">Even the basic virtual reality (360-degree) videos (that allow users to look around freely, referred to as three degrees of freedom - 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.2-2">In more immersive applications, where basic user movement (3DoF+) or full user movement (6DoF) is allowed, the required bitrate grows even further. In this case, the immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to <span>[<a href="#MPEGI" class="xref">MPEGI</a>]</span> and <span>[<a href="#PCC" class="xref">PCC</a>]</span> for more details.<a href="#section-2.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-1">The bitrates given in <a href="#bvr" class="xref">Section 2.1.1</a> describe video streams that provide the user with a single, fixed, point of view - so, the user has no "degrees of freedom", and the user sees all of the video image that is available.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-2">Even basic virtual reality (360-degree) videos that allow users to look around freely (referred to as "three degrees of freedom", or 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time.<a href="#section-2.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-3">In more immersive applications, where limited user movement ("three degrees of freedom plus", or 3DoF+) or full user movement ("six degrees of freedom", or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to <span>[<a href="#MPEGI" class="xref">MPEGI</a>]</span> and <span>[<a href="#PCC" class="xref">PCC</a>]</span> for more details.<a href="#section-2.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1333,7 +1347,7 @@ as low as a per-feed requirement instead of a per-user requirement.<a href="#sec
         </h3>
 <p id="section-2.3-1">When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in <span>[<a href="#RFC7234" class="xref">RFC7234</a>]</span>). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.3-2">It is worth noting that not all high-demand content is "live" content. One popular example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<p id="section-2.3-3">Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, especially when the content can be pre-loaded during off-peak hours, and especially if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" <span>[<a href="#RFC8622" class="xref">RFC8622</a>]</span>, "Low Extra Delay Background Transport (LEDBAT)" <span>[<a href="#RFC6817" class="xref">RFC6817</a>]</span>, or similar mechanisms<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, especially when the content can be pre-loaded during off-peak hours, and especially if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" <span>[<a href="#RFC8622" class="xref">RFC8622</a>]</span>, "Low Extra Delay Background Transport (LEDBAT)" <span>[<a href="#RFC6817" class="xref">RFC6817</a>]</span>, or similar mechanisms.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
 <p id="section-2.3-4">All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases (<a href="#sec-predict" class="xref">Section 2.4</a>), this is relatively routine, but in other cases, it is more difficult (<a href="#sec-unpredict" class="xref">Section 2.5</a>, <a href="#sec-extreme" class="xref">Section 2.6</a>).<a href="#section-2.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1345,7 +1359,7 @@ as low as a per-feed requirement instead of a per-user requirement.<a href="#sec
 <p id="section-2.4-1">Historical data shows that users consume more video and videos at higher bitrates than they did in the past on their connected devices. Improvements in the codecs that help with reducing the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainment as well as conversational video.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 <p id="section-2.4-2">TBD: insert charts showing historical relative data usage patterns with
 error bars by time of day in consumer networks?<a href="#section-2.4-2" class="pilcrow">¶</a></p>
-<p id="section-2.4-3">Cross-ref vs. video quality by time of day in practice for some case
+<p id="section-2.4-3">TBD: Cross-ref vs. video quality by time of day in practice for some case
 study?  Not sure if there's a good way to capture a generalized insight
 here, but it seems worth making the point that demand projections can
 be used to help with e.g. power consumption with routing architectures
@@ -1357,8 +1371,8 @@ that provide for modular scalability.<a href="#section-2.4-3" class="pilcrow">¶
         <h3 id="name-unpredictable-usage-profile">
 <a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-unpredictable-usage-profile" class="section-name selfRef">Unpredictable Usage Profiles</a>
         </h3>
-<p id="section-2.5-1">Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become quite large.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
-<p id="section-2.5-2">For this reason, operators may pay more attention to downstream bandwidth utilization when planning and managing capacity. In addition, operators have been able to deploy access networks for end users using underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g. ADSL, cellular technologies, most IEEE 802.11 variants), assuming that users will need less upstream bandwidth than downstream bandwidth. This strategy usually works, except when it does not, because application bandwidth usage patterns have changed.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+<p id="section-2.5-1">Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become arbitrarily large.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.5-2">For this reason, operators may pay more attention to downstream bandwidth utilization when planning and managing capacity. In addition, operators have been able to deploy access networks for end users using underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g. ADSL, cellular technologies, most IEEE 802.11 variants), assuming that users will need less upstream bandwidth than downstream bandwidth. This strategy usually works, except when it faiis because application bandwidth usage patterns have changed in ways that were not predicted.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
 <p id="section-2.5-3">One example of this type of change was when peer-to-peer file sharing applications gained popularity in the early 2000s. To take one well-documented case (<span>[<a href="#RFC5594" class="xref">RFC5594</a>]</span>), the Bittorrent application created "swarms" of hosts, uploading and downloading files to each other, rather than communicating with a server. Bittorrent favored peers who uploaded as much as they downloaded, so that new Bittorrent users had an incentive to significantly increase their upstream bandwidth utilization.<a href="#section-2.5-3" class="pilcrow">¶</a></p>
 <p id="section-2.5-4">The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large ISP to attempt to "throttle" these transfers, to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, similar to an arms race, and set off discussions about "Net Neutrality" and calls for regulatory action.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
 <p id="section-2.5-5">Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
@@ -1622,13 +1636,13 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-the-quic-protocol-and-its-b" class="section-name selfRef">The QUIC Protocol and Its Behavior</a>
         </h3>
 <p id="section-5.3-1">The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, turns many of the statements made in <a href="#udp-behavior" class="xref">Section 5.1</a> and <a href="#tcp-behavior" class="xref">Section 5.2</a> on their heads.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in this document, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks. <a href="#stream-encrypt-media" class="xref">Section 6</a> describes the implications of media encryption in more detail.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in <a href="#gen-encrypt" class="xref">Section 6.1</a>, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks. <a href="#stream-encrypt-media" class="xref">Section 6</a> describes the implications of media encryption in more detail.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 <span>[<a href="#I-D.ietf-quic-http" class="xref">I-D.ietf-quic-http</a>]</span>, which describes how QUIC transport features are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 <span>[<a href="#Port443" class="xref">Port443</a>]</span> but this is not a strict requirement.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. Since earlier versions of HTTP(S) rely on TCP, UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and HTTP/3 can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <p id="section-5.3-5">As noted in <a href="#hol-blocking" class="xref">Section 4.3.2</a>, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes "head-of-line blocking", so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until the lost packet is retransmitted, allowing in-order delivery to the application to continue. As described in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
-<p id="section-5.3-6">A QUIC extension currently being specified (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP is not.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.3-6">A QUIC extension currently being specified (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
 <p id="section-5.3-7">As noted in <a href="#tcp-behavior" class="xref">Section 5.2</a>, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and <span>[<a href="#RFC9002" class="xref">RFC9002</a>]</span> defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno <span>[<a href="#RFC6582" class="xref">RFC6582</a>]</span>. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC <span>[<a href="#RFC8312" class="xref">RFC8312</a>]</span>, delay-based COPA or BBR, or even something completely different<a href="#section-5.3-7" class="pilcrow">¶</a></p>
-<p id="section-5.3-8">We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in <a href="#tcp-behavior" class="xref">Section 5.2</a> about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC with applications.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<p id="section-5.3-8">We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in <a href="#tcp-behavior" class="xref">Section 5.2</a> about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC libraries with their own applications.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
 <p id="section-5.3-9">The decision to deploy a new version of QUIC is relatively uncontrolled, compared to other widely used transport protocols, and this can include new transport behaviors that appear without much notice except to the QUIC endpoints. At IETF 105, Christian Huitema and Brian Trammell presented a talk on "Congestion Defense in Depth" <span>[<a href="#CDiD" class="xref">CDiD</a>]</span>, that explored potential concerns about new QUIC congestion controllers being broadly deployed without the testing and instrumentation that current major content providers routinely include. The sense of the room at IETF 105 was that the current major content providers understood what is at stake when they deploy new congestion controllers, but this presentation, and the related discussion in TSVAREA minutes from IETF 105 (<span>[<a href="#tsvarea-105" class="xref">tsvarea-105</a>]</span>, are still worth a look for new and rapidly growing content providers.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
 <p id="section-5.3-10">It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traffic are allowed to enter operator networks on roughly equal terms, questions of fairness and contention will be heavily dependent on interactions between the congestion controllers in use for TCP-base HTTP traffic and UDP-based HTTP/3 traffic.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
 <p id="section-5.3-11">More broadly, <span>[<a href="#I-D.ietf-quic-manageability" class="xref">I-D.ietf-quic-manageability</a>]</span> discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.<a href="#section-5.3-11" class="pilcrow">¶</a></p>
@@ -1643,7 +1657,7 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-6-1">"Encrypted Media" has at least three meanings:<a href="#section-6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-2.1">Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically retaining this encryption "at rest", when it is stored at senders and receivers,<a href="#section-6-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6-2.1">Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically remaining encrypted "at rest", when senders and receivers store it,<a href="#section-6-2.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-6-2.2">Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as "end-to-end media encryption"), and<a href="#section-6-2.2" class="pilcrow">¶</a>
 </li>
@@ -1651,10 +1665,11 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-6-3">Both "hop-by-hop" and "end-to-end" encrypted transport may carry media that is, in addition, encrypted at the application layer.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.  This document does not take a position on whether those goals are "valid" (whatever that might mean).<a href="#section-6-4" class="pilcrow">¶</a></p>
-<p id="section-6-5">In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end".<a href="#section-6-5" class="pilcrow">¶</a></p>
-<p id="section-6-6">Both "End-to-End" and "Hop-by-Hop" media encryption have implications for streaming operators.<a href="#section-6-6" class="pilcrow">¶</a></p>
-<div id="general-considerations-for-media-encryption">
+<p id="section-6-4">Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">This document does not take a position on whether those goals are "valid" (whatever that might mean).<a href="#section-6-5" class="pilcrow">¶</a></p>
+<p id="section-6-6">In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end". Because media encrypted at the application layer will only be processed by application-level entities, this encryption does not have transport-layer implications.<a href="#section-6-6" class="pilcrow">¶</a></p>
+<p id="section-6-7">Both "End-to-End" and "Hop-by-Hop" media encryption have specific implications for streaming operators. These are described in <a href="#hop-by-hop-encrypt" class="xref">Section 6.2</a> and <a href="#e2em-encrypt" class="xref">Section 6.3</a>.<a href="#section-6-7" class="pilcrow">¶</a></p>
+<div id="gen-encrypt">
 <section id="section-6.1">
         <h3 id="name-general-considerations-for-">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-general-considerations-for-" class="section-name selfRef">General Considerations for Media Encryption</a>
@@ -1787,10 +1802,6 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
       <dd>
 <span class="refAuthor">Kuehlewind, M.</span> and <span class="refAuthor">B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-11</span>, <time datetime="2021-04-21" class="refDate">21 April 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-11.txt">https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-11.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-tsvwg-l4sops">[I-D.ietf-tsvwg-l4sops]</dt>
-      <dd>
-<span class="refAuthor">White, G.</span>, <span class="refTitle">"Operational Guidance for Deployment of L4S in the Internet"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-l4sops-00</span>, <time datetime="2021-05-05" class="refDate">5 May 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-l4sops-00.txt">https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-l4sops-00.txt</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="IABcovid">[IABcovid]</dt>
       <dd>
 <span class="refAuthor">Arkko, J.</span>, <span class="refAuthor">Farrel, S.</span>, <span class="refAuthor">Kühlewind, M.</span>, and <span class="refAuthor">C. Perkins</span>, <span class="refTitle">"Report from the IAB COVID-19 Network Impacts Workshop 2020"</span>, <time datetime="2020-11" class="refDate">November 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/">https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/</a>&gt;</span>. </dd>
@@ -1867,10 +1878,6 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
       <dd>
 <span class="refAuthor">Border, J.</span>, <span class="refAuthor">Kojo, M.</span>, <span class="refAuthor">Griner, J.</span>, <span class="refAuthor">Montenegro, G.</span>, and <span class="refAuthor">Z. Shelby</span>, <span class="refTitle">"Performance Enhancing Proxies Intended to Mitigate Link-Related Degradations"</span>, <span class="seriesInfo">RFC 3135</span>, <span class="seriesInfo">DOI 10.17487/RFC3135</span>, <time datetime="2001-06" class="refDate">June 2001</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3135">https://datatracker.ietf.org/doc/html/rfc3135</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC3168">[RFC3168]</dt>
-      <dd>
-<span class="refAuthor">Ramakrishnan, K.</span>, <span class="refAuthor">Floyd, S.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09" class="refDate">September 2001</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3168">https://datatracker.ietf.org/doc/html/rfc3168</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC3550">[RFC3550]</dt>
       <dd>
 <span class="refAuthor">Schulzrinne, H.</span>, <span class="refAuthor">Casner, S.</span>, <span class="refAuthor">Frederick, R.</span>, and <span class="refAuthor">V. Jacobson</span>, <span class="refTitle">"RTP: A Transport Protocol for Real-Time Applications"</span>, <span class="seriesInfo">STD 64</span>, <span class="seriesInfo">RFC 3550</span>, <span class="seriesInfo">DOI 10.17487/RFC3550</span>, <time datetime="2003-07" class="refDate">July 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3550">https://datatracker.ietf.org/doc/html/rfc3550</a>&gt;</span>. </dd>
@@ -1919,10 +1926,6 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
       <dd>
 <span class="refAuthor">Xu, X.</span>, <span class="refAuthor">Sheth, N.</span>, <span class="refAuthor">Yong, L.</span>, <span class="refAuthor">Callon, R.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"Encapsulating MPLS in UDP"</span>, <span class="seriesInfo">RFC 7510</span>, <span class="seriesInfo">DOI 10.17487/RFC7510</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7510">https://datatracker.ietf.org/doc/html/rfc7510</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC7567">[RFC7567]</dt>
-      <dd>
-<span class="refAuthor">Baker, F., Ed.</span> and <span class="refAuthor">G. Fairhurst, Ed.</span>, <span class="refTitle">"IETF Recommendations Regarding Active Queue Management"</span>, <span class="seriesInfo">BCP 197</span>, <span class="seriesInfo">RFC 7567</span>, <span class="seriesInfo">DOI 10.17487/RFC7567</span>, <time datetime="2015-07" class="refDate">July 2015</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7567">https://datatracker.ietf.org/doc/html/rfc7567</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7656">[RFC7656]</dt>
       <dd>
 <span class="refAuthor">Lennox, J.</span>, <span class="refAuthor">Gross, K.</span>, <span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Salgueiro, G.</span>, and <span class="refAuthor">B. Burman, Ed.</span>, <span class="refTitle">"A Taxonomy of Semantics and Mechanisms for Real-Time Transport Protocol (RTP) Sources"</span>, <span class="seriesInfo">RFC 7656</span>, <span class="seriesInfo">DOI 10.17487/RFC7656</span>, <time datetime="2015-11" class="refDate">November 2015</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7656">https://datatracker.ietf.org/doc/html/rfc7656</a>&gt;</span>. </dd>
@@ -1930,14 +1933,6 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
 <dt id="RFC7661">[RFC7661]</dt>
       <dd>
 <span class="refAuthor">Fairhurst, G.</span>, <span class="refAuthor">Sathiaseelan, A.</span>, and <span class="refAuthor">R. Secchi</span>, <span class="refTitle">"Updating TCP to Support Rate-Limited Traffic"</span>, <span class="seriesInfo">RFC 7661</span>, <span class="seriesInfo">DOI 10.17487/RFC7661</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7661">https://datatracker.ietf.org/doc/html/rfc7661</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8033">[RFC8033]</dt>
-      <dd>
-<span class="refAuthor">Pan, R.</span>, <span class="refAuthor">Natarajan, P.</span>, <span class="refAuthor">Baker, F.</span>, and <span class="refAuthor">G. White</span>, <span class="refTitle">"Proportional Integral Controller Enhanced (PIE): A Lightweight Control Scheme to Address the Bufferbloat Problem"</span>, <span class="seriesInfo">RFC 8033</span>, <span class="seriesInfo">DOI 10.17487/RFC8033</span>, <time datetime="2017-02" class="refDate">February 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8033">https://datatracker.ietf.org/doc/html/rfc8033</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8034">[RFC8034]</dt>
-      <dd>
-<span class="refAuthor">White, G.</span> and <span class="refAuthor">R. Pan</span>, <span class="refTitle">"Active Queue Management (AQM) Based on Proportional Integral Controller Enhanced PIE) for Data-Over-Cable Service Interface Specifications (DOCSIS) Cable Modems"</span>, <span class="seriesInfo">RFC 8034</span>, <span class="seriesInfo">DOI 10.17487/RFC8034</span>, <time datetime="2017-02" class="refDate">February 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8034">https://datatracker.ietf.org/doc/html/rfc8034</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8083">[RFC8083]</dt>
       <dd>
@@ -1954,14 +1949,6 @@ the goodput measurement.<a href="#section-4.3.2-2" class="pilcrow">¶</a></p>
 <dt id="RFC8216">[RFC8216]</dt>
       <dd>
 <span class="refAuthor">Pantos, R., Ed.</span> and <span class="refAuthor">W. May</span>, <span class="refTitle">"HTTP Live Streaming"</span>, <span class="seriesInfo">RFC 8216</span>, <span class="seriesInfo">DOI 10.17487/RFC8216</span>, <time datetime="2017-08" class="refDate">August 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8216">https://datatracker.ietf.org/doc/html/rfc8216</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8289">[RFC8289]</dt>
-      <dd>
-<span class="refAuthor">Nichols, K.</span>, <span class="refAuthor">Jacobson, V.</span>, <span class="refAuthor">McGregor, A., Ed.</span>, and <span class="refAuthor">J. Iyengar, Ed.</span>, <span class="refTitle">"Controlled Delay Active Queue Management"</span>, <span class="seriesInfo">RFC 8289</span>, <span class="seriesInfo">DOI 10.17487/RFC8289</span>, <time datetime="2018-01" class="refDate">January 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8289">https://datatracker.ietf.org/doc/html/rfc8289</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8290">[RFC8290]</dt>
-      <dd>
-<span class="refAuthor">Hoeiland-Joergensen, T.</span>, <span class="refAuthor">McKenney, P.</span>, <span class="refAuthor">Taht, D.</span>, <span class="refAuthor">Gettys, J.</span>, and <span class="refAuthor">E. Dumazet</span>, <span class="refTitle">"The Flow Queue CoDel Packet Scheduler and Active Queue Management Algorithm"</span>, <span class="seriesInfo">RFC 8290</span>, <span class="seriesInfo">DOI 10.17487/RFC8290</span>, <time datetime="2018-01" class="refDate">January 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8290">https://datatracker.ietf.org/doc/html/rfc8290</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8312">[RFC8312]</dt>
       <dd>
