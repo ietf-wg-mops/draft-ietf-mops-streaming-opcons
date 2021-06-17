@@ -331,19 +331,9 @@ important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
 
-This document aims to provide a taxonomy of networking issues as
-they relate to quality of experience in internet video delivery.
-The focus is on capturing characteristics of video delivery that
-have surprised network designers or transport experts without
-specific video expertise, since these highlight key differences
-between common assumptions in existing networking documents and
-observations of video delivery issues in practice.
+This document examines networking issues as they relate to quality of experience in internet video delivery. The focus is on capturing capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.
 
-Making specific recommendations for mitigating these issues
-is out of scope, though some existing mitigations are mentioned
-in passing.  The intent is to provide a point of reference for
-future solution proposals to use in describing how new
-technologies address or avoid these existing observed problems.
+Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.
 
 ## Notes for Contributors and Reviewers
 
@@ -365,37 +355,6 @@ Substantial discussion of this document should take place on the MOPS working gr
 
 - Join: <https://www.ietf.org/mailman/listinfo/mops>
 - Search: <https://mailarchive.ietf.org/arch/browse/mops/>
-
-### Template for Contributions
-
-Contributions are solicited regarding issues and considerations
-that have an impact on media streaming operations.
-
-Please note that contributions may be merged and substantially
-edited, and as a reminder, please carefully consider the Note Well
-before contributing: <https://datatracker.ietf.org/submit/note-well/>
-
-Contributions can be emailed to mops@ietf.org, submitted as issues
-to the issue tracker of the repository in {{venue}}, or emailed to the
-document authors at draft-ietf-mops-streaming-opcons@ietf.org.
-
-Contributors describing an issue not yet addressed in the draft are
-requested to provide the following information, where applicable:
-
-- a suggested title or name for the issue
-- a long-term pointer to the best reference describing the issue
-- a short description of the nature of the issue and its impact on media quality of service, including:
-  - where in the network this issue has root causes
-  - who can detect this issue when it occurs
-- an overview of the issue's known prevalence in practice.  pointers to write-ups of high-profile incidents are a plus.
-- a list of known mitigation techniques, with (for each known mitigation):
-  - a name for the mitigation technique
-  - a long-term pointer to the best reference describing it
-  - a short description of the technique:
-    - what it does
-    - where in the network it operates
-    - an overview of the tradeoffs involved--how and why it's helpful, what it costs.
-  - supplemental information about the technique's deployment prevalence and status
 
 ### History of Public Discussion
 
@@ -424,7 +383,7 @@ Presentations:
 
 Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate.
 
-Here are a few common resolutions used for video content, with typical ranges of bitrate for the two most popular video codecs {{Encodings}}.
+Here are a few common resolutions used for video content, with typical ranges of bitrates for the two most popular video codecs {{Encodings}}.
 
 | Name | Width x Height | AVC | HEVC
 | -----+----------------+-------------------------------
