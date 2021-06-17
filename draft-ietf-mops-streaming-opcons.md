@@ -331,18 +331,9 @@ important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
 
-This document
-focuses on capturing characteristics of video delivery that have
-surprised network designers or transport experts without specific
-video expertise, since these highlight key differences between common
-assumptions in existing networking documents and observations of
-video delivery issues in practice.
+This document examines networking issues as they relate to quality of experience in internet video delivery. The focus is on capturing capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.
 
-Making specific recommendations for future work on mitigating these issues
-is out of scope, though some existing mitigations are mentioned
-in passing.  The intent is to provide a point of reference for
-future solution proposals to use in describing how new
-technologies address or avoid these existing observed problems.
+Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.
 
 ## Notes for Contributors and Reviewers
 
