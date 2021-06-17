@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 16 December 2021                                Networked Media
+Expires: 19 December 2021                                Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            14 June 2021
+                                                            17 June 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 December 2021.
+   This Internet-Draft will expire on 19 December 2021.
 
 Copyright Notice
 
@@ -56,8 +56,7 @@ Table of Contents
    1.  Introduction
      1.1.  Notes for Contributors and Reviewers
        1.1.1.  Venues for Contribution and Discussion
-       1.1.2.  Template for Contributions
-       1.1.3.  History of Public Discussion
+       1.1.2.  History of Public Discussion
    2.  Bandwidth Provisioning
      2.1.  Scaling Requirements for Media Delivery
        2.1.1.  Video Bitrates
@@ -150,19 +149,20 @@ Table of Contents
    consider the effects of network design decisions on application-level
    performance, with considerations for the impact on video delivery.
 
-   This document aims to provide a taxonomy of networking issues as they
-   relate to quality of experience in internet video delivery.  The
-   focus is on capturing characteristics of video delivery that have
-   surprised network designers or transport experts without specific
-   video expertise, since these highlight key differences between common
+   This document examines networking issues as they relate to quality of
+   experience in internet video delivery.  The focus is on capturing
+   capturing characteristics of video delivery that have surprised
+   network designers or transport experts without specific video
+   expertise, since these highlight key differences between common
    assumptions in existing networking documents and observations of
    video delivery issues in practice.
 
-   Making specific recommendations for mitigating these issues is out of
-   scope, though some existing mitigations are mentioned in passing.
-   The intent is to provide a point of reference for future solution
-   proposals to use in describing how new technologies address or avoid
-   these existing observed problems.
+   Making specific recommendations on operational practices aimed at
+   mitigating these issues is out of scope, though some existing
+   mitigations are mentioned in passing.  The intent is to provide a
+   point of reference for future solution proposals to use in describing
+   how new technologies address or avoid these existing observed
+   problems.
 
 1.1.  Notes for Contributors and Reviewers
 
@@ -191,57 +191,7 @@ Table of Contents
    *  Search: https://mailarchive.ietf.org/arch/browse/mops/
       (https://mailarchive.ietf.org/arch/browse/mops/)
 
-1.1.2.  Template for Contributions
-
-   Contributions are solicited regarding issues and considerations that
-   have an impact on media streaming operations.
-
-   Please note that contributions may be merged and substantially
-   edited, and as a reminder, please carefully consider the Note Well
-   before contributing: https://datatracker.ietf.org/submit/note-well/
-   (https://datatracker.ietf.org/submit/note-well/)
-
-   Contributions can be emailed to mops@ietf.org, submitted as issues to
-   the issue tracker of the repository in Section 1.1.1, or emailed to
-   the document authors at draft-ietf-mops-streaming-opcons@ietf.org.
-
-   Contributors describing an issue not yet addressed in the draft are
-   requested to provide the following information, where applicable:
-
-   *  a suggested title or name for the issue
-
-   *  a long-term pointer to the best reference describing the issue
-
-   *  a short description of the nature of the issue and its impact on
-      media quality of service, including:
-
-      -  where in the network this issue has root causes
-
-      -  who can detect this issue when it occurs
-
-   *  an overview of the issue's known prevalence in practice.  pointers
-      to write-ups of high-profile incidents are a plus.
-
-   *  a list of known mitigation techniques, with (for each known
-      mitigation):
-
-      -  a name for the mitigation technique
-
-      -  a long-term pointer to the best reference describing it
-
-      -  a short description of the technique:
-
-         o  what it does
-
-         o  where in the network it operates
-
-         o  an overview of the tradeoffs involved--how and why it's
-            helpful, what it costs.
-
-      -  supplemental information about the technique's deployment
-         prevalence and status
-
-1.1.3.  History of Public Discussion
+1.1.2.  History of Public Discussion
 
    Presentations:
 
@@ -283,7 +233,7 @@ Table of Contents
    bitrate.
 
    Here are a few common resolutions used for video content, with
-   typical ranges of bitrate for the two most popular video codecs
+   typical ranges of bitrates for the two most popular video codecs
    [Encodings].
 
          +============+================+============+============+

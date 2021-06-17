@@ -36,7 +36,170 @@ high-bitrate media over the Internet.
 -->
 <link href="draft-ietf-mops-streaming-opcons.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
-<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 html {
   --background-color: #fff;
@@ -851,7 +1014,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Holland, et al.</td>
-<td class="center">Expires 16 December 2021</td>
+<td class="center">Expires 19 December 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -864,12 +1027,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-mops-streaming-opcons-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-06-14" class="published">14 June 2021</time>
+<time datetime="2021-06-17" class="published">17 June 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-12-16">16 December 2021</time></dd>
+<dd class="expires"><time datetime="2021-12-19">19 December 2021</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -913,7 +1076,7 @@ high-bitrate media over the Internet.<a href="#section-abstract-1" class="pilcro
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 December 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 December 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -941,151 +1104,148 @@ high-bitrate media over the Internet.<a href="#section-abstract-1" class="pilcro
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.1">
+<nav class="toc"><ul class="toc ulEmpty compact">
+<li class="toc ulEmpty compact" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.1.2.1.2.1">
                     <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="xref">1.1.1</a>.  <a href="#name-venues-for-contribution-and" class="xref">Venues for Contribution and Discussion</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1.2.2">
-                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="xref">1.1.2</a>.  <a href="#name-template-for-contributions" class="xref">Template for Contributions</a></p>
-</li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1.2.3">
-                    <p id="section-toc.1-1.1.2.1.2.3.1" class="keepWithNext"><a href="#section-1.1.3" class="xref">1.1.3</a>.  <a href="#name-history-of-public-discussio" class="xref">History of Public Discussion</a></p>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.1.2.1.2.2">
+                    <p id="section-toc.1-1.1.2.1.2.2.1" class="keepWithNext"><a href="#section-1.1.2" class="xref">1.1.2</a>.  <a href="#name-history-of-public-discussio" class="xref">History of Public Discussion</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.2">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-bandwidth-provisioning" class="xref">Bandwidth Provisioning</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.2.2.1">
                 <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-scaling-requirements-for-me" class="xref">Scaling Requirements for Media Delivery</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.2.2.1.2.1">
                     <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-video-bitrates" class="xref">Video Bitrates</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1.2.2">
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.2.2.1.2.2">
                     <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-virtual-reality-bitrates" class="xref">Virtual Reality Bitrates</a></p>
 </li>
                 </ul>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.2">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.2.2.2">
                 <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-path-requirements" class="xref">Path Requirements</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.3">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.2.2.3">
                 <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-caching-systems" class="xref">Caching Systems</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.4">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.2.2.4">
                 <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-predictable-usage-profiles" class="xref">Predictable Usage Profiles</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.5">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.2.2.5">
                 <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-unpredictable-usage-profile" class="xref">Unpredictable Usage Profiles</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.2.2.6">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.2.2.6">
                 <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="xref">2.6</a>.  <a href="#name-extremely-unpredictable-usa" class="xref">Extremely Unpredictable Usage Profiles</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.3">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-latency-considerations" class="xref">Latency Considerations</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.3.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.3.2.1">
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-ultra-low-latency" class="xref">Ultra Low-Latency</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.3.2.2">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-low-latency-live" class="xref">Low-Latency Live</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.3.2.3">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-non-low-latency-live" class="xref">Non-Low-Latency Live</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.3.2.4">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-on-demand" class="xref">On-Demand</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.4">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-adaptive-encoding-adaptive-" class="xref">Adaptive Encoding, Adaptive Delivery, and Measurement Collection</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-overview" class="xref">Overview</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.2">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.2">
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-adaptive-encoding" class="xref">Adaptive Encoding</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-adaptive-segmented-delivery" class="xref">Adaptive Segmented Delivery</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3.2.1">
                     <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="xref">4.3.1</a>.  <a href="#name-idle-time-between-segments" class="xref">Idle Time between Segments</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3.2.2">
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3.2.2">
                     <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="xref">4.3.2</a>.  <a href="#name-head-of-line-blocking" class="xref">Head-of-Line Blocking</a></p>
 </li>
                 </ul>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.4">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4">
                 <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-measurement-collection" class="xref">Measurement Collection</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.4.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4.2.1">
                     <p id="section-toc.1-1.4.2.4.2.1.1"><a href="#section-4.4.1" class="xref">4.4.1</a>.  <a href="#name-cta-2066-streaming-quality-" class="xref">CTA-2066: Streaming Quality of Experience Events, Properties and Metrics</a></p>
 </li>
-                  <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.4.2.2">
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4.2.2">
                     <p id="section-toc.1-1.4.2.4.2.2.1"><a href="#section-4.4.2" class="xref">4.4.2</a>.  <a href="#name-cta-5004-common-media-clien" class="xref">CTA-5004: Common Media Client Data (CMCD)</a></p>
 </li>
                 </ul>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.5">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.5">
                 <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-unreliable-transport" class="xref">Unreliable Transport</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.5">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-evolution-of-transport-prot" class="xref">Evolution of Transport Protocols and Transport Protocol Behaviors</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-udp-and-its-behavior" class="xref">UDP and Its Behavior</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.5.2.2">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-tcp-and-its-behavior" class="xref">TCP and Its Behavior</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.5.2.3">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-the-quic-protocol-and-its-b" class="xref">The QUIC Protocol and Its Behavior</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.6">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-streaming-encrypted-media" class="xref">Streaming Encrypted Media</a></p>
-<ul class="ulEmpty compact toc">
-<li class="ulEmpty compact toc" id="section-toc.1-1.6.2.1">
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-general-considerations-for-" class="xref">General Considerations for Media Encryption</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.6.2.2">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-considerations-for-hop-by-h" class="xref">Considerations for "Hop-by-Hop" Media Encryption</a></p>
 </li>
-              <li class="ulEmpty compact toc" id="section-toc.1-1.6.2.3">
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.3">
                 <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-considerations-for-end-to-e" class="xref">Considerations for "End-to-End" Media Encryption</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.7">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.8">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.9">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.10">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-informative-references" class="xref">Informative References</a></p>
 </li>
-          <li class="ulEmpty compact toc" id="section-toc.1-1.11">
+          <li class="toc ulEmpty compact" id="section-toc.1-1.11">
             <p id="section-toc.1-1.11.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
 </li>
         </ul>
@@ -1125,18 +1285,8 @@ video traffic continues to grow, it's becoming increasingly
 important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">This document aims to provide a taxonomy of networking issues as
-they relate to quality of experience in internet video delivery.
-The focus is on capturing characteristics of video delivery that
-have surprised network designers or transport experts without
-specific video expertise, since these highlight key differences
-between common assumptions in existing networking documents and
-observations of video delivery issues in practice.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">Making specific recommendations for mitigating these issues
-is out of scope, though some existing mitigations are mentioned
-in passing.  The intent is to provide a point of reference for
-future solution proposals to use in describing how new
-technologies address or avoid these existing observed problems.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-8">This document examines networking issues as they relate to quality of experience in internet video delivery. The focus is on capturing capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.<a href="#section-1-9" class="pilcrow">¶</a></p>
 <div id="notes-for-contributors-and-reviewers">
 <section id="section-1.1">
         <h3 id="name-notes-for-contributors-and-">
@@ -1163,83 +1313,27 @@ development and discussion on the draft so far.<a href="#section-1.1-2" class="p
           </ul>
 </section>
 </div>
-<div id="template-for-contributions">
-<section id="section-1.1.2">
-          <h4 id="name-template-for-contributions">
-<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-template-for-contributions" class="section-name selfRef">Template for Contributions</a>
-          </h4>
-<p id="section-1.1.2-1">Contributions are solicited regarding issues and considerations
-that have an impact on media streaming operations.<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.1.2-2">Please note that contributions may be merged and substantially
-edited, and as a reminder, please carefully consider the Note Well
-before contributing: <a href="https://datatracker.ietf.org/submit/note-well/">https://datatracker.ietf.org/submit/note-well/</a><a href="#section-1.1.2-2" class="pilcrow">¶</a></p>
-<p id="section-1.1.2-3">Contributions can be emailed to mops@ietf.org, submitted as issues
-to the issue tracker of the repository in <a href="#venue" class="xref">Section 1.1.1</a>, or emailed to the
-document authors at draft-ietf-mops-streaming-opcons@ietf.org.<a href="#section-1.1.2-3" class="pilcrow">¶</a></p>
-<p id="section-1.1.2-4">Contributors describing an issue not yet addressed in the draft are
-requested to provide the following information, where applicable:<a href="#section-1.1.2-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1.1.2-5.1">a suggested title or name for the issue<a href="#section-1.1.2-5.1" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-1.1.2-5.2">a long-term pointer to the best reference describing the issue<a href="#section-1.1.2-5.2" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-1.1.2-5.3">
-              <p id="section-1.1.2-5.3.1">a short description of the nature of the issue and its impact on media quality of service, including:<a href="#section-1.1.2-5.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1.1.2-5.3.2.1">where in the network this issue has root causes<a href="#section-1.1.2-5.3.2.1" class="pilcrow">¶</a>
-</li>
-                <li class="normal" id="section-1.1.2-5.3.2.2">who can detect this issue when it occurs<a href="#section-1.1.2-5.3.2.2" class="pilcrow">¶</a>
-</li>
-              </ul>
-</li>
-            <li class="normal" id="section-1.1.2-5.4">an overview of the issue's known prevalence in practice.  pointers to write-ups of high-profile incidents are a plus.<a href="#section-1.1.2-5.4" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-1.1.2-5.5">
-              <p id="section-1.1.2-5.5.1">a list of known mitigation techniques, with (for each known mitigation):<a href="#section-1.1.2-5.5.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1.1.2-5.5.2.1">a name for the mitigation technique<a href="#section-1.1.2-5.5.2.1" class="pilcrow">¶</a>
-</li>
-                <li class="normal" id="section-1.1.2-5.5.2.2">a long-term pointer to the best reference describing it<a href="#section-1.1.2-5.5.2.2" class="pilcrow">¶</a>
-</li>
-                <li class="normal" id="section-1.1.2-5.5.2.3">
-                  <p id="section-1.1.2-5.5.2.3.1">a short description of the technique:<a href="#section-1.1.2-5.5.2.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1.1.2-5.5.2.3.2.1">what it does<a href="#section-1.1.2-5.5.2.3.2.1" class="pilcrow">¶</a>
-</li>
-                    <li class="normal" id="section-1.1.2-5.5.2.3.2.2">where in the network it operates<a href="#section-1.1.2-5.5.2.3.2.2" class="pilcrow">¶</a>
-</li>
-                    <li class="normal" id="section-1.1.2-5.5.2.3.2.3">an overview of the tradeoffs involved--how and why it's helpful, what it costs.<a href="#section-1.1.2-5.5.2.3.2.3" class="pilcrow">¶</a>
-</li>
-                  </ul>
-</li>
-                <li class="normal" id="section-1.1.2-5.5.2.4">supplemental information about the technique's deployment prevalence and status<a href="#section-1.1.2-5.5.2.4" class="pilcrow">¶</a>
-</li>
-              </ul>
-</li>
-          </ul>
-</section>
-</div>
 <div id="history-of-public-discussion">
-<section id="section-1.1.3">
+<section id="section-1.1.2">
           <h4 id="name-history-of-public-discussio">
-<a href="#section-1.1.3" class="section-number selfRef">1.1.3. </a><a href="#name-history-of-public-discussio" class="section-name selfRef">History of Public Discussion</a>
+<a href="#section-1.1.2" class="section-number selfRef">1.1.2. </a><a href="#name-history-of-public-discussio" class="section-name selfRef">History of Public Discussion</a>
           </h4>
-<p id="section-1.1.3-1">Presentations:<a href="#section-1.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-1.1.2-1">Presentations:<a href="#section-1.1.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1.3-2.1">IETF 105 BOF:<br>
-              <a href="https://www.youtube.com/watch?v=4G3YBVmn9Eo&amp;t=47m21s">https://www.youtube.com/watch?v=4G3YBVmn9Eo&amp;t=47m21s</a><a href="#section-1.1.3-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1.2-2.1">IETF 105 BOF:<br>
+              <a href="https://www.youtube.com/watch?v=4G3YBVmn9Eo&amp;t=47m21s">https://www.youtube.com/watch?v=4G3YBVmn9Eo&amp;t=47m21s</a><a href="#section-1.1.2-2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.2">IETF 106 meeting:<br>
-              <a href="https://www.youtube.com/watch?v=4_k340xT2jM&amp;t=7m23s">https://www.youtube.com/watch?v=4_k340xT2jM&amp;t=7m23s</a><a href="#section-1.1.3-2.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-1.1.2-2.2">IETF 106 meeting:<br>
+              <a href="https://www.youtube.com/watch?v=4_k340xT2jM&amp;t=7m23s">https://www.youtube.com/watch?v=4_k340xT2jM&amp;t=7m23s</a><a href="#section-1.1.2-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.3">MOPS Interim Meeting 2020-04-15:<br>
-              <a href="https://www.youtube.com/watch?v=QExiajdC0IY&amp;t=10m25s">https://www.youtube.com/watch?v=QExiajdC0IY&amp;t=10m25s</a><a href="#section-1.1.3-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-1.1.2-2.3">MOPS Interim Meeting 2020-04-15:<br>
+              <a href="https://www.youtube.com/watch?v=QExiajdC0IY&amp;t=10m25s">https://www.youtube.com/watch?v=QExiajdC0IY&amp;t=10m25s</a><a href="#section-1.1.2-2.3" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.4">IETF 108 meeting:<br>
-              <a href="https://www.youtube.com/watch?v=ZaRsk0y3O9k&amp;t=2m48s">https://www.youtube.com/watch?v=ZaRsk0y3O9k&amp;t=2m48s</a><a href="#section-1.1.3-2.4" class="pilcrow">¶</a>
+            <li class="normal" id="section-1.1.2-2.4">IETF 108 meeting:<br>
+              <a href="https://www.youtube.com/watch?v=ZaRsk0y3O9k&amp;t=2m48s">https://www.youtube.com/watch?v=ZaRsk0y3O9k&amp;t=2m48s</a><a href="#section-1.1.2-2.4" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.1.3-2.5">MOPS 2020-10-30 Interim meeting:<br>
-              <a href="https://www.youtube.com/watch?v=vDZKspv4LXw&amp;t=17m15s">https://www.youtube.com/watch?v=vDZKspv4LXw&amp;t=17m15s</a><a href="#section-1.1.3-2.5" class="pilcrow">¶</a>
+            <li class="normal" id="section-1.1.2-2.5">MOPS 2020-10-30 Interim meeting:<br>
+              <a href="https://www.youtube.com/watch?v=vDZKspv4LXw&amp;t=17m15s">https://www.youtube.com/watch?v=vDZKspv4LXw&amp;t=17m15s</a><a href="#section-1.1.2-2.5" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1264,7 +1358,7 @@ requested to provide the following information, where applicable:<a href="#secti
 <a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-video-bitrates" class="section-name selfRef">Video Bitrates</a>
           </h4>
 <p id="section-2.1.1-1">Video bitrate selection depends on many variables including the resolution (height and width), frame rate, color depth, codec, encoding parameters, scene complexity and amount of motion. Generally speaking, as the resolution, frame rate, color depth, scene complexity and amount of motion increase, the encoding bitrate increases. As newer codecs with better compression tools are used, the encoding bitrate decreases. Similarly, a multi-pass encoding generally produces better quality output compared to single-pass encoding at the same bitrate, or delivers the same quality at a lower bitrate.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.1-2">Here are a few common resolutions used for video content, with typical ranges of bitrate for the two most popular video codecs <span>[<a href="#Encodings" class="xref">Encodings</a>]</span>.<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-2">Here are a few common resolutions used for video content, with typical ranges of bitrates for the two most popular video codecs <span>[<a href="#Encodings" class="xref">Encodings</a>]</span>.<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
             <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
