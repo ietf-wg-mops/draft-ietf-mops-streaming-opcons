@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-14T01:16:47.854627+00:00",
+  "timestamp": "2021-06-17T17:06:22.427473+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -1127,7 +1127,7 @@
       "labels": [],
       "body": "From Will - \r\n\r\n2.3 Caching Systems\r\n\r\nMay be worth mentioning that concurrent gaming downloads nowadays drive larger traffic peaks than live or VOD streams.\r\n\r\nAdditionally, something missing from this section is the impact of chunk transfer of aggregating responses. These are being used increasingly for low latency delivery. The caching system is receiving the object in real-time while simultaneously forwarding it to the client. The object size is not known until the transmission is complete. Much of caching infrastructure failover and redundancy is predicated on knowing the size of the object you are transmitting. Distribution tiers have a hard time separating a gap in data from a failure of an upstream component. Setting appropriate time-outs becomes problematic.",
       "createdAt": "2021-05-20T19:59:27Z",
-      "updatedAt": "2021-05-20T20:16:26Z",
+      "updatedAt": "2021-06-14T17:57:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -1143,6 +1143,20 @@
           "body": "I'll follow up with a separate question about the other half of this comment, I'm not quite sure what it's saying.  But it's a good point that talking about some non-intuitive failure modes might be handy here.",
           "createdAt": "2021-05-20T20:16:26Z",
           "updatedAt": "2021-05-20T20:16:26Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi, @GrumpyOldTroll - any update here?",
+          "createdAt": "2021-06-14T01:55:28Z",
+          "updatedAt": "2021-06-14T01:55:28Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Not yet.  I did send a message hoping to learn enough about the failure modes and what you can do about them to write something meaningful here, but there are some vacation-related delays and once people are back I may have to ping again.",
+          "createdAt": "2021-06-14T17:57:58Z",
+          "updatedAt": "2021-06-14T17:57:58Z"
         }
       ]
     },
@@ -1245,11 +1259,13 @@
       "state": "OPEN",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "SpencerDawkins"
+      ],
       "labels": [],
       "body": "This was a brillant ideq, and has worked in other groups, but I can't remember any contribution that was made using this template ... ",
       "createdAt": "2021-06-08T20:08:46Z",
-      "updatedAt": "2021-06-08T20:08:46Z",
+      "updatedAt": "2021-06-14T01:47:53Z",
       "closedAt": null,
       "comments": []
     },
@@ -1267,9 +1283,17 @@
       "labels": [],
       "body": "@acbegen - could you provide the appropriate references for AVC and HEVC, and an expansion for DVD, included in Table 1? I can make the change if you can provide the information. ",
       "createdAt": "2021-06-08T20:19:29Z",
-      "updatedAt": "2021-06-08T20:19:40Z",
+      "updatedAt": "2021-06-14T18:55:39Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi, @acbegen, could you take a look at this? I can guess, but I'd be guessing ... thanks!",
+          "createdAt": "2021-06-14T18:55:39Z",
+          "updatedAt": "2021-06-14T18:55:39Z"
+        }
+      ]
     },
     {
       "number": 72,
@@ -4574,7 +4598,7 @@
       "labels": [],
       "body": "Also removed ECN - I thought we did that!",
       "createdAt": "2021-06-08T22:21:29Z",
-      "updatedAt": "2021-06-14T01:16:24Z",
+      "updatedAt": "2021-06-14T01:37:02Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "main",
       "baseRefOid": "a3fb2d01c6c09130ae96cdf1a337fd25d0e9729e",
@@ -4597,6 +4621,115 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 74,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjY5MTU3Mjgy",
+      "title": "change description from taxonomy and delete contribution template",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/74",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-06-14T01:47:25Z",
+      "updatedAt": "2021-06-17T17:05:52Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "9a01661cc5aaa7459de2d1fd7b6d054fcd21e7e0",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "no-tax-contrib",
+      "headRefOid": "148d18772325a674656772faa00610b6f6dcc6c0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njg1Nzc1MzAx",
+          "commit": {
+            "abbreviatedOid": "03826e5"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-17T00:44:16Z",
+          "updatedAt": "2021-06-17T00:44:45Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "This changes the original intent, and although I agree we're not making recommendations on future work (which might be worth a mention), we're also not making recommendations on operational practices (which was the original intent).\r\n\r\nMaybe \"Making specific recommendations on operational practices or future work to mitigate these issues is out of scope...\"?",
+              "createdAt": "2021-06-17T00:44:16Z",
+              "updatedAt": "2021-06-17T00:44:45Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njg1Nzc3NTkw",
+          "commit": {
+            "abbreviatedOid": "03826e5"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-17T00:51:01Z",
+          "updatedAt": "2021-06-17T00:51:01Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Hmm, I had a comment here that seems to have been lost, not sure why.\r\n\r\nAnyway, I said: +1 on removing 'taxonomy', but I'm less enthused about removing \"networking issues as they relate to quality of experience in internet video delivery.\"\r\n\r\nWhat do you think of \"This document examines networking issues as they relate to quality of experience in internet video delivery.  The focus is on capturing...\"?",
+              "createdAt": "2021-06-17T00:51:01Z",
+              "updatedAt": "2021-06-17T00:51:01Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njg2NTc5NDE1",
+          "commit": {
+            "abbreviatedOid": "03826e5"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-17T16:54:54Z",
+          "updatedAt": "2021-06-17T16:54:54Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "@GrumpyOldTroll, my apologies here. I think the discussion about that aspect of this document dates back to https://datatracker.ietf.org/doc/html/draft-jholland-mops-taxonomy-00, and I probably missed some of the discussion. I'll back off part of my suggested change and remove the proposed mention of future work, which is actually mentioned later in that paragraph. \r\n\r\nSo, now \"Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.\"",
+              "createdAt": "2021-06-17T16:54:54Z",
+              "updatedAt": "2021-06-17T17:04:35Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njg2NTg5MDg2",
+          "commit": {
+            "abbreviatedOid": "03826e5"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-17T17:04:09Z",
+          "updatedAt": "2021-06-17T17:04:09Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Good call. I adopted this without changes. ",
+              "createdAt": "2021-06-17T17:04:09Z",
+              "updatedAt": "2021-06-17T17:04:09Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
