@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: martinthomson/i-d-template:latest
+      - image: martinthomson/i-d-template@sha256:9842c0613b6b8ac272e04910a5b27c97d18a28b8f1863d07bfea910ac6e41056
     working_directory: ~/draft
 
     steps:
