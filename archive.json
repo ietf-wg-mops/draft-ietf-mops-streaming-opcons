@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-17T17:06:22.427473+00:00",
+  "timestamp": "2021-06-20T12:21:35.231258+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -426,7 +426,7 @@
       "labels": [],
       "body": "Pulling TBD out of the draft and capturing it here.\r\n\r\nSuggestion at the mic from IETF 106 (Aaron Falk):\r\nInclude industry standard metrics and terminology with citations.  Some standard scoping metrics may be already defined and commonly used, without necessarily having definitions laid out in the RFC series.  Collect these and provide the mappings.\r\nhttps://www.youtube.com/watch?v=4_k340xT2jM&t=19m15s",
       "createdAt": "2020-04-04T20:43:13Z",
-      "updatedAt": "2021-05-11T16:37:31Z",
+      "updatedAt": "2021-06-19T18:00:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -442,6 +442,34 @@
           "body": "Finally, SVA's website for glossary/terms is up: https://glossary.streamingvideoalliance.org/ We can add this in the next update.",
           "createdAt": "2021-05-11T16:37:31Z",
           "updatedAt": "2021-05-11T16:37:31Z"
+        },
+        {
+          "author": "acbegen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Can we just mention this link somewhere (like at the end of the introduction) or maybe create a new section at the end named \"Further reading\" and put bunch of useful links in there? Could include names/links for the organizations working on standards related to MOPS, glossary, academic journals/conferences ....",
+          "createdAt": "2021-06-18T15:45:35Z",
+          "updatedAt": "2021-06-18T15:45:35Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sounds good to me.  Links to resources seems valuable for this doc.",
+          "createdAt": "2021-06-18T16:34:30Z",
+          "updatedAt": "2021-06-18T16:34:30Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with @GrumpyOldTroll . This is exactly the kind of Informational document that would benefit from a Further Reading section. \r\n\r\nIf we're still trying to make sure the working group isn't asleep until September, we could reasonably send a note to the mailing list saying that we're asking for suggestions for resources to include there. I assume that people have favorite resources they'd like to see included, of course. ",
+          "createdAt": "2021-06-18T17:12:05Z",
+          "updatedAt": "2021-06-18T17:12:05Z"
+        },
+        {
+          "author": "acbegen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I can take a crack at this.",
+          "createdAt": "2021-06-19T18:00:48Z",
+          "updatedAt": "2021-06-19T18:00:48Z"
         }
       ]
     },
@@ -1230,7 +1258,7 @@
       "id": "MDU6SXNzdWU5MTU0MzQ0NzI=",
       "title": "This document isn't a taxonomy any more, is it? I think this may be left over from Jake's individual draft",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/69",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1239,8 +1267,8 @@
       "labels": [],
       "body": "We should probably talk about how to update \r\n\r\n   This document aims to provide a taxonomy of networking issues as they\r\n   relate to quality of experience in internet video delivery.  The\r\n   focus is on capturing characteristics of video delivery that have\r\n   surprised network designers or transport experts without specific\r\n   video expertise, since these highlight key differences between common\r\n   assumptions in existing networking documents and observations of\r\n   video delivery issues in practice.\r\n\r\n@SpencerDawkins might suggest this (but didn't put it in -05):\r\n\r\n   This document \r\n   focuses is on capturing characteristics of video delivery that have\r\n   surprised network designers or transport experts without specific\r\n   video expertise, since these highlight key differences between common\r\n   assumptions in existing networking documents and observations of\r\n   video delivery issues in practice.\r\n\r\nThoughts from @GrumpyOldTroll or @acbegen?",
       "createdAt": "2021-06-08T20:06:16Z",
-      "updatedAt": "2021-06-09T00:59:03Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-17T17:10:19Z",
+      "closedAt": "2021-06-17T17:10:19Z",
       "comments": [
         {
           "author": "GrumpyOldTroll",
@@ -1256,7 +1284,7 @@
       "id": "MDU6SXNzdWU5MTU0Mzc2MTU=",
       "title": "We should probably delete Section 1.1.2.  Template for Contributions",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/70",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1265,8 +1293,8 @@
       "labels": [],
       "body": "This was a brillant ideq, and has worked in other groups, but I can't remember any contribution that was made using this template ... ",
       "createdAt": "2021-06-08T20:08:46Z",
-      "updatedAt": "2021-06-14T01:47:53Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-17T17:10:19Z",
+      "closedAt": "2021-06-17T17:10:19Z",
       "comments": []
     },
     {
@@ -1283,7 +1311,7 @@
       "labels": [],
       "body": "@acbegen - could you provide the appropriate references for AVC and HEVC, and an expansion for DVD, included in Table 1? I can make the change if you can provide the information. ",
       "createdAt": "2021-06-08T20:19:29Z",
-      "updatedAt": "2021-06-14T18:55:39Z",
+      "updatedAt": "2021-06-19T21:27:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -1292,6 +1320,48 @@
           "body": "Hi, @acbegen, could you take a look at this? I can guess, but I'd be guessing ... thanks!",
           "createdAt": "2021-06-14T18:55:39Z",
           "updatedAt": "2021-06-14T18:55:39Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi, @acbegen, my understanding is that in Table 1, \r\n\r\n- AVC could be referenced as  H.264 or MPEG-4 Part 10, Advanced Video Coding (MPEG-4 AVC)\r\n- HEVC could be referenced as High Efficiency Video Coding (HEVC), also known as H.265 and MPEG-H Part 2\r\n\r\nand \"DVD\" just means \"DVD, as in popular use, so no expansion necessary\". Does that sound about right? If so, I can just add this to the text under Table 1, and to the references. ",
+          "createdAt": "2021-06-17T17:21:51Z",
+          "updatedAt": "2021-06-17T17:21:51Z"
+        },
+        {
+          "author": "acbegen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi Spencer, yes, there are multiple names for the same codecs, we dont need to spell out each IMO but should use the same \"class\" (AVC + HEVC not AVC + H.265). I am fine with either class. And DVD should be known but if you need it is Digital Video Disc.\r\n\r\nThe main reference for Table 1 is mostly the [Encodings]. The tables there are a bit more involved, so I improvised a bit to simplify the table. Would that be ok?\r\n",
+          "createdAt": "2021-06-18T15:42:35Z",
+          "updatedAt": "2021-06-18T15:42:35Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi, @acbegen, that all sounds good. Is there a preferred reference that I could include for HEVC and AVC (to use that form of the names)?\r\n\r\nEdited to add - if not, I can chase this down, but I didn't want to guess if you had a preference. And I was just making sure that \"DVD\" didn't mean something besides a DVD in this table - I'm guessing that this is one of the abbreviations that no one remembers what it stood for originally, like IBM). ",
+          "createdAt": "2021-06-18T17:17:24Z",
+          "updatedAt": "2021-06-19T13:19:20Z"
+        },
+        {
+          "author": "acbegen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Would this work? https://www.mpegstandards.org/standards/",
+          "createdAt": "2021-06-19T18:02:35Z",
+          "updatedAt": "2021-06-19T18:02:35Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After thinking a bit more about this (thanks, @acbegen), I'm leaning toward just using H.264 and H.265, and letting someone ask about references if they need them. The IETF has been referencing H.26x codecs for a REALLY long time, so this shouldn't cause much confusion, I think. I'll do a PR for this. ",
+          "createdAt": "2021-06-19T20:44:48Z",
+          "updatedAt": "2021-06-19T20:44:48Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The PR for this is having problems with CircleCI. I'm not going to merge this until we figure out what the problem is. I've asked @squarooticus for clues via email about this. ",
+          "createdAt": "2021-06-19T21:27:40Z",
+          "updatedAt": "2021-06-19T21:27:40Z"
         }
       ]
     },
@@ -4627,7 +4697,7 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjY5MTU3Mjgy",
       "title": "change description from taxonomy and delete contribution template",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/74",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4636,18 +4706,28 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-06-14T01:47:25Z",
-      "updatedAt": "2021-06-17T17:05:52Z",
+      "updatedAt": "2021-06-17T17:10:53Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "main",
       "baseRefOid": "9a01661cc5aaa7459de2d1fd7b6d054fcd21e7e0",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "no-tax-contrib",
       "headRefOid": "148d18772325a674656772faa00610b6f6dcc6c0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2021-06-17T17:10:19Z",
+      "mergedAt": "2021-06-17T17:10:19Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "c85970369b60da1d29a811c51c5d2086c6a86fc8"
+      },
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merged after discussion with @GrumpyOldTroll ...",
+          "createdAt": "2021-06-17T17:10:46Z",
+          "updatedAt": "2021-06-17T17:10:46Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njg1Nzc1MzAx",
@@ -4703,9 +4783,9 @@
           "comments": [
             {
               "originalPosition": 20,
-              "body": "@GrumpyOldTroll, my apologies here. I think the discussion about that aspect of this document dates back to https://datatracker.ietf.org/doc/html/draft-jholland-mops-taxonomy-00, and I probably missed some of the discussion. I'll back off part of my suggested change and remove the proposed mention of future work, which is actually mentioned later in that paragraph. \r\n\r\nSo, now \"Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.\"",
+              "body": "@GrumpyOldTroll, my apologies here. I think the discussion about that aspect of this document dates back to https://datatracker.ietf.org/doc/html/draft-jholland-mops-taxonomy-00, and I probably missed some of the discussion. I'll back off part of my suggested change and remove the proposed mention of future work, which is actually mentioned (\"as new technologies\" later in that paragraph. \r\n\r\nSo, now \"Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.\"",
               "createdAt": "2021-06-17T16:54:54Z",
-              "updatedAt": "2021-06-17T17:04:35Z"
+              "updatedAt": "2021-06-17T17:09:48Z"
             }
           ]
         },
@@ -4730,6 +4810,34 @@
           ]
         }
       ]
+    },
+    {
+      "number": 75,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjczOTMyNTY2",
+      "title": "Minor edits to Table 1",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/75",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "Thanks, @acbegen, for your help with this. ",
+      "createdAt": "2021-06-19T20:53:32Z",
+      "updatedAt": "2021-06-19T20:53:38Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "c85970369b60da1d29a811c51c5d2086c6a86fc8",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "table-1-expansion",
+      "headRefOid": "a3c5323c9f9ae9d32650a8f4f1fc1e427b9b54f4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
