@@ -385,7 +385,7 @@ Video bitrate selection depends on many variables including the resolution (heig
 
 Here are a few common resolutions used for video content, with typical ranges of bitrates for the two most popular video codecs {{Encodings}}.
 
-| Name | Width x Height | AVC | HEVC
+| Name | Width x Height | H.264 | H.265
 | -----+----------------+-------------------------------
 | DVD |  720 x 480 | 1.0 Mbps | 0.5 Mbps
 | 720p (1K) | 1280 x 720 | 3-4.5 Mbps | 2-4 Mbps
