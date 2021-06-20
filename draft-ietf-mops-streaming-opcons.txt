@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 19 December 2021                                Networked Media
+Expires: 22 December 2021                                Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            17 June 2021
+                                                            20 June 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 December 2021.
+   This Internet-Draft will expire on 22 December 2021.
 
 Copyright Notice
 
@@ -237,7 +237,7 @@ Table of Contents
    [Encodings].
 
          +============+================+============+============+
-         | Name       | Width x Height | AVC        | HEVC       |
+         | Name       | Width x Height | H.264      | H.265      |
          +============+================+============+============+
          | DVD        | 720 x 480      | 1.0 Mbps   | 0.5 Mbps   |
          +------------+----------------+------------+------------+
