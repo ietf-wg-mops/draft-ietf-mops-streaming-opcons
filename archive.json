@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-20T12:21:35.231258+00:00",
+  "timestamp": "2021-06-22T16:36:19.161580+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -1302,7 +1302,7 @@
       "id": "MDU6SXNzdWU5MTU0NTAzMjc=",
       "title": "Expansion and references for Table 1",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/71",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1311,8 +1311,8 @@
       "labels": [],
       "body": "@acbegen - could you provide the appropriate references for AVC and HEVC, and an expansion for DVD, included in Table 1? I can make the change if you can provide the information. ",
       "createdAt": "2021-06-08T20:19:29Z",
-      "updatedAt": "2021-06-19T21:27:40Z",
-      "closedAt": null,
+      "updatedAt": "2021-06-20T12:29:59Z",
+      "closedAt": "2021-06-20T12:29:59Z",
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -4816,7 +4816,7 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjczOTMyNTY2",
       "title": "Minor edits to Table 1",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/75",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4825,18 +4825,64 @@
       "labels": [],
       "body": "Thanks, @acbegen, for your help with this. ",
       "createdAt": "2021-06-19T20:53:32Z",
-      "updatedAt": "2021-06-19T20:53:38Z",
+      "updatedAt": "2021-06-20T12:31:21Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "main",
       "baseRefOid": "c85970369b60da1d29a811c51c5d2086c6a86fc8",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "table-1-expansion",
       "headRefOid": "a3c5323c9f9ae9d32650a8f4f1fc1e427b9b54f4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2021-06-20T12:29:59Z",
+      "mergedAt": "2021-06-20T12:29:59Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "460607fa4f084cc64ce481cbb4245c7a961e65e6"
+      },
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merged at @squarooticus's suggestion (not worried about Circle-Ci check failing). ",
+          "createdAt": "2021-06-20T12:31:21Z",
+          "updatedAt": "2021-06-20T12:31:21Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 76,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njc0MDI2MDE1",
+      "title": "Update circleci yml",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/76",
+      "state": "MERGED",
+      "author": "squarooticus",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updates the i-d circleci config and reverts the docker image to the previous version. This appears to work.",
+      "createdAt": "2021-06-20T12:22:55Z",
+      "updatedAt": "2021-06-20T19:08:00Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "c85970369b60da1d29a811c51c5d2086c6a86fc8",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "update-circleci-yml",
+      "headRefOid": "e57f370c411dd447158bb052c9e1b9fc87fcc259",
+      "closedAt": "2021-06-20T19:08:00Z",
+      "mergedAt": "2021-06-20T19:08:00Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "a385794fef189609deb2fbea13925b1e95918cc9"
+      },
+      "comments": [
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "LGTM.  Thanks!",
+          "createdAt": "2021-06-20T19:05:13Z",
+          "updatedAt": "2021-06-20T19:05:13Z"
+        }
+      ],
       "reviews": []
     }
   ]
