@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-22T16:36:19.161580+00:00",
+  "timestamp": "2021-06-23T02:50:02.239429+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -357,12 +357,12 @@
       "author": "GrumpyOldTroll",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
-        "GrumpyOldTroll"
+        "SpencerDawkins"
       ],
       "labels": [],
       "body": "Pulling the TBD out of the draft text and capturing it here instead.\r\n\r\nSuggestion from mic at IETF 106 (Mark Nottingham) in response to call for help on capturing the mismatch between supply and demand of bandwidth with regard to video:\r\nDive into the different constraints coming from different parts of the network or distribution channels. (regarding questions about how to describe the disconnect between demand vs. capacity, while keeping good archival value.)  \"These are big numbers, but the internet has grown over time, and CDN capacities have grown over time.  Is it last mile? Probably not--Is it middle mile?  Maybe that's more interesting.  It it CPU? Is it network cards?  Is it the economics of your peering relationships? Unpicking those bits might help a bit.\r\nhttps://www.youtube.com/watch?v=4_k340xT2jM&t=13m\r\n",
       "createdAt": "2020-04-04T20:29:03Z",
-      "updatedAt": "2021-03-11T15:53:50Z",
+      "updatedAt": "2021-06-22T20:41:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -426,7 +426,7 @@
       "labels": [],
       "body": "Pulling TBD out of the draft and capturing it here.\r\n\r\nSuggestion at the mic from IETF 106 (Aaron Falk):\r\nInclude industry standard metrics and terminology with citations.  Some standard scoping metrics may be already defined and commonly used, without necessarily having definitions laid out in the RFC series.  Collect these and provide the mappings.\r\nhttps://www.youtube.com/watch?v=4_k340xT2jM&t=19m15s",
       "createdAt": "2020-04-04T20:43:13Z",
-      "updatedAt": "2021-06-19T18:00:48Z",
+      "updatedAt": "2021-06-22T20:38:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -470,6 +470,13 @@
           "body": "I can take a crack at this.",
           "createdAt": "2021-06-19T18:00:48Z",
           "updatedAt": "2021-06-19T18:00:48Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Do we know how stable that link is?  It looks like it's got some dynamic stuff in it, with maybe stuff that goes beyond standard terminology.\r\n\r\nMaybe we should make a \"Definitions\" section where we include a list of the words we've used (and/or that we think people should know in this space?), and pull in definitions from the SVA glossary or from other RFCs (e.g. in the RTP/WebRTC series), especially where there's different words for similar or overlapping terms.\r\n\r\nI guess we can start the list with:\r\n- media\r\n- manifest\r\n- path (or network path)\r\n- maybe codec?\r\n- maybe adaptive?\r\n\r\nSome things we have definitions sprinkled in the doc already could also perhaps be pulled to a definition section:\r\n- streaming\r\n- live\r\n- latency (also: disambiguate with RTT-like network latency)",
+          "createdAt": "2021-06-22T20:38:52Z",
+          "updatedAt": "2021-06-22T20:38:52Z"
         }
       ]
     },
@@ -643,7 +650,7 @@
       "labels": [],
       "body": "I don't remember where this suggestion came from, but it was on the list in the 107 interim slides, so I figured it should be tracked:\r\nhttps://www.ietf.org/proceedings/interim-2020-mops-01/slides/slides-interim-2020-mops-01-sessa-update-on-draft-ietf-mops-streaming-opcons-01.pdf#page=4\r\n",
       "createdAt": "2020-07-25T02:34:25Z",
-      "updatedAt": "2021-04-21T19:48:34Z",
+      "updatedAt": "2021-06-22T21:11:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -659,6 +666,20 @@
           "body": "Cisco VNI link is already a 404, so ... \r\n\r\nChecking with RFC Editor to see whether they can handle SVG yet. ",
           "createdAt": "2021-04-21T19:48:34Z",
           "updatedAt": "2021-04-21T19:48:34Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The point of this is trying to show internet scale growth of video traffic over time, both by proportion and by gross volume, not really about including pictures.\r\n\r\nThis maybe is already covered by our intro paragraph:\r\n\r\n\"Estimates put the total share of internet video traffic at 75% in 2019, expected to grow to 82% by 2022. This estimate projects the gross volume of video traffic will more than double during this time, based on a compound annual growth rate continuing at 34% (from Appendix D of [CVNI]).\"\r\n\r\nWe should consider just closing this issue.",
+          "createdAt": "2021-06-22T21:10:07Z",
+          "updatedAt": "2021-06-22T21:10:07Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Related point (perhaps a new issue?):  this info may stop being available--prior reports often came from DPI at IXPs or similar to monitor traffic, but since the dawn of ubiquitous encryption this info will stop being available, and we'll (probably?) only have reports from servers.",
+          "createdAt": "2021-06-22T21:11:57Z",
+          "updatedAt": "2021-06-22T21:11:57Z"
         }
       ]
     },
@@ -716,12 +737,12 @@
       "author": "GrumpyOldTroll",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
-        "GrumpyOldTroll"
+        "SpencerDawkins"
       ],
       "labels": [],
       "body": "Advertising is an important part of the video delivery landscape and has an impact on network design and operational considerations in streaming video, for sure.\r\n\r\n@mattstock gave a pull request that's a decent start here:\r\nhttps://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/18\r\n\r\nThere are some unanswered comments in that pull request, but we should consider adding such a section and refining it even in the absence of responses.",
       "createdAt": "2020-10-29T00:21:23Z",
-      "updatedAt": "2021-04-21T20:09:14Z",
+      "updatedAt": "2021-06-22T21:05:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -1238,7 +1259,7 @@
     {
       "number": 67,
       "id": "MDU6SXNzdWU5MTUzMjA3MDQ=",
-      "title": "Refactoring HOL section to focus on reasons why signals are lower or higher than they should be",
+      "title": "Refactoring Adaptive Segmented Delivery subsections to focus on reasons why signals are lower or higher than they should be",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/67",
       "state": "OPEN",
       "author": "SpencerDawkins",
@@ -1249,9 +1270,31 @@
       "labels": [],
       "body": "The editors are 2:1 in favor of dropping ECN. Spencer is graciously in the rough. \r\n\r\nWe should be talking more broadly about what happens when you lose *any* packets, \r\n\r\nIf ECN belongs in the draft, it belongs somewhere else. \r\n\r\n\"Coming improvements in transport behaviors\" more broadly - we're talking about BBR and about end-to-end transport encryption now. Maybe we should talk about things like edge computing, etc ... but @GrumpyOldTroll will talk to the working group about this before we start a major refactor. ",
       "createdAt": "2021-06-08T18:06:05Z",
-      "updatedAt": "2021-06-08T18:13:43Z",
+      "updatedAt": "2021-06-22T21:01:36Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The point of these sections (4.3.1 Idle Time Between Segments and 4.3.2 Head of Line Blocking) was to explain how and why your bandwidth measurements can go wrong when you're trying to do ABR things with your bandwidth measurements.\r\n\r\nBy name this seems like perhaps a better fit in the 4.4 Measurement Collection section, there might be a reason to merge some of the discussion there or reorganize the 2 sections together.",
+          "createdAt": "2021-06-22T20:54:32Z",
+          "updatedAt": "2021-06-22T20:54:32Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We maybe should also add a section along these lines on the wide variability in bitrates as things move, both for wi-fi and LTE and 5g. (or paths in general, with those as examples?)",
+          "createdAt": "2021-06-22T20:59:00Z",
+          "updatedAt": "2021-06-22T21:01:36Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Note also: \"Refactor\" here means provide a coherent story for why your ABR measurements can go wrong and what you can do about it.",
+          "createdAt": "2021-06-22T21:00:43Z",
+          "updatedAt": "2021-06-22T21:00:43Z"
+        }
+      ]
     },
     {
       "number": 69,
@@ -1379,7 +1422,31 @@
       "labels": [],
       "body": "We've been getting help from people, but the ACKs section hasn't changed much since -03 was submitted in November 2020. ",
       "createdAt": "2021-06-08T21:27:51Z",
-      "updatedAt": "2021-06-08T21:27:51Z",
+      "updatedAt": "2021-06-23T00:35:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I found like two names that we had missed, and added them to the ACKs section. I think we can merge this any time.",
+          "createdAt": "2021-06-23T00:35:26Z",
+          "updatedAt": "2021-06-23T00:35:26Z"
+        }
+      ]
+    },
+    {
+      "number": 77,
+      "id": "MDU6SXNzdWU5Mjc2MzgwNTg=",
+      "title": "Section on consequences of poor bitrate choice?",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/77",
+      "state": "OPEN",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Maybe another section in 4.3 Adaptive Segmented Delivery.  Discuss consequences of poor choice of bitrate, both high and low. (point was raised that picking high can also cause bufferbloat observed at up to 10s in LTE networks--worth mentioning somehow?)",
+      "createdAt": "2021-06-22T21:13:30Z",
+      "updatedAt": "2021-06-22T21:13:30Z",
       "closedAt": null,
       "comments": []
     }
@@ -4861,7 +4928,7 @@
       "labels": [],
       "body": "Updates the i-d circleci config and reverts the docker image to the previous version. This appears to work.",
       "createdAt": "2021-06-20T12:22:55Z",
-      "updatedAt": "2021-06-20T19:08:00Z",
+      "updatedAt": "2021-06-22T21:32:57Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "main",
       "baseRefOid": "c85970369b60da1d29a811c51c5d2086c6a86fc8",
@@ -4884,6 +4951,55 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 78,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njc1ODQ2NDQx",
+      "title": "reviewed ACKS against mailing list traffic",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/78",
+      "state": "OPEN",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-06-23T00:30:12Z",
+      "updatedAt": "2021-06-23T02:49:35Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "ec990c693238cef381d6725c44f241e15ea5416e",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "reviewed-acks",
+      "headRefOid": "82fb5c9d3a7fabfdca1d2f041de3a8795b5bee28",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjkwMTQyNTg1",
+          "commit": {
+            "abbreviatedOid": "f7eb27e"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-23T01:52:10Z",
+          "updatedAt": "2021-06-23T01:52:10Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Now that I'm reading it, I think we got some good comments from Will Law too, he should probably be in here.",
+              "createdAt": "2021-06-23T01:52:10Z",
+              "updatedAt": "2021-06-23T01:52:10Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
