@@ -833,15 +833,6 @@ Table of Contents
 
 5.  Evolution of Transport Protocols and Transport Protocol Behaviors
 
-   *Note to Reviewers*
-
-   This section includes some material on UDP and TCP that may be
-   tutorial for some readers.  We can decide how to explain that, if the
-   working group feels that this tutorial material is worth keeping.
-   Spencer thought it was worth including, because it provides a
-   contrast to the material on QUIC, which is significantly less
-   tutorial, unless the reader participated in the QUIC working group.
-
    Because networking resources are shared between users, a good place
    to start our discussion is how contention between users, and
    mechanisms to resolve that contention in ways that are "fair" between
