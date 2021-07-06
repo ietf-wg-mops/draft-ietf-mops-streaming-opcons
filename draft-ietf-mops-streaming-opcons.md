@@ -617,10 +617,6 @@ More details about congestion avoidance strategies used with unreliable transpor
 
 # Evolution of Transport Protocols and Transport Protocol Behaviors
 
-**Note to Reviewers**
-
-This section includes some material on UDP and TCP that may be tutorial for some readers. We can decide how to explain that, if the working group feels that this tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless the reader participated in the QUIC working group. 
-
 Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors.
 
 As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{MPEG-DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics.
