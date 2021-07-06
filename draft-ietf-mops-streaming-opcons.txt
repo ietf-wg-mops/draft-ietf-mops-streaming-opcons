@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 24 December 2021                                Networked Media
+Expires: 7 January 2022                                  Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            22 June 2021
+                                                             6 July 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 December 2021.
+   This Internet-Draft will expire on 7 January 2022.
 
 Copyright Notice
 
@@ -1302,34 +1302,34 @@ Table of Contents
               "BBR Congestion Control", Work in Progress, Internet-
               Draft, draft-cardwell-iccrg-bbr-congestion-control-00, 3
               July 2017, <https://datatracker.ietf.org/doc/html/draft-
-              cardwell-iccrg-bbr-congestion-control-00.txt>.
+              cardwell-iccrg-bbr-congestion-control-00>.
 
    [I-D.draft-pantos-hls-rfc8216bis]
               Pantos, R., "HTTP Live Streaming 2nd Edition", Work in
               Progress, Internet-Draft, draft-pantos-hls-rfc8216bis-09,
               27 April 2021, <https://datatracker.ietf.org/doc/html/
-              draft-pantos-hls-rfc8216bis-09.txt>.
+              draft-pantos-hls-rfc8216bis-09>.
 
    [I-D.ietf-quic-datagram]
               Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", Work in Progress, Internet-
               Draft, draft-ietf-quic-datagram-02, 16 February 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              datagram-02.txt>.
+              datagram-02>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
               quic-http-34, 2 February 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              http-34.txt>.
+              http-34>.
 
    [I-D.ietf-quic-manageability]
               Kuehlewind, M. and B. Trammell, "Manageability of the QUIC
               Transport Protocol", Work in Progress, Internet-Draft,
-              draft-ietf-quic-manageability-11, 21 April 2021,
+              draft-ietf-quic-manageability-12, 30 June 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              manageability-11.txt>.
+              manageability-12>.
 
    [IABcovid] Arkko, J., Farrel, S., Kühlewind, M., and C. Perkins,
               "Report from the IAB COVID-19 Network Impacts Workshop
