@@ -1237,9 +1237,12 @@ Table of Contents
 
 9.  Acknowledgments
 
-   Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle
-   Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard,
-   and Mike English for their very helpful reviews and comments.
+   Thanks to Alexandre Gouaillard, Aaron Falk, Dave Oran, Glenn Deen,
+   Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock,
+   Mike English, Roni Even, and Will Law for very helpful suggestions,
+   reviews and comments.
+
+   (If we missed your name, please let us know!)
 
 10.  Informative References
 
