@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-23T02:50:02.239429+00:00",
+  "timestamp": "2021-07-08T00:18:23.554814+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -426,7 +426,7 @@
       "labels": [],
       "body": "Pulling TBD out of the draft and capturing it here.\r\n\r\nSuggestion at the mic from IETF 106 (Aaron Falk):\r\nInclude industry standard metrics and terminology with citations.  Some standard scoping metrics may be already defined and commonly used, without necessarily having definitions laid out in the RFC series.  Collect these and provide the mappings.\r\nhttps://www.youtube.com/watch?v=4_k340xT2jM&t=19m15s",
       "createdAt": "2020-04-04T20:43:13Z",
-      "updatedAt": "2021-06-22T20:38:52Z",
+      "updatedAt": "2021-07-06T19:50:25Z",
       "closedAt": null,
       "comments": [
         {
@@ -477,6 +477,13 @@
           "body": "Do we know how stable that link is?  It looks like it's got some dynamic stuff in it, with maybe stuff that goes beyond standard terminology.\r\n\r\nMaybe we should make a \"Definitions\" section where we include a list of the words we've used (and/or that we think people should know in this space?), and pull in definitions from the SVA glossary or from other RFCs (e.g. in the RTP/WebRTC series), especially where there's different words for similar or overlapping terms.\r\n\r\nI guess we can start the list with:\r\n- media\r\n- manifest\r\n- path (or network path)\r\n- maybe codec?\r\n- maybe adaptive?\r\n\r\nSome things we have definitions sprinkled in the doc already could also perhaps be pulled to a definition section:\r\n- streaming\r\n- live\r\n- latency (also: disambiguate with RTT-like network latency)",
           "createdAt": "2021-06-22T20:38:52Z",
           "updatedAt": "2021-06-22T20:38:52Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We can reasonably add a section on \"to learn more\" with references. ",
+          "createdAt": "2021-07-06T19:50:25Z",
+          "updatedAt": "2021-07-06T19:50:25Z"
         }
       ]
     },
@@ -647,10 +654,12 @@
       "assignees": [
         "GrumpyOldTroll"
       ],
-      "labels": [],
+      "labels": [
+        "wontfix"
+      ],
       "body": "I don't remember where this suggestion came from, but it was on the list in the 107 interim slides, so I figured it should be tracked:\r\nhttps://www.ietf.org/proceedings/interim-2020-mops-01/slides/slides-interim-2020-mops-01-sessa-update-on-draft-ietf-mops-streaming-opcons-01.pdf#page=4\r\n",
       "createdAt": "2020-07-25T02:34:25Z",
-      "updatedAt": "2021-06-22T21:11:57Z",
+      "updatedAt": "2021-07-06T19:22:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -680,6 +689,13 @@
           "body": "Related point (perhaps a new issue?):  this info may stop being available--prior reports often came from DPI at IXPs or similar to monitor traffic, but since the dawn of ubiquitous encryption this info will stop being available, and we'll (probably?) only have reports from servers.",
           "createdAt": "2021-06-22T21:11:57Z",
           "updatedAt": "2021-06-22T21:11:57Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We're thinking this is Won't Fix - at a minimum, this isn't information we can update in the future. ",
+          "createdAt": "2021-07-06T19:17:53Z",
+          "updatedAt": "2021-07-06T19:17:53Z"
         }
       ]
     },
@@ -1413,7 +1429,7 @@
       "id": "MDU6SXNzdWU5MTU1MzMxNjI=",
       "title": "Review ACKs section",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/72",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1422,8 +1438,8 @@
       "labels": [],
       "body": "We've been getting help from people, but the ACKs section hasn't changed much since -03 was submitted in November 2020. ",
       "createdAt": "2021-06-08T21:27:51Z",
-      "updatedAt": "2021-06-23T00:35:27Z",
-      "closedAt": null,
+      "updatedAt": "2021-07-06T19:11:50Z",
+      "closedAt": "2021-07-06T19:11:50Z",
       "comments": [
         {
           "author": "SpencerDawkins",
@@ -1442,13 +1458,79 @@
       "state": "OPEN",
       "author": "GrumpyOldTroll",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "acbegen"
+      ],
       "labels": [],
       "body": "Maybe another section in 4.3 Adaptive Segmented Delivery.  Discuss consequences of poor choice of bitrate, both high and low. (point was raised that picking high can also cause bufferbloat observed at up to 10s in LTE networks--worth mentioning somehow?)",
       "createdAt": "2021-06-22T21:13:30Z",
-      "updatedAt": "2021-06-22T21:13:30Z",
+      "updatedAt": "2021-07-06T19:24:44Z",
       "closedAt": null,
+      "comments": [
+        {
+          "author": "acbegen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We should call this section \"?hit Happens\" because it does.",
+          "createdAt": "2021-06-23T10:26:23Z",
+          "updatedAt": "2021-06-23T10:26:23Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with @acbegen on the characterization, but despair somewhat of getting that through AD Evaluation, IETF Last Call, IESG Evalution, and the RFC Editor. \r\n\r\nI offer \"Why Making Good Choices Is Hard (And Why That's Not Your Fault)\", as a friendly amendment ;-)",
+          "createdAt": "2021-06-23T12:43:49Z",
+          "updatedAt": "2021-06-23T12:43:49Z"
+        },
+        {
+          "author": "acbegen",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If with a reference to https://forrestgump.fandom.com/wiki/Shit_happens, I am fine :)",
+          "createdAt": "2021-06-23T16:22:54Z",
+          "updatedAt": "2021-06-23T16:22:54Z"
+        }
+      ]
+    },
+    {
+      "number": 79,
+      "id": "MDU6SXNzdWU5MzgxOTUyNDM=",
+      "title": "Remove note in Sec 5",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/79",
+      "state": "CLOSED",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "Remove this material from Sec 5:\r\n\r\nThis section includes some material on UDP and TCP that may be tutorial for some readers. We can decide how to explain that, if the working group feels that this tutorial material is worth keeping. Spencer thought it was worth including, because it provides a contrast to the material on QUIC, which is significantly less tutorial, unless the reader participated in the QUIC working group.\r\n\r\n",
+      "createdAt": "2021-07-06T19:28:35Z",
+      "updatedAt": "2021-07-06T20:19:34Z",
+      "closedAt": "2021-07-06T20:19:34Z",
       "comments": []
+    },
+    {
+      "number": 81,
+      "id": "MDU6SXNzdWU5Mzg4OTg5NDQ=",
+      "title": "Considerations on cloud-based encoding, packaging and origin workflows",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/81",
+      "state": "OPEN",
+      "author": "acbegen",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The encoder sync workshop revealed lots of problems and unfortunately a little solution to synchronized encoding and packaging that are essential in large scale events. \r\n\r\nShould we touch on these topics in this draft as they seem to be quite related to \"operational considerations\", mostly in the sense that we raise awareness instead of listing/proposing solutions.\r\n\r\nThoughts?",
+      "createdAt": "2021-07-07T13:31:45Z",
+      "updatedAt": "2021-07-07T13:44:59Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@squarooticus and @ldaigle - this is the pointer to the workshop that @acbegen mentioned in this issue. It was quite good. \r\n\r\nhttps://sites.google.com/view/encodersyncworkshop\r\n\r\nOn our editors call yesterday, we talked about whether this is material that should be in \r\ndraft-ietf-mops-streaming-opcons. We were leaning toward \"yes\", but also recognizing that this is new material that the working group hasn't discussed (so not likely we can get to WGLC by Monday, when the I-D cutoff happens). \r\n\r\nI asked if this was a candidate for a second I-D, focused on encoder synchronization, but we couldn't think of a good reason NOT to include this topic in draft-ietf-mops-streaming-opcons, if we were going to document it in MOPS. \r\n\r\nYou two could reasonably make a decision about that, or bring this up on the mailing list to get feedback from the working group, or (probably several other alternatives). Can we defer to the chairs for guidance about this?\r\n\r\nBest,\r\n\r\nSpencer",
+          "createdAt": "2021-07-07T13:44:08Z",
+          "updatedAt": "2021-07-07T13:44:59Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -4957,7 +5039,7 @@
       "id": "MDExOlB1bGxSZXF1ZXN0Njc1ODQ2NDQx",
       "title": "reviewed ACKS against mailing list traffic",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/78",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4966,17 +5048,19 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-06-23T00:30:12Z",
-      "updatedAt": "2021-06-23T02:49:35Z",
+      "updatedAt": "2021-07-06T19:11:54Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "main",
       "baseRefOid": "ec990c693238cef381d6725c44f241e15ea5416e",
       "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "headRefName": "reviewed-acks",
       "headRefOid": "82fb5c9d3a7fabfdca1d2f041de3a8795b5bee28",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-07-06T19:11:50Z",
+      "mergedAt": "2021-07-06T19:11:50Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "2ff3ad59197f4b7a20591162501aa2c63a8bc1ed"
+      },
       "comments": [],
       "reviews": [
         {
@@ -4998,8 +5082,58 @@
               "updatedAt": "2021-06-23T01:52:10Z"
             }
           ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjkwMTY2Nzk2",
+          "commit": {
+            "abbreviatedOid": "82fb5c9"
+          },
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-06-23T02:50:12Z",
+          "updatedAt": "2021-06-23T02:50:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Added now!",
+              "createdAt": "2021-06-23T02:50:12Z",
+              "updatedAt": "2021-06-23T02:50:12Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 80,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg0NjQ5OTQx",
+      "title": "Delete note in Section 5",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/80",
+      "state": "MERGED",
+      "author": "SpencerDawkins",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "SpencerDawkins"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-07-06T20:14:33Z",
+      "updatedAt": "2021-07-06T20:18:41Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "2ff3ad59197f4b7a20591162501aa2c63a8bc1ed",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "del-note",
+      "headRefOid": "282797f6de93e296577953a258dc7525232d131f",
+      "closedAt": "2021-07-06T20:18:36Z",
+      "mergedAt": "2021-07-06T20:18:36Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "b951c94f523175dccafa418a849f8ebbfad96b4a"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
