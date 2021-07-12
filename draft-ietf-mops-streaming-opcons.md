@@ -591,7 +591,7 @@ When the bitrate selection is chosen substantially below the available capacity 
 
 - Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks. The carrier capacity assigned to a link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
 
-Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect.
+Some receiver-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect.
 
 Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example as described in {{OReilly-HPBN}}.
 
@@ -624,7 +624,7 @@ Each of these technologies can experience sudden changes in capacity as the end 
 Microwave ovens, for example, can cause a throughput degradation of more than a factor of 2 while active [Micro].
 5G and LTE likewise can easily see rate variation by a factor of 2 or more over a span of seconds as users move around.
 
-These swings in actual transport capacity can result in user experience issues that can be exacerbated by insufficiently responsive ABR selection algorithms.
+These swings in actual transport capacity can result in user experience issues that can be exacerbated by insufficiently responsive ABR algorithms.
 
 ## Measurement Collection {#measure-coll}
 
