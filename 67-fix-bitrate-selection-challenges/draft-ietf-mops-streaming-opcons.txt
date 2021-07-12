@@ -742,11 +742,13 @@ Table of Contents
       network.
 
    Some receive-side ABR algorithms such as [ELASTIC] are designed to
-   try to avoid this effect.  Another way to mitigate this effect is by
-   the help of two simultaneous TCP connections, as explained in
-   [MMSys11] for Microsoft Smooth Streaming.  In some cases, the system-
-   level TCP slow-start restart can also be disabled, for example as
-   described in [OReilly-HPBN].
+   try to avoid this effect.
+
+   Another way to mitigate this effect is by the help of two
+   simultaneous TCP connections, as explained in [MMSys11] for Microsoft
+   Smooth Streaming.  In some cases, the system-level TCP slow-start
+   restart can also be disabled, for example as described in
+   [OReilly-HPBN].
 
 4.4.2.  Head-of-Line Blocking
 
