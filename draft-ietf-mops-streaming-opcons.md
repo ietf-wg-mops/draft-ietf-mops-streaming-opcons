@@ -255,6 +255,20 @@ informative:
     target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
     date: 2020-04-15
 
+  Micro:
+    title: "Microwave Oven Signal Interference Mitigation For Wi-Fi Communication Systems"
+    author:
+      -
+        name: Tanim M. Taher
+      -
+        name: Matthew J. Misurac
+      -
+        name: Joseph L. LoCicero
+      -
+        name: Donald R. Ucci 
+    seriesinfo: "2008 5th IEEE Consumer Communications and Networking Conference 5th IEEE, pp. 67-68"
+    date: 2008
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
@@ -559,17 +573,25 @@ Many server-player systems will do an initial probe or a very simple throughput 
 
 The choice of bitrate occurs within the context of optimizing for some metric monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
 
-This kind of bandwidth-measurement system can experience trouble in several ways that can be affected by networking design choices. Because adaptive application-level response strategies are typically using application-level protocols, these mechanisms are affected by transport-level protocol behaviors, and the application-level feedback loop is interacting with a transport-level feedback loop, as described in {{idle-time}} and {{hol-blocking}}.
+## Bitrate Detection Challenges
+
+This kind of bandwidth-measurement system can experience trouble in several ways that are affected by networking issues.
+Because adaptive application-level response strategies are often using rates as observed by the application layer, there are sometimes inscrutable transport-level protocol behaviors that can produce surprising measurement values when the application-level feedback loop is interacting with a transport-level feedback loop.
+
+A few specific examples of surprising phenomena that affect bitrate detection measurements are described in the following subsections.
+As these examples will demonstrate, it's common to encounter cases that can deliver application level measurements that are too low, too high, and (possibly) correct but varying more quickly than a lab-tested selection algorithm might expect.
+
+These effects and others that cause transport behavior to diverge from lab modeling can sometimes have a significant impact on ABR bitrate selection and on user quality of experience, especially where players use naive measurement strategies and selection algorithms that don't account for the likelihood of bandwidth measurements that diverge from the true path capacity.
 
 ### Idle Time between Segments {#idle-time}
 
 When the bitrate selection is chosen substantially below the available capacity of the network path, the response to a segment request will typically complete in much less absolute time than the duration of the requested segment, leaving significant idle time between segment downloads. This can have a few surprising consequences:
 
-- TCP slow-start when restarting after idle requires multiple RTTs to re-establish a throughput at the network's available capacity.  When the active transmission time for segments is substantially shorter than the time between segments leaving an idle gap between segments that triggers a restart of TCP slow-start, the estimate of the successful download speed coming from the application-visible receive rate on the socket can thus end up much lower than the actual available network capacity, preventing a shift to the most appropriate bitrate. {{RFC7661}} provides some mitigations for this effect at the TCP transport layer, for senders who anticipate a high incidence of this problem.
+- TCP slow-start when restarting after idle requires multiple RTTs to re-establish a throughput at the network's available capacity.  When the active transmission time for segments is substantially shorter than the time between segments, leaving an idle gap between segments that triggers a restart of TCP slow-start, the estimate of the successful download speed coming from the application-visible receive rate on the socket can thus end up much lower than the actual available network capacity.  This in turn can prevent a shift to the most appropriate bitrate. {{RFC7661}} provides some mitigations for this effect at the TCP transport layer, for senders who anticipate a high incidence of this problem.
 
 - Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks. The carrier capacity assigned to a link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
 
-Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect. Another way to mitigate this effect is by the help of two simultaneous TCP connections is explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can be disabled {{OReilly-HPBN}}.
+Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect. Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example as described in {{OReilly-HPBN}}.
 
 ### Head-of-Line Blocking {#hol-blocking}
 
@@ -585,9 +607,22 @@ suddenly get access to a lot of data at the same time.
 To a receiver measuring bytes received per unit time at the
 application layer, and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
-the goodput measurement.
+the goodput measurement.  This can appear as a stall of some
+time, followed by a sudden leap that can far exceed the actual
+capacity of the transport path from the server when the hole in
+the received data is filled by a later retransmission.
 
-It's worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See {{quic-behavior}} for more details. 
+It's worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See {{quic-behavior}} for more details.
+
+### Wide and Rapid Variation in Path Capacity
+
+As many end devices have moved to wireless connectivity for the final hop (Wi-Fi, 5G, or LTE), new problems in bandwidth detction have emerged from radio interference and signal strength effects.
+
+Each of these technologies can experience sudden changes in capacity as the end user device moves from place to place and encounters new sources of interference.
+Microwave ovens, for example, can cause a throughput degradation of more than a factor of 2 while active [Micro].
+5G and LTE likewise can easily see rate variation by a factor of 2 or more over a span of seconds as users move around.
+
+These swings in actual transport capacity can result in user experience issues that can be exacerbated by insufficiently responsive ABR selection algorithms.
 
 ## Measurement Collection {#measure-coll}
 
