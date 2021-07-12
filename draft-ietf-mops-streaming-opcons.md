@@ -452,15 +452,6 @@ And as with other parts of the ecosystem, new technology brings new challenges. 
 
 Historical data shows that users consume more video and videos at higher bitrates than they did in the past on their connected devices. Improvements in the codecs that help with reducing the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainment as well as conversational video.
 
-TBD: insert charts showing historical relative data usage patterns with
-error bars by time of day in consumer networks?
-
-TBD: Cross-ref vs. video quality by time of day in practice for some case
-study?  Not sure if there's a good way to capture a generalized insight
-here, but it seems worth making the point that demand projections can
-be used to help with e.g. power consumption with routing architectures
-that provide for modular scalability.
-
 ## Unpredictable Usage Profiles {#sec-unpredict}
 
 Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become arbitrarily large.
