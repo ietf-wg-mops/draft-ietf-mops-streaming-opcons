@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 7 January 2022                                  Networked Media
+Expires: 13 January 2022                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                             6 July 2021
+                                                            12 July 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2022.
+   This Internet-Draft will expire on 13 January 2022.
 
 Copyright Notice
 
@@ -76,13 +76,15 @@ Table of Contents
      4.1.  Overview
      4.2.  Adaptive Encoding
      4.3.  Adaptive Segmented Delivery
-       4.3.1.  Idle Time between Segments
-       4.3.2.  Head-of-Line Blocking
-     4.4.  Measurement Collection
-       4.4.1.  CTA-2066: Streaming Quality of Experience Events,
+     4.4.  Bitrate Detection Challenges
+       4.4.1.  Idle Time between Segments
+       4.4.2.  Head-of-Line Blocking
+       4.4.3.  Wide and Rapid Variation in Path Capacity
+     4.5.  Measurement Collection
+       4.5.1.  CTA-2066: Streaming Quality of Experience Events,
                Properties and Metrics
-       4.4.2.  CTA-5004: Common Media Client Data (CMCD)
-     4.5.  Unreliable Transport
+       4.5.2.  CTA-5004: Common Media Client Data (CMCD)
+     4.6.  Unreliable Transport
    5.  Evolution of Transport Protocols and Transport Protocol
            Behaviors
      5.1.  UDP and Its Behavior
@@ -686,15 +688,31 @@ Table of Contents
    some metric monitored by the client, such as highest achievable video
    quality or lowest chances for a rebuffering event (playback stall).
 
-   This kind of bandwidth-measurement system can experience trouble in
-   several ways that can be affected by networking design choices.
-   Because adaptive application-level response strategies are typically
-   using application-level protocols, these mechanisms are affected by
-   transport-level protocol behaviors, and the application-level
-   feedback loop is interacting with a transport-level feedback loop, as
-   described in Section 4.3.1 and Section 4.3.2.
+4.4.  Bitrate Detection Challenges
 
-4.3.1.  Idle Time between Segments
+   This kind of bandwidth-measurement system can experience trouble in
+   several ways that are affected by networking issues.  Because
+   adaptive application-level response strategies are often using rates
+   as observed by the application layer, there are sometimes inscrutable
+   transport-level protocol behaviors that can produce surprising
+   measurement values when the application-level feedback loop is
+   interacting with a transport-level feedback loop.
+
+   A few specific examples of surprising phenomena that affect bitrate
+   detection measurements are described in the following subsections.
+   As these examples will demonstrate, it's common to encounter cases
+   that can deliver application level measurements that are too low, too
+   high, and (possibly) correct but varying more quickly than a lab-
+   tested selection algorithm might expect.
+
+   These effects and others that cause transport behavior to diverge
+   from lab modeling can sometimes have a significant impact on ABR
+   bitrate selection and on user quality of experience, especially where
+   players use naive measurement strategies and selection algorithms
+   that don't account for the likelihood of bandwidth measurements that
+   diverge from the true path capacity.
+
+4.4.1.  Idle Time between Segments
 
    When the bitrate selection is chosen substantially below the
    available capacity of the network path, the response to a segment
@@ -706,14 +724,15 @@ Table of Contents
    *  TCP slow-start when restarting after idle requires multiple RTTs
       to re-establish a throughput at the network's available capacity.
       When the active transmission time for segments is substantially
-      shorter than the time between segments leaving an idle gap between
-      segments that triggers a restart of TCP slow-start, the estimate
-      of the successful download speed coming from the application-
-      visible receive rate on the socket can thus end up much lower than
-      the actual available network capacity, preventing a shift to the
-      most appropriate bitrate.  [RFC7661] provides some mitigations for
-      this effect at the TCP transport layer, for senders who anticipate
-      a high incidence of this problem.
+      shorter than the time between segments, leaving an idle gap
+      between segments that triggers a restart of TCP slow-start, the
+      estimate of the successful download speed coming from the
+      application-visible receive rate on the socket can thus end up
+      much lower than the actual available network capacity.  This in
+      turn can prevent a shift to the most appropriate bitrate.
+      [RFC7661] provides some mitigations for this effect at the TCP
+      transport layer, for senders who anticipate a high incidence of
+      this problem.
 
    *  Mobile flow-bandwidth spectrum and timing mapping can be impacted
       by idle time in some networks.  The carrier capacity assigned to a
@@ -722,13 +741,16 @@ Table of Contents
       would be achievable with a steadier transmission in the same
       network.
 
-   Some receive-side ABR algorithms such as [ELASTIC] are designed to
-   try to avoid this effect.  Another way to mitigate this effect is by
-   the help of two simultaneous TCP connections is explained in
-   [MMSys11] for Microsoft Smooth Streaming.  In some cases, the system-
-   level TCP slow-start restart can be disabled [OReilly-HPBN].
+   Some receiver-side ABR algorithms such as [ELASTIC] are designed to
+   try to avoid this effect.
 
-4.3.2.  Head-of-Line Blocking
+   Another way to mitigate this effect is by the help of two
+   simultaneous TCP connections, as explained in [MMSys11] for Microsoft
+   Smooth Streaming.  In some cases, the system-level TCP slow-start
+   restart can also be disabled, for example as described in
+   [OReilly-HPBN].
+
+4.4.2.  Head-of-Line Blocking
 
    In the event of a lost packet on a TCP connection with SACK support
    (a common case for segmented delivery in practice), loss of a packet
@@ -742,13 +764,33 @@ Table of Contents
    To a receiver measuring bytes received per unit time at the
    application layer, and interpreting it as an estimate of the
    available network bandwidth, this appears as a high jitter in the
-   goodput measurement.
+   goodput measurement.  This can appear as a stall of some time,
+   followed by a sudden leap that can far exceed the actual capacity of
+   the transport path from the server when the hole in the received data
+   is filled by a later retransmission.
 
    It's worth noting that more modern transport protocols such as QUIC
    have mitigation of head-of-line blocking as a protocol design goal.
    See Section 5.3 for more details.
 
-4.4.  Measurement Collection
+4.4.3.  Wide and Rapid Variation in Path Capacity
+
+   As many end devices have moved to wireless connectivity for the final
+   hop (Wi-Fi, 5G, or LTE), new problems in bandwidth detction have
+   emerged from radio interference and signal strength effects.
+
+   Each of these technologies can experience sudden changes in capacity
+   as the end user device moves from place to place and encounters new
+   sources of interference.  Microwave ovens, for example, can cause a
+   throughput degradation of more than a factor of 2 while active
+   [Micro]. 5G and LTE likewise can easily see rate variation by a
+   factor of 2 or more over a span of seconds as users move around.
+
+   These swings in actual transport capacity can result in user
+   experience issues that can be exacerbated by insufficiently
+   responsive ABR algorithms.
+
+4.5.  Measurement Collection
 
    In addition to measurements media players use to guide their segment-
    by-segment adaptive streaming requests, streaming media providers may
@@ -768,7 +810,7 @@ Table of Contents
    Association (CTA) who owns the Web Application Video Ecosystem (WAVE)
    project has published two important specifications.
 
-4.4.1.  CTA-2066: Streaming Quality of Experience Events, Properties and
+4.5.1.  CTA-2066: Streaming Quality of Experience Events, Properties and
         Metrics
 
    [CTA-2066] specifies a set of media player events, properties,
@@ -782,7 +824,7 @@ Table of Contents
    defining a common terminology as well as how each metric should be
    computed for consistent reporting.
 
-4.4.2.  CTA-5004: Common Media Client Data (CMCD)
+4.5.2.  CTA-5004: Common Media Client Data (CMCD)
 
    Many assumes that the CDNs have a holistic view into the health and
    performance of the streaming clients.  However, this is not the case.
@@ -800,7 +842,7 @@ Table of Contents
    standardized media-relevant information to the CDNs while they are
    fetching data.  [CTA-5004] was developed exactly for this purpose.
 
-4.5.  Unreliable Transport
+4.6.  Unreliable Transport
 
    In contrast to segmented delivery, several applications use
    unreliable UDP or SCTP with its "partial reliability" extension
@@ -979,7 +1021,7 @@ Table of Contents
    traffic such as streaming media over the UDP ports that HTTP/3 is
    using.
 
-   As noted in Section 4.3.2, because TCP provides a reliable, in-order
+   As noted in Section 4.4.2, because TCP provides a reliable, in-order
    delivery service for applications, any packet loss for a TCP
    connection causes "head-of-line blocking", so that no TCP segments
    arriving after a packet is lost will be delivered to the receiving
@@ -1307,9 +1349,9 @@ Table of Contents
    [I-D.ietf-quic-datagram]
               Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", Work in Progress, Internet-
-              Draft, draft-ietf-quic-datagram-02, 16 February 2021,
+              Draft, draft-ietf-quic-datagram-03, 12 July 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              datagram-02>.
+              datagram-03>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
@@ -1349,6 +1391,12 @@ Table of Contents
 
    [LL-DASH]  DASH-IF, ., "Low-latency Modes for DASH", March 2020,
               <https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf>.
+
+   [Micro]    Taher, T.M., Misurac, M.J., LoCicero, J.L., and D.R. Ucci,
+              "Microwave Oven Signal Interference Mitigation For Wi-Fi
+              Communication Systems", 2008 5th IEEE Consumer
+              Communications and Networking Conference 5th IEEE, pp.
+              67-68 , 2008.
 
    [Mishra]   Mishra, S. and J. Thibeault, "An update on Streaming Video
               Alliance", April 2020,
