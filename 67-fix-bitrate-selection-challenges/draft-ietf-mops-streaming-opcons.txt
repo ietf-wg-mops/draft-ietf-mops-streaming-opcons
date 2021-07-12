@@ -741,7 +741,7 @@ Table of Contents
       would be achievable with a steadier transmission in the same
       network.
 
-   Some receive-side ABR algorithms such as [ELASTIC] are designed to
+   Some receiver-side ABR algorithms such as [ELASTIC] are designed to
    try to avoid this effect.
 
    Another way to mitigate this effect is by the help of two
@@ -788,7 +788,7 @@ Table of Contents
 
    These swings in actual transport capacity can result in user
    experience issues that can be exacerbated by insufficiently
-   responsive ABR selection algorithms.
+   responsive ABR algorithms.
 
 4.5.  Measurement Collection
 
@@ -1349,9 +1349,9 @@ Table of Contents
    [I-D.ietf-quic-datagram]
               Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", Work in Progress, Internet-
-              Draft, draft-ietf-quic-datagram-02, 16 February 2021,
+              Draft, draft-ietf-quic-datagram-03, 12 July 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              datagram-02>.
+              datagram-03>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
