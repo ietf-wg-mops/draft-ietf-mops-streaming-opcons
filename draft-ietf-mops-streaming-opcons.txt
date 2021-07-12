@@ -364,15 +364,6 @@ Table of Contents
    jump over the years due to increased consumption of entertainment as
    well as conversational video.
 
-   TBD: insert charts showing historical relative data usage patterns
-   with error bars by time of day in consumer networks?
-
-   TBD: Cross-ref vs. video quality by time of day in practice for some
-   case study?  Not sure if there's a good way to capture a generalized
-   insight here, but it seems worth making the point that demand
-   projections can be used to help with e.g. power consumption with
-   routing architectures that provide for modular scalability.
-
 2.5.  Unpredictable Usage Profiles
 
    Although TCP/IP has been used with a number of widely used
