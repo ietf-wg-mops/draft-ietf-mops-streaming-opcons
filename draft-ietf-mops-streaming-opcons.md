@@ -591,7 +591,9 @@ When the bitrate selection is chosen substantially below the available capacity 
 
 - Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks. The carrier capacity assigned to a link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
 
-Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect. Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example as described in {{OReilly-HPBN}}.
+Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect.
+
+Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example as described in {{OReilly-HPBN}}.
 
 ### Head-of-Line Blocking {#hol-blocking}
 
