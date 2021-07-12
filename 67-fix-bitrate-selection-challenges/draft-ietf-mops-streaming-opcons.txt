@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 10 December 2021                                Networked Media
+Expires: 13 January 2022                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                             8 June 2021
+                                                            12 July 2021
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 December 2021.
+   This Internet-Draft will expire on 13 January 2022.
 
 Copyright Notice
 
@@ -56,8 +56,7 @@ Table of Contents
    1.  Introduction
      1.1.  Notes for Contributors and Reviewers
        1.1.1.  Venues for Contribution and Discussion
-       1.1.2.  Template for Contributions
-       1.1.3.  History of Public Discussion
+       1.1.2.  History of Public Discussion
    2.  Bandwidth Provisioning
      2.1.  Scaling Requirements for Media Delivery
        2.1.1.  Video Bitrates
@@ -77,13 +76,15 @@ Table of Contents
      4.1.  Overview
      4.2.  Adaptive Encoding
      4.3.  Adaptive Segmented Delivery
-       4.3.1.  Idle Time between Segments
-       4.3.2.  Head-of-Line Blocking
-     4.4.  Measurement Collection
-       4.4.1.  CTA-2066: Streaming Quality of Experience Events,
+     4.4.  Bitrate Detection Challenges
+       4.4.1.  Idle Time between Segments
+       4.4.2.  Head-of-Line Blocking
+       4.4.3.  Wide and Rapid Variation in Path Capacity
+     4.5.  Measurement Collection
+       4.5.1.  CTA-2066: Streaming Quality of Experience Events,
                Properties and Metrics
-       4.4.2.  CTA-5004: Common Media Client Data (CMCD)
-     4.5.  Unreliable Transport
+       4.5.2.  CTA-5004: Common Media Client Data (CMCD)
+     4.6.  Unreliable Transport
    5.  Evolution of Transport Protocols and Transport Protocol
            Behaviors
      5.1.  UDP and Its Behavior
@@ -104,10 +105,9 @@ Table of Contents
    As the internet has grown, an increasingly large share of the traffic
    delivered to end users has become video.  Estimates put the total
    share of internet video traffic at 75% in 2019, expected to grow to
-   82% by 2022.  What's more, this estimate projects the gross volume of
-   video traffic will more than double during this time, based on a
-   compound annual growth rate continuing at 34% (from Appendix D of
-   [CVNI]).
+   82% by 2022.  This estimate projects the gross volume of video
+   traffic will more than double during this time, based on a compound
+   annual growth rate continuing at 34% (from Appendix D of [CVNI]).
 
    A substantial part of this growth is due to increased use of
    streaming video, although the amount of video traffic in real-time
@@ -120,21 +120,30 @@ Table of Contents
    seconds.
 
    This document specifically focuses on the streaming applications and
-   defines streaming as follows: Streaming is transmission of a
-   continuous media from a server to a client and its simultaneous
-   consumption by the client.  Here, continuous media refers to media
-   and associated streams such as video, audio, metadata, etc.  In this
-   definition, the critical term is "simultaneous", as it is not
-   considered streaming if one downloads a video file and plays it after
-   the download is completed, which would be called download-and-play.
-   This has two implications.  First, server's transmission rate must
-   (loosely or tightly) match to client's consumption rate for an
-   uninterrupted playback.  That is, the client must not run out of data
-   (buffer underrun) or take more than it can keep (buffer overrun) as
-   any excess media is simply discarded.  Second, client's consumption
-   rate is limited by not only bandwidth availability but also the real-
-   time constraints.  That is, the client cannot fetch media that is not
-   available yet.
+   defines streaming as follows:
+
+   *  Streaming is transmission of a continuous media from a server to a
+      client and its simultaneous consumption by the client.
+
+   *  Here, continuous media refers to media and associated streams such
+      as video, audio, metadata, etc.  In this definition, the critical
+      term is "simultaneous", as it is not considered streaming if one
+      downloads a video file and plays it after the download is
+      completed, which would be called download-and-play.
+
+   This has two implications.
+
+   *  First, the server's transmission rate must (loosely or tightly)
+      match to client's consumption rate in order to provide
+      uninterrupted playback.  That is, the client must not run out of
+      data (buffer underrun) or accept more data than it can buffer
+      before playback (buffer overrun) as any excess media is simply
+      discarded.
+
+   *  Second, the client's consumption rate is limited not only by
+      bandwidth availability but also real-time constraints.  That is,
+      the client cannot fetch media that is not available from a server
+      yet.
 
    In many contexts, video traffic can be handled transparently as
    generic application-level traffic.  However, as the volume of video
@@ -142,19 +151,20 @@ Table of Contents
    consider the effects of network design decisions on application-level
    performance, with considerations for the impact on video delivery.
 
-   This document aims to provide a taxonomy of networking issues as they
-   relate to quality of experience in internet video delivery.  The
-   focus is on capturing characteristics of video delivery that have
-   surprised network designers or transport experts without specific
-   video expertise, since these highlight key differences between common
-   assumptions in existing networking documents and observations of
-   video delivery issues in practice.
+   This document examines networking issues as they relate to quality of
+   experience in internet video delivery.  The focus is on capturing
+   characteristics of video delivery that have surprised network
+   designers or transport experts without specific video expertise,
+   since these highlight key differences between common assumptions in
+   existing networking documents and observations of video delivery
+   issues in practice.
 
-   Making specific recommendations for mitigating these issues is out of
-   scope, though some existing mitigations are mentioned in passing.
-   The intent is to provide a point of reference for future solution
-   proposals to use in describing how new technologies address or avoid
-   these existing observed problems.
+   Making specific recommendations on operational practices aimed at
+   mitigating these issues is out of scope, though some existing
+   mitigations are mentioned in passing.  The intent is to provide a
+   point of reference for future solution proposals to use in describing
+   how new technologies address or avoid these existing observed
+   problems.
 
 1.1.  Notes for Contributors and Reviewers
 
@@ -183,57 +193,7 @@ Table of Contents
    *  Search: https://mailarchive.ietf.org/arch/browse/mops/
       (https://mailarchive.ietf.org/arch/browse/mops/)
 
-1.1.2.  Template for Contributions
-
-   Contributions are solicited regarding issues and considerations that
-   have an impact on media streaming operations.
-
-   Please note that contributions may be merged and substantially
-   edited, and as a reminder, please carefully consider the Note Well
-   before contributing: https://datatracker.ietf.org/submit/note-well/
-   (https://datatracker.ietf.org/submit/note-well/)
-
-   Contributions can be emailed to mops@ietf.org, submitted as issues to
-   the issue tracker of the repository in Section 1.1.1, or emailed to
-   the document authors at draft-ietf-mops-streaming-opcons@ietf.org.
-
-   Contributors describing an issue not yet addressed in the draft are
-   requested to provide the following information, where applicable:
-
-   *  a suggested title or name for the issue
-
-   *  a long-term pointer to the best reference describing the issue
-
-   *  a short description of the nature of the issue and its impact on
-      media quality of service, including:
-
-      -  where in the network this issue has root causes
-
-      -  who can detect this issue when it occurs
-
-   *  an overview of the issue's known prevalence in practice.  pointers
-      to write-ups of high-profile incidents are a plus.
-
-   *  a list of known mitigation techniques, with (for each known
-      mitigation):
-
-      -  a name for the mitigation technique
-
-      -  a long-term pointer to the best reference describing it
-
-      -  a short description of the technique:
-
-         o  what it does
-
-         o  where in the network it operates
-
-         o  an overview of the tradeoffs involved--how and why it's
-            helpful, what it costs.
-
-      -  supplemental information about the technique's deployment
-         prevalence and status
-
-1.1.3.  History of Public Discussion
+1.1.2.  History of Public Discussion
 
    Presentations:
 
@@ -275,11 +235,11 @@ Table of Contents
    bitrate.
 
    Here are a few common resolutions used for video content, with
-   typical ranges of bitrae for the two most popular video codecs
+   typical ranges of bitrates for the two most popular video codecs
    [Encodings].
 
          +============+================+============+============+
-         | Name       | Width x Height | AVC        | HEVC       |
+         | Name       | Width x Height | H.264      | H.265      |
          +============+================+============+============+
          | DVD        | 720 x 480      | 1.0 Mbps   | 0.5 Mbps   |
          +------------+----------------+------------+------------+
@@ -294,8 +254,13 @@ Table of Contents
 
 2.1.2.  Virtual Reality Bitrates
 
-   Even the basic virtual reality (360-degree) videos (that allow users
-   to look around freely, referred to as three degrees of freedom -
+   The bitrates given in Section 2.1.1 describe video streams that
+   provide the user with a single, fixed, point of view - so, the user
+   has no "degrees of freedom", and the user sees all of the video image
+   that is available.
+
+   Even basic virtual reality (360-degree) videos that allow users to
+   look around freely (referred to as "three degrees of freedom", or
    3DoF) require substantially larger bitrates when they are captured
    and encoded as such videos require multiple fields of view of the
    scene.  The typical multiplication factor is 8 to 10.  Yet, due to
@@ -304,9 +269,10 @@ Table of Contents
    Instead, the user needs only the portion corresponding to its
    viewpoint at any given time.
 
-   In more immersive applications, where basic user movement (3DoF+) or
-   full user movement (6DoF) is allowed, the required bitrate grows even
-   further.  In this case, the immersive content is typically referred
+   In more immersive applications, where limited user movement ("three
+   degrees of freedom plus", or 3DoF+) or full user movement ("six
+   degrees of freedom", or 6DoF) is allowed, the required bitrate grows
+   even further.  In this case, immersive content is typically referred
    to as volumetric media.  One way to represent the volumetric media is
    to use point clouds, where streaming a single object may easily
    require a bitrate of 30 Mbps or higher.  Refer to [MPEGI] and [PCC]
@@ -360,7 +326,7 @@ Table of Contents
    can be pre-loaded during off-peak hours, and especially if the
    transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for
    Differentiated Services" [RFC8622], "Low Extra Delay Background
-   Transport (LEDBAT)" [RFC6817], or similar mechanisms
+   Transport (LEDBAT)" [RFC6817], or similar mechanisms.
 
    All of this depends, of course, on the ability of a content provider
    to predict usage and provision bandwidth, caching, and other
@@ -383,8 +349,8 @@ Table of Contents
    TBD: insert charts showing historical relative data usage patterns
    with error bars by time of day in consumer networks?
 
-   Cross-ref vs. video quality by time of day in practice for some case
-   study?  Not sure if there's a good way to capture a generalized
+   TBD: Cross-ref vs. video quality by time of day in practice for some
+   case study?  Not sure if there's a good way to capture a generalized
    insight here, but it seems worth making the point that demand
    projections can be used to help with e.g. power consumption with
    routing architectures that provide for modular scalability.
@@ -400,7 +366,7 @@ Table of Contents
    request for a resource to an HTTP server, and often receives a
    significantly larger response carrying the requested resource.  When
    HTTP is commonly used to stream movie-length video, the ratio between
-   response size and request size can become quite large.
+   response size and request size can become arbitrarily large.
 
    For this reason, operators may pay more attention to downstream
    bandwidth utilization when planning and managing capacity.  In
@@ -409,8 +375,8 @@ Table of Contents
    favoring downstream bandwidth (e.g.  ADSL, cellular technologies,
    most IEEE 802.11 variants), assuming that users will need less
    upstream bandwidth than downstream bandwidth.  This strategy usually
-   works, except when it does not, because application bandwidth usage
-   patterns have changed.
+   works, except when it faiis because application bandwidth usage
+   patterns have changed in ways that were not predicted.
 
    One example of this type of change was when peer-to-peer file sharing
    applications gained popularity in the early 2000s.  To take one well-
@@ -722,15 +688,31 @@ Table of Contents
    some metric monitored by the client, such as highest achievable video
    quality or lowest chances for a rebuffering event (playback stall).
 
-   This kind of bandwidth-measurement system can experience trouble in
-   several ways that can be affected by networking design choices.
-   Because adaptive application-level response strategies are typically
-   using application-level protocols, these mechanisms are affected by
-   transport-level protocol behaviors, and the application-level
-   feedback loop is interacting with a transport-level feedback loop, as
-   described in Section 4.3.1 and Section 4.3.2.
+4.4.  Bitrate Detection Challenges
 
-4.3.1.  Idle Time between Segments
+   This kind of bandwidth-measurement system can experience trouble in
+   several ways that are affected by networking issues.  Because
+   adaptive application-level response strategies are often using rates
+   as observed by the application layer, there are sometimes inscrutable
+   transport-level protocol behaviors that can produce surprising
+   measurement values when the application-level feedback loop is
+   interacting with a transport-level feedback loop.
+
+   A few specific examples of surprising phenomena that affect bitrate
+   detection measurements are described in the following subsections.
+   As these examples will demonstrate, it's common to encounter cases
+   that can deliver application level measurements that are too low, too
+   high, and (possibly) correct but varying more quickly than a lab-
+   tested selection algorithm might expect.
+
+   These effects and others that cause transport behavior to diverge
+   from lab modeling can sometimes have a significant impact on ABR
+   bitrate selection and on user quality of experience, especially where
+   players use naive measurement strategies and selection algorithms
+   that don't account for the likelihood of bandwidth measurements that
+   diverge from the true path capacity.
+
+4.4.1.  Idle Time between Segments
 
    When the bitrate selection is chosen substantially below the
    available capacity of the network path, the response to a segment
@@ -742,14 +724,15 @@ Table of Contents
    *  TCP slow-start when restarting after idle requires multiple RTTs
       to re-establish a throughput at the network's available capacity.
       When the active transmission time for segments is substantially
-      shorter than the time between segments leaving an idle gap between
-      segments that triggers a restart of TCP slow-start, the estimate
-      of the successful download speed coming from the application-
-      visible receive rate on the socket can thus end up much lower than
-      the actual available network capacity, preventing a shift to the
-      most appropriate bitrate.  [RFC7661] provides some mitigations for
-      this effect at the TCP transport layer, for senders who anticipate
-      a high incidence of this problem.
+      shorter than the time between segments, leaving an idle gap
+      between segments that triggers a restart of TCP slow-start, the
+      estimate of the successful download speed coming from the
+      application-visible receive rate on the socket can thus end up
+      much lower than the actual available network capacity.  This in
+      turn can prevent a shift to the most appropriate bitrate.
+      [RFC7661] provides some mitigations for this effect at the TCP
+      transport layer, for senders who anticipate a high incidence of
+      this problem.
 
    *  Mobile flow-bandwidth spectrum and timing mapping can be impacted
       by idle time in some networks.  The carrier capacity assigned to a
@@ -760,11 +743,12 @@ Table of Contents
 
    Some receive-side ABR algorithms such as [ELASTIC] are designed to
    try to avoid this effect.  Another way to mitigate this effect is by
-   the help of two simultaneous TCP connections is explained in
+   the help of two simultaneous TCP connections, as explained in
    [MMSys11] for Microsoft Smooth Streaming.  In some cases, the system-
-   level TCP slow-start restart can be disabled [OReilly-HPBN].
+   level TCP slow-start restart can also be disabled, for example as
+   described in [OReilly-HPBN].
 
-4.3.2.  Head-of-Line Blocking
+4.4.2.  Head-of-Line Blocking
 
    In the event of a lost packet on a TCP connection with SACK support
    (a common case for segmented delivery in practice), loss of a packet
@@ -778,45 +762,33 @@ Table of Contents
    To a receiver measuring bytes received per unit time at the
    application layer, and interpreting it as an estimate of the
    available network bandwidth, this appears as a high jitter in the
-   goodput measurement.
-
-   Although Explicit Congestion Notification (ECN) has not been widely
-   deployed, Active Queue Management (AQM) systems such as PIE
-   ([RFC8033], [RFC8034]), CoDel ([RFC8289], [RFC8290]), or variants of
-   RED [RFC7567] that would ordinarily induce early random loss under
-   congestion by discarding packets, and since the bytes contained in
-   the delivered packet are still available to the application, ECN
-   usage can mitigate head-of-line blocking where it is available.
-
-   "Classic" ECN, as defined in [RFC3168], provides a congestion signal
-   to induce a sending rate backoff in flows that use Explicit
-   Congestion Notification-capable transport.  This backoff is similar
-   to sender behavior when packets are lost, but since packets are
-   marked with a congestion indicator instead of being discarded, the
-   bytes contained in these packets are still delivered to receivers,
-   and this avoids head-of-line blocking effects caused by potential
-   congestion unless packets are actually lost.
-
-   An experimental ECN mechanism, "low-latency, low-loss, scalable
-   throughput (L4S)", still being specified, would allow more gradual
-   changes in sending rates for L4S-capable transports when they are
-   available.  Although L4S doesn't have an immediate effect on head-of-
-   line blocking beyond Classic ECN, since marked packets are not lost,
-   the expectation is that L4S-capable senders responding to L4S ECN
-   signals would be less likely to experience a Classic ECN "Congestion
-   Experienced (CE)" signal that is interpreted as packet loss, or even
-   overrun available buffer space and cause actual packet loss.  These
-   more gradual responses are also expected to reduce jitter as measured
-   at the application layer, so that streaming senders can respond more
-   accurately to actual conditions on the path to the receiver.
-   [I-D.ietf-tsvwg-l4sops] provides an operator's view of L4S and its
-   impact on existing ECN deployments.
+   goodput measurement.  This can appear as a stall of some time,
+   followed by a sudden leap that can far exceed the actual capacity of
+   the transport path from the server when the hole in the received data
+   is filled by a later retransmission.
 
    It's worth noting that more modern transport protocols such as QUIC
    have mitigation of head-of-line blocking as a protocol design goal.
    See Section 5.3 for more details.
 
-4.4.  Measurement Collection
+4.4.3.  Wide and Rapid Variation in Path Capacity
+
+   As many end devices have moved to wireless connectivity for the final
+   hop (Wi-Fi, 5G, or LTE), new problems in bandwidth detction have
+   emerged from radio interference and signal strength effects.
+
+   Each of these technologies can experience sudden changes in capacity
+   as the end user device moves from place to place and encounters new
+   sources of interference.  Microwave ovens, for example, can cause a
+   throughput degradation of more than a factor of 2 while active
+   [Micro]. 5G and LTE likewise can easily see rate variation by a
+   factor of 2 or more over a span of seconds as users move around.
+
+   These swings in actual transport capacity can result in user
+   experience issues that can be exacerbated by insufficiently
+   responsive ABR selection algorithms.
+
+4.5.  Measurement Collection
 
    In addition to measurements media players use to guide their segment-
    by-segment adaptive streaming requests, streaming media providers may
@@ -836,7 +808,7 @@ Table of Contents
    Association (CTA) who owns the Web Application Video Ecosystem (WAVE)
    project has published two important specifications.
 
-4.4.1.  CTA-2066: Streaming Quality of Experience Events, Properties and
+4.5.1.  CTA-2066: Streaming Quality of Experience Events, Properties and
         Metrics
 
    [CTA-2066] specifies a set of media player events, properties,
@@ -850,7 +822,7 @@ Table of Contents
    defining a common terminology as well as how each metric should be
    computed for consistent reporting.
 
-4.4.2.  CTA-5004: Common Media Client Data (CMCD)
+4.5.2.  CTA-5004: Common Media Client Data (CMCD)
 
    Many assumes that the CDNs have a holistic view into the health and
    performance of the streaming clients.  However, this is not the case.
@@ -868,7 +840,7 @@ Table of Contents
    standardized media-relevant information to the CDNs while they are
    fetching data.  [CTA-5004] was developed exactly for this purpose.
 
-4.5.  Unreliable Transport
+4.6.  Unreliable Transport
 
    In contrast to segmented delivery, several applications use
    unreliable UDP or SCTP with its "partial reliability" extension
@@ -900,15 +872,6 @@ Table of Contents
    unreliable transport protocols are included in Section 5.1.
 
 5.  Evolution of Transport Protocols and Transport Protocol Behaviors
-
-   *Note to Reviewers*
-
-   This section includes some material on UDP and TCP that may be
-   tutorial for some readers.  We can decide how to explain that, if the
-   working group feels that this tutorial material is worth keeping.
-   Spencer thought it was worth including, because it provides a
-   contrast to the material on QUIC, which is significantly less
-   tutorial, unless the reader participated in the QUIC working group.
 
    Because networking resources are shared between users, a good place
    to start our discussion is how contention between users, and
@@ -1030,7 +993,7 @@ Table of Contents
 
    Although QUIC provides an alternative to the TCP and UDP transport
    protocols, QUIC is itself encapsulated in UDP.  As noted elsewhere in
-   this document, the QUIC protocol encrypts almost all of its transport
+   Section 6.1, the QUIC protocol encrypts almost all of its transport
    parameters, and all of its payload, so any intermediaries that
    network operators may be using to troubleshoot HTTP streaming media
    performance issues, perform analytics, or even intercept exchanges in
@@ -1056,7 +1019,7 @@ Table of Contents
    traffic such as streaming media over the UDP ports that HTTP/3 is
    using.
 
-   As noted in Section 4.3.2, because TCP provides a reliable, in-order
+   As noted in Section 4.4.2, because TCP provides a reliable, in-order
    delivery service for applications, any packet loss for a TCP
    connection causes "head-of-line blocking", so that no TCP segments
    arriving after a packet is lost will be delivered to the receiving
@@ -1069,7 +1032,7 @@ Table of Contents
    adds the capability for "unreliable" delivery, similar to the service
    provided by UDP, but these datagrams are still subject to the QUIC
    connection's congestion controller, providing some transport-level
-   congestion avoidance measures, which UDP is not.
+   congestion avoidance measures, which UDP does not.
 
    As noted in Section 5.2, there is increasing interest in transport
    protocol behaviors that responds to delay measurements, instead of
@@ -1093,7 +1056,7 @@ Table of Contents
    distributed development and testing of features", and to meet this
    expectation, many implementers have chosen to implement QUIC in user
    space, outside the operating system kernel, and to even distribute
-   QUIC with applications.
+   QUIC libraries with their own applications.
 
    The decision to deploy a new version of QUIC is relatively
    uncontrolled, compared to other widely used transport protocols, and
@@ -1127,8 +1090,8 @@ Table of Contents
 
    *  Media encrypted at the application layer, typically using some
       sort of Digital Rights Management (DRM) system, and typically
-      retaining this encryption "at rest", when it is stored at senders
-      and receivers,
+      remaining encrypted "at rest", when senders and receivers store
+      it,
 
    *  Media encrypted by the sender at the transport layer, and
       remaining encrypted until it reaches the ultimate media consumer
@@ -1151,14 +1114,20 @@ Table of Contents
    used for business purposes, such as avoiding piracy or enforcing
    geographic restrictions on playback, while transport-layer encryption
    may be used to prevent media steam manipulation or to protect
-   manifests.  This document does not take a position on whether those
-   goals are "valid" (whatever that might mean).
+   manifests.
+
+   This document does not take a position on whether those goals are
+   "valid" (whatever that might mean).
 
    In this document, we will focus on media encrypted at the transport
-   layer, whether encrypted "hop-by-hop" or "end-to-end".
+   layer, whether encrypted "hop-by-hop" or "end-to-end".  Because media
+   encrypted at the application layer will only be processed by
+   application-level entities, this encryption does not have transport-
+   layer implications.
 
-   Both "End-to-End" and "Hop-by-Hop" media encryption have implications
-   for streaming operators.
+   Both "End-to-End" and "Hop-by-Hop" media encryption have specific
+   implications for streaming operators.  These are described in
+   Section 6.2 and Section 6.3.
 
 6.1.  General Considerations for Media Encryption
 
@@ -1299,9 +1268,12 @@ Table of Contents
 
 9.  Acknowledgments
 
-   Thanks to Mark Nottingham, Glenn Deen, Dave Oran, Aaron Falk, Kyle
-   Rose, Leslie Daigle, Lucas Pardue, Matt Stock, Alexandre Gouaillard,
-   and Mike English for their very helpful reviews and comments.
+   Thanks to Alexandre Gouaillard, Aaron Falk, Dave Oran, Glenn Deen,
+   Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock,
+   Mike English, Roni Even, and Will Law for very helpful suggestions,
+   reviews and comments.
+
+   (If we missed your name, please let us know!)
 
 10.  Informative References
 
@@ -1364,41 +1336,34 @@ Table of Contents
               "BBR Congestion Control", Work in Progress, Internet-
               Draft, draft-cardwell-iccrg-bbr-congestion-control-00, 3
               July 2017, <https://datatracker.ietf.org/doc/html/draft-
-              cardwell-iccrg-bbr-congestion-control-00.txt>.
+              cardwell-iccrg-bbr-congestion-control-00>.
 
    [I-D.draft-pantos-hls-rfc8216bis]
               Pantos, R., "HTTP Live Streaming 2nd Edition", Work in
               Progress, Internet-Draft, draft-pantos-hls-rfc8216bis-09,
               27 April 2021, <https://datatracker.ietf.org/doc/html/
-              draft-pantos-hls-rfc8216bis-09.txt>.
+              draft-pantos-hls-rfc8216bis-09>.
 
    [I-D.ietf-quic-datagram]
               Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", Work in Progress, Internet-
               Draft, draft-ietf-quic-datagram-02, 16 February 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              datagram-02.txt>.
+              datagram-02>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
               quic-http-34, 2 February 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              http-34.txt>.
+              http-34>.
 
    [I-D.ietf-quic-manageability]
               Kuehlewind, M. and B. Trammell, "Manageability of the QUIC
               Transport Protocol", Work in Progress, Internet-Draft,
-              draft-ietf-quic-manageability-11, 21 April 2021,
+              draft-ietf-quic-manageability-12, 30 June 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              manageability-11.txt>.
-
-   [I-D.ietf-tsvwg-l4sops]
-              White, G., "Operational Guidance for Deployment of L4S in
-              the Internet", Work in Progress, Internet-Draft, draft-
-              ietf-tsvwg-l4sops-00, 5 May 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-tsvwg-
-              l4sops-00.txt>.
+              manageability-12>.
 
    [IABcovid] Arkko, J., Farrel, S., Kühlewind, M., and C. Perkins,
               "Report from the IAB COVID-19 Network Impacts Workshop
@@ -1424,6 +1389,12 @@ Table of Contents
 
    [LL-DASH]  DASH-IF, ., "Low-latency Modes for DASH", March 2020,
               <https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf>.
+
+   [Micro]    Taher, T.M., Misurac, M.J., LoCicero, J.L., and D.R. Ucci,
+              "Microwave Oven Signal Interference Mitigation For Wi-Fi
+              Communication Systems", 2008 5th IEEE Consumer
+              Communications and Networking Conference 5th IEEE, pp.
+              67-68 , 2008.
 
    [Mishra]   Mishra, S. and J. Thibeault, "An update on Streaming Video
               Alliance", April 2020,
@@ -1497,11 +1468,6 @@ Table of Contents
               DOI 10.17487/RFC3135, June 2001,
               <https://datatracker.ietf.org/doc/html/rfc3135>.
 
-   [RFC3168]  Ramakrishnan, K., Floyd, S., and D. Black, "The Addition
-              of Explicit Congestion Notification (ECN) to IP",
-              RFC 3168, DOI 10.17487/RFC3168, September 2001,
-              <https://datatracker.ietf.org/doc/html/rfc3168>.
-
    [RFC3550]  Schulzrinne, H., Casner, S., Frederick, R., and V.
               Jacobson, "RTP: A Transport Protocol for Real-Time
               Applications", STD 64, RFC 3550, DOI 10.17487/RFC3550,
@@ -1562,11 +1528,6 @@ Table of Contents
               DOI 10.17487/RFC7510, April 2015,
               <https://datatracker.ietf.org/doc/html/rfc7510>.
 
-   [RFC7567]  Baker, F., Ed. and G. Fairhurst, Ed., "IETF
-              Recommendations Regarding Active Queue Management",
-              BCP 197, RFC 7567, DOI 10.17487/RFC7567, July 2015,
-              <https://datatracker.ietf.org/doc/html/rfc7567>.
-
    [RFC7656]  Lennox, J., Gross, K., Nandakumar, S., Salgueiro, G., and
               B. Burman, Ed., "A Taxonomy of Semantics and Mechanisms
               for Real-Time Transport Protocol (RTP) Sources", RFC 7656,
@@ -1577,18 +1538,6 @@ Table of Contents
               TCP to Support Rate-Limited Traffic", RFC 7661,
               DOI 10.17487/RFC7661, October 2015,
               <https://datatracker.ietf.org/doc/html/rfc7661>.
-
-   [RFC8033]  Pan, R., Natarajan, P., Baker, F., and G. White,
-              "Proportional Integral Controller Enhanced (PIE): A
-              Lightweight Control Scheme to Address the Bufferbloat
-              Problem", RFC 8033, DOI 10.17487/RFC8033, February 2017,
-              <https://datatracker.ietf.org/doc/html/rfc8033>.
-
-   [RFC8034]  White, G. and R. Pan, "Active Queue Management (AQM) Based
-              on Proportional Integral Controller Enhanced PIE) for
-              Data-Over-Cable Service Interface Specifications (DOCSIS)
-              Cable Modems", RFC 8034, DOI 10.17487/RFC8034, February
-              2017, <https://datatracker.ietf.org/doc/html/rfc8034>.
 
    [RFC8083]  Perkins, C. and V. Singh, "Multimedia Congestion Control:
               Circuit Breakers for Unicast RTP Sessions", RFC 8083,
@@ -1607,17 +1556,6 @@ Table of Contents
    [RFC8216]  Pantos, R., Ed. and W. May, "HTTP Live Streaming",
               RFC 8216, DOI 10.17487/RFC8216, August 2017,
               <https://datatracker.ietf.org/doc/html/rfc8216>.
-
-   [RFC8289]  Nichols, K., Jacobson, V., McGregor, A., Ed., and J.
-              Iyengar, Ed., "Controlled Delay Active Queue Management",
-              RFC 8289, DOI 10.17487/RFC8289, January 2018,
-              <https://datatracker.ietf.org/doc/html/rfc8289>.
-
-   [RFC8290]  Hoeiland-Joergensen, T., McKenney, P., Taht, D., Gettys,
-              J., and E. Dumazet, "The Flow Queue CoDel Packet Scheduler
-              and Active Queue Management Algorithm", RFC 8290,
-              DOI 10.17487/RFC8290, January 2018,
-              <https://datatracker.ietf.org/doc/html/rfc8290>.
 
    [RFC8312]  Rhee, I., Xu, L., Ha, S., Zimmermann, A., Eggert, L., and
               R. Scheffenegger, "CUBIC for Fast Long-Distance Networks",
