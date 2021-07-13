@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-07-08T00:18:23.554814+00:00",
+  "timestamp": "2021-07-13T00:20:31.718680+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -659,7 +659,7 @@
       ],
       "body": "I don't remember where this suggestion came from, but it was on the list in the 107 interim slides, so I figured it should be tracked:\r\nhttps://www.ietf.org/proceedings/interim-2020-mops-01/slides/slides-interim-2020-mops-01-sessa-update-on-draft-ietf-mops-streaming-opcons-01.pdf#page=4\r\n",
       "createdAt": "2020-07-25T02:34:25Z",
-      "updatedAt": "2021-07-06T19:22:14Z",
+      "updatedAt": "2021-07-12T18:22:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -696,6 +696,13 @@
           "body": "We're thinking this is Won't Fix - at a minimum, this isn't information we can update in the future. ",
           "createdAt": "2021-07-06T19:17:53Z",
           "updatedAt": "2021-07-06T19:17:53Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Pulled these out of the text of the draft as part of this issue, from the bottom of section \"2.4 Predictable Usage Profiles\":\r\n\r\nTBD: insert charts showing historical relative data usage patterns with error bars by time of day in consumer networks?\r\n\r\nTBD: Cross-ref vs. video quality by time of day in practice for some case study? Not sure if there's a good way to capture a generalized insight here, but it seems worth making the point that demand projections can be used to help with e.g. power consumption with routing architectures that provide for modular scalability.",
+          "createdAt": "2021-07-12T18:22:14Z",
+          "updatedAt": "2021-07-12T18:22:14Z"
         }
       ]
     },
@@ -1183,7 +1190,7 @@
       "id": "MDU6SXNzdWU4OTczNzI4Nzc=",
       "title": "Update to caching systems",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/53",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1192,8 +1199,8 @@
       "labels": [],
       "body": "From Will - \r\n\r\n2.3 Caching Systems\r\n\r\nMay be worth mentioning that concurrent gaming downloads nowadays drive larger traffic peaks than live or VOD streams.\r\n\r\nAdditionally, something missing from this section is the impact of chunk transfer of aggregating responses. These are being used increasingly for low latency delivery. The caching system is receiving the object in real-time while simultaneously forwarding it to the client. The object size is not known until the transmission is complete. Much of caching infrastructure failover and redundancy is predicated on knowing the size of the object you are transmitting. Distribution tiers have a hard time separating a gap in data from a failure of an upstream component. Setting appropriate time-outs becomes problematic.",
       "createdAt": "2021-05-20T19:59:27Z",
-      "updatedAt": "2021-06-14T17:57:58Z",
-      "closedAt": null,
+      "updatedAt": "2021-07-12T18:18:34Z",
+      "closedAt": "2021-07-12T18:18:34Z",
       "comments": [
         {
           "author": "GrumpyOldTroll",
@@ -1277,7 +1284,7 @@
       "id": "MDU6SXNzdWU5MTUzMjA3MDQ=",
       "title": "Refactoring Adaptive Segmented Delivery subsections to focus on reasons why signals are lower or higher than they should be",
       "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "SpencerDawkins",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1286,8 +1293,8 @@
       "labels": [],
       "body": "The editors are 2:1 in favor of dropping ECN. Spencer is graciously in the rough. \r\n\r\nWe should be talking more broadly about what happens when you lose *any* packets, \r\n\r\nIf ECN belongs in the draft, it belongs somewhere else. \r\n\r\n\"Coming improvements in transport behaviors\" more broadly - we're talking about BBR and about end-to-end transport encryption now. Maybe we should talk about things like edge computing, etc ... but @GrumpyOldTroll will talk to the working group about this before we start a major refactor. ",
       "createdAt": "2021-06-08T18:06:05Z",
-      "updatedAt": "2021-06-22T21:01:36Z",
-      "closedAt": null,
+      "updatedAt": "2021-07-12T18:16:33Z",
+      "closedAt": "2021-07-12T18:16:33Z",
       "comments": [
         {
           "author": "GrumpyOldTroll",
@@ -1520,7 +1527,7 @@
       "labels": [],
       "body": "The encoder sync workshop revealed lots of problems and unfortunately a little solution to synchronized encoding and packaging that are essential in large scale events. \r\n\r\nShould we touch on these topics in this draft as they seem to be quite related to \"operational considerations\", mostly in the sense that we raise awareness instead of listing/proposing solutions.\r\n\r\nThoughts?",
       "createdAt": "2021-07-07T13:31:45Z",
-      "updatedAt": "2021-07-07T13:44:59Z",
+      "updatedAt": "2021-07-12T18:15:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -1529,6 +1536,27 @@
           "body": "@squarooticus and @ldaigle - this is the pointer to the workshop that @acbegen mentioned in this issue. It was quite good. \r\n\r\nhttps://sites.google.com/view/encodersyncworkshop\r\n\r\nOn our editors call yesterday, we talked about whether this is material that should be in \r\ndraft-ietf-mops-streaming-opcons. We were leaning toward \"yes\", but also recognizing that this is new material that the working group hasn't discussed (so not likely we can get to WGLC by Monday, when the I-D cutoff happens). \r\n\r\nI asked if this was a candidate for a second I-D, focused on encoder synchronization, but we couldn't think of a good reason NOT to include this topic in draft-ietf-mops-streaming-opcons, if we were going to document it in MOPS. \r\n\r\nYou two could reasonably make a decision about that, or bring this up on the mailing list to get feedback from the working group, or (probably several other alternatives). Can we defer to the chairs for guidance about this?\r\n\r\nBest,\r\n\r\nSpencer",
           "createdAt": "2021-07-07T13:44:08Z",
           "updatedAt": "2021-07-07T13:44:59Z"
+        },
+        {
+          "author": "squarooticus",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Sorry for the late reply: somehow I missed the mention in my inbox.\r\n\r\nI don't see any reason why this should be out of scope. If you have time, I'd say add some proposed text prior to the cutoff later today and then post a summary of this to the list. We can raise the question at the 111 session and do a consensus call if there are any objections.",
+          "createdAt": "2021-07-12T16:35:04Z",
+          "updatedAt": "2021-07-12T16:35:04Z"
+        },
+        {
+          "author": "gitnnelg",
+          "authorAssociation": "NONE",
+          "body": "I agree with Kyle that it\u2019s not out of scope, but I do suggest that we attempt to be thoughtful of keeping the focus on IETF related aspects \u2013 networks, routing, network & transport protocols, addressing \u2013 so as to avoid wading too deep into the higher level aspects of Encoding and Packaging.\r\n\r\nI guess what I\u2019m trying to say, is conscious effort is needed to avoid getting into weeds that don\u2019t directly connect with the IETF\u2019s technical interests.  If we did go into the weeds, we\u2019d be covering material that won\u2019t connect with the IETF reader and might even leave them behind.\r\n\r\n-glenn\r\n\r\nOn 7/12/21, 9:35 AM, \"Kyle Rose\" ***@***.******@***.***>> wrote:\r\n\r\n\r\nSorry for the late reply: somehow I missed the mention in my inbox.\r\n\r\nI don't see any reason why this should be out of scope. If you have time, I'd say add some proposed text prior to the cutoff later today and then post a summary of this to the list. We can raise the question at the 111 session and do a consensus call if there are any objections.\r\n\r\n\u2014\r\nYou are receiving this because you are subscribed to this thread.\r\nReply to this email directly, view it on GitHub<https://urldefense.com/v3/__https:/github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/81*issuecomment-878424694__;Iw!!CQl3mcHX2A!V_rvq2CC7eAIjHf3XjXhv6H0ovk0yjeqFRvSBHYMmfdFnSDmiQ0_iD4fCbHnfAAgkg$>, or unsubscribe<https://urldefense.com/v3/__https:/github.com/notifications/unsubscribe-auth/AADERXBR52RHDDNT5TCRG6DTXMKUJANCNFSM476VV2GA__;!!CQl3mcHX2A!V_rvq2CC7eAIjHf3XjXhv6H0ovk0yjeqFRvSBHYMmfdFnSDmiQ0_iD4fCbEaZCWiqA$>.\r\n",
+          "createdAt": "2021-07-12T17:34:43Z",
+          "updatedAt": "2021-07-12T17:34:43Z"
+        },
+        {
+          "author": "squarooticus",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "That's a very good point, Glenn. If this has implications for transport, network QoS, scalability, etc., then it may be relevant.",
+          "createdAt": "2021-07-12T18:15:44Z",
+          "updatedAt": "2021-07-12T18:15:44Z"
         }
       ]
     }
@@ -5131,6 +5159,120 @@
       "mergedBy": "SpencerDawkins",
       "mergeCommit": {
         "oid": "b951c94f523175dccafa418a849f8ebbfad96b4a"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 82,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg3ODYzNzQ4",
+      "title": "attempted fix for #67",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/82",
+      "state": "MERGED",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-07-12T13:50:46Z",
+      "updatedAt": "2021-07-12T18:15:57Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "b951c94f523175dccafa418a849f8ebbfad96b4a",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "67-fix-bitrate-selection-challenges",
+      "headRefOid": "1583c7840987ff2b91b82e88b4c129f662c3913e",
+      "closedAt": "2021-07-12T18:15:50Z",
+      "mergedAt": "2021-07-12T18:15:50Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "3a67c9af2e9de6dca29451197f398b4386135cee"
+      },
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is in existing text, but I'd put a paragraph break after \r\n\r\n\"Some receive-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect.\" \r\n\r\nand before \r\n\r\n\"Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example as described in {{OReilly-HPBN}}.\"",
+          "createdAt": "2021-07-12T17:53:45Z",
+          "updatedAt": "2021-07-12T17:53:45Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Works for me.  Updated...",
+          "createdAt": "2021-07-12T18:05:29Z",
+          "updatedAt": "2021-07-12T18:05:29Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 83,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg3OTE0OTk5",
+      "title": "attempted fix for #53 (caching update about challenges from low laten\u2026",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/83",
+      "state": "MERGED",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026cy streaming)",
+      "createdAt": "2021-07-12T14:51:44Z",
+      "updatedAt": "2021-07-12T18:18:05Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "b951c94f523175dccafa418a849f8ebbfad96b4a",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "53-fix-caching-anecdote",
+      "headRefOid": "8e31fb944d1ae7f6ed39d33eb5fef463eeebae57",
+      "closedAt": "2021-07-12T18:18:05Z",
+      "mergedAt": "2021-07-12T18:18:05Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "b3198ef0a8b52b09cf7107aeb491f45ab00c5cbf"
+      },
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This reads nicely to me. I'm not asking about this for today (it's I-D cutoff day, after all), but is there any reference that could be provided for the user to learn more?",
+          "createdAt": "2021-07-12T17:44:07Z",
+          "updatedAt": "2021-07-12T17:44:07Z"
+        },
+        {
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Not really, I think I just know a guy who knows a guy who says this happened or something...",
+          "createdAt": "2021-07-12T18:17:46Z",
+          "updatedAt": "2021-07-12T18:17:46Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 84,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg4MDcxNjc4",
+      "title": "Removed TBDs from text, captured them in #26 comment",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/84",
+      "state": "MERGED",
+      "author": "GrumpyOldTroll",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-07-12T18:23:57Z",
+      "updatedAt": "2021-07-12T18:24:37Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "b3198ef0a8b52b09cf7107aeb491f45ab00c5cbf",
+      "headRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "headRefName": "26-remove-tbds-moved-to-issue26",
+      "headRefOid": "55172d10102fc96eb0ea885aca4bcb6530be5d22",
+      "closedAt": "2021-07-12T18:24:37Z",
+      "mergedAt": "2021-07-12T18:24:37Z",
+      "mergedBy": "GrumpyOldTroll",
+      "mergeCommit": {
+        "oid": "ea6ac87d6b9dcf42a185998ce5d36623ce8572f5"
       },
       "comments": [],
       "reviews": []
