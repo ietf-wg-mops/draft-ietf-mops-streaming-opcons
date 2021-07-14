@@ -456,6 +456,7 @@ And as with other parts of the ecosystem, new technology brings new challenges. 
 
 ## Personalization and Advertizing
 
+[EDITOR: remove this paragraph]
 Some of this fits better under adaptive bitrate, but most of it seems
 to tie to caching and bandwidth.  Maybe refactor or move as the other
 sections are developed.
