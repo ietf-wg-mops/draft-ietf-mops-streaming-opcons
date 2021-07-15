@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-07-13T00:20:31.718680+00:00",
+  "timestamp": "2021-07-15T00:18:25.625205+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -5276,6 +5276,53 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 85,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg5NTYyMjM4",
+      "title": "mstock's \"add section on ads\" (fresh PR)",
+      "url": "https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/85",
+      "state": "OPEN",
+      "author": "englishm-ietf",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Sorry for the delay on this! \r\n\r\nHere's a rebased copy of https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/18 we can work from if there's still [interest](https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/31#issuecomment-719658964) in adding this section.",
+      "createdAt": "2021-07-14T04:11:01Z",
+      "updatedAt": "2021-07-14T04:45:25Z",
+      "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
+      "baseRefName": "main",
+      "baseRefOid": "ea6ac87d6b9dcf42a185998ce5d36623ce8572f5",
+      "headRepository": "englishm-ietf/draft-ietf-mops-streaming-opcons",
+      "headRefName": "mstock-ads",
+      "headRefOid": "7fe2fa5da4879aedd98a49d8bad3a5f42b882509",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzA1ODM0NTYz",
+          "commit": {
+            "abbreviatedOid": "fccd116"
+          },
+          "author": "englishm-ietf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-14T04:28:55Z",
+          "updatedAt": "2021-07-14T04:28:55Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Has this been discussed/resolved yet?\r\n\r\nhttps://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/18#discussion_r453389046",
+              "createdAt": "2021-07-14T04:28:55Z",
+              "updatedAt": "2021-07-14T04:28:55Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
