@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-07-15T00:18:25.625205+00:00",
+  "timestamp": "2021-07-18T00:20:35.605414+00:00",
   "repo": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
   "labels": [
     {
@@ -1527,7 +1527,7 @@
       "labels": [],
       "body": "The encoder sync workshop revealed lots of problems and unfortunately a little solution to synchronized encoding and packaging that are essential in large scale events. \r\n\r\nShould we touch on these topics in this draft as they seem to be quite related to \"operational considerations\", mostly in the sense that we raise awareness instead of listing/proposing solutions.\r\n\r\nThoughts?",
       "createdAt": "2021-07-07T13:31:45Z",
-      "updatedAt": "2021-07-12T18:15:44Z",
+      "updatedAt": "2021-07-16T17:24:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -1557,6 +1557,20 @@
           "body": "That's a very good point, Glenn. If this has implications for transport, network QoS, scalability, etc., then it may be relevant.",
           "createdAt": "2021-07-12T18:15:44Z",
           "updatedAt": "2021-07-12T18:15:44Z"
+        },
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Re: IETF-related aspects, we should remember that we do have IETF working groups that touch on this topic, even if they are in ART, so I wouldn't worry about that. \r\n\r\nSo, after thinking about comments from others, my other question is how much of the material we are talking about is well-understood and roughly agreed upon. Most of what we've got in the current version of the draft is either well-understood or at least has consensus behind it (example - the material about QUIC isn't as mature as the material about TCP, but I think it's mature enough). I might think that the point of having the Synchronization workshop was that we don't have as much of a handle on that yet. Unless we do understand that well enough to provide input about potential new work in the IETF, maybe it IS worth holding off on this, and doing a separate document when we can be confident. \r\n\r\nBut this is definitely worth putting in front of the working group at IETF 111, no matter what the working group decides. ",
+          "createdAt": "2021-07-16T16:32:27Z",
+          "updatedAt": "2021-07-16T16:32:27Z"
+        },
+        {
+          "author": "squarooticus",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Sounds like a plan! \ud83d\udc3f",
+          "createdAt": "2021-07-16T17:24:46Z",
+          "updatedAt": "2021-07-16T17:24:46Z"
         }
       ]
     }
@@ -5289,7 +5303,7 @@
       "labels": [],
       "body": "Sorry for the delay on this! \r\n\r\nHere's a rebased copy of https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/18 we can work from if there's still [interest](https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/31#issuecomment-719658964) in adding this section.",
       "createdAt": "2021-07-14T04:11:01Z",
-      "updatedAt": "2021-07-14T04:45:25Z",
+      "updatedAt": "2021-07-16T22:32:55Z",
       "baseRepository": "ietf-wg-mops/draft-ietf-mops-streaming-opcons",
       "baseRefName": "main",
       "baseRefOid": "ea6ac87d6b9dcf42a185998ce5d36623ce8572f5",
@@ -5300,7 +5314,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "SpencerDawkins",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@englishm-ietf, my apologies on this - I told @GrumpyOldTroll and @acbegen I'd work on this, just before coming down with the plague. Thank you for rebasing the proposal, and yes, we are still interested in adding this section (speaking for the editors, not for the working group). \r\n\r\nWe're in the I-D submission blackout zone now, so let's continue discussion, and we can submit something after IETF 111 opens back up. ",
+          "createdAt": "2021-07-16T18:41:22Z",
+          "updatedAt": "2021-07-16T18:41:22Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzA1ODM0NTYz",
@@ -5319,6 +5341,26 @@
               "body": "Has this been discussed/resolved yet?\r\n\r\nhttps://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/pull/18#discussion_r453389046",
               "createdAt": "2021-07-14T04:28:55Z",
               "updatedAt": "2021-07-14T04:28:55Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzA4NzgzNTMx",
+          "commit": {
+            "abbreviatedOid": "7fe2fa5"
+          },
+          "author": "GrumpyOldTroll",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-16T22:31:27Z",
+          "updatedAt": "2021-07-16T22:31:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Not much or very specifically, but I'll give my own take:\r\nThere was a point when it was probably open to add another author that would take on a range of new issues and the various tasks involved in getting this doc to a publishable state, but that's probably a bit late by now, assuming nothing goes too terribly wrong.  The PR has a significant contribution for which I'm grateful, but I don't think it's quite the same as going into the author's list as it stands.\r\n\r\nBut with that said, it's definitely true that a few people have contributed at a significantly higher level than some of the others, and this is a good candidate for one of them--it tends to lean toward \"above and beyond\" to post several paragraphs of proposed draft text, as opposed to hand-waving at a general point for the authors to address from the mic line.  Although that latter is also a welcome kind of feedback, in some cases it's harder to turn into a value-add to the doc than proposed text is.\r\n\r\nI guess the relevant advice is Sections 4.10 and 4.11 from RFC 7322, and they seem to leave a wide latitude on how exactly to do it:\r\nhttps://datatracker.ietf.org/doc/html/rfc7322#section-4.10\r\n\r\nI haven't seen many RFCs that differentiate by level of effort in the Acknowledgements section or add a Contributor's section, but if a highlighted call-out of some sort would be meaningful there, we could try discussing the best way to put such a thing?  Or maybe you and he would rather have an offer of a beer with a personal thank-you next time we're in the same area, and go in the regular list of acknowledgements instead of the authors?  I'm basically aiming to land on nobody feeling slighted here while taking all the contributions that improve the doc.\r\n\r\nBut I think that summary is \"let's drop these particular lines, and open a new issue to get the acknowledgements right if that's needed\".",
+              "createdAt": "2021-07-16T22:31:28Z",
+              "updatedAt": "2021-07-16T22:32:55Z"
             }
           ]
         }
