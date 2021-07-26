@@ -451,40 +451,13 @@ And as with other parts of the ecosystem, new technology brings new challenges. 
 ## Personalization and Advertizing
 
 [EDITOR: remove this paragraph]
-Some of this fits better under adaptive bitrate, but most of it seems
-to tie to caching and bandwidth.  Maybe refactor or move as the other
-sections are developed.
+Some of this fits better under adaptive bitrate, but most of it seems to tie to caching and bandwidth.  Maybe refactor or move as the other sections are developed.
 
-A simple model of video playback can be described as a video stream
-consumer, a buffer, and a transport mechanism that fills the buffer.
-The consumption rate is fairly static and is represented by the
-content bitrate.  The size of the buffer is also commonly a fixed
-size.  The fill process needs to be at least fast enough to ensure
-that the buffer is never empty, however it also can have significant
-complexity when things like personalization or ad workflows are
-introduced.
+A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer. The consumption rate is fairly static and is represented by the content bitrate.  The size of the buffer is also commonly a fixed size.  The fill process needs to be at least fast enough to ensure that the buffer is never empty, however it also can have significant complexity when things like personalization or ad workflows are introduced.
 
-The challenges in filling the buffer in a timely way fall into two
-broad categories: 1. content selection and 2. content variation.
-Content selection comprises all of the steps needed to determine which
-content variation to offer the client.  Content variation is the
-number of content options that exist at any given selection point.  A
-common example easily visualized is Adaptive Bitrate, described in
-more detail below.  The mechanism used to select the bitrate is part
-of the content selection, and the content variation are all of the
-different bitrate renditions.
+The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation. Content selection comprises all of the steps needed to determine which content variation to offer the client.  Content variation is the number of content options that exist at any given selection point.  A common example easily visualized is Adaptive Bitrate, described in more detail below.  The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
 
-A similar but more complex case is the use of an ad selection service
-to choose ad segments during video playback.  The ad selection service
-needs to process the requests in a timely way so that video service
-isn't interrupted.  This time to respond is added to the normal time
-spent requesting the video assets themselves.  In general, the more
-targeted the ad request is, the more requests the ad service needs to
-be able to handle concurrently.  If connectivity is poor to the ad
-service, this can cause rebuffering even if the underlying video
-assets (both content and ads) are able to be accessed quickly.  The
-less targeted, the more likely the ad requests can be consolidated and
-can leverage the same caching techniques as the video content.
+A similar but more complex case is the use of an ad selection service to choose ad segments during video playback.  The ad selection service needs to process the requests in a timely way so that video service isn't interrupted.  This time to respond is added to the normal time spent requesting the video assets themselves.  In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.  If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.  The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
 
 ## DNS
 
