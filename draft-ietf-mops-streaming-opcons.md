@@ -33,12 +33,6 @@ author:
     org: Tencent America LLC
     country: United States of America
     email: spencerdawkins.ietf@gmail.com
-  -
-    ins: M. Stock
-    name: Matt Stock
-    org: Limelight Networks, Inc.
-    country: United States of America
-    email: stock@csgeeks.org
 
 informative:
 
