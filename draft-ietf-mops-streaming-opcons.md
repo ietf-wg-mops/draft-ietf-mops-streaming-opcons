@@ -588,20 +588,20 @@ The choice of bitrate occurs within the context of optimizing for some metric mo
 
 ## Advertising
 
-A similar but more complex case is the use of an ad selection service to choose ad segments during video playback.
-The ad selection service needs to process the requests in a timely way so that video service isn't interrupted.
-This time to respond is added to the normal time spent requesting the video assets themselves.
-In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.
-If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.
-The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
+A variety of business models exist for producers of streaming media. Some content providers derive the majority of the revenue associated with streaming media directly from consumer subscriptions or one-time purchases. Others derive the majority of their streaming media associated revenue from advertising. Many content providers derive income from a mix of these and other sources of funding. The inclusion of advertising alongside or interspersed with streaming media content is therefor common in today's media landscape.
 
-For many use cases advertising plays a critical role in the business decision to stream an event, so advertising often is included as part of streaming media over the internet.
 Some commonly used forms of advertising can introduce potential user experience issues for a media stream.
 This section provides a very brief overview of a complex and evolving space, but a complete coverage of the potential issues is out of scope for this document.
 
-ABR media can dynamically insert ads with either Client Side Ad Insertion (CSAI) or Server Side Ad Insertion (SSAI).
+The same techniques used to allow a media player to switch between renditions of different bitrates at segment or chunk boundaries can also be used to enable the dynamic insertion of advertisements.
+
+Ads may be inserted either with Client Side Ad Insertion (CSAI) or Server Side Ad Insertion (SSAI).
 In CSAI, the ABR manifest will generally include links to an external ad server for some segments of the media stream, while in SSAI the server will remain the same during advertisements, but will include media segments that contain the advertising.
 In SSAI, the media segments may or may not be sourced from an external ad server like with CSAI.
+
+In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.
+If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.
+The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
 
 In some cases, especially with SSAI, advertising space in a stream is reserved for a specific advertiser and can be integrated with the video so that the segments share the same encoding properties such as bitrate, dynamic range, and resolution.
 However, in many cases ad servers integrate with a Supply Side Platform (SSP) that offers advertising space in real-time auctions via an Ad Exchange, with bids for the advertising space coming from Demand Side Platforms (DSPs) that collect money from advertisers for delivering the advertisements.
