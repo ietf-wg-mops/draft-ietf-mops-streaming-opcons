@@ -591,6 +591,32 @@ In general, the more targeted the ad request is, the more requests the ad servic
 If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.
 The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
 
+For many use cases advertising plays a critical role in the business decision to stream an event, so advertising often is included as part of streaming media over the internet.
+Some commonly used forms of advertising can introduce potential user experience issues for a media stream.
+This section provides a very brief overview of a complex and evolving space, but a complete coverage of the potential issues is out of scope for this document.
+
+ABR media can dynamically insert ads with either Client Side Ad Insertion (CSAI) or Server Side Ad Insertion (SSAI).
+In CSAI, the ABR manifest will generally include links to an external ad server for some segments of the media stream, while in SSAI the server will remain the same during advertisements, but will include media segments that contain the advertising.
+In SSAI, the media segments may or may not be sourced from an external ad server like with CSAI.
+
+In some cases, especially with SSAI, advertising space in a stream is reserved for a specific advertiser and can be integrated with the video so that the segments share the same encoding properties such as bitrate, dynamic range, and resolution.
+However, in many cases ad servers integrate with a Supply Side Platform (SSP) that offers advertising space in real-time auctions via an Ad Exchange, with bids for the advertising space coming from Demand Side Platforms (DSPs) that collect money from advertisers for delivering the advertisements.
+Most such Ad Exchanges use application-level protocol specifications published by the Interactive Advertising Bureau {{IAB-ADS}}, an industry trade organization.
+
+This ecosystem balances several competing objectives, and integrating with it naively can produce surprising user experience results.
+For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, either of which can sometimes result in video stalls.
+For another example, since the inserted ads are often produced independently they might have a different base volume level than the main video, which can make for a jarring user experience.
+
+Additionally, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain).
+As a mitigation for concerns driven by those incidents, some SSPs have required the use of players with features like reporting of ad delivery, or providing information that can be used for user tracking.
+Some of these and other measures have raised privacy concerns for end users.
+
+In general this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
+For further reading on mitigations, {{BAP}} has published some standards and best practices based on user experience research.
+
+IAB-ADS: iab.com
+BAP: https://www.betterads.org
+
 ## Bitrate Detection Challenges
 
 This kind of bandwidth-measurement system can experience trouble in several ways that are affected by networking issues.
