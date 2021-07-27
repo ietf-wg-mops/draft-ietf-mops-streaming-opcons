@@ -448,16 +448,6 @@ All of this depends, of course, on the ability of a content provider to predict 
 
 And as with other parts of the ecosystem, new technology brings new challenges.  For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had the video freeze until the player was reset.  In some cases the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the video for all players playing the segment delivered from that cache node.
 
-## Personalization and Advertizing
-
-[EDITOR: remove this paragraph]
-Some of this fits better under adaptive bitrate, but most of it seems to tie to caching and bandwidth.  Maybe refactor or move as the other sections are developed.
-
-A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer. The consumption rate is fairly static and is represented by the content bitrate.  The size of the buffer is also commonly a fixed size.  The fill process needs to be at least fast enough to ensure that the buffer is never empty, however it also can have significant complexity when things like personalization or ad workflows are introduced.
-
-The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation. Content selection comprises all of the steps needed to determine which content variation to offer the client.  Content variation is the number of content options that exist at any given selection point.  A common example easily visualized is Adaptive Bitrate, described in more detail below.  The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
-
-A similar but more complex case is the use of an ad selection service to choose ad segments during video playback.  The ad selection service needs to process the requests in a timely way so that video service isn't interrupted.  This time to respond is added to the normal time spent requesting the video assets themselves.  In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.  If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.  The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
 
 ## DNS
 
@@ -565,6 +555,17 @@ In some applications, optimizations are available to on-demand video that are no
 
 ## Overview
 
+A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
+The consumption rate is fairly static and is represented by the content bitrate.
+The size of the buffer is also commonly a fixed size.
+The fill process needs to be at least fast enough to ensure that the buffer is never empty, however it also can have significant complexity when things like personalization or ad workflows are introduced.
+
+The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
+Content selection comprises all of the steps needed to determine which content variation to offer the client.
+Content variation is the number of content options that exist at any given selection point.
+A common example, easily visualized, is Adaptive BitRate (ABR), described in more detail below.
+The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
+
 Adaptive BitRate (ABR) is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 ## Adaptive Encoding {#adapt-encode}
@@ -580,6 +581,15 @@ ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} 
 Many server-player systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
 The choice of bitrate occurs within the context of optimizing for some metric monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
+
+## Advertising
+
+A similar but more complex case is the use of an ad selection service to choose ad segments during video playback.
+The ad selection service needs to process the requests in a timely way so that video service isn't interrupted.
+This time to respond is added to the normal time spent requesting the video assets themselves.
+In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.
+If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.
+The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
 
 ## Bitrate Detection Challenges
 
