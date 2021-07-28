@@ -588,7 +588,7 @@ The choice of bitrate occurs within the context of optimizing for some metric mo
 
 ## Advertising
 
-A variety of business models exist for producers of streaming media. Some content providers derive the majority of the revenue associated with streaming media directly from consumer subscriptions or one-time purchases. Others derive the majority of their streaming media associated revenue from advertising. Many content providers derive income from a mix of these and other sources of funding. The inclusion of advertising alongside or interspersed with streaming media content is therefor common in today's media landscape.
+A variety of business models exist for producers of streaming media. Some content providers derive the majority of the revenue associated with streaming media directly from consumer subscriptions or one-time purchases. Others derive the majority of their streaming media associated revenue from advertising. Many content providers derive income from a mix of these and other sources of funding. The inclusion of advertising alongside or interspersed with streaming media content is therefore common in today's media landscape.
 
 Some commonly used forms of advertising can introduce potential user experience issues for a media stream.
 This section provides a very brief overview of a complex and evolving space, but a complete coverage of the potential issues is out of scope for this document.
