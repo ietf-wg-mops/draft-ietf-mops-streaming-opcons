@@ -269,6 +269,13 @@ informative:
     seriesinfo: "2008 5th IEEE Consumer Communications and Networking Conference 5th IEEE, pp. 67-68"
     date: 2008
 
+  IAB-ADS:
+    target: https://www.iab.com/
+    title: IAB
+  BAP:
+    target: https://www.betterads.org/
+    title: The Coalition for Better Ads
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
@@ -617,9 +624,6 @@ Some of these and other measures have raised privacy concerns for end users.
 
 In general this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
 For further reading on mitigations, {{BAP}} has published some standards and best practices based on user experience research.
-
-IAB-ADS: iab.com
-BAP: https://www.betterads.org
 
 ## Bitrate Detection Challenges
 
