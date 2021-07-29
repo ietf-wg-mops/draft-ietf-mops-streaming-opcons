@@ -581,10 +581,6 @@ Media servers can provide media streams at various bitrates because the media ha
 
 The media server may also choose to alter which bitrates are made available to players by adding or removing bitrate options from the ladder delivered to the player in subsequent manifests built and sent to the player. This way, both the player, through its selection of bitrate to request from the manifest, and the server, through its construction of the bitrates offered in the manifest, are able to affect network utilization.
 
-## Segment size and keyframe intervals
-
-TBD: Describe in general terms segments and frame types, tradeoffs associated with segment size and keyframe interval selection. (related to idle-time and caching)
-
 ## Adaptive Segmented Delivery {#adapt-deliver}
 
 ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
