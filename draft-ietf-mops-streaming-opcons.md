@@ -269,6 +269,13 @@ informative:
     seriesinfo: "2008 5th IEEE Consumer Communications and Networking Conference 5th IEEE, pp. 67-68"
     date: 2008
 
+  IAB-ADS:
+    target: https://www.iab.com/
+    title: IAB
+  BAP:
+    target: https://www.betterads.org/
+    title: The Coalition for Better Ads
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
@@ -550,6 +557,17 @@ In some applications, optimizations are available to on-demand video that are no
 
 ## Overview
 
+A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
+The consumption rate is fairly static and is represented by the content bitrate.
+The size of the buffer is also commonly a fixed size.
+The fill process needs to be at least fast enough to ensure that the buffer is never empty, however it also can have significant complexity when things like personalization or ad workflows are introduced.
+
+The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
+Content selection comprises all of the steps needed to determine which content variation to offer the client.
+Content variation is the number of content options that exist at any given selection point.
+A common example, easily visualized, is Adaptive BitRate (ABR), described in more detail below.
+The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
+
 Adaptive BitRate (ABR) is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 ## Adaptive Encoding {#adapt-encode}
@@ -565,6 +583,38 @@ ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} 
 Many server-player systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
 The choice of bitrate occurs within the context of optimizing for some metric monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
+
+## Advertising
+
+A variety of business models exist for producers of streaming media. Some content providers derive the majority of the revenue associated with streaming media directly from consumer subscriptions or one-time purchases. Others derive the majority of their streaming media associated revenue from advertising. Many content providers derive income from a mix of these and other sources of funding. The inclusion of advertising alongside or interspersed with streaming media content is therefore common in today's media landscape.
+
+Some commonly used forms of advertising can introduce potential user experience issues for a media stream.
+This section provides a very brief overview of a complex and evolving space, but a complete coverage of the potential issues is out of scope for this document.
+
+The same techniques used to allow a media player to switch between renditions of different bitrates at segment or chunk boundaries can also be used to enable the dynamic insertion of advertisements.
+
+Ads may be inserted either with Client Side Ad Insertion (CSAI) or Server Side Ad Insertion (SSAI).
+In CSAI, the ABR manifest will generally include links to an external ad server for some segments of the media stream, while in SSAI the server will remain the same during advertisements, but will include media segments that contain the advertising.
+In SSAI, the media segments may or may not be sourced from an external ad server like with CSAI.
+
+In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.
+If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) are able to be accessed quickly.
+The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
+
+In some cases, especially with SSAI, advertising space in a stream is reserved for a specific advertiser and can be integrated with the video so that the segments share the same encoding properties such as bitrate, dynamic range, and resolution.
+However, in many cases ad servers integrate with a Supply Side Platform (SSP) that offers advertising space in real-time auctions via an Ad Exchange, with bids for the advertising space coming from Demand Side Platforms (DSPs) that collect money from advertisers for delivering the advertisements.
+Most such Ad Exchanges use application-level protocol specifications published by the Interactive Advertising Bureau {{IAB-ADS}}, an industry trade organization.
+
+This ecosystem balances several competing objectives, and integrating with it naively can produce surprising user experience results.
+For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, either of which can sometimes result in video stalls.
+For another example, since the inserted ads are often produced independently they might have a different base volume level than the main video, which can make for a jarring user experience.
+
+Additionally, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain).
+As a mitigation for concerns driven by those incidents, some SSPs have required the use of players with features like reporting of ad delivery, or providing information that can be used for user tracking.
+Some of these and other measures have raised privacy concerns for end users.
+
+In general this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
+For further reading on mitigations, {{BAP}} has published some standards and best practices based on user experience research.
 
 ## Bitrate Detection Challenges
 
