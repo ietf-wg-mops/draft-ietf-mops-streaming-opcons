@@ -58,7 +58,7 @@ informative:
     - ins: J. M. Boyce
     - ins: et al.
     seriesinfo: Proceedings of the IEEE
-  
+
   MMSys11:
     target: https://dl.acm.org/doi/10.1145/1943552.1943574
     title: "An experimental evaluation of rate-adaptation algorithms in adaptive streaming over HTTP"
@@ -77,14 +77,14 @@ informative:
       - ins: et al.
     date: 2020-09
     seriesinfo: IEEE MMSP
-  
+
   LL-DASH:
     target: https://dashif.org/docs/CR-Low-Latency-Live-r8.pdf
     title: "Low-latency Modes for DASH"
     author:
       - ins: DASH-IF
     date: 2020-03
-  
+
   CMAF-CTE:
     target: https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf
     title: "Ultra-Low-Latency Streaming Using Chunked-Encoded and Chunked Transferred CMAF"
@@ -103,12 +103,12 @@ informative:
       - ins: A. C. Begen
       - ins: C. Timmerer
       - ins: R. Zimmermann
-      - 
+      -
        name: Abdelhak Bentaleb et al.
        ins: A. Bentaleb et al.
     date: 2019
     seriesinfo: IEEE Communications Surveys & Tutorials
-  
+
   Encodings:
     target: https://developer.apple.com/documentation/http_live_streaming/hls_authoring_specification_for_apple_devices
     title: "HLS Authoring Specification for Apple Devices"
@@ -123,7 +123,7 @@ informative:
       - ins: S. Mishra
       - ins: J. Thibeault
     date: 2020-04
-  
+
   Labovitz:
     target: https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/
     title: "Network traffic insights in the time of COVID-19: April 9 update"
@@ -265,7 +265,7 @@ informative:
       -
         name: Joseph L. LoCicero
       -
-        name: Donald R. Ucci 
+        name: Donald R. Ucci
     seriesinfo: "2008 5th IEEE Consumer Communications and Networking Conference 5th IEEE, pp. 67-68"
     date: 2008
 
@@ -333,15 +333,15 @@ D of {{CVNI}}).
 
 A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds.
 
-This document specifically focuses on the streaming applications and defines streaming as follows: 
+This document specifically focuses on the streaming applications and defines streaming as follows:
 
-- Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client. 
+- Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client.
 
-- Here, continuous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play. 
+- Here, continuous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play.
 
-This has two implications. 
+This has two implications.
 
-- First, the server's transmission rate must (loosely or tightly) match to client's consumption rate in order to provide uninterrupted playback. That is, the client must not run out of data (buffer underrun) or accept more data than it can buffer before playback (buffer overrun) as any excess media is simply discarded. 
+- First, the server's transmission rate must (loosely or tightly) match to client's consumption rate in order to provide uninterrupted playback. That is, the client must not run out of data (buffer underrun) or accept more data than it can buffer before playback (buffer overrun) as any excess media is simply discarded.
 
 - Second, the client's consumption rate is limited not only by bandwidth availability but also real-time constraints. That is, the client cannot fetch media that is not available from a server yet.
 
@@ -413,15 +413,41 @@ Here are a few common resolutions used for video content, with typical ranges of
 | 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
 | 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
-### Virtual Reality Bitrates 
+### Virtual Reality Bitrates
 
-The bitrates given in {{bvr}} describe video streams that provide the user with a single, fixed, point of view - so, the user has no "degrees of freedom", and the user sees all of the video image that is available. 
+The bitrates given in {{bvr}} describe video streams that provide the user with a single, fixed, point of view - so, the user has no "degrees of freedom", and the user sees all of the video image that is available.
 
 Even basic virtual reality (360-degree) videos that allow users to look around freely (referred to as "three degrees of freedom", or 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time.
 
-In more immersive applications, where limited user movement ("three degrees of freedom plus", or 3DoF+) or full user movement ("six degrees of freedom", or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.  
+In more immersive applications, where limited user movement ("three degrees of freedom plus", or 3DoF+) or full user movement ("six degrees of freedom", or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.
 
-## Path Requirements
+## Path Bandwidth Constraints {#sec-band-constraints}
+
+Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the contraints on bandwidth at various points in the network. This is the case for two reasons:
+
+* First, media servers typically implement transport protocols probe for bandwidth, so when a media server's transport protocol implementation will detect a bottleneck link somewhere along the path to the media player. The media server transport protocol implementation may detect this because the sender does not receive acknowledgements from the media player's transport protocol implementation, meaning that some media packets have been lost, or because the diffence in spacing between acknowledgements is increasing, meaning that the media packets haven't been lost, but being stored in queues on a network element, and that these queues are growing because the network element is receiving media packets faster than they can be forwarded toward the media player. When the transport protocol implementation detects these conditions, it will typically reduce its "sending window", so that the media sender does not overwhelm the bottleneck link and cause congestion that potentially affects other media servers, or even the media server itself. Thia ia called "self congestion". These transport protocol-level responses are described in greater detail, in {{sec-trans}}.
+
+* Almost totally asynchronously from transport protocols responding to bottlenecks, media servers often respond to application-level feedback from the media player that indicates a bottleneck link, by adjusting the amount of media that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
+
+Between these two (potentially competing) "helpful" mechanisms each responding to the same bottleneck with no coordination betten themselves, so that each is unaware of actions taken by the other, it is easily possible for the media server to estimate available path bandwidth to a media player, reduce the amount of bandwidth in use based on that estimation, and then continue to use this lowwe estimated available bandwidth value for some time, resulting in a quality of experience for media consumers that is significantly lower than what could have been achieved. In order to avoid this situation, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use.
+
+### Know Your Network Traffic {#sec-know-your-traffic}
+
+Recognizing that a path carrying streaming media is "not behaving the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. This is possible because monitors can detect how long specific TCP segments are taking to be acknowledged by a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted.
+
+There are many reasons why path characteristics might change suddenly, for example,
+
+* "cross traffic" that traverses part of the path, especially if this traffic is "inelastic", and does not, itself, respond to indications of path congestion.
+
+* routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance, but can affect media consumer quality of experience even if this happens in "normal operation".
+
+**Open Issue 1** - do we name products or protocols in common use here?
+
+**Open Issue 2** - we probably COULD mention the In-Situ OAM work in IPPM, recognizing that over-the-top streaming media operators are unlikely to be able to use this end-to-end, but at least some streaming media operators may be able to use it over parts of network paths that they can control.
+
+**Open Issue 2** - we probably COULD mention the Qlog work that has now been adopted in the QUIC working group, and is at least somewhat mature (it's certainly in use at scale in places like Facebook), while noting that this is part of the transport protocol evolution topic in {{quic-behavior}}.
+
+## Path Requirements {#pathreq}
 
 The bitrate requirements in {{scaling}} are per end-user actively
 consuming a media feed, so in the worst case, the bitrate demands
@@ -493,12 +519,12 @@ Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impa
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
 - Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.
-- At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.  
+- At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.
 - The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games.
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
-# Latency Considerations
+# Latency Considerations {#latency-cons}
 
 Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurrence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes video encoding/decoding and buffering time, and for most cases also ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
 
@@ -685,17 +711,17 @@ Many assumes that the CDNs have a holistic view into the health and performance 
 
 ## Unreliable Transport {#unreliable}
 
-In contrast to segmented delivery, several applications use unreliable UDP or SCTP with its "partial reliability" extension {{RFC3758}} to deliver Media encapsulated in RTP {{RFC3550}} or raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}}, when the media is being delivered in situations such as broadcast and live streaming, that better tolerate occasional packet loss without retransmission. 
+In contrast to segmented delivery, several applications use unreliable UDP or SCTP with its "partial reliability" extension {{RFC3758}} to deliver Media encapsulated in RTP {{RFC3550}} or raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}}, when the media is being delivered in situations such as broadcast and live streaming, that better tolerate occasional packet loss without retransmission.
 
 Under congestion and loss, this approach generally experiences more video artifacts with fewer delay or head-of-line blocking effects. Often one of the key goals is to reduce latency, to better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
 
-The Secure Reliable Transport protocol {{SRT}} also uses UDP in an effort to achieve lower latency for streaming media, although it adds reliability at the application layer. 
+The Secure Reliable Transport protocol {{SRT}} also uses UDP in an effort to achieve lower latency for streaming media, although it adds reliability at the application layer.
 
 Congestion avoidance strategies for deployments using unreliable transport protocols vary widely in practice, ranging from being entirely unresponsive to congestion, to using feedback signaling to change encoder settings (as in {{RFC5762}}), to using fewer enhancement layers (as in {{RFC6190}}), to using proprietary methods to detect "quality of experience" issues and turn off video in order to allow less bandwidth-intensive media such as audio to be delivered.
 
 More details about congestion avoidance strategies used with unreliable transport protocols are included in {{udp-behavior}}.
 
-# Evolution of Transport Protocols and Transport Protocol Behaviors
+# Evolution of Transport Protocols and Transport Protocol Behaviors {#sec-trans}
 
 Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors.
 
@@ -719,7 +745,7 @@ The notion of "Circuit Breakers" has also been applied to other UDP applications
 
 ## TCP and Its Behavior {#tcp-behavior}
 
-For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgments for packets that were successfully sent and received, and packet timeouts for packets that were not.
+For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgements for packets that were successfully sent and received, and packet timeouts for packets that were not.
 
 The success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful. The Internet continued to work even when the specific mechanisms used to reach equilibrium changed over time. Because TCP provides a common tool to avoid contention, as some TCP-based applications like FTP were largely replaced by other TCP-based applications like HTTP, the transport behavior remained consistent.
 
@@ -737,9 +763,9 @@ While QUIC is designed as a general-purpose transport protocol, and can carry di
 
 When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. Since earlier versions of HTTP(S) rely on TCP, UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and HTTP/3 can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
 
-As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes "head-of-line blocking", so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until the lost packet is retransmitted, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed. 
+As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes "head-of-line blocking", so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until the lost packet is retransmitted, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.
 
-A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not. 
+A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
 As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
 
@@ -761,11 +787,11 @@ More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUI
 
 Both "hop-by-hop" and "end-to-end" encrypted transport may carry media that is, in addition, encrypted at the application layer.
 
-Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.  
+Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.
 
 This document does not take a position on whether those goals are "valid" (whatever that might mean).
 
-In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end". Because media encrypted at the application layer will only be processed by application-level entities, this encryption does not have transport-layer implications. 
+In this document, we will focus on media encrypted at the transport layer, whether encrypted "hop-by-hop" or "end-to-end". Because media encrypted at the application layer will only be processed by application-level entities, this encryption does not have transport-layer implications.
 
 Both "End-to-End" and "Hop-by-Hop" media encryption have specific implications for streaming operators. These are described in {{hop-by-hop-encrypt}} and {{e2em-encrypt}}.
 
@@ -778,7 +804,7 @@ If traffic analysis is successful at identifying encrypted content and associati
 Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies on the TLS 1.3 initial handshake {{RFC8446}} only for key exchange {{RFC9001}}, and encrypts almost all transport parameters itself, with the exception of a few invariant header fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the Destination Connection ID {{RFC8999}}, and even in the QUIC long header, the only transport-level parameters sent "in the clear" are the Version, Destination Connection ID, and Source Connection ID. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2.
 
 ## Considerations for "Hop-by-Hop" Media Encryption {#hop-by-hop-encrypt}
- 
+
 Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries.
 
 There are a variety of ways to involve intermediaries, and some are much more intrusive than others.
@@ -796,15 +822,15 @@ Assuming that a content provider does intend to allow intermediaries to particip
 If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
 ## Considerations for "End-to-End" Media Encryption {#e2em-encrypt}
- 
+
 "End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed.
- 
+
 "End-to-end" media encryption has become much more widespread in the years since the IETF issued "Pervasive Monitoring Is an Attack" {{RFC7258}} as a Best Current Practice, describing pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
 
 Unfortunately, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an "attacker", while allowing monitoring by a more benign entity who "only" wants to use DPI to examine HTTP requests and responses in order to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, intermediary streaming operators are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary streaming operator who is explicitly authorized to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
 
 {{RFC7258}} said that "The IETF will strive to produce specifications that mitigate pervasive monitoring attacks", so streaming operators should expect the IETF's direction toward preventing unauthorized monitoring of IETF protocols to continue for the forseeable future.
- 
+
 # IANA Considerations
 
 This document requires no actions from IANA.
@@ -813,7 +839,7 @@ This document requires no actions from IANA.
 
 This document introduces no new security issues.
 
-# Acknowledgments
+# acknowledgements
 
 Thanks to Alexandre Gouaillard, Aaron Falk, Dave Oran, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Roni Even, and Will Law for very helpful suggestions, reviews and comments.
 
