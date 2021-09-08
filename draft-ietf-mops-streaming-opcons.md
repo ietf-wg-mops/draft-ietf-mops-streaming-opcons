@@ -279,6 +279,9 @@ informative:
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
+  I-D.ietf-quic-qlog-main-schema:
+  I-D.ietf-quic-qlog-h3-events:
+  I-D.ietf-quic-qlog-quic-events:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
 
@@ -423,29 +426,27 @@ In more immersive applications, where limited user movement ("three degrees of f
 
 ## Path Bandwidth Constraints {#sec-band-constraints}
 
-Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the contraints on bandwidth at various points in the network. This is the case for two reasons:
+Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the contraints on bandwidth at various points in the network. This analysis is necessary because media servers may react to bandwith constraints using two independent feedback loops:
 
-* First, media servers typically implement transport protocols probe for bandwidth, so when a media server's transport protocol implementation will detect a bottleneck link somewhere along the path to the media player. The media server transport protocol implementation may detect this because the sender does not receive acknowledgements from the media player's transport protocol implementation, meaning that some media packets have been lost, or because the diffence in spacing between acknowledgements is increasing, meaning that the media packets haven't been lost, but being stored in queues on a network element, and that these queues are growing because the network element is receiving media packets faster than they can be forwarded toward the media player. When the transport protocol implementation detects these conditions, it will typically reduce its "sending window", so that the media sender does not overwhelm the bottleneck link and cause congestion that potentially affects other media servers, or even the media server itself. Thia ia called "self congestion". These transport protocol-level responses are described in greater detail, in {{sec-trans}}.
+* Media servers often respond to application-level feedback from the media player that indicates a bottleneck link somewhere along the path, by adjusting the amount of media that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
 
-* Almost totally asynchronously from transport protocols responding to bottlenecks, media servers often respond to application-level feedback from the media player that indicates a bottleneck link, by adjusting the amount of media that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
+* Media servers also typically implement transport protocols with capacity-seeking congestion controllers that probe for bandwidth, and adjust the sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
 
-Between these two (potentially competing) "helpful" mechanisms each responding to the same bottleneck with no coordination betten themselves, so that each is unaware of actions taken by the other, it is easily possible for the media server to estimate available path bandwidth to a media player, reduce the amount of bandwidth in use based on that estimation, and then continue to use this lowwe estimated available bandwidth value for some time, resulting in a quality of experience for media consumers that is significantly lower than what could have been achieved. In order to avoid this situation, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use.
+The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other.  it is easily possible for each of these mechanisms to estimate available path bandwidth between a media server and a media player, reduce the amount of bandwidth in use based on that estimate and then continue to use this lower estimate for some time, resulting in a quality of experience for media consumers that is significantly lower than what could have been achieved. In order to avoid this situation, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use, but the first step toward mitigating the problem is knowing when it occurs.
 
 ### Know Your Network Traffic {#sec-know-your-traffic}
-
-Recognizing that a path carrying streaming media is "not behaving the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. This is possible because monitors can detect how long specific TCP segments are taking to be acknowledged by a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted.
 
 There are many reasons why path characteristics might change suddenly, for example,
 
 * "cross traffic" that traverses part of the path, especially if this traffic is "inelastic", and does not, itself, respond to indications of path congestion.
 
-* routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance, but can affect media consumer quality of experience even if this happens in "normal operation".
+* routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance.
 
-**Open Issue 1** - do we name products or protocols in common use here?
+Recognizing that a path carrying streaming media is "not behaving the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
 
-**Open Issue 2** - we probably COULD mention the In-Situ OAM work in IPPM, recognizing that over-the-top streaming media operators are unlikely to be able to use this end-to-end, but at least some streaming media operators may be able to use it over parts of network paths that they can control.
+As transport protocols evolve to encrypt their transport header fields, one side effect of increasing encryption is that the kind of passive monitoring, or even "performance enhancement" ({{RFC3135}}) that was possible with the older transport protocols (UDP, described in {{udp-behavior}} and TCP, described in {{tcp-behavior}}) is no longer possible with newer transport protocols such as QUIC (described in {{quic-behavior}}). The IETF has specified a "latency spin bit" mechanism in Section 17.4 of {{RFC9000}} to allow passive latency monitoring from observation points on the network path throughout the duration of a connection, but currently chartered work in the IETF is focusing on end-point monitoring and reporting, rather than on passive monitoring.
 
-**Open Issue 2** - we probably COULD mention the Qlog work that has now been adopted in the QUIC working group, and is at least somewhat mature (it's certainly in use at scale in places like Facebook), while noting that this is part of the transport protocol evolution topic in {{quic-behavior}}.
+One example is the "qlog" mechanism {{I-D.ietf-quic-qlog-main-schema}}, a protocol-agnostic mechanism used to provide better visibility for encrypted protocols such as QUIC ({{I-D.ietf-quic-qlog-quic-events}}) and for HTTP/3 ({{I-D.ietf-quic-qlog-h3-events}}).
 
 ## Path Requirements {#pathreq}
 
@@ -839,7 +840,7 @@ This document requires no actions from IANA.
 
 This document introduces no new security issues.
 
-# acknowledgements
+# Acknowledgments
 
 Thanks to Alexandre Gouaillard, Aaron Falk, Dave Oran, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Roni Even, and Will Law for very helpful suggestions, reviews and comments.
 
