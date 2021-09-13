@@ -550,13 +550,13 @@ Streaming media can be usefully categorized according to the application's laten
 
 Ultra low-latency delivery of media is defined here as having a glass-to-glass delay target under one second.
 
-This level of latency is sometimes necessary for real-time interactive applications such as video conferencing, operation of remote control devices or vehicles, or remotely hosted real-time gaming systems.  Some media content providers aim to achieve this level of latency for live media events involving sports, but have usually so far been unsuccessful over the internet at scale, though it is often possible within a localized environment with a controlled network, such as inside a specific venue connected to the event.  Applications operating in this domain that encounter transient network events such as loss or reordering of some packets often experience user-visible artifacts in the media.
+Some media content providers aim to achieve this level of latency for live media events. This introduces new challenges relative to less-restricted levels of latency requirements because this latency is the same scale as commonly observed end-to-end network latency variation (for example, due to effects such as bufferbloat, Wi-Fi error correction, or packet reordering). These effects can make it difficult to achieve this level of latency for the general case, and may require tradeoffs in relatively frequent user-visible media artifacts. However, for controlled environments or targeted networks that provide mitigations against such effects, this level of latency is potentially achievable with the right provisioning.
 
 Applications requiring ultra low latency for media delivery are usually tightly constrained on the available choices for media transport technologies, and sometimes may need to operate in controlled environments to reliably achieve their latency and quality goals.
 
 Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}, which uses RTP for the media transport as well as several other protocols necessary for safe operation in browsers.
 
-Worth noting is that many applications for ultra low-latency delivery do not need to scale to more than one user at a time, which simplifies many delivery considerations relative to other use cases.  For applications that need to replicate streams to multiple users, especially at a scale exceeding tens of users, this level of latency has historically been nearly impossible to achieve except with the use of multicast or planned provisioning in controlled networks.
+Worth noting is that many applications for ultra low-latency delivery do not need to scale to more than a few users at a time, which simplifies many delivery considerations relative to other use cases.
 
 Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
 
@@ -841,6 +841,178 @@ If a content provider chooses not to involve intermediaries, this choice should 
 Unfortunately, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an "attacker", while allowing monitoring by a more benign entity who "only" wants to use DPI to examine HTTP requests and responses in order to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, intermediary streaming operators are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary streaming operator who is explicitly authorized to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
 
 {{RFC7258}} said that "The IETF will strive to produce specifications that mitigate pervasive monitoring attacks", so streaming operators should expect the IETF's direction toward preventing unauthorized monitoring of IETF protocols to continue for the forseeable future.
+
+# Further Reading and References
+
+Editor's note: This section is to be kept in a living document where future references, links and/or updates to the existing references will be reflected. That living document is likely to be an IETF-owned Wiki: https://tinyurl.com/streaming-opcons-reading
+
+## Industry Terminology
+
+- SVA Glossary: https://glossary.streamingvideoalliance.org/
+- Datazoom Video Player Data Dictionary: https://help.datazoom.io/hc/en-us/articles/360031323311
+- Datazoom Video Metrics Encyclopedia: https://help.datazoom.io/hc/en-us/articles/360046177191 
+
+## Surveys and Tutorials
+
+### Encoding
+
+The following papers describe how video is encoded, different video encoding standards and tradeoffs in selecting encoding parameters.
+
+- Overview of the Versatile Video Coding (VVC) Standard and its Applications (https://ieeexplore.ieee.org/document/9503377) 
+- Video Compression - From Concepts to the H.264/AVC Standard (https://ieeexplore.ieee.org/document/1369695) 
+- Developments in International Video Coding Standardization After AVC, With an Overview of Versatile Video Coding (VVC) (https://ieeexplore.ieee.org/document/9328514)
+- A Technical Overview of AV1 (https://ieeexplore.ieee.org/document/9363937)
+- CTU Depth Decision Algorithms for HEVC: A Survey (https://arxiv.org/abs/2104.08328)
+
+### Packaging
+
+The following papers summarize the methods for selecting packaging configurations such as the resolution-bitrate pairs, segment durations, use of constant vs. variable-duration segments, etc.
+
+- Deep Reinforced Bitrate Ladders for Adaptive Video Streaming (https://dl.acm.org/doi/10.1145/3458306.3458873)
+- Comparing Fixed and Variable Segment Durations for Adaptive Video Streaming: a Holistic Analysis (https://dl.acm.org/doi/10.1145/3339825.3391858) 
+
+### Content Delivery
+
+The following links describe some of the issues and solutions regarding the interconnecting of the content delivery networks. 
+
+- Open Caching: Open standards for Caching in ISP Networks: https://www.streamingvideoalliance.org/working-group/open-caching/
+- Netflix Open Connect: https://openconnect.netflix.com
+
+### ABR Algorithms
+
+The two surveys describe and compare different rate-adaptation algorithms in terms of different metrics like achieved bitrate/quality, stall rate/duration, bitrate switching frequency, fairness, network utilization, etc.
+
+- A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP (https://ieeexplore.ieee.org/document/8424813) 
+- A Survey of Rate Adaptation Techniques for Dynamic Adaptive Streaming Over HTTP (https://ieeexplore.ieee.org/document/7884970)
+- Low-Latency Live Streaming: The following papers describe the peculiarities of adaptive streaming in low-latency live streaming scenarios. 
+- Catching the Moment with LoL+ in Twitch-like Low-latency Live Streaming Platforms (https://ieeexplore.ieee.org/document/9429986) 
+- Data-driven Bandwidth Prediction Models and Automated Model Selection for Low Latency (https://ieeexplore.ieee.org/document/9154522) 
+- Performance Analysis of ACTE: A Bandwidth Prediction Method for Low-latency Chunked Streaming (https://dl.acm.org/doi/10.1145/3387921) 
+- Online Learning for Low-latency Adaptive Streaming (https://dl.acm.org/doi/10.1145/3339825.3397042) 
+- Tightrope Walking in Low-latency Live Streaming: Optimal Joint Adaptation of Video Rate and Playback Speed (https://dl.acm.org/doi/10.1145/3458305.3463382) 
+- Content-aware Playback Speed Control for Low-latency Live Streaming of Sports (https://dl.acm.org/doi/10.1145/3458305.3478437)
+
+### Server/Client/Network Collaboration
+
+The following papers explain the benefits of server and network assistance in client-driven streaming systems. There is also a good reference about how congestion affects video quality and how rate control works in streaming applications.
+
+- Manus Manum Lavat: Media Clients and Servers Cooperating with Common Media Client/Server Data (https://dl.acm.org/doi/10.1145/3472305.3472886) 
+- Common media client data (CMCD): initial findings (https://dl.acm.org/doi/10.1145/3458306.3461444) 
+- SDNDASH: Improving QoE of HTTP Adaptive Streaming Using Software Defined Networking (https://dl.acm.org/doi/10.1145/2964284.2964332) 
+- Caching in HTTP Adaptive Streaming: Friend or Foe? (https://dl.acm.org/doi/10.1145/2578260.2578270) 
+- A Survey on Multi-Access Edge Computing Applied to Video Streaming: Some Research Issues and Challenges
+(https://ieeexplore.ieee.org/document/9374553)
+- The Ultimate Guide to Internet Congestion Control (https://www.compiralabs.com/ultimate-guide-congestion-control)
+
+### QoE Metrics
+
+The following papers describe various QoE metrics one can use in streaming applications.
+
+- QoE Management of Multimedia Streaming Services in Future Networks: a Tutorial and Survey (https://ieeexplore.ieee.org/document/8930519) 
+- A Survey on Quality of Experience of HTTP Adaptive Streaming (https://ieeexplore.ieee.org/document/6913491) 
+- QoE Modeling for HTTP Adaptive Video Streaming–A Survey and Open Challenges (https://ieeexplore.ieee.org/document/8666971) 
+
+### Point Clouds and Immersive Media
+
+The following papers explain the latest developments in the immersive media domain (for video and audio) and the developing standards for such media.
+
+- A Survey on Adaptive 360° Video Streaming: Solutions, Challenges and Opportunities (https://ieeexplore.ieee.org/document/9133103) 
+- MPEG Immersive Video Coding Standard (https://ieeexplore.ieee.org/document/9374648) 
+- Emerging MPEG Standards for Point Cloud Compression (https://ieeexplore.ieee.org/document/8571288) 
+- Compression of Sparse and Dense Dynamic Point Clouds—Methods and Standards (https://ieeexplore.ieee.org/document/9457097) 
+- MPEG Standards for Compressed Representation of Immersive Audio (https://ieeexplore.ieee.org/document/9444109) 
+- An Overview of Omnidirectional MediA Format (OMAF) (https://ieeexplore.ieee.org/document/9380215) 
+- From Capturing to Rendering: Volumetric Media Delivery with Six Degrees of Freedom (https://ieeexplore.ieee.org/document/9247522) 
+
+## Open-Source Tools
+
+- 5G-MA: https://www.5g-mag.com/reference-tools 
+- dash.js: http://reference.dashif.org/dash.js/latest/samples/ 
+- DASH-IF Conformance: https://conformance.dashif.org 
+- ExoPlayer: https://github.com/google/ExoPlayer
+- FFmpeg: https://www.ffmpeg.org/ 
+- GPAC: https://gpac.wp.imt.fr/ 
+- hls.js: https://github.com/video-dev/hls.js
+- OBS Studio: https://obsproject.com/ 
+- Shaka Player: https://github.com/google/shaka-player 
+- Shaka Packager: https://github.com/google/shaka-packager 
+- Traffic Control CDN: https://trafficcontrol.incubator.apache.org
+- VideoLAN: https://www.videolan.org/projects/ 
+- video.js: https://github.com/videojs/video.js 
+
+## Technical Events
+
+- ACM Mile High Video (MHV): https://mile-high.video/
+- ACM Multimedia Systems (MMSys): https://acmmmsys.org 
+- ACM Multimedia (MM): https://acmmm.org 
+- ACM NOSSDAV: https://www.nossdav.org/ 
+- ACM Packet Video: https://packet.video/  
+- Demuxed and meetups: https://demuxed.com/ and https://demuxed.com/events/ 
+- DVB World: https://www.dvbworld.org 
+- EBU BroadThinking: https://tech.ebu.ch/events/broadthinking2021
+- IBC Conference: https://show.ibc.org/conference/ibc-conference 
+- IEEE Int. Conf. on Multimedia and Expo (ICME)
+- Media Web Symposium: https://www.fokus.fraunhofer.de/de/go/mws 
+- Live Video Stack: https://sh2021.livevideostack.com 
+- Picture Coding Symp. (PCS)
+- SCTE Expo: https://expo.scte.org/ 
+
+## List of Organizations Working on Streaming Media
+
+- 3GPP SA4: https://www.3gpp.org/specifications-groups/sa-plenary/sa4-codec 
+- 5G-MAG: https://www.5g-mag.com/ 
+- AOM: http://aomedia.org/
+- ATSC: https://www.atsc.org/
+- CTA WAVE: https://cta.tech/Resources/Standards/WAVE-Project 
+- DASH Industry Forum: https://dashif.org/ 
+- DVB: https://dvb.org/
+- HbbTV: https://www.hbbtv.org/ 
+- HESP Alliance: https://www.hespalliance.org/ 
+- IAB: https://www.iab.com/
+- MPEG: https://www.mpegstandards.org/ 
+- Streaming Video Alliance: https://www.streamingvideoalliance.org/ 
+- SCTE: https://www.scte.org/ 
+- SMPTE: https://www.smpte.org/ 
+- SRT Alliance: https://www.srtalliance.org/
+- Video Services Forum: https://vsf.tv/ 
+- VQEG: https://www.its.bldrdoc.gov/vqeg/vqeg-home.aspx 
+- W3C: https://www.w3.org/ 
+
+## Topics to Keep an Eye on
+
+### 5G and Media
+
+5G new radio and systems technologies provide new functionalities for video distribution. 5G targets not only smartphones, but also new devices such as augmented reality glasses or automotive receivers. Higher bandwidth, lower latencies, edge and cloud computing functionalities, service-based architectures, low power consumption, broadcast/multicast functionalities and other network functions come hand in hand with new media formats and processing capabilities promising better and more consistent quality for traditional video streaming services as well as enabling new experiences such as immersive media and augmented realities.
+
+- 5G Multimedia Standardization (https://www.riverpublishers.com/journal_read_html_article.php?j=JICTS/6/1/8) 
+
+### Ad Insertion
+
+Ads can be inserted at different stages in the streaming workflow, on the server side or client side. The DASH-IF guidelines detail server-side ad-insertion with period replacements based on manipulating the manifest. HLS interstitials provide a similar approach. The idea is that the manifest can be changed and point to a sub-playlist of segments, possibly located on a different location. This approach results in efficient resource usage in the network, as duplicate caching is avoided, but some intelligence at the player is needed to deal with content transitions (e.g., codec changes, timeline gaps, etc.). Player support for such content is gradually maturing. Other important technologies for ad insertion include signalling of ads and breaks that is still typically based on SCTE-35 for HLS and SCTE-214 for DASH. Such signals provide useful information for scheduling the ads and contacting ad servers. The usage of SCTE-35 for ad insertion is popular in the broadcast industry, while the exact usage in the OTT space is still being discussed in SCTE. Another important technology is identification of ads, such as based on ad-id or other commercial entities that provide such services. The identification of the ad in a manifest or stream is usually standardized by SMPTE. Other key technologies for ad insertion include tracking of viewer impressions, usually based on Video Ad Serving Template (VAST) defined by IAB.
+
+- DASH-IF Ad Insertion Guidelines: https://dashif.org/docs/CR-Ad-Insertion-r7.pdf 
+- SCTE-214-1: https://www.scte.org/standards-development/library/standards-catalog/ansiscte-214-1-2016/ 
+- RP 2092-1:2015 - SMPTE Recommended Practice - Advertising Digital Identifier (Ad-ID) Representations: https://ieeexplore.ieee.org/document/7291518 
+- IAB Tech Lab Digital Video Studio: https://iabtechlab.com/audio-video/tech-lab-digital-video-suite/
+
+### Contribution and Ingest
+
+There are different contribution and ingest specifications dealing with different use cases. A common case is contribution that previously happened over satellite to a broadcast or streaming headend. RIST and SRT are examples of such contribution protocols. Within a streaming headend the encoder and packager/CDN may have an ingest/contribution interface as well. This is specified by the DASH-IF Ingest.
+
+- DASH-IF Ingest: https://github.com/Dash-Industry-Forum/Ingest 
+- RIST: https://www.rist.tv/
+- SRT: https://github.com/Haivision/srt 
+
+### Synchronized Encoding and Packaging
+
+Practical streaming headends need redundant encoders and packagers to operate without glitches and blackouts. The redundant operation requires synchronization between two or more encoders and also between two or more packagers that possibly handle different inputs and outputs, generating compatible inter-changeable output representations. This problem is important for anyone developing a streaming headend at scale, and the synchronization problem is currently under discussion in the wider community. Follow the developments at: https://sites.google.com/view/encodersyncworkshop/home 
+
+### WebRTC-Based Streaming 
+
+WebRTC is increasingly being used for streaming of time-sensitive content such as live sporting events. Innovations in cloud computing allow implementers to efficiently scale delivery of content using WebRTC. Support for WebRTC communication is available on all modern web browsers and is available on native clients for all major platforms. 
+
+- DASH-IF WebRTC Discussions: https://dashif.org/webRTC/
+- Overview of WebRTC: https://webrtc.org/
 
 # IANA Considerations
 
