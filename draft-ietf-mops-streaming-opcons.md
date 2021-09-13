@@ -432,7 +432,17 @@ Even when the bandwidth requirements for video streams along a path are well und
 
 * Media servers also typically implement transport protocols with capacity-seeking congestion controllers that probe for bandwidth, and adjust the sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
 
-The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other.  it is easily possible for each of these mechanisms to estimate available path bandwidth between a media server and a media player, reduce the amount of bandwidth in use based on that estimate and then continue to use this lower estimate for some time, resulting in a quality of experience for media consumers that is significantly lower than what could have been achieved. In order to avoid this situation, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use, but the first step toward mitigating the problem is knowing when it occurs.
+The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in a quality of experience for users that is significantly lower than what could have been achieved.
+
+In one example, if a media server overestimates the available handwidth to the media player,
+
+* the transport protocol detects loss due to congestion, and reduces its sending window size per round trip,
+* the media server adapts to application-level feedback from the media player, and reduces its own sending rate,
+* the transport protocol sends media at the new, lower rate, and confirms that this new, lower rate is "safe", because no transport-level loss is occuring, but
+* because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so
+* the transport protocol can't probe for available path bandwidth by sending at a higher rate.
+
+In order to avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use, but the first step toward mitigating a problem is knowing when that problem occurs.
 
 ### Know Your Network Traffic {#sec-know-your-traffic}
 
