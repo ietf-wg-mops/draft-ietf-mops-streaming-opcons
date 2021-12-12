@@ -1028,7 +1028,7 @@ This document requires no actions from IANA.
 
 # Security Considerations
 
-Security is an important matter for streaming media applications and it was briefly touched on in {{#gen-encrypt}}. This document itself introduces no new security issues.
+Security is an important matter for streaming media applications and it was briefly touched on in {{gen-encrypt}}. This document itself introduces no new security issues.
 
 # Acknowledgments
 
