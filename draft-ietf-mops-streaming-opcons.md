@@ -292,6 +292,7 @@ informative:
   I-D.ietf-quic-qlog-quic-events:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
+  I-D.ietf-httpbis-cache:
 
   RFC0793:
   RFC2001:
@@ -305,7 +306,6 @@ informative:
   RFC6582:
   RFC6817:
   RFC6843:
-  RFC7234:
   RFC7258:
   RFC7510:
   RFC7656:
@@ -442,7 +442,7 @@ Even when the bandwidth requirements for video streams along a path are well und
 
 The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in a quality of experience for users that is significantly lower than what could have been achieved.
 
-In one example, if a media server overestimates the available handwidth to the media player,
+In one example, if a media server overestimates the available bandwidth to the media player,
 
 * the transport protocol detects loss due to congestion, and reduces its sending window size per round trip,
 * the media server adapts to application-level feedback from the media player, and reduces its own sending rate,
@@ -490,7 +490,7 @@ as low as a per-feed requirement instead of a per-user requirement.
 
 ## Caching Systems
 
-When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in {{RFC7234}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
+When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in {{I-D.ietf-httpbis-cache}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
 
 It is worth noting that not all high-demand content is "live" content. One popular example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
 
@@ -508,11 +508,11 @@ Historical data shows that users consume more video and videos at higher bitrate
 
 Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server, and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length video, the ratio between response size and request size can become arbitrarily large.
 
-For this reason, operators may pay more attention to downstream bandwidth utilization when planning and managing capacity. In addition, operators have been able to deploy access networks for end users using underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g. ADSL, cellular technologies, most IEEE 802.11 variants), assuming that users will need less upstream bandwidth than downstream bandwidth. This strategy usually works, except when it faiis because application bandwidth usage patterns have changed in ways that were not predicted.
+For this reason, operators may pay more attention to downstream bandwidth utilization when planning and managing capacity. In addition, operators have been able to deploy access networks for end users using underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g. ADSL, cellular technologies, most IEEE 802.11 variants), assuming that users will need less upstream bandwidth than downstream bandwidth. This strategy usually works, except when it fails because application bandwidth usage patterns have changed in ways that were not predicted.
 
 One example of this type of change was when peer-to-peer file sharing applications gained popularity in the early 2000s. To take one well-documented case ({{RFC5594}}), the Bittorrent application created "swarms" of hosts, uploading and downloading files to each other, rather than communicating with a server. Bittorrent favored peers who uploaded as much as they downloaded, so that new Bittorrent users had an incentive to significantly increase their upstream bandwidth utilization.
 
-The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large ISP to attempt to "throttle" these transfers, to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, similar to an arms race, and set off discussions about "Net Neutrality" and calls for regulatory action.
+The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large internet service provider (ISP) to attempt to "throttle" these transfers, to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, similar to an arms race, and set off discussions about "Net Neutrality" and calls for regulatory action.
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.
 
@@ -537,10 +537,10 @@ Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impa
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
-- Reported traffic increases from ISPs and IXPs over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.
+- Reported traffic increases from ISPs and internet exchange points (IXP) over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.
 - At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.
 - The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.
-- The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and VPNs, and entertainment applications as people watched videos or played games.
+- The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and virtual private networks (VPN), and entertainment applications as people watched videos or played games.
 - At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
 
 # Latency Considerations {#latency-cons}
@@ -613,7 +613,7 @@ Content variation is the number of content options that exist at any given selec
 A common example, easily visualized, is Adaptive BitRate (ABR), described in more detail below.
 The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
 
-Adaptive BitRate (ABR) is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
+ABR is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 ## Adaptive Encoding {#adapt-encode}
 
@@ -669,7 +669,7 @@ Because adaptive application-level response strategies are often using rates as 
 A few specific examples of surprising phenomena that affect bitrate detection measurements are described in the following subsections.
 As these examples will demonstrate, it's common to encounter cases that can deliver application level measurements that are too low, too high, and (possibly) correct but varying more quickly than a lab-tested selection algorithm might expect.
 
-These effects and others that cause transport behavior to diverge from lab modeling can sometimes have a significant impact on ABR bitrate selection and on user quality of experience, especially where players use naive measurement strategies and selection algorithms that don't account for the likelihood of bandwidth measurements that diverge from the true path capacity.
+These effects and others that cause transport behavior to diverge from lab modeling can sometimes have a significant impact on bitrate selection and on user quality of experience, especially where players use naive measurement strategies and selection algorithms that don't account for the likelihood of bandwidth measurements that diverge from the true path capacity.
 
 ### Idle Time between Segments {#idle-time}
 
@@ -697,8 +697,8 @@ suddenly get access to a lot of data at the same time.
 To a receiver measuring bytes received per unit time at the
 application layer, and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
-the goodput measurement.  This can appear as a stall of some
-time, followed by a sudden leap that can far exceed the actual
+the goodput measurement. 
+This can appear as a stall of some time, followed by a sudden leap that can far exceed the actual
 capacity of the transport path from the server when the hole in
 the received data is filled by a later retransmission.
 
@@ -726,7 +726,7 @@ In addition to measurements media players use to guide their segment-by-segment 
 
 ### CTA-5004: Common Media Client Data (CMCD)
 
-Many assumes that the CDNs have a holistic view into the health and performance of the streaming clients. However, this is not the case. The CDNs produce millions of log lines per second across hundreds of thousands of clients and they have no concept of a "session" as a client would have, so CDNs are decoupled from the metrics the clients generate and report. A CDN cannot tell which request belongs to which playback session, the duration of any media object, the bitrate, or whether any of the clients have stalled and are rebuffering or are about to stall and will rebuffer. The consequence of this decoupling is that a CDN cannot prioritize delivery for when the client needs it most, prefetch content, or trigger alerts when the network itself may be underperforming. One approach to couple the CDN to the playback sessions is for the clients to communicate standardized media-relevant information to the CDNs while they are fetching data. {{CTA-5004}} was developed exactly for this purpose.
+Many assume that the CDNs have a holistic view into the health and performance of the streaming clients. However, this is not the case. The CDNs produce millions of log lines per second across hundreds of thousands of clients and they have no concept of a "session" as a client would have, so CDNs are decoupled from the metrics the clients generate and report. A CDN cannot tell which request belongs to which playback session, the duration of any media object, the bitrate, or whether any of the clients have stalled and are rebuffering or are about to stall and will rebuffer. The consequence of this decoupling is that a CDN cannot prioritize delivery for when the client needs it most, prefetch content, or trigger alerts when the network itself may be underperforming. One approach to couple the CDN to the playback sessions is for the clients to communicate standardized media-relevant information to the CDNs while they are fetching data. {{CTA-5004}} was developed exactly for this purpose.
 
 ## Unreliable Transport {#unreliable}
 
@@ -744,7 +744,7 @@ More details about congestion avoidance strategies used with unreliable transpor
 
 Because networking resources are shared between users, a good place to start our discussion is how contention between users, and mechanisms to resolve that contention in ways that are "fair" between users, impact streaming media users. These topics are closely tied to transport protocol behaviors.
 
-As noted in {{sec-abr}}, Adaptive Bitrate response strategies such as HLS {{RFC8216}} or DASH {{MPEG-DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics.
+As noted in {{sec-abr}}, ABR response strategies such as HLS {{RFC8216}} or DASH {{MPEG-DASH}} are attempting to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics.
 
 For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{RFC9000}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols.
 
@@ -764,13 +764,13 @@ The notion of "Circuit Breakers" has also been applied to other UDP applications
 
 ## TCP and Its Behavior {#tcp-behavior}
 
-For most of the history of the Internet, we have trusted the TCP protocol to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgements for packets that were successfully sent and received, and packet timeouts for packets that were not.
+For most of the history of the Internet, we have trusted TCP to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to "use as much bandwidth as possible, but to avoid using more bandwidth than was possible". Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgements for packets that were successfully sent and received, and packet timeouts for packets that were not.
 
 The success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful. The Internet continued to work even when the specific mechanisms used to reach equilibrium changed over time. Because TCP provides a common tool to avoid contention, as some TCP-based applications like FTP were largely replaced by other TCP-based applications like HTTP, the transport behavior remained consistent.
 
 In recent times, the TCP goal of probing for available bandwidth, and "backing off" when a network path is saturated, has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA18}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly.
 
-Although TCP protocol behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
+Although TCP behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
 
 ## The QUIC Protocol and Its Behavior {#quic-behavior}
 
@@ -786,7 +786,7 @@ As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery
 
 A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
-As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that responds to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally chose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different
+As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that respond to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
 
 We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in {{tcp-behavior}} about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC libraries with their own applications.
 
@@ -802,7 +802,7 @@ More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUI
 
 - Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically remaining encrypted "at rest", when senders and receivers store it,
 - Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as "end-to-end media encryption"), and
-- Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is *not* the ultimate media consumer, but has credentials allowing decryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as "hop-by-hop media encryption")
+- Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is *not* the ultimate media consumer, but has credentials allowing decryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as "hop-by-hop media encryption").
 
 Both "hop-by-hop" and "end-to-end" encrypted transport may carry media that is, in addition, encrypted at the application layer.
 
@@ -944,7 +944,7 @@ The following papers explain the latest developments in the immersive media doma
 - OBS Studio: https://obsproject.com/
 - Shaka Player: https://github.com/google/shaka-player
 - Shaka Packager: https://github.com/google/shaka-packager
-- Traffic Control CDN: https://trafficcontrol.incubator.apache.org
+- Traffic Control CDN: https://trafficcontrol.apache.org/
 - VideoLAN: https://www.videolan.org/projects/
 - video.js: https://github.com/videojs/video.js
 
@@ -1028,7 +1028,7 @@ This document requires no actions from IANA.
 
 # Security Considerations
 
-This document introduces no new security issues.
+Security is an important matter for streaming media applications and it was briefly touched on in {{gen-encrypt}}. This document itself introduces no new security issues.
 
 # Acknowledgments
 
