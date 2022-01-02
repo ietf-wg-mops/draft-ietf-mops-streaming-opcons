@@ -334,6 +334,42 @@ high-bitrate media over the Internet.
 
 # Introduction {#intro}
 
+This document examines networking issues as they relate to quality of experience in Internet video delivery. The focus is on capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.
+
+This document contains
+
+- A short description of streaming video characteristics in {{sd}}, to set the stage for the rest of the document,
+- General guidance on bandwidth provisioning ({{bwprov}}) and latency considerations ({{latency-cons}}) for streaming video delivery,
+- A description of adaptive encoding and adaptive delivery techniques in common use for streaming video, along with a description of the challenges media senders face in detecting the bitrate available between the media sender and media receiver, and collection of measurements by a third party for use in analytics ({{sec-abr}}),
+- A description of existing transport protocols used for video streaming, and the issues encountered when using those protocols, along with a description of the QUIC transport protocol {{RFC9000}} that we expect to be used for streaming media ({{sec-trans}}),
+- A description of implications when streaming encrypted media ({{stream-encrypt-media}}), and
+- A number of useful pointers for further reading on this rapidly changing subject ({{further}}).
+
+Making specific recommendations on operational practices aimed at mitigating the issues described in this document is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid existing observed problems.
+
+## Notes for Contributors and Reviewers
+
+Note to RFC Editor: Please remove this section and its subsections
+before publication.
+
+This section is to provide references to make it easier to review the
+development and discussion on the draft so far.
+
+### Venues for Contribution and Discussion {#venue}
+
+This document is in the Github repository at:
+
+<https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons>
+
+Readers are welcome to open issues and send pull requests for this document.
+
+Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
+
+- Join: <https://www.ietf.org/mailman/listinfo/mops>
+- Search: <https://mailarchive.ietf.org/arch/browse/mops/>
+
+# A Short Description of Streaming Video {#sd}
+
 As the internet has grown, an increasingly large share of the traffic
 delivered to end users has become video.  Estimates
 put the total share of internet video traffic at 75% in 2019, expected
@@ -363,51 +399,7 @@ important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
 
-This document examines networking issues as they relate to quality of experience in internet video delivery. The focus is on capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.
-
-Making specific recommendations on operational practices aimed at mitigating these issues is out of scope, though some existing mitigations are mentioned in passing.  The intent is to provide a point of reference for future solution proposals to use in describing how new technologies address or avoid these existing observed problems.
-
-## Notes for Contributors and Reviewers
-
-Note to RFC Editor: Please remove this section and its subsections
-before publication.
-
-This section is to provide references to make it easier to review the
-development and discussion on the draft so far.
-
-### Venues for Contribution and Discussion {#venue}
-
-This document is in the Github repository at:
-
-<https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons>
-
-Readers are welcome to open issues and send pull requests for this document.
-
-Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).
-
-- Join: <https://www.ietf.org/mailman/listinfo/mops>
-- Search: <https://mailarchive.ietf.org/arch/browse/mops/>
-
-### History of Public Discussion
-
-Presentations:
-
-- IETF 105 BOF:\\
-   <https://www.youtube.com/watch?v=4G3YBVmn9Eo&t=47m21s>
-
-- IETF 106 meeting:\\
-   <https://www.youtube.com/watch?v=4_k340xT2jM&t=7m23s>
-
-- MOPS Interim Meeting 2020-04-15:\\
-   <https://www.youtube.com/watch?v=QExiajdC0IY&t=10m25s>
-
-- IETF 108 meeting:\\
-   <https://www.youtube.com/watch?v=ZaRsk0y3O9k&t=2m48s>
-
-- MOPS 2020-10-30 Interim meeting:\\
-   <https://www.youtube.com/watch?v=vDZKspv4LXw&t=17m15s>
-
-# Bandwidth Provisioning
+# Bandwidth Provisioning {#bwprov}
 
 ## Scaling Requirements for Media Delivery {#scaling}
 
@@ -697,8 +689,7 @@ suddenly get access to a lot of data at the same time.
 To a receiver measuring bytes received per unit time at the
 application layer, and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
-the goodput measurement. 
-This can appear as a stall of some time, followed by a sudden leap that can far exceed the actual
+the goodput measurement, presenting as a stall, followed by a sudden leap that can far exceed the actual
 capacity of the transport path from the server when the hole in
 the received data is filled by a later retransmission.
 
@@ -850,7 +841,7 @@ Unfortunately, as noted in {{RFC7258}}, there is no way to prevent pervasive mon
 
 {{RFC7258}} said that "The IETF will strive to produce specifications that mitigate pervasive monitoring attacks", so streaming operators should expect the IETF's direction toward preventing unauthorized monitoring of IETF protocols to continue for the forseeable future.
 
-# Further Reading and References
+# Further Reading and References {#further}
 
 Editor's note: This section is to be kept in a living document where future references, links and/or updates to the existing references will be reflected. That living document is likely to be an IETF-owned Wiki: https://tinyurl.com/streaming-opcons-reading
 
