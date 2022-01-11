@@ -284,6 +284,16 @@ informative:
     date: July 2012
     seriesinfo: "Communications of the ACM, Volume 55, Issue 7, pp. 42-50"
 
+  Survey360o:
+    target: https://ieeexplore.ieee.org/document/9133103
+    title: "A Survey on Adaptive 360° Video Streaming: Solutions, Challenges and Opportunities"
+    author:
+      - ins: A. Yaqoob
+      - ins: T.Bi
+      - ins: G. -M. Muntean
+    date: 3 July, 2020
+    seriesinfo:  "IEEE Communications Surveys & Tutorials"
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
@@ -327,14 +337,26 @@ informative:
 --- abstract
 
 This document provides an overview of operational networking issues
-that pertain to quality of experience in streaming of video and other
+that pertain to quality of experience when streaming video and other
 high-bitrate media over the Internet.
 
 --- middle
 
 # Introduction {#intro}
 
-This document examines networking issues as they relate to quality of experience in Internet video delivery. The focus is on capturing characteristics of video delivery that have surprised network designers or transport experts without specific video expertise, since these highlight key differences between common assumptions in existing networking documents and observations of video delivery issues in practice.
+This document examines networking issues as they relate to quality of experience in Internet media delivery, especially focusing on capturing characteristics of streaming video delivery that have surprised network designers or transport experts who lack specific video expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of video delivery issues encountered when streaming media over those existing networks.
+
+This document specifically focuses on streaming applications and defines streaming as follows:
+
+- Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client.
+
+- Here, "continuous media" refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play.
+
+This has two implications.
+
+- First, the server's transmission rate must (loosely or tightly) match to client's consumption rate in order to provide uninterrupted playback. That is, the client must not run out of data (buffer underrun) or accept more data than it can buffer before playback (buffer overrun) as any excess media that cannot be buffered is simply discarded.
+
+- Second, the client's consumption rate is limited not only by bandwidth availability,but also media availability. The client cannot fetch media that is not available from a server yet.
 
 This document contains
 
@@ -368,7 +390,7 @@ Substantial discussion of this document should take place on the MOPS working gr
 - Join: <https://www.ietf.org/mailman/listinfo/mops>
 - Search: <https://mailarchive.ietf.org/arch/browse/mops/>
 
-# A Short Description of Streaming Video {#sd}
+# Our Focus on Streaming Video {#sd}
 
 As the internet has grown, an increasingly large share of the traffic
 delivered to end users has become video.  Estimates
@@ -380,24 +402,16 @@ D of {{CVNI}}).
 
 A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds.
 
-This document specifically focuses on the streaming applications and defines streaming as follows:
-
-- Streaming is transmission of a continuous media from a server to a client and its simultaneous consumption by the client.
-
-- Here, continuous media refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous", as it is not considered streaming if one downloads a video file and plays it after the download is completed, which would be called download-and-play.
-
-This has two implications.
-
-- First, the server's transmission rate must (loosely or tightly) match to client's consumption rate in order to provide uninterrupted playback. That is, the client must not run out of data (buffer underrun) or accept more data than it can buffer before playback (buffer overrun) as any excess media is simply discarded.
-
-- Second, the client's consumption rate is limited not only by bandwidth availability but also real-time constraints. That is, the client cannot fetch media that is not available from a server yet.
-
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
 video traffic continues to grow, it's becoming increasingly
 important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
+
+Much of the focus of this document is on reliable media using HTTP over TCP. which is widely used because support for HTTP is widely available in a wide range of operating systems, is also used in a wide variety of other applications, has been demonstrated to provide acceptable performance over the open Internet, includes state of the art standardized security mechanisms, and can make use of already-deployed caching infrastructure.
+
+Some mentions of unreliable media delivery using RTP and other UDP-based protocols appear in {{ultralow}}, {{unreliable}}, {{udp-behavior}}, and {{hop-by-hop-encrypt}}, but it's difficult to give general guidance for these applications. For instance, when loss occurs, the most appropriate response may depend on the type of codec being used.
 
 # Bandwidth Provisioning {#bwprov}
 
@@ -420,7 +434,7 @@ Here are a few common resolutions used for video content, with typical ranges of
 
 The bitrates given in {{bvr}} describe video streams that provide the user with a single, fixed, point of view - so, the user has no "degrees of freedom", and the user sees all of the video image that is available.
 
-Even basic virtual reality (360-degree) videos that allow users to look around freely (referred to as "three degrees of freedom", or 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. The typical multiplication factor is 8 to 10. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time.
+Even basic virtual reality (360-degree) videos that allow users to look around freely (referred to as "three degrees of freedom", or 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. Yet, due to smart delivery methods such as viewport-based or tiled-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time ({{Survey360o}}).
 
 In more immersive applications, where limited user movement ("three degrees of freedom plus", or 3DoF+) or full user movement ("six degrees of freedom", or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.
 
@@ -480,7 +494,7 @@ To the extent that replication of popular content can be performed,
 bandwidth requirements at peering or ingest points can be reduced to
 as low as a per-feed requirement instead of a per-user requirement.
 
-## Caching Systems
+## Caching Systems {#caching}
 
 When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters, and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in {{I-D.ietf-httpbis-cache}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester, and how the benefits of caching and pre-loading caches balances against the costs of tracking "stale" content in caches and refreshing that content.
 
@@ -546,7 +560,7 @@ Streaming media can be usefully categorized according to the application's laten
 - non-low-latency live (10 seconds to a few minutes)
 - on-demand            (hours or more)
 
-## Ultra Low-Latency
+## Ultra Low-Latency {#ultralow}
 
 Ultra low-latency delivery of media is defined here as having a glass-to-glass delay target under one second.
 
@@ -707,8 +721,6 @@ These swings in actual transport capacity can result in user experience issues t
 
 ## Measurement Collection {#measure-coll}
 
-In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.
-
 In addition to measurements media players use to guide their segment-by-segment adaptive streaming requests, streaming media providers may also rely on measurements collected from media players to provide analytics that can be used for decisions such as whether the adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers. To that effect, the Consumer Technology Association (CTA) who owns the Web Application Video Ecosystem (WAVE) project has published two important specifications.
 
 ### CTA-2066: Streaming Quality of Experience Events, Properties and Metrics
@@ -777,13 +789,13 @@ As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery
 
 A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
-As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that respond to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be use for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
+As noted in {{tcp-behavior}}, there is increasing interest in transport protocol behaviors that respond to delay measurements, instead of responding to packet loss. These behaviors may deliver improved user experience, but in some cases have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be used for algorithm agility, and {{RFC9002}} defines a basic algorithm with transport behavior that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
 
 We do have experience with deploying new congestion controllers without melting the Internet (CUBIC is one example), but the point mentioned in {{tcp-behavior}} about TCP being implemented in operating system kernels is also different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features", and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC libraries with their own applications.
 
 The decision to deploy a new version of QUIC is relatively uncontrolled, compared to other widely used transport protocols, and this can include new transport behaviors that appear without much notice except to the QUIC endpoints. At IETF 105, Christian Huitema and Brian Trammell presented a talk on "Congestion Defense in Depth" {{CDiD}}, that explored potential concerns about new QUIC congestion controllers being broadly deployed without the testing and instrumentation that current major content providers routinely include. The sense of the room at IETF 105 was that the current major content providers understood what is at stake when they deploy new congestion controllers, but this presentation, and the related discussion in TSVAREA minutes from IETF 105 ({{tsvarea-105}}, are still worth a look for new and rapidly growing content providers.
 
-It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traffic are allowed to enter operator networks on roughly equal terms, questions of fairness and contention will be heavily dependent on interactions between the congestion controllers in use for TCP-base HTTP traffic and UDP-based HTTP/3 traffic.
+It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traffic are allowed to enter operator networks on roughly equal terms, questions of fairness and contention will be heavily dependent on interactions between the congestion controllers in use for TCP-based HTTP traffic and UDP-based HTTP/3 traffic.
 
 More broadly, {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
@@ -883,7 +895,11 @@ The two surveys describe and compare different rate-adaptation algorithms in ter
 
 - A Survey on Bitrate Adaptation Schemes for Streaming Media Over HTTP (https://ieeexplore.ieee.org/document/8424813)
 - A Survey of Rate Adaptation Techniques for Dynamic Adaptive Streaming Over HTTP (https://ieeexplore.ieee.org/document/7884970)
-- Low-Latency Live Streaming: The following papers describe the peculiarities of adaptive streaming in low-latency live streaming scenarios.
+
+### Low-Latency Live Adaptive Streaming
+
+The following papers describe the peculiarities of adaptive streaming in low-latency live streaming scenarios.
+
 - Catching the Moment with LoL+ in Twitch-like Low-latency Live Streaming Platforms (https://ieeexplore.ieee.org/document/9429986)
 - Data-driven Bandwidth Prediction Models and Automated Model Selection for Low Latency (https://ieeexplore.ieee.org/document/9154522)
 - Performance Analysis of ACTE: A Bandwidth Prediction Method for Low-latency Chunked Streaming (https://dl.acm.org/doi/10.1145/3387921)
@@ -1023,7 +1039,7 @@ Security is an important matter for streaming media applications and it was brie
 
 # Acknowledgments
 
-Thanks to Alexandre Gouaillard, Aaron Falk, Dave Oran, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Roni Even, and Will Law for very helpful suggestions, reviews and comments.
+Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, and Will Law for very helpful suggestions, reviews and comments.
 
 (If we missed your name, please let us know!)
 
