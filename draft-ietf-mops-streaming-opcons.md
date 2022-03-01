@@ -1045,7 +1045,7 @@ Security is an important matter for streaming media applications and it was brie
 
 # Acknowledgments
 
-Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, and Will Law for very helpful suggestions, reviews and comments.
+Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, and Will Law for very helpful suggestions, reviews and comments.
 
 (If we missed your name, please let us know!)
 
