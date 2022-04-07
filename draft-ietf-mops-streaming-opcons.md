@@ -409,13 +409,15 @@ important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
 
-Much of the focus of this document is on reliable media using HTTP over TCP, which is widely used because
+Much of the focus of this document is on reliable media using HTTP. HTTP is widely used because
 
 * support for HTTP is widely available in a wide range of operating systems,
 * HTTP is also used in a wide variety of other applications,
 * HTTP has been demonstrated to provide acceptable performance over the open Internet,
 * HTTP includes state of the art standardized security mechanisms, and
 * HTTP can make use of already-deployed caching infrastructure.
+
+Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{tcp-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
 Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{unreliable}}, {{udp-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when loss occurs, the most appropriate response may depend on the type of codec being used.
 
@@ -781,7 +783,7 @@ In recent times, the TCP goal of probing for available bandwidth, and "backing o
 
 Although TCP behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
 
-## The QUIC Protocol and Its Behavior {#quic-behavior}
+## QUIC and Its Behavior {#quic-behavior}
 
 The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{RFC9000}}, turns many of the statements made in {{udp-behavior}} and {{tcp-behavior}} on their heads.
 
