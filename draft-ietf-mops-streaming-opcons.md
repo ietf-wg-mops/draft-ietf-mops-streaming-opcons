@@ -408,7 +408,7 @@ Much of the focus of this document is on reliable media using HTTP. HTTP is wide
 
 Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{tcp-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
-Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{unreliable}}, {{udp-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when loss occurs, the most appropriate response may depend on the type of codec being used.
+Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{udp-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when loss occurs, the most appropriate response may depend on the type of codec being used.
 
 # Bandwidth Provisioning {#bwprov}
 
