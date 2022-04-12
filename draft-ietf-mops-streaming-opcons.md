@@ -832,7 +832,7 @@ Because HTTPS has historically layered HTTP on top of TLS, which is in turn laye
 
 {{I-D.ietf-quic-manageability}} discusses manageability of the QUIC transport protocol that is used to encapsulate HTTP/3, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
-More broadly, RFC 9065 {{RFC9065}}, "Considerations around Transport Header Confidentiality, Network Operations, and the Evolution of Internet Transport Protocols" describes the impact of increased encruption of transport headers in general terms.
+More broadly, RFC 9065 {{RFC9065}}, "Considerations around Transport Header Confidentiality, Network Operations, and the Evolution of Internet Transport Protocols" describes the impact of increased encryption of transport headers in general terms.
 
 ## Considerations for "Hop-by-Hop" Media Encryption {#hop-by-hop-encrypt}
 
