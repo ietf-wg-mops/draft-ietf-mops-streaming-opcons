@@ -333,7 +333,7 @@ high-bitrate media over the Internet.
 
 # Introduction {#intro}
 
-This document examines networking issues as they relate to quality of experience in Internet media delivery, especially focusing on capturing characteristics of streaming video delivery that have surprised network designers or transport experts who lack specific video expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of video delivery issues encountered when streaming media over those existing networks.
+This document examines networking and transport protocol issues as they relate to quality of experience in Internet media delivery, especially focusing on capturing characteristics of streaming video delivery that have surprised network designers or transport experts who lack specific video expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of video delivery issues encountered when streaming media over those existing networks.
 
 This document specifically focuses on streaming applications and defines streaming as follows:
 
@@ -389,7 +389,7 @@ gross volume of video traffic will more than double during this time,
 based on a compound annual growth rate continuing at 34% (from Appendix
 D of {{CVNI}}).
 
-A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can tolerate latencies of several seconds.
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For additional discussion of latency requirements, see {{latency-cons}}.
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
@@ -455,7 +455,7 @@ In one example, if a media server overestimates the available bandwidth to the m
 
 In order to avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use, but the first step toward mitigating a problem is knowing when that problem occurs.
 
-### Know Your Network Traffic {#sec-know-your-traffic}
+### Recognizing Changes from an Expected Baseline {#sec-know-your-traffic}
 
 There are many reasons why path characteristics might change suddenly, for example,
 
@@ -463,7 +463,7 @@ There are many reasons why path characteristics might change suddenly, for examp
 
 * routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance.
 
-Recognizing that a path carrying streaming media is "not behaving the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
+In order to recognize that a path carrying streaming media is "not behaving the way it normally does", having an expected baseline that describes "the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
 
 As transport protocols evolve to encrypt their transport header fields, one side effect of increasing encryption is that the kind of passive monitoring, or even "performance enhancement" ({{RFC3135}}) that was possible with the older transport protocols (UDP, described in {{udp-behavior}} and TCP, described in {{tcp-behavior}}) is no longer possible with newer transport protocols such as QUIC (described in {{quic-behavior}}). The IETF has specified a "latency spin bit" mechanism in Section 17.4 of {{RFC9000}} to allow passive latency monitoring from observation points on the network path throughout the duration of a connection, but currently chartered work in the IETF is focusing on end-point monitoring and reporting, rather than on passive monitoring.
 
@@ -630,9 +630,9 @@ The media server may also choose to alter which bitrates are made available to p
 
 ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
 
-Many server-player systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
+Many systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
-The choice of bitrate occurs within the context of optimizing for some metric monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
+The choice of bitrate occurs within the context of optimizing for one or more metrics monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
 
 ## Advertising
 
@@ -668,7 +668,7 @@ For further reading on mitigations, {{BAP}} has published some standards and bes
 
 ## Bitrate Detection Challenges
 
-This kind of bandwidth-measurement system can experience trouble in several ways that are affected by networking issues.
+This kind of bandwidth-measurement system can experience trouble in several ways that are affected by networking and transport protocol issues.
 Because adaptive application-level response strategies are often using rates as observed by the application layer, there are sometimes inscrutable transport-level protocol behaviors that can produce surprising measurement values when the application-level feedback loop is interacting with a transport-level feedback loop.
 
 A few specific examples of surprising phenomena that affect bitrate detection measurements are described in the following subsections.
