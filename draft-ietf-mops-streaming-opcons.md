@@ -811,7 +811,7 @@ Each of these encryption strategies is intended to achieve a different goal. For
 
 This document does not take a position on whether those goals are "valid" (whatever that might mean).
 
-Both "End-to-End" and "Hop-by-Hop" media encryption have specific implications for streaming operators. These are described in {{hop-by-hop-encrypt}} and {{e2em-encrypt}}.
+Both "end-to-end" and "hop-by-hop" media encryption have specific implications for streaming operators. These are described in {{hop-by-hop-encrypt}} and {{e2em-encrypt}}.
 
 ## General Considerations for Media Encryption {#gen-encrypt}
 
