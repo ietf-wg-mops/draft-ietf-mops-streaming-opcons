@@ -316,6 +316,7 @@ informative:
   RFC8446:
   RFC8622:
   RFC8723:
+  RFC8824:
   RFC8825:
   RFC8999:
   RFC9000:
@@ -841,7 +842,11 @@ Assuming that a content provider does intend to allow intermediaries to particip
 - "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees.
 - Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP.
 
-If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
+The choice of whether to involve intermediaries sometimes requires careful consideration.
+As an example, when ABR manifests were commonly sent unencrypted some networks would modify manifests during peak hours by removing high-bitrate renditions in order to prevent players from choosing those renditions, thus reducing the overall bandwidth consumed for delivering these media streams and thereby improving the network load and the user experience for their customers.
+Now that ubiquitous encryption typically prevents this kind of modification, in order to maintain the same level of network health and user experience across networks whose users would have benefitted from this intervention a media streaming operator sometimes needs to choose between adding intermediaries who are authorized to change the manifests or adding significant extra complexity to their service.
+
+Some resources that might inform other similar considerations are further discussed in {{RFC8824}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
 ## Considerations for "End-to-End" Media Encryption {#e2em-encrypt}
 
