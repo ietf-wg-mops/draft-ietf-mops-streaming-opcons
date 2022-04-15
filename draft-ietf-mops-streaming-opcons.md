@@ -405,7 +405,7 @@ Much of the focus of this document is on reliable media using HTTP. HTTP is wide
 * HTTP is also used in a wide variety of other applications,
 * HTTP has been demonstrated to provide acceptable performance over the open Internet,
 * HTTP includes state of the art standardized security mechanisms, and
-* HTTP can make use of already-deployed caching infrastructure.
+* HTTP can make use of already-deployed caching infrastructure such as CDNs (Content Delivery Networks), local proxies, and browser caches.
 
 Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{tcp-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
