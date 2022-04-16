@@ -136,7 +136,7 @@ The following papers explain the latest developments in the immersive media doma
 
 # Technical Events
 
-- ACM Mile High Video (MHV): <https://mile-high.video/>
+- ACM Mile-High Video (MHV): <https://mile-high.video/>
 - ACM Multimedia Systems (MMSys): <https://acmmmsys.org>
 - ACM Multimedia (MM): <https://acmmm.org>
 - ACM NOSSDAV: <https://www.nossdav.org/>
