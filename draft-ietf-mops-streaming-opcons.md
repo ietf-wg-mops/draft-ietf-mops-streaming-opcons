@@ -316,6 +316,7 @@ informative:
   RFC8446:
   RFC8622:
   RFC8723:
+  RFC8824:
   RFC8825:
   RFC8999:
   RFC9000:
@@ -333,7 +334,7 @@ high-bitrate media over the Internet.
 
 # Introduction {#intro}
 
-This document examines networking issues as they relate to quality of experience in Internet media delivery, especially focusing on capturing characteristics of streaming video delivery that have surprised network designers or transport experts who lack specific video expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of video delivery issues encountered when streaming media over those existing networks.
+This document examines networking and transport protocol issues as they relate to quality of experience (QOE) in Internet media delivery, especially focusing on capturing characteristics of streaming video delivery that have surprised network designers or transport experts who lack specific video expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of video delivery issues encountered when streaming media over those existing networks.
 
 This document specifically focuses on streaming applications and defines streaming as follows:
 
@@ -385,7 +386,9 @@ As the internet has grown, an increasingly large share of the traffic delivered 
 The most recent available estimates found that 75% of the total traffic to end users was video in 2019.
 At that time, the share of traffic that was video had been growing for years and was projected to continue growing (Appendix D of [CVNI]).
 
-A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For example, videoconferencing demands an end-to-end (one-way) latency of a few hundreds of milliseconds whereas live streaming can often tolerate latencies of several seconds.
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly.
+While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another.
+For additional discussion of latency requirements, see {{latency-cons}}.
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
@@ -400,7 +403,7 @@ Much of the focus of this document is on reliable media using HTTP. HTTP is wide
 * HTTP is also used in a wide variety of other applications,
 * HTTP has been demonstrated to provide acceptable performance over the open Internet,
 * HTTP includes state of the art standardized security mechanisms, and
-* HTTP can make use of already-deployed caching infrastructure.
+* HTTP can make use of already-deployed caching infrastructure such as CDNs (Content Delivery Networks), local proxies, and browser caches.
 
 Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{tcp-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
@@ -439,7 +442,7 @@ Even when the bandwidth requirements for video streams along a path are well und
 
 * Media servers also typically implement transport protocols with capacity-seeking congestion controllers that probe for bandwidth, and adjust the sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
 
-The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in a quality of experience for users that is significantly lower than what could have been achieved.
+The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in QOE for users that is significantly lower than what could have been achieved.
 
 In one example, if a media server overestimates the available bandwidth to the media player,
 
@@ -451,7 +454,7 @@ In one example, if a media server overestimates the available bandwidth to the m
 
 In order to avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use, but the first step toward mitigating a problem is knowing when that problem occurs.
 
-### Know Your Network Traffic {#sec-know-your-traffic}
+### Recognizing Changes from an Expected Baseline {#sec-know-your-traffic}
 
 There are many reasons why path characteristics might change suddenly, for example,
 
@@ -459,7 +462,7 @@ There are many reasons why path characteristics might change suddenly, for examp
 
 * routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance.
 
-Recognizing that a path carrying streaming media is "not behaving the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
+In order to recognize that a path carrying streaming media is "not behaving the way it normally does", having an expected baseline that describes "the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
 
 As transport protocols evolve to encrypt their transport header fields, one side effect of increasing encryption is that the kind of passive monitoring, or even "performance enhancement" ({{RFC3135}}) that was possible with the older transport protocols (UDP, described in {{udp-behavior}} and TCP, described in {{tcp-behavior}}) is no longer possible with newer transport protocols such as QUIC (described in {{quic-behavior}}). The IETF has specified a "latency spin bit" mechanism in Section 17.4 of {{RFC9000}} to allow passive latency monitoring from observation points on the network path throughout the duration of a connection, but currently chartered work in the IETF is focusing on end-point monitoring and reporting, rather than on passive monitoring.
 
@@ -511,7 +514,7 @@ For this reason, operators may pay more attention to downstream bandwidth utiliz
 
 One example of this type of change was when peer-to-peer file sharing applications gained popularity in the early 2000s. To take one well-documented case ({{RFC5594}}), the Bittorrent application created "swarms" of hosts, uploading and downloading files to each other, rather than communicating with a server. Bittorrent favored peers who uploaded as much as they downloaded, so that new Bittorrent users had an incentive to significantly increase their upstream bandwidth utilization.
 
-The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large internet service provider (ISP) to attempt to "throttle" these transfers in order to to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, and complaints to regulators calling for regulatory action.
+The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before Bittorrent. This caused at least one large Internet service provider (ISP) to attempt to "throttle" these transfers in order to to mitigate the load that these hosts placed on their network. These efforts were met by increased use of encryption in Bittorrent, and complaints to regulators calling for regulatory action.
 
 The BitTorrent case study is just one example, but the example is included here to make it clear that unpredicted and unpredictable massive traffic spikes may not be the result of natural disasters, but they can still have significant impacts.
 
@@ -538,11 +541,11 @@ Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impa
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
-- Reported traffic increases from ISPs and internet exchange points (IXP) over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.
+- Reported traffic increases from ISPs and Internet Exchange Points (IXP) over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.
 - At DE-CIX Frankfurt, the world's largest Internet Exchange Point in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.
 - The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.
 - The increase in daytime bandwidth consumption reflected both significant increases in "essential" applications such as videoconferencing and virtual private networks (VPN), and entertainment applications as people watched videos or played games.
-- At the IXP-level, it was observed that port utilization increased. This phenomenon is mostly explained by a higher traffic demand from residential users.
+- At the IXP-level, it was observed that port utilization increased. This phenomenon could probably be explained by a higher level of uncacheable traffic such as videoconferencing and VPNs from residential users as they stopped commuting and switched to work-at-home.
 
 # Latency Considerations {#latency-cons}
 
@@ -626,9 +629,9 @@ The media server may also choose to alter which bitrates are made available to p
 
 ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
 
-Many server-player systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
+Many systems will do an initial probe or a very simple throughput speed test at the start of a video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
-The choice of bitrate occurs within the context of optimizing for some metric monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
+The choice of bitrate occurs within the context of optimizing for one or more metrics monitored by the client, such as highest achievable video quality or lowest chances for a rebuffering event (playback stall).
 
 ## Advertising
 
@@ -664,13 +667,13 @@ For further reading on mitigations, {{BAP}} has published some standards and bes
 
 ## Bitrate Detection Challenges
 
-This kind of bandwidth-measurement system can experience trouble in several ways that are affected by networking issues.
+This kind of bandwidth-measurement system can experience trouble in several ways that are affected by networking and transport protocol issues.
 Because adaptive application-level response strategies are often using rates as observed by the application layer, there are sometimes inscrutable transport-level protocol behaviors that can produce surprising measurement values when the application-level feedback loop is interacting with a transport-level feedback loop.
 
 A few specific examples of surprising phenomena that affect bitrate detection measurements are described in the following subsections.
 As these examples will demonstrate, it is common to encounter cases that can deliver application level measurements that are too low, too high, and (possibly) correct but varying more quickly than a lab-tested selection algorithm might expect.
 
-These effects and others that cause transport behavior to diverge from lab modeling can sometimes have a significant impact on bitrate selection and on user quality of experience, especially where players use naive measurement strategies and selection algorithms that don't account for the likelihood of bandwidth measurements that diverge from the true path capacity.
+These effects and others that cause transport behavior to diverge from lab modeling can sometimes have a significant impact on bitrate selection and on user QOE, especially where players use naive measurement strategies and selection algorithms that don't account for the likelihood of bandwidth measurements that diverge from the true path capacity.
 
 ### Idle Time between Segments {#idle-time}
 
@@ -724,7 +727,7 @@ To that effect, the Consumer Technology Association (CTA) who owns the Web Appli
 
 * CTA-2066: Streaming Quality of Experience Events, Properties and Metrics
 
-{{CTA-2066}} specifies a set of media player events, properties, quality of experience (QoE) metrics and associated terminology for representing streaming media quality of experience across systems, media players and analytics vendors. While all these events, properties, metrics and associated terminology is used across a number of proprietary analytics and measurement solutions, they were used in slightly (or vastly) different ways that led to interoperability issues. CTA-2066 attempts to address this issue by defining a common terminology as well as how each metric should be computed for consistent reporting.
+{{CTA-2066}} specifies a set of media player events, properties, QOE metrics and associated terminology for representing streaming media QOE across systems, media players and analytics vendors. While all these events, properties, metrics and associated terminology is used across a number of proprietary analytics and measurement solutions, they were used in slightly (or vastly) different ways that led to interoperability issues. CTA-2066 attempts to address this issue by defining a common terminology as well as how each metric should be computed for consistent reporting.
 
 * CTA-5004: Common Media Client Data (CMCD)
 
@@ -755,7 +758,7 @@ In contrast to adaptive segmented delivery over a reliable tansport as described
 
 Under congestion and loss, approaches like the above generally experiences transient video artifacts more often and delay of playback effects less often, as compared with reliable segment transport. Often one of the key goals of using a UDP-based transport that allows some unreliability is to reduce latency and better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
 
-Congestion avoidance strategies for deployments using unreliable transport protocols vary widely in practice, ranging from being entirely unresponsive to congestion, to using feedback signaling to change encoder settings (as in {{RFC5762}}), to using fewer enhancement layers (as in {{RFC6190}}), to using proprietary methods to detect "quality of experience" issues and turn off video in order to allow less bandwidth-intensive media such as audio to be delivered.
+Congestion avoidance strategies for deployments using unreliable transport protocols vary widely in practice, ranging from being entirely unresponsive to congestion, to using feedback signaling to change encoder settings (as in {{RFC5762}}), to using fewer enhancement layers (as in {{RFC6190}}), to using proprietary methods to detect QOE issues and turn off video in order to allow less bandwidth-intensive media such as audio to be delivered.
 
 RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss.
 
@@ -807,7 +810,7 @@ Each of these encryption strategies is intended to achieve a different goal. For
 
 This document does not take a position on whether those goals are "valid" (whatever that might mean).
 
-Both "End-to-End" and "Hop-by-Hop" media encryption have specific implications for streaming operators. These are described in {{hop-by-hop-encrypt}} and {{e2em-encrypt}}.
+Both "end-to-end" and "hop-by-hop" media encryption have specific implications for streaming operators. These are described in {{hop-by-hop-encrypt}} and {{e2em-encrypt}}.
 
 ## General Considerations for Media Encryption {#gen-encrypt}
 
@@ -837,11 +840,15 @@ Assuming that a content provider does intend to allow intermediaries to particip
 - "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees.
 - Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP.
 
-If a content provider chooses not to involve intermediaries, this choice should be carefully considered. As an example, if media manifests are encrypted end-to-end, network providers who had been able to lower offered quality and reduce on their networks will no longer be able to do that. Some resources that might inform this consideration are in {{RFC8825}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
+The choice of whether to involve intermediaries sometimes requires careful consideration.
+As an example, when ABR manifests were commonly sent unencrypted some networks would modify manifests during peak hours by removing high-bitrate renditions in order to prevent players from choosing those renditions, thus reducing the overall bandwidth consumed for delivering these media streams and thereby improving the network load and the user experience for their customers.
+Now that ubiquitous encryption typically prevents this kind of modification, in order to maintain the same level of network health and user experience across networks whose users would have benefitted from this intervention a media streaming operator sometimes needs to choose between adding intermediaries who are authorized to change the manifests or adding significant extra complexity to their service.
+
+Some resources that might inform other similar considerations are further discussed in {{RFC8824}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
 ## Considerations for "End-to-End" Media Encryption {#e2em-encrypt}
 
-"End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection (DPI) to examine HTTP request and response headers and identify the media content being streamed.
+"End-to-end" media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary can't decrypt streaming media, the intermediary can't use Deep Packet Inspection to examine HTTP request and response headers and identify the media content being streamed.
 
 "End-to-end" media encryption has become much more widespread in the years since the IETF issued "Pervasive Monitoring Is an Attack" {{RFC7258}} as a Best Current Practice, describing pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered "sensitive".
 
