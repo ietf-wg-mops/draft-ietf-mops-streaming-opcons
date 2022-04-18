@@ -382,15 +382,13 @@ Substantial discussion of this document should take place on the MOPS working gr
 
 # Our Focus on Streaming Video {#sd}
 
-As the Internet has grown, an increasingly large share of the traffic
-delivered to end users has become video.  Estimates
-put the total share of Internet video traffic at 75% in 2019, expected
-to grow to 82% by 2022.  This estimate projects the
-gross volume of video traffic will more than double during this time,
-based on a compound annual growth rate continuing at 34% (from Appendix
-D of {{CVNI}}).
+As the internet has grown, an increasingly large share of the traffic delivered to end users has become video.
+The most recent available estimates found that 75% of the total traffic to end users was video in 2019.
+At that time, the share of traffic that was video had been growing for years and was projected to continue growing (Appendix D of [CVNI]).
 
-A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly. While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another. For additional discussion of latency requirements, see {{latency-cons}}.
+A substantial part of this growth is due to increased use of streaming video, although the amount of video traffic in real-time communications (for example, online videoconferencing) has also grown significantly.
+While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another.
+For additional discussion of latency requirements, see {{latency-cons}}.
 
 In many contexts, video traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
