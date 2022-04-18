@@ -855,11 +855,11 @@ Unfortunately, as noted in {{RFC7258}}, there is no way to prevent pervasive mon
 
 # Further Reading and References {#further}
 
-The MOPS working group maintains a living document containing references and further reading at this location:
+The Media Operations community maintains a list of references and resources for further reading at this location:
 
  * <https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/blob/main/living-doc-mops-streaming-opcons.md>
 
-Editor's note: The link above should be changed to a link to be determined during IESG discussion of how working groups should manage living documents like this one.  See <https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/114> for updates.
+Editor's note: The link above might or might not be changed during IESG Evolution.  See <https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/114> for updates.
 
 # IANA Considerations
 

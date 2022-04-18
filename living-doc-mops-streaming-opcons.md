@@ -1,6 +1,6 @@
 # Introduction
 
-This document contains links and references to resources that the MOPS working group at IETF has deemed potentially useful to operators of streaming media services or network operators for networks that carry traffic from such services.
+This document contains links and references to resources that the IETF Media Operations community deemed potentially useful to operators of streaming media services or network operators for networks that carry traffic from such services.
 
 This document is a companion to [draft-ietf-mops-streaming-opcons](https://datatracker.ietf.org/doc/draft-ietf-mops-streaming-opcons/), please read that document for a more complete explanation.
 
