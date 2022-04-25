@@ -553,10 +553,20 @@ Streaming media latency refers to the "glass-to-glass" time duration, which is t
 
 Streaming media can be usefully categorized according to the application's latency requirements into a few rough categories:
 
-- ultra low-latency    (less than 1 second)
-- low-latency live     (less than 10 seconds)
-- non-low-latency live (10 seconds to a few minutes)
-- on-demand            (hours or more)
+- near realtime latency (less than 150 milliseconds)
+- ultra low-latency     (less than 1 second)
+- low-latency live      (less than 10 seconds)
+- non-low-latency live  (10 seconds to a few minutes)
+- on-demand             (hours or more)
+
+## Near Realtime Latency
+
+Near realtime delivery of media is defined here as having a glass-to-glass (or ear-to-ear) delay target under 150 milliseconds.
+The human ear or eye would mostly not notice or would be on the edge of noticing such latencies.
+These latencies are targeted in various telepresence use cases, such as remote control of drones and autonomous vehicles (e.g. teledriving), remote surgery. For musicians to play together in sync the ideal delay would be below 50 ms.
+In cloud gaming delay around 150 ms is at the edge of comfortable experience. Higher delays make the game unplayable. Tatget delay is 50 ms. The lower detectable limit is 13 ms.
+
+Another example of latency-sensitive use case is stock exchange market trading (not an algo-trading), where the earlier some live event is being received, the earlier the trading decision can be made.
 
 ## Ultra Low-Latency {#ultralow}
 
