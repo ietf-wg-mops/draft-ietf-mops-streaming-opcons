@@ -458,9 +458,11 @@ In order to avoid these types of situations, which can potentially affect all th
 
 There are many reasons why path characteristics might change suddenly, for example,
 
-* "cross traffic" that traverses part of the path, especially if this traffic is "inelastic", and does not, itself, respond to indications of path congestion.
+* routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, provide different MTU sizes that change the overall Path MTU size, or simply cover more distance.
 
-* routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance.
+* changes in business relationships between economic entities that, together, consititute an end-to-end path, so that a packet that might have been carried over a certain path is now being carried over a path that is partially or entirely disjoint from the previous path. The overall effect might be indistinguishable from the effect of routing changes, in the previous bullet.
+
+* an increase or decrease in "cross traffic" that traverses part of the path, especially if this traffic is "inelastic", and does not, itself, respond to indications of path congestion.
 
 In order to recognize that a path carrying streaming media is "not behaving the way it normally does", having an expected baseline that describes "the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
 
