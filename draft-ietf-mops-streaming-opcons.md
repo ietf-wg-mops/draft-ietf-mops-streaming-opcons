@@ -553,7 +553,7 @@ Streaming media latency refers to the "glass-to-glass" time duration, which is t
 
 Streaming media can be usefully categorized according to the application's latency requirements into a few rough categories:
 
-- near realtime latency (less than 150 milliseconds)
+- near realtime latency (less than 200 milliseconds)
 - ultra low-latency     (less than 1 second)
 - low-latency live      (less than 10 seconds)
 - non-low-latency live  (10 seconds to a few minutes)
@@ -561,12 +561,16 @@ Streaming media can be usefully categorized according to the application's laten
 
 ## Near Realtime Latency
 
-Near realtime delivery of media is defined here as having a glass-to-glass (or ear-to-ear) delay target under 150 milliseconds.
-The human ear or eye would mostly not notice or would be on the edge of noticing such latencies.
-These latencies are targeted in various telepresence use cases, such as remote control of drones and autonomous vehicles (e.g. teledriving), remote surgery. For musicians to play together in sync the ideal delay would be below 50 ms.
-In cloud gaming delay around 150 ms is at the edge of comfortable experience. Higher delays make the game unplayable. Tatget delay is 50 ms. The lower detectable limit is 13 ms.
+Some internet applications that incorporate media streaming have specific interactivity or
+control-feedback requirements that drive much lower glass to glass media latency targets
+than one second. These include videoconferencing or voice calls, remote video game play,
+remote control of hardware platforms like drones, vehicles, or surgical robots, and many
+other envisioned or deployed interactive applications.
 
-Another example of latency-sensitive use case is stock exchange market trading (not an algo-trading), where the earlier some live event is being received, the earlier the trading decision can be made.
+Applications with latency targets in these regimes are out of scope for this document,
+as those use cases technically are not exactly technically "streaming video".
+However, to acknowledge these use cases exist, and to provide a name for such latencies,
+this document defines glass-to-glass (or ear-to-ear) latencies below 150 ms as near realtime latencies.
 
 ## Ultra Low-Latency {#ultralow}
 
