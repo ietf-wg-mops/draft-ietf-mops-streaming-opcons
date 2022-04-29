@@ -527,8 +527,7 @@ The causes of unpredictable usage described in {{sec-unpredict}} were more or le
 In his talk, Sanjay Mishra {{Mishra}} reported that after the CoViD-19 pandemic broke out in early 2020,
 
 - Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30,
-- AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for 
-ly half of all mobile network traffic, while
+- AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
 social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic, and
 - Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.
 
