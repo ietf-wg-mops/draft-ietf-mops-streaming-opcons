@@ -572,7 +572,12 @@ Worth noting is that many applications for ultra low-latency delivery do not nee
 
 Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
 
-Applications with further-specialized latency requirements are out of scope for this document.
+### Near-Realtime Latency
+
+Some internet applications that incorporate media streaming have specific interactivity or control-feedback requirements that drive much lower glass to glass media latency targets than one second.
+These include videoconferencing or voice calls, remote video game play, remote control of hardware platforms like drones, vehicles, or surgical robots, and many other envisioned or deployed interactive applications.
+
+Applications with latency targets in these regimes are out of scope for this document.
 
 ## Low-Latency Live
 
