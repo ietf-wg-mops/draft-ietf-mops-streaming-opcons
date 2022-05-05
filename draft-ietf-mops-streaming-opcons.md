@@ -456,11 +456,11 @@ In order to avoid these types of situations, which can potentially affect all th
 
 ### Recognizing Changes from an Expected Baseline {#sec-know-your-traffic}
 
-There are many reasons why path characteristics might change suddenly, for example,
+There are many reasons why path characteristics might change suddenly, but we can divide these reasons into two categories:
 
-* "cross traffic" that traverses part of the path, especially if this traffic is "inelastic", and does not, itself, respond to indications of path congestion.
+* If the path topology changes. For example, routing changes, which can happen in normal operation, may result in traffic being carried over a new path topology that that is partially or entirely disjoint from the previous path, especially if the new path topology includes one or more path segments that are more heavily loaded, offer lower total bandwidth, change the overall Path MTU size, or simply cover more distance between the path endpoints.
 
-* routing changes, which can happen in normal operation, especially if the new path now includes path segments that are more heavily loaded, offer lower total bandwidth, or simply cover more distance.
+* If "cross traffic" that also traverses part or all of the same path topology increases or decreases, especially if this new "cross traffic" is "inelastic", and does not, itself, respond to indications of path congestion.
 
 In order to recognize that a path carrying streaming media is "not behaving the way it normally does", having an expected baseline that describes "the way it normally does" is fundamental. Analytics that aid in that recognition can be more or less sophisticated, and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver, since TCP octet sequence numbers and acknowledgements for those sequence numbers are "carried in the clear", even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
 
