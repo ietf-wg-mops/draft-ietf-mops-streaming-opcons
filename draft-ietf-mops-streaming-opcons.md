@@ -5,6 +5,7 @@ docname: draft-ietf-mops-streaming-opcons-latest
 date:
 category: info
 ipr: trust200902
+stream: IETF
 area: OPS
 workgroup: MOPS
 keyword: Internet-Draft
@@ -438,11 +439,13 @@ In more immersive applications, where limited user movement ("three degrees of f
 
 Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the contraints on bandwidth at various points in the network. This analysis is necessary because media servers may react to bandwith constraints using two independent feedback loops:
 
-* Media servers often respond to application-level feedback from the media player that indicates a bottleneck link somewhere along the path, by adjusting the amount of media that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
+* Media servers often respond to application-level feedback from the media player that indicates a bottleneck somewhere along the path, by adjusting the amount of media that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
 
-* Media servers also typically implement transport protocols with capacity-seeking congestion controllers that probe for bandwidth, and adjust the sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
+* Media servers also typically rely on transport protocols with capacity-seeking congestion controllers that probe for bandwidth, and adjust the sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
 
 The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in QOE for users that is significantly lower than what could have been achieved.
+
+One might wonder why media servers and transport protocols are each blissfully ignorant of what the other is doing, and there are multiple reasons for that, but one reason is that media servers may be implemented to run under a general-purpose operating system which typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.
 
 In one example, if a media server overestimates the available bandwidth to the media player,
 
@@ -452,7 +455,7 @@ In one example, if a media server overestimates the available bandwidth to the m
 * because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so
 * the transport protocol can't probe for available path bandwidth by sending at a higher rate.
 
-In order to avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck link, there are several possible mitigations that streaming operators can use, but the first step toward mitigating a problem is knowing when that problem occurs.
+In order to avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck, there are several possible mitigations that streaming operators can use, but the first step toward mitigating a problem is knowing when that problem occurs.
 
 ### Recognizing Changes from an Expected Baseline {#sec-know-your-traffic}
 
@@ -681,7 +684,7 @@ When the bitrate selection is chosen substantially below the available capacity 
 
 - TCP slow-start when restarting after idle requires multiple RTTs to re-establish a throughput at the network's available capacity.  When the active transmission time for segments is substantially shorter than the time between segments, leaving an idle gap between segments that triggers a restart of TCP slow-start, the estimate of the successful download speed coming from the application-visible receive rate on the socket can thus end up much lower than the actual available network capacity.  This in turn can prevent a shift to the most appropriate bitrate. {{RFC7661}} provides some mitigations for this effect at the TCP transport layer, for senders who anticipate a high incidence of this problem.
 
-- Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks. The carrier capacity assigned to a link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
+- Mobile flow-bandwidth spectrum and timing mapping can be impacted by idle time in some networks. The carrier capacity assigned to a physical or virtual link can vary with activity. Depending on the idle time characteristics, this can result in a lower available bitrate than would be achievable with a steadier transmission in the same network.
 
 Some receiver-side ABR algorithms such as {{ELASTIC}} are designed to try to avoid this effect.
 
@@ -862,7 +865,7 @@ The Media Operations community maintains a list of references and resources for 
 
  * <https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/blob/main/living-doc-mops-streaming-opcons.md>
 
-Editor's note: The link above might or might not be changed during IESG Evaluation.  See <https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/114> for updates.
+Editor's note: The URL above might or might not be changed during IESG Evaluation.  See <https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons/issues/114> for updates.
 
 # IANA Considerations
 
@@ -874,6 +877,6 @@ Security is an important matter for streaming media applications and it was brie
 
 # Acknowledgments
 
-Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, and Will Law for very helpful suggestions, reviews and comments.
+Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, and Will Law for very helpful suggestions, reviews and comments.
 
 --- back
