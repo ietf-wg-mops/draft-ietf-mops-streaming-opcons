@@ -475,8 +475,8 @@ One example is the "qlog" mechanism {{I-D.ietf-quic-qlog-main-schema}}, a protoc
 
 The bitrate requirements in {{scaling}} are per end-user actively
 consuming a media feed, so in the worst case, the bitrate demands
-can be multiplied by the number of simultaneous users to find the
-bandwidth requirements for a router on the delivery path with that
+can be multiplied by the number of simultaneous users to find the bandwidth
+requirements for a delivery path with that
 number of users downstream.  For example, at a node with 10,000
 downstream users simultaneously consuming video streams,
 approximately 80 Gbps might be necessary in order for all of them
@@ -882,6 +882,6 @@ Security is an important matter for streaming media applications and it was brie
 
 # Acknowledgments
 
-Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, and Will Law for very helpful suggestions, reviews and comments.
+Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Michael Scharf, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, and Will Law for very helpful suggestions, reviews and comments.
 
 --- back
