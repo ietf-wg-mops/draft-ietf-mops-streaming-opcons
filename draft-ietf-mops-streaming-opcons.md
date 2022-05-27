@@ -282,6 +282,11 @@ informative:
     date: 3 July, 2020
     seriesinfo:  "IEEE Communications Surveys & Tutorials"
 
+  ISOBMFF:
+    target: https://www.iso.org/standard/83102.html
+    title: "ISO/IEC 14496-12:2022 Information technology — Coding of audio-visual objects — Part 12: ISO base media file format"
+    date:  January 2022
+
   I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
@@ -294,6 +299,7 @@ informative:
 
   RFC0793:
   RFC2001:
+  RFC2736:
   RFC3135:
   RFC3550:
   RFC3758:
@@ -750,6 +756,32 @@ As noted in {{sec-abr}}, ABR response strategies such as HLS {{RFC8216}} or DASH
 For most of the history of the Internet, these transport protocols, described in {{udp-behavior}} and {{tcp-behavior}}, have had relatively consistent behaviors that have changed slowly, if at all, over time. Newly standardized transport protocols like QUIC {{RFC9000}} can behave differently from existing transport protocols, and these behaviors may evolve over time more rapidly than currently-used transport protocols.
 
 For this reason, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve over time.
+
+## Transport Protocols and Media Transport Protocols {#mtp}
+
+Within {{sec-trans}}, the term "Media Transport Protocol" is used to describe to describe the protocol of interest. This is easier to understand if the reader assumes a protocol stack that looks something like this:
+
+~~~~
+               Media
+    ---------------------------
+           Media Format
+    ---------------------------
+    Media Transport Protocol(s)
+    ---------------------------
+      Transport Protocol(s)
+~~~~
+
+where
+
+* "Media Format" would be something like an RTP payload format {{RFC2736}} or ISOBMFF {{ISOBMFF}},
+* "Media Transport Protocol" would be something like RTP or HTTP, and
+* "Transport Protocol" would be something like TCP or UDP.
+
+Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to have names for "the protocol layers beteern Media and the Transport Layer".
+
+It is worth noting explicitly that the "Media Transport Protocol" layer might include more than one protocol. For example, a Media Transport Protocol might be defined to run over HTTP, or over WebTransport, over HTTP/3.
+
+It is worth noting explicitly that more complex network protocol stacks are certainly possible - for instance, packets with this protocol stack may be carried in a tunnel, or in a VPN. If these environments are present, streaming media operators may need to analyze their effects on applications as well.
 
 ## UDP and Its Behavior {#udp-behavior}
 
