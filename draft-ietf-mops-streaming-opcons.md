@@ -575,7 +575,7 @@ Some media content providers aim to achieve this level of latency for live media
 
 Applications requiring ultra low latency for media delivery are usually tightly constrained on the available choices for media transport technologies, and sometimes may need to operate in controlled environments to reliably achieve their latency and quality goals.
 
-Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}, which uses RTP for the media transport as well as several other protocols necessary for safe operation in browsers.
+Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}, which uses RTP as its Media Transport Protocol, along with several other protocols necessary for safe operation in browsers.
 
 Worth noting is that many applications for ultra low-latency delivery do not need to scale to more than a few users at a time, which simplifies many delivery considerations relative to other use cases.
 
@@ -777,9 +777,9 @@ where
 * "Media Transport Protocol" would be something like RTP or HTTP, and
 * "Transport Protocol" would be something like TCP or UDP.
 
-Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to have names for "the protocol layers beteern Media and the Transport Layer".
+Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to have names for the protocol layers between Media Format and Transport Layer
 
-It is worth noting explicitly that the "Media Transport Protocol" layer might include more than one protocol. For example, a Media Transport Protocol might be defined to run over HTTP, or over WebTransport, over HTTP/3.
+It is worth noting explicitly that the Media Transport Protocol and Transport Protocol layers might each include more than one protocol. For example, a Media Transport Protocol might run over HTTP, or over WebTransport, which in turn runs over HTTP.
 
 It is worth noting explicitly that more complex network protocol stacks are certainly possible - for instance, packets with this protocol stack may be carried in a tunnel, or in a VPN. If these environments are present, streaming media operators may need to analyze their effects on applications as well.
 
