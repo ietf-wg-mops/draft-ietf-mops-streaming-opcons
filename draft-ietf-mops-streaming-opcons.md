@@ -117,28 +117,6 @@ informative:
       - ins: Apple, Inc.
     date: 2020-06
 
-  Mishra:
-    target: https://datatracker.ietf.org/meeting/interim-2020-mops-01/materials/slides-interim-2020-mops-01-sessa-april-15-2020-mops-interim-an-update-on-streaming-video-alliance
-    title: "An update on Streaming Video Alliance"
-    author:
-      - ins: S. Mishra
-      - ins: J. Thibeault
-    date: 2020-04
-
-  Labovitz:
-    target: https://www.nokia.com/blog/network-traffic-insights-time-covid-19-april-9-update/
-    title: "Network traffic insights in the time of COVID-19: April 9 update"
-    author:
-      - ins: C. Labovitz
-    date: 2020-04
-
-  LabovitzDDoS:
-    target: https://venturebeat.com/2018/05/13/why-the-game-industry-is-still-vulnerable-to-distributed-denial-of-service-attacks/
-    title: "Why the game industry is still vulnerable to DDoS attacks"
-    author:
-      - ins: D. Takahashi
-    date: 2018-05
-
   IABcovid:
     target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
     title: Report from the IAB COVID-19 Network Impacts Workshop 2020
@@ -509,9 +487,9 @@ It is worth noting that not all high-demand content is "live" content. One relev
 
 Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, especially when the content can be pre-loaded during off-peak hours, and especially if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms.
 
-All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}, {{sec-extreme}}).
+All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}).
 
-And as with other parts of the ecosystem, new technology brings new challenges.  For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had the video freeze until the player was reset.  In some cases the truncated object was even cached that way and served later to other players, causing continued stalls at the same spot in the video for all players playing the segment delivered from that cache node.
+And as with other parts of the ecosystem, new technology brings new challenges. For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had the video freeze until the player was reset.  In some cases the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the video for all players playing the segment delivered from that cache node.
 
 ## Predictable Usage Profiles {#sec-predict}
 
@@ -519,36 +497,23 @@ Historical data shows that users consume more videos and these videos are encode
 
 ## Unpredictable Usage Profiles {#sec-unpredict}
 
-Although TCP/IP has been used with a number of widely used applications that have symmetric bandwidth requirements (similar bandwidth requirements in each direction between endpoints), many widely-used Internet applications operate in client-server roles, with asymmetric bandwidth requirements. A common example might be an HTTP GET operation, where a client sends a relatively small HTTP GET request for a resource to an HTTP server and often receives a significantly larger response carrying the requested resource. When HTTP is commonly used to stream movie-length videos, the ratio between response size and request size can become arbitrarily large.
+It is also possible for usage profiles to change significantly and suddenly. These changes are more difficult to plan for, but at a minimum, recognizing that sudden changes are happening is critical.
 
-For this reason, operators may pay more attention to downstream bandwidth utilization when planning and managing capacity. In addition, operators have been able to deploy access networks for end users using underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g., ADSL, cellular technologies, most IEEE 802.11 variants), assuming that users will need less upstream bandwidth than downstream bandwidth. This strategy usually works, except when it fails because application bandwidth usage patterns have changed in ways that were not predicted.
+Two examples are instructive.
 
-One example of this type of change was when peer-to-peer file-sharing applications gained popularity in the early 2000s. To take one well-documented case ({{RFC5594}}), the BitTorrent application created "swarms" of hosts, uploading and downloading files to each other, rather than communicating with a server. BitTorrent favored peers who uploaded as much as they downloaded, so new BitTorrent users had an incentive to significantly increase their upstream bandwidth utilization.
+### Peer-to-peer Applications {#p2p}
 
-The combination of the large volume of "torrents" and the peer-to-peer characteristic of swarm transfers meant that end user hosts were suddenly uploading higher volumes of traffic to more destinations than was the case before BitTorrent. This caused at least one large Internet service provider (ISP) to attempt to "throttle" these transfers to mitigate the load these hosts placed on their network. These efforts were met by increased use of encryption in BitTorrent, and complaints to regulators calling for regulatory action.
+In the first example, described in "Report from the IETF Workshop on Peer-to-Peer (P2P) Infrastructure, May 28, 2008" ({{RFC5594}}), when the BitTorrent filesharing application came into widespread use in 2005, sudden and unexpected growth in peer-to-peer traffic led to complaints from ISP customers about the performance of delay-sensitive traffic (VoIP and gaming). These performance issues resulted from at least two causes:
 
-The BitTorrent case study is just one example. However, the example is included here to make it clear that unpredicted and unpredictable massive traffic spikes may not be the result of natural disasters, but they can still have significant impacts.
+* Many access networks for end users used underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g. ADSL, cellular technologies, most IEEE 802.11 variants), assuming that most users will need more downstream bandwidth than upstream bandwidth. This is a good assumption for client-server applications such as streaming video or software downloads, but BitTorrent rewarded peers that uploaded as much as they downloaded, so BitTorrent users had much more symmetric usage profiles which interacted badly with these assymetric access network technologies.
 
-Especially as end users increasingly use video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.
+* BitTorrent also used distributed hash tables to organize peers into a ring topology, where each peer knew its "next peer" and "previous peer". There was no connection between the application-level ring topology and the lower-level network topology, so a peer's "next peer" might be anywhere on the reachable Internet. Traffic models that expected most communication to take place with a relatively small number of servers were unable to cope with peer-to-peer traffic that was much less predictable.
 
-## Extremely Unpredictable Usage Profiles {#sec-extreme}
+Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.
 
-The causes of unpredictable usage described in {{sec-unpredict}} were more or less the result of human choices. However, we were reminded during a post-IETF 107 meeting that humans are not always in control, and forces of nature can cause enormous fluctuations in traffic patterns.
+### Impact of Global Pandemic {{IABcovid}}
 
-In his talk, Sanjay Mishra {{Mishra}} reported that after the COVID-19 pandemic broke out in early 2020,
-
-- Comcast's streaming and web video consumption rose by 38%, with their reported peak traffic up 32% overall between March 1 to March 30,
-- AT&T reported a 28% jump in core network traffic (single day in April, as compared to pre stay-at-home daily average traffic), with video accounting for nearly half of all mobile network traffic, while
-social networking and web browsing remained the highest percentage (almost a quarter each) of overall mobility traffic, and
-- Verizon reported similar trends with video traffic up 36% over an average day (pre COVID-19)}.
-
-We note that other operators saw similar spikes during this period. Craig Labowitz {{Labovitz}} reported
-
-- Weekday peak traffic increases over 45%-50% from pre-lockdown levels,
-- A 30% increase in upstream traffic over their pre-pandemic levels, and
-- A steady increase in the overall volume of DDoS traffic, with amounts exceeding the pre-pandemic levels by 40%. (He attributed this increase to the significant rise in gaming-related DDoS attacks ({{LabovitzDDoS}}), as gaming usage also increased.)
-
-Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. Given a larger number of reports and more time to reflect, the following observations from the draft workshop report are worth considering.
+Early in 2020, the CoViD-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
@@ -557,6 +522,8 @@ Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impa
 - The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.
 - The increase in daytime bandwidth consumption reflected both significant increases in essential applications such as videoconferencing and virtual private networks (VPN), and entertainment applications as people watched videos or played games.
 - At the IXP level, it was observed that physical link utilization increased. This phenomenon could probably be explained by a higher level of uncacheable traffic such as videoconferencing and VPNs from residential users as they stopped commuting and switched to work-at-home.
+
+Again, it will be helpful for streaming operators to monitor traffic as described in {{measure-coll}}, watching for sudden changes in performance.
 
 # Latency Considerations {#latency-cons}
 
