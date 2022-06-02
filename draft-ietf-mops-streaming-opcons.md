@@ -296,8 +296,8 @@ informative:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
   I-D.ietf-httpbis-cache:
+  I-D.ietf-tcpm-rfc793bis:
 
-  RFC0793:
   RFC2001:
   RFC2736:
   RFC3135:
@@ -306,12 +306,14 @@ informative:
   RFC4733:
   RFC4960:
   RFC5594:
+  RFC5681:
   RFC5762:
   RFC6190:
   RFC6582:
   RFC6817:
   RFC6843:
   RFC7258:
+  RFC7414:
   RFC7510:
   RFC7656:
   RFC7661:
@@ -806,13 +808,11 @@ The notion of "Circuit Breakers" has also been applied to other UDP applications
 
 ## TCP and Its Behavior {#tcp-behavior}
 
-For most of the history of the Internet, we have trusted TCP to limit the impact of applications that sent a significant number of packets, in either or both directions, on other users. Although early versions of TCP were not particularly good at limiting this impact {{RFC0793}}, the addition of Slow Start and Congestion Avoidance, as described in {{RFC2001}}, were critical in allowing TCP-based applications to use as much bandwidth as possible, but to avoid using more bandwidth than was possible. Although dozens of RFCs have been written refining TCP decisions about what to send, how much to send, and when to send it, since 1988 {{Jacobson-Karels}} the signals available for TCP senders remained unchanged - end-to-end acknowledgements for packets that were successfully sent and received, and packet timeouts for packets that were not.
+The past success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time ({{RFC5681}}), have been largely successful. The Internet has continued to work even when the specific TCP mechanisms used to reach equilibrium changed over time ({{RFC7414}}). Because TCP provides a common tool to avoid contention, even when significant TCP-based applications like FTP were largely replaced by other significant TCP-based applications like HTTP, the transport behavior remained safe for the Internet.
 
-The success of the largely TCP-based Internet is evidence that the mechanisms TCP used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time, have been largely successful. The Internet continued to work even when the specific mechanisms used to reach equilibrium changed over time. Because TCP provides a common tool to avoid contention, as some TCP-based applications like FTP were largely replaced by other TCP-based applications like HTTP, the transport behavior remained consistent.
+Modern TCP implementations ({{I-D.ietf-tcpm-rfc793bis}}) continue to probe for available bandwidth, and "back off" when a network path is saturated, but may also work to avoid growing queues along network paths, which prevent TCP senders from detecting quickly when a network path becoming saturated. Congestion control mechanisms such as COPA {{COPA18}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the network can forward them (or the receiver can accept them) so the sender should adjust its sending rate accordingly.
 
-In recent times, the TCP goal of probing for available bandwidth and "backing off" when a network path is saturated has been supplanted by the goal of avoiding growing queues along network paths, which prevent TCP senders from reacting quickly when a network path is saturated. Congestion control mechanisms such as COPA {{COPA18}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the receiver can accept them, so the sender should adjust its sending rate accordingly.
-
-Although TCP behavior has changed over time, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
+Although common TCP behavior has changed significantly since the days of {{Jacobson-Karels}} and {{RFC2001}}, even adding new congestion controllers such as CUBIC {{RFC8312}}, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
 
 ## QUIC and Its Behavior {#quic-behavior}
 
