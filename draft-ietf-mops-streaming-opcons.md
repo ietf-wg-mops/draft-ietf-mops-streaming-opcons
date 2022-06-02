@@ -489,7 +489,7 @@ Historical data shows that users consume more videos and at a higher bit rate th
 
 ## Unpredictable Usage Profiles {#sec-unpredict}
 
-It is also possible for usage profiles to change significantly and suddenly. These changes are more difficult to plan for, but at a minimum, recognixing that sudden changes are happening is critical.
+It is also possible for usage profiles to change significantly and suddenly. These changes are more difficult to plan for, but at a minimum, recognizing that sudden changes are happening is critical.
 
 Two examples are instructive.
 
@@ -505,7 +505,7 @@ Especially as end users increase use of video-based social networking applicatio
 
 ### Impact of Global Pandemic {{IABcovid}}
 
-Early in 2020, the CoViD-19 pandemic and resulting quarentines and shutdowns led to significant changes in traffic patterns, resulting from a causes such as large number of people who were suddenly working and attending school remotely, and using more interactive applications (video conderencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
+Early in 2020, the CoViD-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
