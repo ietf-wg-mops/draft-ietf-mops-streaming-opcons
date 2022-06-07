@@ -265,6 +265,17 @@ informative:
     seriesinfo: "Communications of the ACMVolume 54Issue 5May 2011 pp 25–27"
     date: 2011-05-01
 
+  ADFRAUD:
+    target: https://doi.org/10.3390/jcp1040039
+    title: "Ads and Fraud: A Comprehensive Survey of Fraud in Online Advertising"
+    author:
+      -
+        name: Shadi Sadeghpour
+      -
+        name: Natalija Vlajic
+    seriesinfo: "Journal of Cybersecurity and Privacy 1, no. 4: 804-832."
+    date: 2021-12-16
+
   BALANCING:
     target: https://digitalcommons.law.scu.edu/chtlj/vol27/iss1/2/
     title: "Balancing Consumer Privacy with Behavioral Targeting"
@@ -683,11 +694,11 @@ For another example, since the inserted ads are often produced independently, th
 
 Another major source of competing objectives comes from user privacy considerations vs. the advertiser's incentives to target ads to user segments based on behavioral data.
 Multiple studies, for example {{BEHAVE}} and {{BEHAVE2}}, have reported large improvements in ad effectiveness when using behaviorally targeted ads, relative to untargeted ads.
-This provides a strong incentive for advertisers to gain access to the data necessary to perform behavioral targeting, leading some to engage in what amounts to a pervasive monitoring attack ({{RFC7258}}) based on user tracking in order to collect the relevant data, and this tracking is often facilitated through the network connections between users and CSAIs.
+This provides a strong incentive for advertisers to gain access to the data necessary to perform behavioral targeting, leading some to engage in what is indistinguishable from a pervasive monitoring attack ({{RFC7258}}) based on user tracking in order to collect the relevant data,
 A more complete review of issues in this space is available in {{BALANCING}}.
 
-On top of these competing objectives, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain).
-As a mitigation for concerns driven by those incidents, some SSPs have required the use of specific players that include features like reporting of ad delivery, or providing additional user information that can be used for tracking.
+On top of these competing objectives, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain) {{ADFRAUD}}.
+As a mitigation for concerns driven by those incidents, some SSPs have required the use of specific media players that include features like reporting of ad delivery, or providing additional user information that can be used for tracking.
 
 In general, this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
 For further reading on mitigations, {{BAP}} has published some standards and best practices based on user experience research.
