@@ -327,7 +327,7 @@ This document specifically focuses on streaming applications and defines streami
 
 - Streaming is the continuous transmission of media from a server to a client and its simultaneous consumption by the client.
 
-- Here, "continuous media" refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous," as it is not considered streaming if one downloads a media file and plays it after the download is completed, which would be called download-and-play.
+- Here, "media" refers to any type of media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous," as it is not considered streaming if one downloads a media file and plays it after the download is completed, which would be called download-and-play.
 
 This has two implications.
 
