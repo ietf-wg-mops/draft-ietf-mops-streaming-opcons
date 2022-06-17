@@ -579,7 +579,7 @@ This level of latency can typically be achieved at scale with commodity CDN serv
 
 ## On-Demand
 
-On-demand media streaming refers to the playback of pre-recorded media based on a user's action.  In some cases, on-demand media is produced as a by-product of a live media production, using the same segments as the live event, but freezing the manifest after the live event has finished.  In other cases, on-demand media is constructed out of pre-recorded assets with no streaming necessarily involved during the production of the on-demand content.
+On-demand media streaming refers to the playback of pre-recorded media based on a user's action.  In some cases, on-demand media is produced as a by-product of a live media production, using the same segments as the live event, but freezing the manifest that describes the media available from the media server after the live event has finished.  In other cases, on-demand media is constructed out of pre-recorded assets with no streaming necessarily involved during the production of the on-demand content.
 
 On-demand media generally is not subject to latency concerns, but other timing-related considerations can still be as important or even more important to the user experience than the same considerations with live events.  These considerations include the startup time, the stability of the media stream's playback quality, and avoidance of stalls and video artifacts during the playback under all but the most severe network conditions.
 
@@ -604,7 +604,7 @@ ABR is a sort of application-level response strategy in which the streaming clie
 
 ## Adaptive Encoding {#adapt-encode}
 
-Media servers can provide media streams at various bitrates because the media has been encoded at various bitrates. This is a so-called "ladder" of bitrates that can be offered to media players as part of the manifest that describes the media being requested by the media player, so that the media player can select among the available bitrate choices.
+Media servers can provide media streams at various bitrates because the media has been encoded at various bitrates. This is a so-called "ladder" of bitrates that can be offered to media players as part of the manifest, so that the media player can select among the available bitrate choices.
 
 The media server may also choose to alter which bitrates are made available to players by adding or removing bitrate options from the ladder delivered to the player in subsequent manifests built and sent to the player. This way, both the player, through its selection of bitrate to request from the manifest, and the server, through its construction of the bitrates offered in the manifest, are able to affect network utilization.
 
