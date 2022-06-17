@@ -346,6 +346,8 @@ This document contains
 
 Making specific recommendations on operational practices to mitigate the issues described in this document is out of scope, though some existing mitigations are mentioned in passing. The intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
 
+This document is primarily intended for those controlling endpoints involved in delivering streaming media traffic, which can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
+
 ## Notes for Contributors and Reviewers
 
 Note to RFC Editor: Please remove this section and its subsections
