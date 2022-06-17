@@ -326,9 +326,9 @@ This document examines networking and transport protocol issues as they relate t
 
 This document specifically focuses on streaming applications and defines streaming as follows:
 
-- Streaming is the transmission of continuous media from a server to a client and its simultaneous consumption by the client.
+- Streaming is the continuous transmission of media from a server to a client and its simultaneous consumption by the client.
 
-- Here, "continuous media" refers to media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous," as it is not considered streaming if one downloads a media file and plays it after the download is completed, which would be called download-and-play.
+- Here, "media" refers to any type of media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous," as it is not considered streaming if one downloads a media file and plays it after the download is completed, which would be called download-and-play.
 
 This has two implications.
 
@@ -812,7 +812,7 @@ It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traf
 
 In this document, we will focus on media encrypted at the transport layer, whether encrypted hop-by-hop or end-to-end. Because media encrypted at the application layer will only be processed by application-level entities, this encryption does not have transport-layer implications. Of course, both hop-by-hop and end-to-end encrypted transport may carry media that is, in addition, encrypted at the application layer.
 
-Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media steam manipulation or to protect manifests.
+Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media stream manipulation or to protect manifests.
 
 This document does not take a position on whether those goals are "valid" (whatever that might mean).
 
