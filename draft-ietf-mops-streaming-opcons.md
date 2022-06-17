@@ -265,7 +265,6 @@ informative:
     title: "ISO/IEC 14496-12:2022 Information technology — Coding of audio-visual objects — Part 12: ISO base media file format"
     date:  January 2022
 
-  I-D.ietf-quic-http:
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
   I-D.ietf-quic-qlog-main-schema:
@@ -311,6 +310,7 @@ informative:
   RFC9001:
   RFC9002:
   RFC9065:
+  RFC9114:
 
 --- abstract
 
@@ -393,9 +393,9 @@ Much of the focus of this document is on reliable media using HTTP. HTTP is wide
 * HTTP includes state of the art standardized security mechanisms, and
 * HTTP can use already-deployed caching infrastructure such as content delivery networks (CDN), local proxies, and browser caches.
 
-Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{tcp-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
+Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{reliable-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
-Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{udp-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when packet loss occurs, the most appropriate response may depend on the type of codec being used.
+Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{unreliable-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when packet loss occurs, the most appropriate response may depend on the type of codec being used.
 
 # Bandwidth Provisioning {#bwprov}
 
@@ -452,9 +452,9 @@ There are many reasons why path characteristics might change suddenly, but we ca
 
 * If cross traffic that also traverses part or all of the same path topology increases or decreases, especially if this new cross traffic is "inelastic," and does not, itself, respond to indications of path congestion.
 
-To recognize that a path carrying streaming media is not behaving the way it normally does, having an expected baseline that describes the way it normally does is fundamental. Analytics that aid in that recognition can be more or less sophisticated and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver since TCP octet sequence numbers and acknowledgements for those sequence numbers are carried in the clear, even if the TCP payload itself is encrypted. See {{tcp-behavior}} for more information.
+To recognize that a path carrying streaming media is not behaving the way it normally does, having an expected baseline that describes the way it normally does is fundamental. Analytics that aid in that recognition can be more or less sophisticated and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver since TCP octet sequence numbers and acknowledgements for those sequence numbers are carried in the clear, even if the TCP payload itself is encrypted. See {{reliable-behavior}} for more information.
 
-As transport protocols evolve to encrypt their transport header fields, one side effect of increasing encryption is the kind of passive monitoring, or even "performance enhancement" ({{RFC3135}}) that was possible with the older transport protocols (UDP, described in {{udp-behavior}} and TCP, described in {{tcp-behavior}}) is no longer possible with newer transport protocols such as QUIC (described in {{quic-behavior}}). The IETF has specified a "latency spin bit" mechanism in Section 17.4 of {{RFC9000}} to allow passive latency monitoring from observation points on the network path throughout the duration of a connection, but currently chartered work in the IETF is focusing on endpoint monitoring and reporting, rather than on passive monitoring.
+As transport protocols evolve to encrypt their transport header fields, one side effect of increasing encryption is the kind of passive monitoring, or even "performance enhancement" ({{RFC3135}}) that was possible with the older transport protocols (UDP, described in {{unreliable-behavior}} and TCP, described in {{reliable-behavior}}) is no longer possible with newer transport protocols such as QUIC (described in {{quic-behavior}}). The IETF has specified a "latency spin bit" mechanism in Section 17.4 of {{RFC9000}} to allow passive latency monitoring from observation points on the network path throughout the duration of a connection, but currently chartered work in the IETF is focusing on endpoint monitoring and reporting, rather than on passive monitoring.
 
 One example is the "qlog" mechanism {{I-D.ietf-quic-qlog-main-schema}}, a protocol-agnostic mechanism used to provide better visibility for encrypted protocols such as QUIC ({{I-D.ietf-quic-qlog-quic-events}}) and for HTTP/3 ({{I-D.ietf-quic-qlog-h3-events}}).
 
@@ -717,20 +717,9 @@ To that effect, the Consumer Technology Association (CTA), who owns the Web Appl
 
 Many assume that the CDNs have a holistic view of the health and performance of the streaming clients. However, this is not the case. The CDNs produce millions of log lines per second across hundreds of thousands of clients and they have no concept of a "session" as a client would have, so CDNs are decoupled from the metrics the clients generate and report. A CDN cannot tell which request belongs to which playback session, the duration of any media object, the bitrate, or whether any of the clients have stalled and are rebuffering or are about to stall and will rebuffer. The consequence of this decoupling is that a CDN cannot prioritize delivery for when the client needs it most, prefetch content, or trigger alerts when the network itself may be underperforming. One approach to couple the CDN to the playback sessions is for the clients to communicate standardized media-relevant information to the CDNs while they are fetching data. {{CTA-5004}} was developed exactly for this purpose.
 
-# Iransport Protocol Behaviors and Their Effects on Media Senders and Receivers {#sec-trans}
+# Iransport Protocol Behaviors and Their Implications for Media Transport Protocols {#sec-trans}
 
-As described in the {{RFC8095}} Abstract, the IETF has standardized a number of protocols that provide transport services. Although these protocols, taken in total, provide a wide variety of transport services, this section will distinguish between
-
-- Transport protocols used to provide reliable, in-order delivery with flow control and congestion control, such as TCP ({{tcp-behavior}}) and
-- Transport protocols used to provide unreliable, unordered delivery without flow control or congestion control, such as UDP ({{udp-behavior}}).
-
-We use "TCP" and "UDP" as shorthand for these classes of transport protocols because they have been so widely used on the Internet, but the reader should recognize that within {{sec-trans}}, they signify classes of transport protocols.
-
-Because newly standardized transport protocols such as QUIC {{RFC9000}} can evolve their transport behavior more rapidly than currently-used transport protocols, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve in {{quic-behavior}}.
-
-## Media Transport Protocols and Transport Protocols {#mtp}
-
-Within {{sec-trans}}, the term "Media Transport Protocol" is used to describe to describe the protocol that carries media metadata and media in its payload, and the term "Transport Protocol" describes a protocol that carries a Media Transport Protocol, or another Transport Protocol, in its payload. This is easier to understand if the reader assumes a protocol stack that looks something like this:
+Within this document, the term "Media Transport Protocol" is used to describe any protocol that carries media metadata and media in its payload, and the term "Transport Protocol" describes any protocol that carries a Media Transport Protocol, or another Transport Protocol, in its payload. This is easier to understand if the reader assumes a protocol stack that looks something like this:
 
 ~~~~
                Media
@@ -744,27 +733,35 @@ Within {{sec-trans}}, the term "Media Transport Protocol" is used to describe to
 
 where
 
-* "Media Format" would be something like an RTP payload format {{RFC2736}} or ISOBMFF {{ISOBMFF}},
+* "Media" would be something like the output of a codec, or other media source such as closed-captioning,
+* "Media Format" would be something like an RTP payload format {{RFC2736}} or an ISOBMFF {{ISOBMFF}} profile,
 * "Media Transport Protocol" would be something like RTP or DASH {{MPEG-DASH}}, and
 * "Transport Protocol" would be a protocol that provides appropriate transport services, as described in Section 5 of {{RFC8095}}.
 
-Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to have names for the protocol layers between Media Format and Transport Layer
+Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to distinguish between the protocol layer that is aware it is transporting media, and underlying protocol layers that are not aware.
+
+As described in the {{RFC8095}} Abstract, the IETF has standardized a number of protocols that provide transport services. Although these protocols, taken in total, provide a wide variety of transport services, {{sec-trans}} will distinguish between two extremes:
+
+- Transport protocols used to provide reliable, in-order media delivery to an endpoint, typically providing flow control and congestion control ({{reliable-behavior}}) and
+- Transport protocols used to provide unreliable, unordered media delivery to an endpoint, without flow control or congestion control ({{unreliable-behavior}}).
+
+Because newly standardized transport protocols such as QUIC {{RFC9000}} can evolve their transport behavior more rapidly than currently-used transport protocols, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve in {{quic-behavior}}.
 
 It is worth noting explicitly that the Transport Protocol layer might include more than one protocol. For example, a specific Media Transport Protocol might run over HTTP, or over WebTransport, which in turn runs over HTTP.
 
-It is worth noting explicitly that more complex network protocol stacks are certainly possible - for instance, packets with this protocol stack may be carried in a tunnel, or in a VPN. If these environments are present, streaming media operators may need to analyze their effects on applications as well.
+It is worth noting explicitly that more complex network protocol stacks are certainly possible - for instance, when packets with this protocol stack are carried in a tunnel or in a VPN, the entire packet  would likely appear in the payload of other protocols. If these environments are present, streaming media operators may need to analyze their effects on applications as well.
 
-## Media Transport Over Reliable Transport Protocols {#tcp-behavior}
+## Media Transport Over Reliable Transport Protocols {#reliable-behavior}
 
-The HLS {{RFC8216}} and DASH {{MPEG-DASH}} media transport protocols are typically carried over HTTP, and HTTP has used TCP as its only standardized transport protocol until recently. These media transport protocols use ABR response strategies as described in {{sec-abr}} to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics.
+The HLS {{RFC8216}} and DASH {{MPEG-DASH}} media transport protocols are typically carried over HTTP, and HTTP has used TCP as its only standardized transport protocol until HTTP/3 {{RFC9114}}. These media transport protocols use ABR response strategies as described in {{sec-abr}} to respond to changing path characteristics, and underlying transport protocols are also attempting to respond to changing path characteristics.
 
 The past success of the largely TCP-based Internet is evidence that the various flow control and congestion control mechanisms TCP has used to achieve equilibrium quickly, at a point where TCP senders do not interfere with other TCP senders for sustained periods of time ({{RFC5681}}), have been largely successful. The Internet has continued to work even when the specific TCP mechanisms used to reach equilibrium changed over time ({{RFC7414}}). Because TCP provided a common tool to avoid contention, even when significant TCP-based applications like FTP were largely replaced by other significant TCP-based applications like HTTP, the transport behavior remained safe for the Internet.
 
-Modern TCP implementations ({{I-D.ietf-tcpm-rfc793bis}}) continue to probe for available bandwidth, and "back off" when a network path is saturated, but may also work to avoid growing queues along network paths, which prevent TCP senders from detecting quickly when a network path becoming saturated. Congestion control mechanisms such as COPA {{COPA18}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the network can forward them (or the receiver can accept them) so the sender should adjust its sending rate accordingly.
+Modern TCP implementations ({{I-D.ietf-tcpm-rfc793bis}}) continue to probe for available bandwidth, and "back off" when a network path is saturated, but may also work to avoid growing queues along network paths, which can prevent older TCP senders from detecting quickly when a network path is becoming saturated. Congestion control mechanisms such as COPA {{COPA18}} and BBR {{I-D.cardwell-iccrg-bbr-congestion-control}} make these decisions based on measured path delays, assuming that if the measured path delay is increasing, the sender is injecting packets onto the network path faster than the network can forward them (or the receiver can accept them) so the sender should adjust its sending rate accordingly.
 
 Although common TCP behavior has changed significantly since the days of {{Jacobson-Karels}} and {{RFC2001}}, even adding new congestion controllers such as CUBIC {{RFC8312}}, the common practice of implementing TCP as part of an operating system kernel has acted to limit how quickly TCP behavior can change. Even with the widespread use of automated operating system update installation on many end-user systems, streaming media providers could have a reasonable expectation that they could understand TCP transport protocol behaviors, and that those behaviors would remain relatively stable in the short term.
 
-## Media Transport Over Unreliable Transport Protocols {#udp-behavior}
+## Media Transport Over Unreliable Transport Protocols {#unreliable-behavior}
 
 Because UDP does not provide any feedback mechanism to senders to help limit impacts on other users, UDP-based application-level protocols have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. Because UDP itself has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to provide their own feedback mechanisms, and to respond to the feedback the application receives. This expectation is most recently codified as a Best Current Practice {{RFC8085}}.
 
@@ -783,13 +780,13 @@ RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback m
 
 The notion of "Circuit Breakers" has also been applied to other UDP applications in {{RFC8084}}, such as tunneling packets over UDP that are potentially not congestion-controlled (for example, "Encapsulating MPLS in UDP," as described in {{RFC7510}}). If streaming media is carried in tunnels encapsulated in UDP, these media streams may encounter "tripped circuit breakers," with resulting user-visible impacts.
 
-## QUIC and Changing Transport Behavior {#quic-behavior}
+## QUIC and Changing Transport Protocol Behavior {#quic-behavior}
 
-The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{RFC9000}}, turns many of the statements made in {{tcp-behavior}} and {{udp-behavior}}  on their heads.
+The QUIC protocol, developed from a proprietary protocol into an IETF standards-track protocol {{RFC9000}}, turns many of the statements made in {{reliable-behavior}} and {{unreliable-behavior}}  on their heads.
 
 Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in {{gen-encrypt}}, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks. {{stream-encrypt-media}} describes the implications of media encryption in more detail.
 
-While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 {{I-D.ietf-quic-http}}, which describes how QUIC transport services are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 {{Port443}} but this is not a strict requirement.
+While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 {{RFC9114}}, which describes how QUIC transport services are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 {{Port443}} but this is not a strict requirement.
 
 When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and QUIC packets can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
 
@@ -797,11 +794,11 @@ As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery
 
 A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
-As noted in {{tcp-behavior}}, there is an increasing interest in congestion control algorithms that respond to delay measurements, instead of responding to packet loss. These algorithms may deliver an improved user experience, but in some cases, have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be used for algorithm agility, and {{RFC9002}} defines a basic congestion control algorithm that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
+As noted in {{reliable-behavior}}, there is an increasing interest in congestion control algorithms that respond to delay measurements, instead of responding to packet loss. These algorithms may deliver an improved user experience, but in some cases, have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be used for algorithm agility, and {{RFC9002}} defines a basic congestion control algorithm that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
 
 The Internet community does have experience with deploying new congestion controllers without melting the Internet. As noted in {{RFC8312}}, both the CUBIC congestion controller and its predecessor BIC have significantly different behavior from Reno-style congestion controllers such as TCP NewReno {{RFC6582}}, but both CUBIC and BIC were added to the Linux kernel to allow experimentation and analysis, and both were then selected as the default TCP congestion controllers in Linux, and both were deployed globally.
 
-The point mentioned in {{tcp-behavior}} about TCP congestion controllers being implemented in operating system kernels is different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features," and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC libraries with their own applications. It is worth noting that streaming operators using HTTP/3, carried over QUIC, can expect more frequent deployment of new congestion controller behavior than has been the case with HTTP/1 and HTTP/2, carried over TCP.
+The point mentioned in {{reliable-behavior}} about TCP congestion controllers being implemented in operating system kernels is different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features," and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC libraries with their own applications. It is worth noting that streaming operators using HTTP/3, carried over QUIC, can expect more frequent deployment of new congestion controller behavior than has been the case with HTTP/1 and HTTP/2, carried over TCP.
 
 It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traffic are allowed to enter operator networks on roughly equal terms, questions of fairness and contention will be heavily dependent on interactions between the congestion controllers in use for TCP-based HTTP traffic and UDP-based HTTP/3 traffic.
 
@@ -827,7 +824,7 @@ The use of strong encryption does provide confidentiality for encrypted streamin
 
 If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining decrypted traffic.
 
-Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries do have access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{I-D.ietf-quic-http}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies on the TLS 1.3 initial handshake {{RFC8446}} only for key exchange {{RFC9001}}, and encrypts almost all transport parameters itself except for a few invariant header fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the Destination Connection ID {{RFC8999}}, and even in the QUIC long header, the only transport-level parameters sent "in the clear" are the Version, Destination Connection ID, and Source Connection ID. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2.
+Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries have historically had access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{RFC9114}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies on the TLS 1.3 initial handshake {{RFC8446}} only for key exchange {{RFC9001}}, and encrypts almost all transport parameters itself except for a few invariant header fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the Destination Connection ID {{RFC8999}}, and even in the QUIC long header, the only transport-level parameters sent "in the clear" are the Version, Destination Connection ID, and Source Connection ID. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2.
 
 {{I-D.ietf-quic-manageability}} discusses the manageability of the QUIC transport protocol that is used to encapsulate HTTP/3, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
