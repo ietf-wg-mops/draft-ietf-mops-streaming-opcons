@@ -396,7 +396,20 @@ This document contains
 - A description of implications when streaming encrypted media ({{stream-encrypt-media}}), and
 - Several pointers for further reading on this rapidly changing subject ({{further}}).
 
-Making specific recommendations on operational practices to mitigate the issues described in this document is out of scope, though some existing mitigations are mentioned in passing. The intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
+## Document Scope
+
+A full review of all streaming media considerations is too wide a topic to cover comprehensively in a single document.
+
+This document focuses chiefly on large-scale delivery of streaming media to end users and related issues.
+It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
+This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
+
+Topics outside this scope include:
+
+ - in-depth examination of real-time interactive media, such as video conferencing; although we touch lightly on topics in this space, the intent is to let readers know that for more in-depth coverage they'll need to look to other documents, since the techniques and issues for interactive real-time media differ so dramatically from those in large-scale one-way delivery of streaming media.
+ - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
+ - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
+ - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document they're considered network path properties
 
 ## Notes for Contributors and Reviewers
 
