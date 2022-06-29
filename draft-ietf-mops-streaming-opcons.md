@@ -899,6 +899,8 @@ Because HTTPS has historically layered HTTP on top of TLS, which is in turn laye
 
 More broadly, RFC 9065 {{RFC9065}}, "Considerations around Transport Header Confidentiality, Network Operations, and the Evolution of Internet Transport Protocols" describes the impact of increased encryption of transport headers in general terms.
 
+It is also worth noting that considerations for heavily-encrypted transport protocols also come into play when streaming media is carried over IP-level VPNs and tunnels, with the additional consideration that an intermediary that does not possess credentials allowing decryption will not have visibility to the source and destination IP addresses of the packets being carried inside the tunnel.
+
 ## Considerations for Hop-by-Hop Media Encryption {#hop-by-hop-encrypt}
 
 Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries.
