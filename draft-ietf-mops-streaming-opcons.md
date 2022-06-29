@@ -305,6 +305,8 @@ informative:
   RFC8723:
   RFC8824:
   RFC8825:
+  RFC8834:
+  RFC8835:
   RFC8999:
   RFC9000:
   RFC9001:
@@ -396,6 +398,13 @@ Much of the focus of this document is on reliable media using HTTP. HTTP is wide
 Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{reliable-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
 Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{unreliable-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when packet loss occurs, the most appropriate response may depend on the type of codec being used.
+
+## Other Media Use Cases {#sec-other-media}
+
+The scope of this document is limited to streaming video, as described in {{sd}}. This means that other media use cases are not treated in this document, including:
+
+* "Near-realtime" applications, with glass-to-glass latency requirements significantly below 1 second, are not described in this document, for the reasons given in {{near-realtime}}.
+* "Web Real-Time Communication", or "WebRTC" uses some protocols ({{RFC8834}}, {{RFC8835}}) that are discussed in this document, including RTP, the principal media transport protocol, but (as noted in {{sd}}) it is difficult to give general guidance, even in this specific case.
 
 # Bandwidth Provisioning {#bwprov}
 
@@ -551,7 +560,7 @@ Worth noting is that many applications for ultra-low-latency delivery do not nee
 
 Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
 
-### Near-Realtime Latency
+### Near-Realtime Latency {#near-realtime}
 
 Some internet applications that incorporate media streaming have specific interactivity or control-feedback requirements that drive much lower glass-to-glass media latency targets than one second.
 These include videoconferencing or voice calls, remote video gameplay, remote control of hardware platforms like drones, vehicles, or surgical robots, and many other envisioned or deployed interactive applications.
@@ -593,7 +602,7 @@ In some applications, optimizations are available to on-demand video that are no
 A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
-The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or ad workflows are introduced.
+The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertisement insertion workflows are introduced.
 
 The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
 Content selection comprises all of the steps needed to determine which content variation to offer the client.
