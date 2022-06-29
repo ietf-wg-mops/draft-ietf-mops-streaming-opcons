@@ -235,9 +235,60 @@ informative:
     seriesinfo: "2008 5th IEEE Consumer Communications and Networking Conference 5th IEEE, pp. 67-68"
     date: 2008
 
+  BEHAVE:
+    target: https://dl.acm.org/doi/abs/10.1145/1526709.1526745
+    title: "How much can behavioral targeting help online advertising?"
+    author:
+      -
+        name: Jun Yan
+      -
+        name: Ning Liu
+      -
+        name: Gang Wang
+      -
+        name: Wen Zhang
+      -
+        name: Yun Jiang
+      -
+        name: Zheng Chen
+    seriesinfo: "WWW '09: Proceedings of the 18th international conference on World wide webApril 2009 Pages 261–270"
+    date: 2009-04-20
+
+  BEHAVE2:
+    target: https://dl.acm.org/doi/abs/10.1145/1941487.1941498
+    title: "Online advertising, behavioral targeting, and privacy"
+    author:
+      -
+        name: Avi Goldfarb
+      -
+        name: Catherine E. Tucker
+    seriesinfo: "Communications of the ACMVolume 54Issue 5May 2011 pp 25–27"
+    date: 2011-05-01
+
+  ADFRAUD:
+    target: https://doi.org/10.3390/jcp1040039
+    title: "Ads and Fraud: A Comprehensive Survey of Fraud in Online Advertising"
+    author:
+      -
+        name: Shadi Sadeghpour
+      -
+        name: Natalija Vlajic
+    seriesinfo: "Journal of Cybersecurity and Privacy 1, no. 4: 804-832."
+    date: 2021-12-16
+
+  BALANCING:
+    target: https://digitalcommons.law.scu.edu/chtlj/vol27/iss1/2/
+    title: "Balancing Consumer Privacy with Behavioral Targeting"
+    author:
+      -
+        name: Dustin D. Berger
+    seriesinfo: "27 Santa Clara High Technology Law Journal, Vol. 27 Issue 1 Article 2"
+    date: 2010
+
   IAB-ADS:
     target: https://www.iab.com/
     title: IAB
+
   BAP:
     target: https://www.betterads.org/
     title: The Coalition for Better Ads
@@ -300,6 +351,7 @@ informative:
   RFC8095:
   RFC8216:
   RFC8312:
+  RFC8404:
   RFC8446:
   RFC8622:
   RFC8723:
@@ -347,7 +399,22 @@ This document contains
 - A description of implications when streaming encrypted media ({{stream-encrypt-media}}), and
 - Several pointers for further reading on this rapidly changing subject ({{further}}).
 
-Making specific recommendations on operational practices to mitigate the issues described in this document is out of scope, though some existing mitigations are mentioned in passing. The intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
+## Document Scope
+
+A full review of all streaming media considerations is too broad a topic to cover comprehensively in a single document.
+
+This document focuses chiefly on large-scale delivery of streaming media to end users and related issues.
+It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
+This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
+
+Topics outside this scope include:
+
+ - in-depth examination of real-time interactive media, such as video conferencing; although we touch lightly on topics in this space, the intent is to let readers know that for more in-depth coverage they'll need to look to other documents, since the techniques and issues for interactive real-time media differ so dramatically from those in large-scale one-way delivery of streaming media.
+ - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
+ - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
+ - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document they're considered network path properties
+
+It is worth pointing out explicitly, because questions about "Web Real-Time Communication", or "WebRTC", come up often, that some WebRTC protocols ({{RFC8834}}, {{RFC8835}}) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols, even in the specific case of WebRTC.
 
 ## Notes for Contributors and Reviewers
 
@@ -373,7 +440,7 @@ Substantial discussion of this document should take place on the MOPS working gr
 # Our Focus on Streaming Video {#sd}
 
 As the Internet has grown, an increasingly large share of the traffic delivered to end users has become video.
-The most recent available estimates found that 75% of the total traffic to end users was video in 2019.
+The most recent available estimates found that 75% of the total traffic to end users was video in 2019 (as described in {{RFC8404}}, such traffic surveys have since become impossible to conduct due to ubiquitous encryption).
 At that time, the share of video traffic had been growing for years and was projected to continue growing (Appendix D of [CVNI]).
 
 A substantial part of this growth is due to the increased use of streaming video. However, video traffic in real-time communications (for example, online videoconferencing) has also grown significantly.
@@ -398,13 +465,6 @@ Much of the focus of this document is on reliable media using HTTP. HTTP is wide
 Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, and TCP's transport behavior is described in {{reliable-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
 Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{unreliable-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when packet loss occurs, the most appropriate response may depend on the type of codec being used.
-
-## Other Media Use Cases {#sec-other-media}
-
-The scope of this document is limited to streaming video, as described in {{sd}}. This means that other media use cases are not treated in this document, including:
-
-* "Near-realtime" applications, with glass-to-glass latency requirements significantly below 1 second, are not described in this document, for the reasons given in {{near-realtime}}.
-* "Web Real-Time Communication", or "WebRTC" uses some protocols ({{RFC8834}}, {{RFC8835}}) that are discussed in this document, including RTP, the principal media transport protocol, but (as noted in {{sd}}) it is difficult to give general guidance, even in this specific case.
 
 # Bandwidth Provisioning {#bwprov}
 
@@ -521,7 +581,7 @@ In the first example, described in "Report from the IETF Workshop on Peer-to-Pee
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.
 
-### Impact of Global Pandemic {{IABcovid}}
+### Impact of Global Pandemic
 
 Early in 2020, the CoViD-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
 
@@ -560,7 +620,7 @@ Worth noting is that many applications for ultra-low-latency delivery do not nee
 
 Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
 
-### Near-Realtime Latency {#near-realtime}
+### Near-Realtime Latency
 
 Some internet applications that incorporate media streaming have specific interactivity or control-feedback requirements that drive much lower glass-to-glass media latency targets than one second.
 These include videoconferencing or voice calls, remote video gameplay, remote control of hardware platforms like drones, vehicles, or surgical robots, and many other envisioned or deployed interactive applications.
@@ -602,7 +662,7 @@ In some applications, optimizations are available to on-demand video that are no
 A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
-The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertisement insertion workflows are introduced.
+The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.
 
 The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
 Content selection comprises all of the steps needed to determine which content variation to offer the client.
@@ -651,9 +711,13 @@ This ecosystem balances several competing objectives, and integrating with it na
 For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, either of which can sometimes result in video stalls.
 For another example, since the inserted ads are often produced independently, they might have a different base volume level than the main video, which can make for a jarring user experience.
 
-Additionally, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain).
-As a mitigation for concerns driven by those incidents, some SSPs have required the use of players with features like reporting of ad delivery, or providing information that can be used for user tracking.
-Some of these and other measures have raised privacy concerns for end users.
+Another major source of competing objectives comes from user privacy considerations vs. the advertiser's incentives to target ads to user segments based on behavioral data.
+Multiple studies, for example {{BEHAVE}} and {{BEHAVE2}}, have reported large improvements in ad effectiveness when using behaviorally targeted ads, relative to untargeted ads.
+This provides a strong incentive for advertisers to gain access to the data necessary to perform behavioral targeting, leading some to engage in what is indistinguishable from a pervasive monitoring attack ({{RFC7258}}) based on user tracking in order to collect the relevant data,
+A more complete review of issues in this space is available in {{BALANCING}}.
+
+On top of these competing objectives, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain) {{ADFRAUD}}.
+As a mitigation for concerns driven by those incidents, some SSPs have required the use of specific media players that include features like reporting of ad delivery, or providing additional user information that can be used for tracking.
 
 In general, this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
 For further reading on mitigations, {{BAP}} has published some standards and best practices based on user experience research.
@@ -838,6 +902,8 @@ Because HTTPS has historically layered HTTP on top of TLS, which is in turn laye
 {{I-D.ietf-quic-manageability}} discusses the manageability of the QUIC transport protocol that is used to encapsulate HTTP/3, focusing on the implications of QUIC's design and wire image on network operations involving QUIC traffic. It discusses what network operators can consider in some detail.
 
 More broadly, RFC 9065 {{RFC9065}}, "Considerations around Transport Header Confidentiality, Network Operations, and the Evolution of Internet Transport Protocols" describes the impact of increased encryption of transport headers in general terms.
+
+It is also worth noting that considerations for heavily-encrypted transport protocols also come into play when streaming media is carried over IP-level VPNs and tunnels, with the additional consideration that an intermediary that does not possess credentials allowing decryption will not have visibility to the source and destination IP addresses of the packets being carried inside the tunnel.
 
 ## Considerations for Hop-by-Hop Media Encryption {#hop-by-hop-encrypt}
 
