@@ -300,6 +300,7 @@ informative:
   RFC8095:
   RFC8216:
   RFC8312:
+  RFC8404:
   RFC8446:
   RFC8622:
   RFC8723:
@@ -371,7 +372,7 @@ Substantial discussion of this document should take place on the MOPS working gr
 # Our Focus on Streaming Video {#sd}
 
 As the Internet has grown, an increasingly large share of the traffic delivered to end users has become video.
-The most recent available estimates found that 75% of the total traffic to end users was video in 2019.
+The most recent available estimates found that 75% of the total traffic to end users was video in 2019 (as described in {{RFC8404}}, such traffic surveys have since become impossible to conduct due to ubiquitous encryption).
 At that time, the share of video traffic had been growing for years and was projected to continue growing (Appendix D of [CVNI]).
 
 A substantial part of this growth is due to the increased use of streaming video. However, video traffic in real-time communications (for example, online videoconferencing) has also grown significantly.
@@ -512,7 +513,7 @@ In the first example, described in "Report from the IETF Workshop on Peer-to-Pee
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.
 
-### Impact of Global Pandemic {{IABcovid}}
+### Impact of Global Pandemic
 
 Early in 2020, the CoViD-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
 
