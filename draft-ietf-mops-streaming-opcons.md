@@ -235,9 +235,60 @@ informative:
     seriesinfo: "2008 5th IEEE Consumer Communications and Networking Conference 5th IEEE, pp. 67-68"
     date: 2008
 
+  BEHAVE:
+    target: https://dl.acm.org/doi/abs/10.1145/1526709.1526745
+    title: "How much can behavioral targeting help online advertising?"
+    author:
+      -
+        name: Jun Yan
+      -
+        name: Ning Liu
+      -
+        name: Gang Wang
+      -
+        name: Wen Zhang
+      -
+        name: Yun Jiang
+      -
+        name: Zheng Chen
+    seriesinfo: "WWW '09: Proceedings of the 18th international conference on World wide webApril 2009 Pages 261–270"
+    date: 2009-04-20
+
+  BEHAVE2:
+    target: https://dl.acm.org/doi/abs/10.1145/1941487.1941498
+    title: "Online advertising, behavioral targeting, and privacy"
+    author:
+      -
+        name: Avi Goldfarb
+      -
+        name: Catherine E. Tucker
+    seriesinfo: "Communications of the ACMVolume 54Issue 5May 2011 pp 25–27"
+    date: 2011-05-01
+
+  ADFRAUD:
+    target: https://doi.org/10.3390/jcp1040039
+    title: "Ads and Fraud: A Comprehensive Survey of Fraud in Online Advertising"
+    author:
+      -
+        name: Shadi Sadeghpour
+      -
+        name: Natalija Vlajic
+    seriesinfo: "Journal of Cybersecurity and Privacy 1, no. 4: 804-832."
+    date: 2021-12-16
+
+  BALANCING:
+    target: https://digitalcommons.law.scu.edu/chtlj/vol27/iss1/2/
+    title: "Balancing Consumer Privacy with Behavioral Targeting"
+    author:
+      -
+        name: Dustin D. Berger
+    seriesinfo: "27 Santa Clara High Technology Law Journal, Vol. 27 Issue 1 Article 2"
+    date: 2010
+
   IAB-ADS:
     target: https://www.iab.com/
     title: IAB
+
   BAP:
     target: https://www.betterads.org/
     title: The Coalition for Better Ads
@@ -512,7 +563,7 @@ In the first example, described in "Report from the IETF Workshop on Peer-to-Pee
 
 Especially as end users increase use of video-based social networking applications, it will be helpful for access network providers to watch for increasing numbers of end users uploading significant amounts of content.
 
-### Impact of Global Pandemic {{IABcovid}}
+### Impact of Global Pandemic
 
 Early in 2020, the CoViD-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
 
@@ -642,9 +693,13 @@ This ecosystem balances several competing objectives, and integrating with it na
 For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, either of which can sometimes result in video stalls.
 For another example, since the inserted ads are often produced independently, they might have a different base volume level than the main video, which can make for a jarring user experience.
 
-Additionally, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain).
-As a mitigation for concerns driven by those incidents, some SSPs have required the use of players with features like reporting of ad delivery, or providing information that can be used for user tracking.
-Some of these and other measures have raised privacy concerns for end users.
+Another major source of competing objectives comes from user privacy considerations vs. the advertiser's incentives to target ads to user segments based on behavioral data.
+Multiple studies, for example {{BEHAVE}} and {{BEHAVE2}}, have reported large improvements in ad effectiveness when using behaviorally targeted ads, relative to untargeted ads.
+This provides a strong incentive for advertisers to gain access to the data necessary to perform behavioral targeting, leading some to engage in what is indistinguishable from a pervasive monitoring attack ({{RFC7258}}) based on user tracking in order to collect the relevant data,
+A more complete review of issues in this space is available in {{BALANCING}}.
+
+On top of these competing objectives, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain) {{ADFRAUD}}.
+As a mitigation for concerns driven by those incidents, some SSPs have required the use of specific media players that include features like reporting of ad delivery, or providing additional user information that can be used for tracking.
 
 In general, this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
 For further reading on mitigations, {{BAP}} has published some standards and best practices based on user experience research.
