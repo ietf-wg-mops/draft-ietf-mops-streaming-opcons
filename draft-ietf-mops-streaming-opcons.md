@@ -357,6 +357,8 @@ informative:
   RFC8723:
   RFC8824:
   RFC8825:
+  RFC8834:
+  RFC8835:
   RFC8999:
   RFC9000:
   RFC9001:
@@ -399,7 +401,7 @@ This document contains
 
 ## Document Scope
 
-A full review of all streaming media considerations is too wide a topic to cover comprehensively in a single document.
+A full review of all streaming media considerations is too broad a topic to cover comprehensively in a single document.
 
 This document focuses chiefly on large-scale delivery of streaming media to end users and related issues.
 It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
@@ -411,6 +413,8 @@ Topics outside this scope include:
  - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
  - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
  - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document they're considered network path properties
+
+It is worth pointing out explicitly, because questions about "Web Real-Time Communication", or "WebRTC", come up often, that some WebRTC protocols ({{RFC8834}}, {{RFC8835}}) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols, even in the specific case of WebRTC.
 
 ## Notes for Contributors and Reviewers
 
@@ -658,7 +662,7 @@ In some applications, optimizations are available to on-demand video that are no
 A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
-The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or ad workflows are introduced.
+The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.
 
 The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
 Content selection comprises all of the steps needed to determine which content variation to offer the client.
