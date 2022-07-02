@@ -444,7 +444,7 @@ To avoid these types of situations, which can potentially affect all the users w
 
 ### Recognizing Changes from a Baseline {#sec-know-your-traffic}
 
-There are many reasons why path characteristics might change suddenly, for example:
+There are many reasons why path characteristics might change in normal operation, for example:
 
 * If the path topology changes. For example, routing changes, which can happen in normal operation, may result in traffic being carried over a new path topology that that is partially or entirely disjoint from the previous path, especially if the new path topology includes one or more path segments that are more heavily loaded, offer lower total bandwidth, change the overall Path MTU size, or simply cover more distance between the path endpoints.
 
