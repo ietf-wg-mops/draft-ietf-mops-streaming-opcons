@@ -318,9 +318,6 @@ informative:
 
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
-  I-D.ietf-quic-qlog-main-schema:
-  I-D.ietf-quic-qlog-h3-events:
-  I-D.ietf-quic-qlog-quic-events:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
   I-D.ietf-httpbis-cache:
@@ -329,6 +326,7 @@ informative:
   RFC2001:
   RFC2736:
   RFC3135:
+  RFC3168:
   RFC3550:
   RFC3758:
   RFC4733:
@@ -513,19 +511,28 @@ In one example, if a media server overestimates the available bandwidth to the m
 
 To avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing when that problem occurs.
 
-### Recognizing Changes from an Expected Baseline {#sec-know-your-traffic}
+### Recognizing Changes from a Baseline {#sec-know-your-traffic}
 
-There are many reasons why path characteristics might change suddenly, but we can divide these reasons into two categories:
+There are many reasons why path characteristics might change in normal operation, for example:
 
 * If the path topology changes. For example, routing changes, which can happen in normal operation, may result in traffic being carried over a new path topology that that is partially or entirely disjoint from the previous path, especially if the new path topology includes one or more path segments that are more heavily loaded, offer lower total bandwidth, change the overall Path MTU size, or simply cover more distance between the path endpoints.
 
-* If cross traffic that also traverses part or all of the same path topology increases or decreases, especially if this new cross traffic is "inelastic," and does not, itself, respond to indications of path congestion.
+* If cross traffic that also traverses part or all of the same path topology increases or decreases, especially if this new cross traffic is "inelastic," and does not respond to indications of path congestion.
 
-To recognize that a path carrying streaming media is not behaving the way it normally does, having an expected baseline that describes the way it normally does is fundamental. Analytics that aid in that recognition can be more or less sophisticated and can be as simple as noticing that the apparent round trip times for media traffic carried over TCP transport on some paths are suddenly and significantly longer than usual. Passive monitors can detect changes in the elapsed time between the acknowledgements for specific TCP segments from a TCP receiver since TCP octet sequence numbers and acknowledgements for those sequence numbers are carried in the clear, even if the TCP payload itself is encrypted. See {{reliable-behavior}} for more information.
+* Wireless links (Wi-Fi, 5G, LTE, etc.) often see rapid changes to capacity from changes in radio interference and signal strength as endpoints move.
 
-As transport protocols evolve to encrypt their transport header fields, one side effect of increasing encryption is the kind of passive monitoring, or even "performance enhancement" ({{RFC3135}}) that was possible with the older transport protocols (UDP, described in {{unreliable-behavior}} and TCP, described in {{reliable-behavior}}) is no longer possible with newer transport protocols such as QUIC (described in {{quic-behavior}}). The IETF has specified a "latency spin bit" mechanism in Section 17.4 of {{RFC9000}} to allow passive latency monitoring from observation points on the network path throughout the duration of a connection, but currently chartered work in the IETF is focusing on endpoint monitoring and reporting, rather than on passive monitoring.
+To recognize that a path carrying streaming media has experienced a change, maintaining a baseline that captures its prior properties is fundamental.
+Analytics that aid in that recognition can be more or less sophisticated and can usefully operate on several different time scales, from milliseconds to hours or days.
 
-One example is the "qlog" mechanism {{I-D.ietf-quic-qlog-main-schema}}, a protocol-agnostic mechanism used to provide better visibility for encrypted protocols such as QUIC ({{I-D.ietf-quic-qlog-quic-events}}) and for HTTP/3 ({{I-D.ietf-quic-qlog-h3-events}}).
+Useful properties to monitor for changes can include:
+
+ * round-trip times
+ * loss rate (and explicit congestion notification (ECN) ({{RFC3168}} when in use)
+ * out of order packet rate
+ * packet and byte receive rate
+ * application level goodput
+ * properties of other connections carrying competing traffic, in addition to the connections carrying the streaming media
+ * externally provided measurements, for example from network cards or metrics collected by the operating system
 
 ## Path Requirements {#pathreq}
 
@@ -766,13 +773,13 @@ It is worth noting that more modern transport protocols such as QUIC have mitiga
 
 ### Wide and Rapid Variation in Path Capacity
 
-As many end devices have moved to wireless connectivity for the final hop (Wi-Fi, 5G, or LTE), new problems in bandwidth detection have emerged from radio interference and signal strength effects.
+As many end devices have moved to wireless connections for the final hop (such as Wi-Fi, 5G, LTE, etc.), new problems in bandwidth detection have emerged.
 
-Each of these technologies can experience sudden changes in capacity as the end user device moves from place to place and encounters new sources of interference.
-Microwave ovens, for example, can cause a throughput degradation of more than a factor of 2 while active [Micro].
+In most real-world operating environments, wireless links can often experience sudden changes in capacity as the end user device moves from place to place or encounters new sources of interference.
+Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of more than a factor of 2 while active [Micro].
 5G and LTE likewise can easily see rate variation by a factor of 2 or more over a span of seconds as users move around.
 
-These swings in actual transport capacity can result in user experience issues that can be exacerbated by insufficiently responsive ABR algorithms.
+These swings in actual transport capacity can result in user experience issues when interacting with ABR algorithms that aren't tuned to handle the capacity variation gracefully.
 
 ## Measurement Collection {#measure-coll}
 
