@@ -316,6 +316,18 @@ informative:
     title: "ISO/IEC 14496-12:2022 Information technology — Coding of audio-visual objects — Part 12: ISO base media file format"
     date:  January 2022
 
+  CLULPBC:
+    target: https://datatracker.ietf.org/doc/slides-111-maprg-comparative-latency-under-load-performance-of-broadband-cpe/
+    title: "Comparative Latency Under Load Performance of Broadband CPE"
+    author:
+      -
+       name: Jason Livingood
+       ins: J. Livingood
+      -
+       name: Sebnem Ozer
+       ins: S. Ozer
+    date: 30 July, 2021
+
   I-D.ietf-quic-manageability:
   I-D.ietf-quic-datagram:
   I-D.cardwell-iccrg-bbr-congestion-control:
@@ -343,6 +355,7 @@ informative:
   RFC7510:
   RFC7656:
   RFC7661:
+  RFC8034:
   RFC8083:
   RFC8084:
   RFC8085:
@@ -664,7 +677,13 @@ In some applications, optimizations are available to on-demand video that are no
 
 # Adaptive Encoding, Adaptive Delivery, and Measurement Collection {#sec-abr}
 
-## Overview
+Adaptive bitrate streaming ("ABS") is a technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it, with the excess media being buffered along the network path, increasing latency and, if latency is not consistent over time, potentially presenting the user with a "choppy" listening and viewing experience.
+
+The rest of this section describes how ABR works, but one thing to keep in mind is that ABR is an application-level mechanism that can improve the user's experience, but cannot provide a better experience than the underlying network path can provide. 
+
+At IETF 111, Jason Livingood gave a lightning talk on "Comparative Latency Under Load Performance of Broadband CPE" {{CLULPBC}}, showing that on Comcast's network, paths including active "Active Queue Management (AQM) Based on Proportional Integral Controller Enhanced (PIE) for  Data-Over-Cable Service Interface Specifications (DOCSIS) Cable Modems" {{RFC8034}} implementations provided "significantly better latency under load performance (~90%) with AQM at scale", and "better latency consistency (lower jitter)" than paths that did not. ABR endpoints using paths that did not have AQM implementations enabled would be handicapped in efforts to provide the same user experience as the ABR endpoints using paths with AQM enabled.
+
+## Overview {#abr-overview}
 
 A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
