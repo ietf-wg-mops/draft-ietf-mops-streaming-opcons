@@ -330,6 +330,8 @@ informative:
   RFC3550:
   RFC3758:
   RFC4733:
+  RFC4960:
+  RFC5481:
   RFC5594:
   RFC5681:
   RFC5762:
@@ -751,9 +753,11 @@ Some receiver-side ABR algorithms such as {{ELASTIC}} are designed to try to avo
 
 Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example, as described in {{OReilly-HPBN}}.
 
-### Head-of-Line Blocking {#hol-blocking}
+### Noisy Measurements {#noisy-measurements}
 
-In the event of a lost packet on a TCP connection with SACK
+In addition to smoothing over an appropriate time scale to handle network jitter (see {{RFC5481}}), ABR systems relying on measurements at the application layer also have to account for noise from the in-order data transmission at the transport layer.
+
+For instance, in the event of a lost packet on a TCP connection with SACK
 support (a common case for segmented delivery in practice), loss
 of a packet can provide a confusing bandwidth signal to the
 receiving application.  Because of the sliding window in TCP,
@@ -763,13 +767,11 @@ of the one missing packet after retransmit, the receiver will
 suddenly get access to a lot of data at the same time.
 
 To a receiver measuring bytes received per unit time at the
-application layer, and interpreting it as an estimate of the
+application layer and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
-the goodput measurement, presenting as a stall, followed by a sudden leap that can far exceed the actual
+the goodput measurement, presenting as a stall followed by a sudden leap that can far exceed the actual
 capacity of the transport path from the server when the hole in
 the received data is filled by a later retransmission.
-
-It is worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See {{quic-behavior}} for more details.
 
 ### Wide and Rapid Variation in Path Capacity
 
@@ -870,7 +872,7 @@ While QUIC is designed as a general-purpose transport protocol, and can carry di
 
 When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and QUIC packets can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
 
-As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.
+As noted in {{noisy-measurements}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.
 
 A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
