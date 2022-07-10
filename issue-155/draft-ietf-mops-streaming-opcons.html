@@ -1230,7 +1230,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
                     <p id="section-toc.1-1.5.2.5.2.1.1"><a href="#section-5.5.1" class="xref">5.5.1</a>.  <a href="#name-idle-time-between-segments" class="xref">Idle Time between Segments</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5.2.2">
-                    <p id="section-toc.1-1.5.2.5.2.2.1"><a href="#section-5.5.2" class="xref">5.5.2</a>.  <a href="#name-head-of-line-blocking" class="xref">Head-of-Line Blocking</a></p>
+                    <p id="section-toc.1-1.5.2.5.2.2.1"><a href="#section-5.5.2" class="xref">5.5.2</a>.  <a href="#name-noisy-measurements" class="xref">Noisy Measurements</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5.2.3">
                     <p id="section-toc.1-1.5.2.5.2.3.1"><a href="#section-5.5.3" class="xref">5.5.3</a>.  <a href="#name-wide-and-rapid-variation-in" class="xref">Wide and Rapid Variation in Path Capacity</a></p>
@@ -1417,7 +1417,7 @@ the impact on video delivery.<a href="#section-2-3" class="pilcrow">¶</a></p>
         <li class="normal" id="section-2-5.5">HTTP can use already-deployed caching infrastructure such as content delivery networks (CDN), local proxies, and browser caches.<a href="#section-2-5.5" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-2-6">Various HTTP versions have been used for streaming media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, so that media segments are delivered reliably, and TCP's transport behavior is described in <a href="#reliable-behavior" class="xref">Section 6.1</a>. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in <a href="#quic-behavior" class="xref">Section 6.3</a>.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-6">Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP <span>[<a href="#I-D.ietf-tcpm-rfc793bis" class="xref">I-D.ietf-tcpm-rfc793bis</a>]</span>, and TCP's transport behavior is described in <a href="#reliable-behavior" class="xref">Section 6.1</a>. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in <a href="#quic-behavior" class="xref">Section 6.3</a>.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">Unreliable media delivery using RTP and other UDP-based protocols is also discussed in <a href="#ultralow" class="xref">Section 4.1</a>, <a href="#unreliable-behavior" class="xref">Section 6.2</a>, and <a href="#hop-by-hop-encrypt" class="xref">Section 7.2</a>, but it is difficult to give general guidance for these applications. For instance, when packet loss occurs, the most appropriate response may depend on the type of codec being used.<a href="#section-2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1829,26 +1829,26 @@ As these examples will demonstrate, it is common to encounter cases that can del
 <p id="section-5.5.1-4">Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in <span>[<a href="#MMSys11" class="xref">MMSys11</a>]</span> for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example, as described in <span>[<a href="#OReilly-HPBN" class="xref">OReilly-HPBN</a>]</span>.<a href="#section-5.5.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="hol-blocking">
+<div id="noisy-measurements">
 <section id="section-5.5.2">
-          <h4 id="name-head-of-line-blocking">
-<a href="#section-5.5.2" class="section-number selfRef">5.5.2. </a><a href="#name-head-of-line-blocking" class="section-name selfRef">Head-of-Line Blocking</a>
+          <h4 id="name-noisy-measurements">
+<a href="#section-5.5.2" class="section-number selfRef">5.5.2. </a><a href="#name-noisy-measurements" class="section-name selfRef">Noisy Measurements</a>
           </h4>
-<p id="section-5.5.2-1">In the event of a lost packet on a TCP connection with SACK
+<p id="section-5.5.2-1">In addition to smoothing over an appropriate time scale to handle network jitter (see <span>[<a href="#RFC5481" class="xref">RFC5481</a>]</span>), ABR systems relying on measurements at the application layer also have to account for noise from the in-order data transmission at the transport layer.<a href="#section-5.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.5.2-2">For instance, in the event of a lost packet on a TCP connection with SACK
 support (a common case for segmented delivery in practice), loss
 of a packet can provide a confusing bandwidth signal to the
 receiving application.  Because of the sliding window in TCP,
 many packets may be accepted by the receiver without being available
 to the application until the missing packet arrives.  Upon the arrival
 of the one missing packet after retransmit, the receiver will
-suddenly get access to a lot of data at the same time.<a href="#section-5.5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.5.2-2">To a receiver measuring bytes received per unit time at the
-application layer, and interpreting it as an estimate of the
+suddenly get access to a lot of data at the same time.<a href="#section-5.5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.5.2-3">To a receiver measuring bytes received per unit time at the
+application layer and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
-the goodput measurement, presenting as a stall, followed by a sudden leap that can far exceed the actual
+the goodput measurement, presenting as a stall followed by a sudden leap that can far exceed the actual
 capacity of the transport path from the server when the hole in
-the received data is filled by a later retransmission.<a href="#section-5.5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.5.2-3">It is worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See <a href="#quic-behavior" class="xref">Section 6.3</a> for more details.<a href="#section-5.5.2-3" class="pilcrow">¶</a></p>
+the received data is filled by a later retransmission.<a href="#section-5.5.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="wide-and-rapid-variation-in-path-capacity">
@@ -1949,7 +1949,7 @@ Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of mor
 </li>
           <li class="normal" id="section-6.2-3.2">RTP <span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>, which can notice packetloss and repair some limited reordering,<a href="#section-6.2-3.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.2-3.3">SCTP <span>[<a href="#RFC4960" class="xref">RFC4960</a>]</span>, which can use partial reliability <span>[<a href="#RFC3758" class="xref">RFC3758</a>]</span> to recover from some loss, but can abandon recovery to limit head-of-line blocking, and<a href="#section-6.2-3.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.2-3.3">SCTP <span>[<a href="#RFC9260" class="xref">RFC9260</a>]</span>, which can use partial reliability <span>[<a href="#RFC3758" class="xref">RFC3758</a>]</span> to recover from some loss, but can abandon recovery to limit head-of-line blocking, and<a href="#section-6.2-3.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.2-3.4">SRT <span>[<a href="#SRT" class="xref">SRT</a>]</span>, which can use forward error correction and time-bound retransmission to recover from loss within certain limits, but can abandon recovery to limit head-of-line blocking.<a href="#section-6.2-3.4" class="pilcrow">¶</a>
 </li>
@@ -1969,7 +1969,7 @@ Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of mor
 <p id="section-6.3-2">Although QUIC provides an alternative to the TCP and UDP transport protocols, QUIC is itself encapsulated in UDP. As noted elsewhere in <a href="#gen-encrypt" class="xref">Section 7.1</a>, the QUIC protocol encrypts almost all of its transport parameters, and all of its payload, so any intermediaries that network operators may be using to troubleshoot HTTP streaming media performance issues, perform analytics, or even intercept exchanges in current applications will not work for QUIC-based applications without making changes to their networks. <a href="#stream-encrypt-media" class="xref">Section 7</a> describes the implications of media encryption in more detail.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <p id="section-6.3-3">While QUIC is designed as a general-purpose transport protocol, and can carry different application-layer protocols, the current standardized mapping is for HTTP/3 <span>[<a href="#RFC9114" class="xref">RFC9114</a>]</span>, which describes how QUIC transport services are used for HTTP. The convention is for HTTP/3 to run over UDP port 443 <span>[<a href="#Port443" class="xref">Port443</a>]</span> but this is not a strict requirement.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and QUIC packets can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
-<p id="section-6.3-5">As noted in <a href="#hol-blocking" class="xref">Section 5.5.2</a>, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
+<p id="section-6.3-5">As noted in <a href="#noisy-measurements" class="xref">Section 5.5.2</a>, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.<a href="#section-6.3-5" class="pilcrow">¶</a></p>
 <p id="section-6.3-6">A QUIC extension currently being specified (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.<a href="#section-6.3-6" class="pilcrow">¶</a></p>
 <p id="section-6.3-7">As noted in <a href="#reliable-behavior" class="xref">Section 6.1</a>, there is an increasing interest in congestion control algorithms that respond to delay measurements, instead of responding to packet loss. These algorithms may deliver an improved user experience, but in some cases, have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be used for algorithm agility, and <span>[<a href="#RFC9002" class="xref">RFC9002</a>]</span> defines a basic congestion control algorithm that is roughly similar to TCP NewReno <span>[<a href="#RFC6582" class="xref">RFC6582</a>]</span>. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC <span>[<a href="#RFC8312" class="xref">RFC8312</a>]</span>, delay-based COPA or BBR, or even something completely different.<a href="#section-6.3-7" class="pilcrow">¶</a></p>
 <p id="section-6.3-8">The Internet community does have experience with deploying new congestion controllers without melting the Internet. As noted in <span>[<a href="#RFC8312" class="xref">RFC8312</a>]</span>, both the CUBIC congestion controller and its predecessor BIC have significantly different behavior from Reno-style congestion controllers such as TCP NewReno <span>[<a href="#RFC6582" class="xref">RFC6582</a>]</span>, but both CUBIC and BIC were added to the Linux kernel to allow experimentation and analysis, and both were then selected as the default TCP congestion controllers in Linux, and both were deployed globally.<a href="#section-6.3-8" class="pilcrow">¶</a></p>
@@ -2082,7 +2082,7 @@ Now that ubiquitous encryption typically prevents this kind of modification, a s
       <h2 id="name-acknowledgments">
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="section-11-1">Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, Tommy Pauly, and Will Law for very helpful suggestions, reviews and comments.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-1">Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, Kiran Makhjani, Chris Lemmons, Tommy Pauly, Will Law, Michael Scharf, Eric Vyncke, Erik Kline, Roman Danyliw, Valery Smyslov, Robert Wilton, Lars Eggert, Zahed Sarker, Warren Kumari, John Scudder, Martin Duke, and Nancy Cam-Winget for very helpful suggestions, reviews and comments.<a href="#section-11-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-12">
@@ -2270,6 +2270,10 @@ Now that ubiquitous encryption typically prevents this kind of modification, a s
       <dd>
 <span class="refAuthor">Stewart, R., Ed.</span>, <span class="refTitle">"Stream Control Transmission Protocol"</span>, <span class="seriesInfo">RFC 4960</span>, <span class="seriesInfo">DOI 10.17487/RFC4960</span>, <time datetime="2007-09" class="refDate">September 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4960">https://www.rfc-editor.org/rfc/rfc4960</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC5481">[RFC5481]</dt>
+      <dd>
+<span class="refAuthor">Morton, A.</span> and <span class="refAuthor">B. Claise</span>, <span class="refTitle">"Packet Delay Variation Applicability Statement"</span>, <span class="seriesInfo">RFC 5481</span>, <span class="seriesInfo">DOI 10.17487/RFC5481</span>, <time datetime="2009-03" class="refDate">March 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5481">https://www.rfc-editor.org/rfc/rfc5481</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5594">[RFC5594]</dt>
       <dd>
 <span class="refAuthor">Peterson, J.</span> and <span class="refAuthor">A. Cooper</span>, <span class="refTitle">"Report from the IETF Workshop on Peer-to-Peer (P2P) Infrastructure, May 28, 2008"</span>, <span class="seriesInfo">RFC 5594</span>, <span class="seriesInfo">DOI 10.17487/RFC5594</span>, <time datetime="2009-07" class="refDate">July 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5594">https://www.rfc-editor.org/rfc/rfc5594</a>&gt;</span>. </dd>
@@ -2397,6 +2401,10 @@ Now that ubiquitous encryption typically prevents this kind of modification, a s
 <dt id="RFC9114">[RFC9114]</dt>
       <dd>
 <span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"HTTP/3"</span>, <span class="seriesInfo">RFC 9114</span>, <span class="seriesInfo">DOI 10.17487/RFC9114</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9114">https://www.rfc-editor.org/rfc/rfc9114</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9260">[RFC9260]</dt>
+      <dd>
+<span class="refAuthor">Stewart, R.</span>, <span class="refAuthor">Tüxen, M.</span>, and <span class="refAuthor">K. Nielsen</span>, <span class="refTitle">"Stream Control Transmission Protocol"</span>, <span class="seriesInfo">RFC 9260</span>, <span class="seriesInfo">DOI 10.17487/RFC9260</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9260">https://www.rfc-editor.org/rfc/rfc9260</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SFRAME">[SFRAME]</dt>
       <dd>

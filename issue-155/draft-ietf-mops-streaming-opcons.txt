@@ -91,7 +91,7 @@ Table of Contents
      5.4.  Advertising
      5.5.  Bitrate Detection Challenges
        5.5.1.  Idle Time between Segments
-       5.5.2.  Head-of-Line Blocking
+       5.5.2.  Noisy Measurements
        5.5.3.  Wide and Rapid Variation in Path Capacity
      5.6.  Measurement Collection
    6.  Iransport Protocol Behaviors and Their Implications for Media
@@ -307,11 +307,11 @@ Table of Contents
       content delivery networks (CDN), local proxies, and browser
       caches.
 
-   Various HTTP versions have been used for streaming media delivery.
-   HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, so that media
-   segments are delivered reliably, and TCP's transport behavior is
-   described in Section 6.1.  HTTP/3 is carried over QUIC, and QUIC's
-   transport behavior is described in Section 6.3.
+   Various HTTP versions have been used for media delivery.  HTTP/1.0,
+   HTTP/1.1 and HTTP/2 are carried over TCP [I-D.ietf-tcpm-rfc793bis],
+   and TCP's transport behavior is described in Section 6.1.  HTTP/3 is
+   carried over QUIC, and QUIC's transport behavior is described in
+   Section 6.3.
 
    Unreliable media delivery using RTP and other UDP-based protocols is
    also discussed in Section 4.1, Section 6.2, and Section 7.2, but it
@@ -1064,11 +1064,16 @@ Table of Contents
    restart can also be disabled, for example, as described in
    [OReilly-HPBN].
 
-5.5.2.  Head-of-Line Blocking
+5.5.2.  Noisy Measurements
 
-   In the event of a lost packet on a TCP connection with SACK support
-   (a common case for segmented delivery in practice), loss of a packet
-   can provide a confusing bandwidth signal to the receiving
+   In addition to smoothing over an appropriate time scale to handle
+   network jitter (see [RFC5481]), ABR systems relying on measurements
+   at the application layer also have to account for noise from the in-
+   order data transmission at the transport layer.
+
+   For instance, in the event of a lost packet on a TCP connection with
+   SACK support (a common case for segmented delivery in practice), loss
+   of a packet can provide a confusing bandwidth signal to the receiving
    application.  Because of the sliding window in TCP, many packets may
    be accepted by the receiver without being available to the
    application until the missing packet arrives.  Upon the arrival of
@@ -1076,16 +1081,12 @@ Table of Contents
    get access to a lot of data at the same time.
 
    To a receiver measuring bytes received per unit time at the
-   application layer, and interpreting it as an estimate of the
-   available network bandwidth, this appears as a high jitter in the
-   goodput measurement, presenting as a stall, followed by a sudden leap
-   that can far exceed the actual capacity of the transport path from
-   the server when the hole in the received data is filled by a later
+   application layer and interpreting it as an estimate of the available
+   network bandwidth, this appears as a high jitter in the goodput
+   measurement, presenting as a stall followed by a sudden leap that can
+   far exceed the actual capacity of the transport path from the server
+   when the hole in the received data is filled by a later
    retransmission.
-
-   It is worth noting that more modern transport protocols such as QUIC
-   have mitigation of head-of-line blocking as a protocol design goal.
-   See Section 6.3 for more details.
 
 5.5.3.  Wide and Rapid Variation in Path Capacity
 
@@ -1292,7 +1293,7 @@ Table of Contents
    *  RTP [RFC3550], which can notice packetloss and repair some limited
       reordering,
 
-   *  SCTP [RFC4960], which can use partial reliability [RFC3758] to
+   *  SCTP [RFC9260], which can use partial reliability [RFC3758] to
       recover from some loss, but can abandon recovery to limit head-of-
       line blocking, and
 
@@ -1650,8 +1651,11 @@ Table of Contents
    Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran,
    Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar,
    Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan
-   Krishna, Roni Even, Sanjay Mishra, Tommy Pauly, and Will Law for very
-   helpful suggestions, reviews and comments.
+   Krishna, Roni Even, Sanjay Mishra, Kiran Makhjani, Chris Lemmons,
+   Tommy Pauly, Will Law, Michael Scharf, Eric Vyncke, Erik Kline, Roman
+   Danyliw, Valery Smyslov, Robert Wilton, Lars Eggert, Zahed Sarker,
+   Warren Kumari, John Scudder, Martin Duke, and Nancy Cam-Winget for
+   very helpful suggestions, reviews and comments.
 
 12.  Informative References
 
@@ -1893,6 +1897,10 @@ Table of Contents
               RFC 4960, DOI 10.17487/RFC4960, September 2007,
               <https://www.rfc-editor.org/rfc/rfc4960>.
 
+   [RFC5481]  Morton, A. and B. Claise, "Packet Delay Variation
+              Applicability Statement", RFC 5481, DOI 10.17487/RFC5481,
+              March 2009, <https://www.rfc-editor.org/rfc/rfc5481>.
+
    [RFC5594]  Peterson, J. and A. Cooper, "Report from the IETF Workshop
               on Peer-to-Peer (P2P) Infrastructure, May 28, 2008",
               RFC 5594, DOI 10.17487/RFC5594, July 2009,
@@ -2043,6 +2051,10 @@ Table of Contents
 
    [RFC9114]  Bishop, M., Ed., "HTTP/3", RFC 9114, DOI 10.17487/RFC9114,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9114>.
+
+   [RFC9260]  Stewart, R., Tüxen, M., and K. Nielsen, "Stream Control
+              Transmission Protocol", RFC 9260, DOI 10.17487/RFC9260,
+              June 2022, <https://www.rfc-editor.org/rfc/rfc9260>.
 
    [SFRAME]   "Secure Media Frames Working Group (Home Page)", n.d.,
               <https://datatracker.ietf.org/doc/charter-ietf-sframe/>.
