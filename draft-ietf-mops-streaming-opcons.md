@@ -331,6 +331,7 @@ informative:
   RFC3758:
   RFC4733:
   RFC4960:
+  RFC5481:
   RFC5594:
   RFC5681:
   RFC5762:
@@ -363,6 +364,7 @@ informative:
   RFC9002:
   RFC9065:
   RFC9114:
+  RFC9260:
 
 --- abstract
 
@@ -464,7 +466,7 @@ Much of the focus of this document is on media streaming over HTTP. HTTP is wide
 * HTTP includes state of the art standardized security mechanisms, and
 * HTTP can use already-deployed caching infrastructure such as content delivery networks (CDN), local proxies, and browser caches.
 
-Various HTTP versions have been used for streaming media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP, so that media segments are delivered reliably, and TCP's transport behavior is described in {{reliable-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
+Various HTTP versions have been used for media delivery. HTTP/1.0, HTTP/1.1 and HTTP/2 are carried over TCP {{I-D.ietf-tcpm-rfc793bis}}, and TCP's transport behavior is described in {{reliable-behavior}}. HTTP/3 is carried over QUIC, and QUIC's transport behavior is described in {{quic-behavior}}.
 
 Unreliable media delivery using RTP and other UDP-based protocols is also discussed in {{ultralow}}, {{unreliable-behavior}}, and {{hop-by-hop-encrypt}}, but it is difficult to give general guidance for these applications. For instance, when packet loss occurs, the most appropriate response may depend on the type of codec being used.
 
@@ -759,9 +761,11 @@ Some receiver-side ABR algorithms such as {{ELASTIC}} are designed to try to avo
 
 Another way to mitigate this effect is by the help of two simultaneous TCP connections, as explained in {{MMSys11}} for Microsoft Smooth Streaming. In some cases, the system-level TCP slow-start restart can also be disabled, for example, as described in {{OReilly-HPBN}}.
 
-### Head-of-Line Blocking {#hol-blocking}
+### Noisy Measurements {#noisy-measurements}
 
-In the event of a lost packet on a TCP connection with SACK
+In addition to smoothing over an appropriate time scale to handle network jitter (see {{RFC5481}}), ABR systems relying on measurements at the application layer also have to account for noise from the in-order data transmission at the transport layer.
+
+For instance, in the event of a lost packet on a TCP connection with SACK
 support (a common case for segmented delivery in practice), loss
 of a packet can provide a confusing bandwidth signal to the
 receiving application.  Because of the sliding window in TCP,
@@ -771,13 +775,11 @@ of the one missing packet after retransmit, the receiver will
 suddenly get access to a lot of data at the same time.
 
 To a receiver measuring bytes received per unit time at the
-application layer, and interpreting it as an estimate of the
+application layer and interpreting it as an estimate of the
 available network bandwidth, this appears as a high jitter in
-the goodput measurement, presenting as a stall, followed by a sudden leap that can far exceed the actual
+the goodput measurement, presenting as a stall followed by a sudden leap that can far exceed the actual
 capacity of the transport path from the server when the hole in
 the received data is filled by a later retransmission.
-
-It is worth noting that more modern transport protocols such as QUIC have mitigation of head-of-line blocking as a protocol design goal. See {{quic-behavior}} for more details.
 
 ### Wide and Rapid Variation in Path Capacity
 
@@ -857,7 +859,7 @@ In contrast to adaptive segmented delivery over a reliable transport as describe
 
 * raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}} over UDP, which makes no attempt to account for reordering or loss in the transport,
 * RTP {{RFC3550}}, which can notice packetloss and repair some limited reordering,
-* SCTP {{RFC4960}}, which can use partial reliability {{RFC3758}} to recover from some loss, but can abandon recovery to limit head-of-line blocking, and
+* SCTP {{RFC9260}}, which can use partial reliability {{RFC3758}} to recover from some loss, but can abandon recovery to limit head-of-line blocking, and
 * SRT {{SRT}}, which can use forward error correction and time-bound retransmission to recover from loss within certain limits, but can abandon recovery to limit head-of-line blocking.
 
 Under congestion and loss, approaches like the above generally experience transient video artifacts more often and delay of playback effects less often, as compared with reliable segment transport. Often one of the key goals of using a UDP-based transport that allows some unreliability is to reduce latency and better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
@@ -878,7 +880,7 @@ While QUIC is designed as a general-purpose transport protocol, and can carry di
 
 When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streaming operators (and network operators) might see UDP traffic patterns that are similar to HTTP(S) over TCP. UDP ports may be blocked for any port numbers that are not commonly used, such as UDP 53 for DNS. Even when UDP ports are not blocked and QUIC packets can flow, streaming operators (and network operators) may severely rate-limit this traffic because they do not expect to see legitimate high-bandwidth traffic such as streaming media over the UDP ports that HTTP/3 is using.
 
-As noted in {{hol-blocking}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.
+As noted in {{noisy-measurements}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.
 
 A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
@@ -970,6 +972,6 @@ Security is an important matter for streaming media applications and the topic o
 
 # Acknowledgments
 
-Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, Tommy Pauly, and Will Law for very helpful suggestions, reviews and comments.
+Thanks to Alexandre Gouaillard, Aaron Falk, Chris Lemmons, Dave Oran, Eric Vyncke, Glenn Deen, Kyle Rose, Leslie Daigle, Linda Dunbar, Lucas Pardue, Mark Nottingham, Matt Stock, Mike English, Renan Krishna, Roni Even, Sanjay Mishra, Kiran Makhjani, Chris Lemmons, Tommy Pauly, Will Law, Michael Scharf, Eric Vyncke, Erik Kline, Roman Danyliw, Valery Smyslov, Robert Wilton, Lars Eggert, Zahed Sarker, Warren Kumari, John Scudder, Martin Duke, and Nancy Cam-Winget for very helpful suggestions, reviews and comments.
 
 --- back
