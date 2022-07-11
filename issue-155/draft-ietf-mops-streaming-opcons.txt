@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 11 January 2023                                 Networked Media
+Expires: 12 January 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            10 July 2022
+                                                            11 July 2022
 
 
              Operational Considerations for Streaming Media
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 January 2023.
+   This Internet-Draft will expire on 12 January 2023.
 
 Copyright Notice
 
@@ -124,45 +124,34 @@ Table of Contents
    networking practices and observations of media delivery issues
    encountered when streaming media over those existing networks.
 
-   This document defines "streaming media" as follows:
+   This document defines "high-bitrate streaming media" as follows:
 
-   *  "Streaming" is the continuous transmission of media segments from
-      a server to a client and its simultaneous consumption by the
+   *  "High-bitrate" means bitrates as least as high as the ones given
+      in Section 3.1.1 for common codecs at low resolution values.
+
+   *  "Streaming" means the continuous transmission of media segments
+      from a server to a client and its simultaneous consumption by the
       client.
 
-   *  In this definition, the term "simultaneous" is critical, as media
-      segment transmission is not considered "streaming" if one
-      downloads a media file and plays it after the download is
-      completed.  Instead, this would be called "download and play".
+      -  The term "simultaneous" is critical, as media segment
+         transmission is not considered "streaming" if one downloads a
+         media file and plays it after the download is completed.
+         Instead, this would be called "download and play".
 
-   *  Here, "media" refers to any type of media and associated streams
-      such as video, audio, metadata, etc.
+      -  This has two implications.  First, the sending rate for media
+         segments must match the client's consumption rate (whether
+         loosely or tightly) to provide uninterrupted playback.  That
+         is, the client must not run out of media segments (buffer
+         underrun), and must not accept more media segments than it can
+         buffer before playback (buffer overrun).
 
-   *  For the purposes of this document, there is no distinction made
-      between "live media", created as an event in progress, and "media
-      on demand", where the server is providing recorded media from
-      storage.
+      -  Second, the client's media segment consumption rate is limited
+         not only by the path's available bandwidth, but also by media
+         segment availability.  The client cannot fetch media segments
+         that a media server cannot provide (yet).
 
-   *  For the purposes of this document, there is no distinction between
-      media that is consumed by a media player, for viewing by a human,
-      and media that is consumed by a machine, such as a CDN cache or
-      media recorder.
-
-   This has two implications.
-
-   *  First, the sending rate for media segments must match the client's
-      consumption rate (whether loosely or tightly) to provide
-      uninterrupted playback.  That is, the client must not run out of
-      media segments (buffer underrun), and must not accept more media
-      segments than it can buffer before playback (buffer overrun).  In
-      addition, any media segments sent by the media server that the
-      client cannot accept may be buffered somewhere along the path
-      between a server and the client, or may simply be discarded.
-
-   *  Second, the client's media segment consumption rate is limited not
-      only by the path's available bandwidth, but also by media segment
-      availability.  The client cannot fetch media segments that have
-      not been been sent from a media server yet.
+   *  "Media" refers to any type of media and associated streams such as
+      video, audio, metadata, etc.
 
 1.1.  Document Scope
 
@@ -176,6 +165,15 @@ Table of Contents
    This can include origin servers publishing content, intermediaries
    like content delivery networks (CDNs), and providers for client
    devices and media players.
+
+   For the purposes of this document, there is no distinction made
+   between "live media", created as an event in progress, and "media on
+   demand", where the server is providing recorded media from storage.
+
+   For the purposes of this document, there is no distinction between
+   media that is consumed by a media player, for viewing by a human, and
+   media that is consumed by a machine, such as a CDN cache or media
+   recorder.
 
    This document contains
 
@@ -476,7 +474,7 @@ Table of Contents
       traffic is "inelastic," and does not respond to indications of
       path congestion.
 
-   *  Wireless links (Wi-Fi, 5G, LTE, etc.) often see rapid changes to
+   *  Wireless links (Wi-Fi, 5G, LTE, etc.) may see rapid changes to
       capacity from changes in radio interference and signal strength as
       endpoints move.
 
@@ -1098,9 +1096,7 @@ Table of Contents
    experience sudden changes in capacity as the end user device moves
    from place to place or encounters new sources of interference.
    Microwave ovens, for example, can cause a throughput degradation in
-   Wi-Fi of more than a factor of 2 while active [Micro]. 5G and LTE
-   likewise can easily see rate variation by a factor of 2 or more over
-   a span of seconds as users move around.
+   Wi-Fi of more than a factor of 2 while active [Micro].
 
    These swings in actual transport capacity can result in user
    experience issues when interacting with ABR algorithms that aren't
@@ -1892,10 +1888,6 @@ Table of Contents
               Digits, Telephony Tones, and Telephony Signals", RFC 4733,
               DOI 10.17487/RFC4733, December 2006,
               <https://www.rfc-editor.org/rfc/rfc4733>.
-
-   [RFC4960]  Stewart, R., Ed., "Stream Control Transmission Protocol",
-              RFC 4960, DOI 10.17487/RFC4960, September 2007,
-              <https://www.rfc-editor.org/rfc/rfc4960>.
 
    [RFC5481]  Morton, A. and B. Claise, "Packet Delay Variation
               Applicability Statement", RFC 5481, DOI 10.17487/RFC5481,
