@@ -485,7 +485,7 @@ Here are a few common resolutions used for video content, with typical ranges of
 | 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
 | 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
-- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding, because the codec does not have any idea what network paths and network path conditions will carry the encoded video, at somFblisse point in the future.
+- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding, because the codec does not have any idea what network paths and network path conditions will carry the encoded video, at some point in the future.
 - Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, as described in {{adapt-deliver}}.
 - In order to provide multiple encodings for video resources, the codec must produce multiple versions of the video resource encoded at various bitrates, as described in {{adapt-encode}}.
 
