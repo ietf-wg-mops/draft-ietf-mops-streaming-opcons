@@ -360,7 +360,7 @@ Table of Contents
       bandwidth" between streaming video servers and streaming video
       receivers into account when encoding, because the codec does not
       have any idea what network paths and network path conditions will
-      carry the encoded video, at somFblisse point in the future.
+      carry the encoded video, at some point in the future.
 
    *  Note that video receivers attempting to receive encoded video
       across a network path with insufficient available path bandwidth
