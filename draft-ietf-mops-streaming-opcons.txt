@@ -94,7 +94,7 @@ Table of Contents
        5.5.2.  Noisy Measurements
        5.5.3.  Wide and Rapid Variation in Path Capacity
      5.6.  Measurement Collection
-   6.  Iransport Protocol Behaviors and Their Implications for Media
+   6.  Transport Protocol Behaviors and Their Implications for Media
            Transport Protocols
      6.1.  Media Transport Over Reliable Transport Protocols
      6.2.  Media Transport Over Unreliable Transport Protocols
@@ -1152,7 +1152,7 @@ Table of Contents
    standardized media-relevant information to the CDNs while they are
    fetching data.  [CTA-5004] was developed exactly for this purpose.
 
-6.  Iransport Protocol Behaviors and Their Implications for Media
+6.  Transport Protocol Behaviors and Their Implications for Media
     Transport Protocols
 
    Within this document, the term "Media Transport Protocol" is used to
