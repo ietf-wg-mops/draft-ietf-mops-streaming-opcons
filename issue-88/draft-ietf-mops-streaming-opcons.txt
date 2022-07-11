@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 6 January 2023                                  Networked Media
+Expires: 12 January 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                             5 July 2022
+                                                            11 July 2022
 
 
              Operational Considerations for Streaming Media
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2023.
+   This Internet-Draft will expire on 12 January 2023.
 
 Copyright Notice
 
@@ -807,32 +807,10 @@ Table of Contents
 
 5.  Adaptive Encoding, Adaptive Delivery, and Measurement Collection
 
-   Adaptive bitrate streaming ("ABS") is a technique for dynamically
-   adjusting the compression level and video quality of a stream to
-   match bandwidth availability.  When this goal is achieved, the media
-   server will tend to send enough media that the media player does not
-   "stall", without sending so much media that the media player cannot
-   accept it, with the excess media being buffered along the network
-   path, increasing latency and, if latency is not consistent over time,
-   potentially presenting the user with a "choppy" listening and viewing
-   experience.
-
-   The rest of this section describes how ABR works, but one thing to
-   keep in mind is that ABR is an application-level mechanism that can
-   improve the user's experience, but cannot provide a better experience
-   than the underlying network path can provide.
-
-   At IETF 111, Jason Livingood gave a lightning talk on "Comparative
-   Latency Under Load Performance of Broadband CPE" [CLULPBC], showing
-   that on Comcast's network, paths including active "Active Queue
-   Management (AQM) Based on Proportional Integral Controller Enhanced
-   (PIE) for Data-Over-Cable Service Interface Specifications (DOCSIS)
-   Cable Modems" [RFC8034] implementations provided "significantly
-   better latency under load performance (~90%) with AQM at scale", and
-   "better latency consistency (lower jitter)" than paths that did not.
-   ABR endpoints using paths that did not have AQM implementations
-   enabled would be handicapped in efforts to provide the same user
-   experience as the ABR endpoints using paths with AQM enabled.
+   This section describes one way of providing the best user experience
+   possible over a given network path, but one thing to keep in mind is
+   that application-level mechanisms cannot provide a better experience
+   than the underlying network path can support.
 
 5.1.  Overview
 
@@ -846,24 +824,37 @@ Table of Contents
    workflows are introduced.
 
    The challenges in filling the buffer in a timely way fall into two
-   broad categories: 1. content selection and 2. content variation.
-   Content selection comprises all of the steps needed to determine
-   which content variation to offer the client.  Content variation is
-   the number of content options that exist at any given selection
-   point.  A common example, easily visualized, is Adaptive BitRate
-   (ABR), described in more detail below.  The mechanism used to select
-   the bitrate is part of the content selection, and the content
-   variation are all of the different bitrate renditions.
+   broad categories:
 
-   ABR is a sort of application-level response strategy in which the
+   *  Content selection comprises all of the steps needed to determine
+      which content variation to offer the client.
+
+   *  Content variation is the number of content options that exist at
+      any given selection point.
+
+   The mechanism used to select the bitrate is part of the content
+   selection, and the content variation are all of the different bitrate
+   renditions.
+
+   Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a
+   commonly used technique for dynamically adjusting the compression
+   level and video quality of a stream to match bandwidth availability.
+   When this goal is achieved, the media server will tend to send enough
+   media that the media player does not "stall", without sending so much
+   media that the media player cannot accept it, with the excess media
+   being buffered along the network path, increasing latency and, if
+   latency is not consistent over time, potentially presenting the user
+   with a "choppy" listening and viewing experience.
+
+   ABR uses an application-level response strategy in which the
    streaming client attempts to detect the available bandwidth of the
    network path by observing the successful application-layer download
-   speed, then chooses a bitrate for each of the video, audio, subtitles
-   and metadata (among the limited number of available options) that
-   fits within that bandwidth, typically adjusting as changes in
-   available bandwidth occur in the network or changes in capabilities
-   occur during the playback (such as available memory, CPU, display
-   size, etc.).
+   speed, and then choosing a bitrate for each of the video, audio,
+   subtitles and metadata (among a limited number of available options
+   for each type of media) that fits within that bandwidth, typically
+   adjusting as changes in available bandwidth occur in the network or
+   changes in capabilities occur during the playback (such as available
+   memory, CPU, display size, etc.).
 
 5.2.  Adaptive Encoding
 
@@ -1097,9 +1088,9 @@ Table of Contents
    adaptive streaming requests, but may also provide measurements to
    streaming media providers.
 
-   In turn, providers may base analytics on these measurements, to guide
-   decisions such as whether adaptive encoding bitrates in use are the
-   best ones to provide to media players, or whether current media
+   In turn, media providers may base analytics on these measurements, to
+   guide decisions such as whether adaptive encoding bitrates in use are
+   the best ones to provide to media players, or whether current media
    content caching is providing the best experience for viewers.
 
    To that effect, the Consumer Technology Association (CTA), who owns
@@ -1671,12 +1662,6 @@ Table of Contents
               ACMVolume 54Issue 5May 2011 pp 25-27 , 1 May 2011,
               <https://dl.acm.org/doi/abs/10.1145/1941487.1941498>.
 
-   [CLULPBC]  Livingood, J. and S. Ozer, "Comparative Latency Under Load
-              Performance of Broadband CPE", July 2021,
-              <https://datatracker.ietf.org/doc/slides-111-maprg-
-              comparative-latency-under-load-performance-of-broadband-
-              cpe/>.
-
    [CMAF-CTE] Law, W., "Ultra-Low-Latency Streaming Using Chunked-
               Encoded and Chunked Transferred CMAF", October 2018,
               <https://www.akamai.com/us/en/multimedia/documents/white-
@@ -1940,12 +1925,6 @@ Table of Contents
               TCP to Support Rate-Limited Traffic", RFC 7661,
               DOI 10.17487/RFC7661, October 2015,
               <https://www.rfc-editor.org/rfc/rfc7661>.
-
-   [RFC8034]  White, G. and R. Pan, "Active Queue Management (AQM) Based
-              on Proportional Integral Controller Enhanced PIE) for
-              Data-Over-Cable Service Interface Specifications (DOCSIS)
-              Cable Modems", RFC 8034, DOI 10.17487/RFC8034, February
-              2017, <https://www.rfc-editor.org/rfc/rfc8034>.
 
    [RFC8083]  Perkins, C. and V. Singh, "Multimedia Congestion Control:
               Circuit Breakers for Unicast RTP Sessions", RFC 8083,

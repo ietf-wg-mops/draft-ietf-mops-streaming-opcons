@@ -1034,7 +1034,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Holland, et al.</td>
-<td class="center">Expires 6 January 2023</td>
+<td class="center">Expires 12 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mops-streaming-opcons-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-07-05" class="published">5 July 2022</time>
+<time datetime="2022-07-11" class="published">11 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-01-06">6 January 2023</time></dd>
+<dd class="expires"><time datetime="2023-01-12">12 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1096,7 +1096,7 @@ high-bitrate media over the Internet.<a href="#section-abstract-1" class="pilcro
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1723,9 +1723,7 @@ These include videoconferencing or voice calls, remote video gameplay, remote co
       <h2 id="name-adaptive-encoding-adaptive-">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-adaptive-encoding-adaptive-" class="section-name selfRef">Adaptive Encoding, Adaptive Delivery, and Measurement Collection</a>
       </h2>
-<p id="section-5-1">Adaptive bitrate streaming ("ABS") is a technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it, with the excess media being buffered along the network path, increasing latency and, if latency is not consistent over time, potentially presenting the user with a "choppy" listening and viewing experience.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">The rest of this section describes how ABR works, but one thing to keep in mind is that ABR is an application-level mechanism that can improve the user's experience, but cannot provide a better experience than the underlying network path can provide.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">At IETF 111, Jason Livingood gave a lightning talk on "Comparative Latency Under Load Performance of Broadband CPE" <span>[<a href="#CLULPBC" class="xref">CLULPBC</a>]</span>, showing that on Comcast's network, paths including active "Active Queue Management (AQM) Based on Proportional Integral Controller Enhanced (PIE) for  Data-Over-Cable Service Interface Specifications (DOCSIS) Cable Modems" <span>[<a href="#RFC8034" class="xref">RFC8034</a>]</span> implementations provided "significantly better latency under load performance (~90%) with AQM at scale", and "better latency consistency (lower jitter)" than paths that did not. ABR endpoints using paths that did not have AQM implementations enabled would be handicapped in efforts to provide the same user experience as the ABR endpoints using paths with AQM enabled.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-1">This section describes one way of providing the best user experience possible over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="abr-overview">
 <section id="section-5.1">
         <h3 id="name-overview">
@@ -1735,12 +1733,16 @@ These include videoconferencing or voice calls, remote video gameplay, remote co
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
 The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
-Content selection comprises all of the steps needed to determine which content variation to offer the client.
-Content variation is the number of content options that exist at any given selection point.
-A common example, easily visualized, is Adaptive BitRate (ABR), described in more detail below.
-The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.1-3">ABR is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The challenges in filling the buffer in a timely way fall into two broad categories:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-3.1">Content selection comprises all of the steps needed to determine which content variation to offer the client.<a href="#section-5.1-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.1-3.2">Content variation is the number of content options that exist at any given selection point.<a href="#section-5.1-3.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-5.1-4">The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it, with the excess media being buffered along the network path, increasing latency and, if latency is not consistent over time, potentially presenting the user with a "choppy" listening and viewing experience.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, and then choosing a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="adapt-encode">
@@ -1861,7 +1863,7 @@ Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of mor
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-measurement-collection" class="section-name selfRef">Measurement Collection</a>
         </h3>
 <p id="section-5.6-1">Media players use measurements to guide their segment-by-segment adaptive streaming requests, but may also provide measurements to streaming media providers.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.6-2">In turn, providers may base analytics on these measurements, to guide decisions such as whether adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.6-2">In turn, media providers may base analytics on these measurements, to guide decisions such as whether adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
 <p id="section-5.6-3">To that effect, the Consumer Technology Association (CTA), who owns the Web Application Video Ecosystem (WAVE) project, has published two important specifications.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.6-4.1">CTA-2066: Streaming Quality of Experience Events, Properties and Metrics<a href="#section-5.6-4.1" class="pilcrow">¶</a>
@@ -2104,10 +2106,6 @@ Now that ubiquitous encryption typically prevents this kind of modification to m
       <dd>
 <span class="refAuthor">Goldfarb, A.</span> and <span class="refAuthor">C. E. Tucker</span>, <span class="refTitle">"Online advertising, behavioral targeting, and privacy"</span>, <span class="seriesInfo">Communications of the ACMVolume 54Issue 5May 2011 pp 25-27 </span>, <time datetime="2011-05-01" class="refDate">1 May 2011</time>, <span>&lt;<a href="https://dl.acm.org/doi/abs/10.1145/1941487.1941498">https://dl.acm.org/doi/abs/10.1145/1941487.1941498</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="CLULPBC">[CLULPBC]</dt>
-      <dd>
-<span class="refAuthor">Livingood, J.</span> and <span class="refAuthor">S. Ozer</span>, <span class="refTitle">"Comparative Latency Under Load Performance of Broadband CPE"</span>, <time datetime="2021-07" class="refDate">July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/slides-111-maprg-comparative-latency-under-load-performance-of-broadband-cpe/">https://datatracker.ietf.org/doc/slides-111-maprg-comparative-latency-under-load-performance-of-broadband-cpe/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="CMAF-CTE">[CMAF-CTE]</dt>
       <dd>
 <span class="refAuthor">Law, W.</span>, <span class="refTitle">"Ultra-Low-Latency Streaming Using Chunked-Encoded and Chunked Transferred CMAF"</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf">https://www.akamai.com/us/en/multimedia/documents/white-paper/low-latency-streaming-cmaf-whitepaper.pdf</a>&gt;</span>. </dd>
@@ -2311,10 +2309,6 @@ Now that ubiquitous encryption typically prevents this kind of modification to m
 <dt id="RFC7661">[RFC7661]</dt>
       <dd>
 <span class="refAuthor">Fairhurst, G.</span>, <span class="refAuthor">Sathiaseelan, A.</span>, and <span class="refAuthor">R. Secchi</span>, <span class="refTitle">"Updating TCP to Support Rate-Limited Traffic"</span>, <span class="seriesInfo">RFC 7661</span>, <span class="seriesInfo">DOI 10.17487/RFC7661</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7661">https://www.rfc-editor.org/rfc/rfc7661</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8034">[RFC8034]</dt>
-      <dd>
-<span class="refAuthor">White, G.</span> and <span class="refAuthor">R. Pan</span>, <span class="refTitle">"Active Queue Management (AQM) Based on Proportional Integral Controller Enhanced PIE) for Data-Over-Cable Service Interface Specifications (DOCSIS) Cable Modems"</span>, <span class="seriesInfo">RFC 8034</span>, <span class="seriesInfo">DOI 10.17487/RFC8034</span>, <time datetime="2017-02" class="refDate">February 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8034">https://www.rfc-editor.org/rfc/rfc8034</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8083">[RFC8083]</dt>
       <dd>
