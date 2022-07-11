@@ -330,7 +330,6 @@ informative:
   RFC3550:
   RFC3758:
   RFC4733:
-  RFC4960:
   RFC5481:
   RFC5594:
   RFC5681:
@@ -368,53 +367,56 @@ informative:
 
 --- abstract
 
-This document provides an overview of operational networking issues
-that pertain to the quality of experience when streaming video and other
-high-bitrate media over the Internet.
+This document provides an overview of operational networking and transport protocol issues that pertain to the quality of experience when streaming video and other high-bitrate media over the Internet.
+
+This document is intended to explain characteristics of streaming media delivery that have surprised network designers or transport experts who lack specific media expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of media delivery issues encountered when streaming media over those existing networks.
 
 --- middle
 
 # Introduction {#intro}
 
-This document examines networking and transport protocol issues as they relate to the quality of experience (QoE) in Internet media delivery, especially focusing on capturing characteristics of streaming video delivery that have surprised network designers or transport experts who lack specific video expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of video delivery issues encountered when streaming media over those existing networks.
+This document provides an overview of operational networking and transport protocol issues that pertain to the quality of experience (QoE) when streaming video and other high-bitrate media over the Internet.
 
-This document specifically focuses on streaming applications and defines streaming as follows:
+This document is intended to explain characteristics of streaming media delivery that have surprised network designers or transport experts who lack specific media expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of media delivery issues encountered when streaming media over those existing networks.
 
-- Streaming is the continuous transmission of media from a server to a client and its simultaneous consumption by the client.
+This document defines "high-bitrate streaming media" as follows:
 
-- Here, "media" refers to any type of media and associated streams such as video, audio, metadata, etc. In this definition, the critical term is "simultaneous," as it is not considered streaming if one downloads a media file and plays it after the download is completed, which would be called download-and-play.
+- "High-bitrate" is a context-sensitive term broadly intended to capture rates that can be sustained over some but not all of the target audience's network connections. A snapshot of values commonly qualifying as high-bitrate on today's internet is given by the higher-value entries in {{bvr}}.
+- "Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.
+   - The term "simultaneous" is critical, as media segment transmission is not considered "streaming" if one downloads a media file and plays it after the download is completed. Instead, this would be called "download and play".
+   - This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).
+   - Second, the client's media segment consumption rate is limited not only by the path's available bandwidth, but also by media segment availability. The client cannot fetch media segments that a media server cannot provide (yet).
+- "Media" refers to any type of media and associated streams such as video, audio, metadata, etc.
 
-This has two implications.
+## Document Scope
 
-- First, the server's transmission rate must (loosely or tightly) match the client's consumption rate to provide uninterrupted playback. That is, the client must not run out of data (buffer underrun) or accept more data than it can buffer before playback (buffer overrun), as any excess media that cannot be buffered is simply discarded.
+A full review of all streaming media considerations for all types of media over all types of network paths is too broad a topic to cover comprehensively in a single document.
 
-- Second, the client's consumption rate is limited by not only bandwidth availability but also media availability. The client cannot fetch media that is not available from a server yet.
+This document focuses chiefly on large-scale delivery of streaming high-bitrate media to end users.
+It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
+This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
+
+Most of the considerations covered in this document apply both to "live media" (created and streamed as an event is in progress) and "media on demand" (previously recorded media that is streamed from storage), except where noted.
+
+Most of the considerations covered in this document apply both to media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a media recorder that is executing an ABR algorithm, except where noted.
 
 This document contains
 
 - A short description of streaming video characteristics in {{sd}}, to set the stage for the rest of the document,
 - General guidance on bandwidth provisioning ({{bwprov}}) and latency considerations ({{latency-cons}}) for streaming video delivery,
 - A description of adaptive encoding and adaptive delivery techniques in common use for streaming video, along with a description of the challenges media senders face in detecting the bitrate available between the media sender and media receiver, and collection of measurements by a third party for use in analytics ({{sec-abr}}),
-- A description of existing transport protocols used for video streaming and the issues encountered when using those protocols, along with a description of the QUIC transport protocol {{RFC9000}} that we expect to be used for streaming media ({{sec-trans}}),
+- A description of existing transport protocols used for video streaming and the issues encountered when using those protocols, along with a description of the QUIC transport protocol {{RFC9000}} more recently used for streaming media ({{sec-trans}}),
 - A description of implications when streaming encrypted media ({{stream-encrypt-media}}), and
 - Several pointers for further reading on this rapidly changing subject ({{further}}).
 
-## Document Scope
-
-A full review of all streaming media considerations is too broad a topic to cover comprehensively in a single document.
-
-This document focuses chiefly on large-scale delivery of streaming media to end users and related issues.
-It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
-This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
-
 Topics outside this scope include:
 
- - in-depth examination of real-time interactive media, such as video conferencing; although we touch lightly on topics in this space, the intent is to let readers know that for more in-depth coverage they'll need to look to other documents, since the techniques and issues for interactive real-time media differ so dramatically from those in large-scale one-way delivery of streaming media.
+ - in-depth examination of real-time two-way interactive media, such as video conferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.
  - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
  - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
- - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document they're considered network path properties
+ - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document these issues are considered as part of the set of network path properties.
 
-It is worth pointing out explicitly, because questions about "Web Real-Time Communication", or "WebRTC", come up often, that some WebRTC protocols ({{RFC8834}}, {{RFC8835}}) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols, even in the specific case of WebRTC.
+It is worth pointing out explicitly, because questions about "Web Real-Time Communication" or "WebRTC" have come up often, that some WebRTC protocols ({{RFC8834}}, {{RFC8835}}) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.
 
 ## Notes for Contributors and Reviewers
 
@@ -454,7 +456,7 @@ important to consider the effects of network design decisions
 on application-level performance, with considerations for
 the impact on video delivery.
 
-Much of the focus of this document is on reliable media using HTTP. HTTP is widely used because
+Much of the focus of this document is on media streaming over HTTP. HTTP is widely used for media streaming because
 
 * support for HTTP is widely available in a wide range of operating systems,
 * HTTP is also used in a wide variety of other applications,
@@ -483,11 +485,15 @@ Here are a few common resolutions used for video content, with typical ranges of
 | 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
 | 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
+- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding, because the codec does not have any idea what network paths and network path conditions will carry the encoded video, at some point in the future.
+- Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, as described in {{adapt-deliver}}.
+- In order to provide multiple encodings for video resources, the codec must produce multiple versions of the video resource encoded at various bitrates, as described in {{adapt-encode}}.
+
 ### Virtual Reality Bitrates
 
 The bitrates given in {{bvr}} describe video streams that provide the user with a single, fixed, point of view - so, the user has no "degrees of freedom," and the user sees all of the video image that is available.
 
-Even basic virtual reality (360-degree) videos that allow users to look around freely (referred to as "three degrees of freedom" or 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. Yet, due to smart delivery methods such as viewport-based or tile-based streaming, we do not need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time ({{Survey360o}}).
+Even basic virtual reality (360-degree) videos that allow users to look around freely (referred to as "three degrees of freedom" or 3DoF) require substantially larger bitrates when they are captured and encoded as such videos require multiple fields of view of the scene. Yet, due to smart delivery methods such as viewport-based or tile-based streaming, there is no need to send the whole scene to the user. Instead, the user needs only the portion corresponding to its viewpoint at any given time ({{Survey360o}}).
 
 In more immersive applications, where limited user movement ("three degrees of freedom plus" or 3DoF+) or full user movement ("six degrees of freedom" or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.
 
@@ -495,23 +501,23 @@ In more immersive applications, where limited user movement ("three degrees of f
 
 Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points in the network. This analysis is necessary because media servers may react to bandwidth constraints using two independent feedback loops:
 
-* Media servers often respond to application-level feedback from the media player that indicates a bottleneck somewhere along the path by adjusting the amount of media that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
+* Media servers often respond to application-level feedback from the media player that indicates a bottleneck somewhere along the path by adjusting the number of media segments that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
 
-* Media servers also typically rely on transport protocols with capacity-seeking congestion controllers that probe for bandwidth and adjust the sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
+* Media servers also typically rely on transport protocols with capacity-seeking congestion controllers that probe for available path bandwidth and adjust the media segment sending rate based on transport mechanisms. This is described in greater detail in {{sec-trans}}.
 
 The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in QoE for users that is significantly lower than what could have been achieved.
 
-One might wonder why media servers and transport protocols are each blissfully ignorant of what the other is doing, and there are multiple reasons for that. However, one reason is that media servers may be implemented to run under a general-purpose operating system that typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.
+One might wonder why media servers and transport protocols are each unaware of what the other is doing, and there are multiple reasons for that. One reason is that media servers are often implemented as applications executing in user space, relying on a general-purpose operating system that typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.
 
 In one example, if a media server overestimates the available bandwidth to the media player,
 
 * the transport protocol detects loss due to congestion and reduces its sending window size per round trip,
 * the media server adapts to application-level feedback from the media player and reduces its own sending rate,
-* the transport protocol sends media at the new, lower rate and confirms that this new, lower rate is "safe" because no transport-level loss is occurring, but
+* the transport protocol sends media segments at the new, lower rate and confirms that this new, lower rate is "safe" because no transport-level loss is occurring, but
 * because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so
-* the transport protocol cannot probe for available path bandwidth by sending at a higher rate.
+* the transport protocol cannot probe for available path bandwidth by sending at a higher rate, until the media receiver signals the media server that the media server can increase its media segment sending rate.
 
-To avoid these types of situations, which can potentially affect all the users whose streaming media traverses a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing when that problem occurs.
+To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.
 
 ### Recognizing Changes from a Baseline {#sec-know-your-traffic}
 
@@ -521,9 +527,9 @@ There are many reasons why path characteristics might change in normal operation
 
 * If cross traffic that also traverses part or all of the same path topology increases or decreases, especially if this new cross traffic is "inelastic," and does not respond to indications of path congestion.
 
-* Wireless links (Wi-Fi, 5G, LTE, etc.) often see rapid changes to capacity from changes in radio interference and signal strength as endpoints move.
+* Wireless links (Wi-Fi, 5G, LTE, etc.) may see rapid changes to capacity from changes in radio interference and signal strength as endpoints move.
 
-To recognize that a path carrying streaming media has experienced a change, maintaining a baseline that captures its prior properties is fundamental.
+To recognize that a path carrying streaming media segments has experienced a change, maintaining a baseline that captures its prior properties is fundamental.
 Analytics that aid in that recognition can be more or less sophisticated and can usefully operate on several different time scales, from milliseconds to hours or days.
 
 Useful properties to monitor for changes can include:
@@ -533,7 +539,7 @@ Useful properties to monitor for changes can include:
  * out of order packet rate
  * packet and byte receive rate
  * application level goodput
- * properties of other connections carrying competing traffic, in addition to the connections carrying the streaming media
+ * properties of other connections carrying competing traffic, in addition to the connections carrying the streaming media segments
  * externally provided measurements, for example from network cards or metrics collected by the operating system
 
 ## Path Requirements {#pathreq}
@@ -566,7 +572,7 @@ It is worth noting that not all high-demand content is "live" content. One relev
 
 Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, especially when the content can be pre-loaded during off-peak hours, and especially if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms.
 
-All of this depends, of course, on the ability of a content provider to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}).
+All of this depends, of course, on the ability of a media provider  to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}).
 
 And as with other parts of the ecosystem, new technology brings new challenges. For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had the video freeze until the player was reset.  In some cases the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the video for all players playing the segment delivered from that cache node.
 
@@ -608,7 +614,7 @@ Again, it will be helpful for streaming operators to monitor traffic as describe
 
 Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurrence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes video encoding/decoding and buffering time, and for most cases also the ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
 
-Streaming media can be usefully categorized according to the application's latency requirements into a few rough categories:
+The team working on this document found these rough categories to be useful when considering a streaming media application's latency requirements:
 
 - ultra-low-latency    (less than 1 second)
 - low-latency live     (less than 10 seconds)
@@ -697,27 +703,27 @@ The choice of bitrate occurs within the context of optimizing for one or more me
 
 ## Advertising
 
-A variety of business models exist for producers of streaming media. Some content providers derive the majority of the revenue associated with streaming media directly from consumer subscriptions or one-time purchases. Others derive the majority of their streaming media associated revenue from advertising. Many content providers derive income from a mix of these and other sources of funding. The inclusion of advertising alongside or interspersed with streaming media content is therefore common in today's media landscape.
+The inclusion of advertising alongside or interspersed with streaming media content is common in today's media landscape.
 
 Some commonly used forms of advertising can introduce potential user experience issues for a media stream.
-This section provides a very brief overview of a complex and evolving space, but a complete coverage of the potential issues is out of scope for this document.
+This section provides a very brief overview of a complex and rapidly evolving space.
 
-The same techniques used to allow a media player to switch between renditions of different bitrates at segment or chunk boundaries can also be used to enable the dynamic insertion of advertisements (hereafter referred to as "ads").
+The same techniques used to allow a media player to switch between renditions of different bitrates at segment or chunk boundaries can also be used to enable the dynamic insertion of advertisements (hereafter referred to as "ads"), but this does not mean that the insertion of ads has no effect on the user's quality of experience.
 
 Ads may be inserted either with Client-side Ad Insertion (CSAI) or Server-side Ad Insertion (SSAI).
-In CSAI, the ABR manifest will generally include links to an external ad server for some segments of the media stream, while in SSAI the server will remain the same during advertisements, but will include media segments that contain the advertising.
-In SSAI, the media segments may or may not be sourced from an external ad server like with CSAI.
+- In CSAI, the ABR manifest will generally include links to an external ad server for some segments of the media stream, while in SSAI the server will remain the same during advertisements, but will include media segments that contain the advertising.
+- In SSAI, the media segments may or may not be sourced from an external ad server like with CSAI.
 
 In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.
 If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) can be accessed quickly.
-The less targeted, the more likely the ad requests can be consolidated and can leverage the same caching techniques as the video content.
+The less targeted the ad request is, the more likely that ad requests can be consolidated, and that ads can be cached similarly to the video content.
 
 In some cases, especially with SSAI, advertising space in a stream is reserved for a specific advertiser and can be integrated with the video so that the segments share the same encoding properties such as bitrate, dynamic range, and resolution.
 However, in many cases, ad servers integrate with a Supply Side Platform (SSP) that offers advertising space in real-time auctions via an Ad Exchange, with bids for the advertising space coming from Demand Side Platforms (DSPs) that collect money from advertisers for delivering the advertisements.
 Most such Ad Exchanges use application-level protocol specifications published by the Interactive Advertising Bureau {{IAB-ADS}}, an industry trade organization.
 
 This ecosystem balances several competing objectives, and integrating with it naively can produce surprising user experience results.
-For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, either of which can sometimes result in video stalls.
+For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, and either of these differences can result in video stalls.
 For another example, since the inserted ads are often produced independently, they might have a different base volume level than the main video, which can make for a jarring user experience.
 
 Another major source of competing objectives comes from user privacy considerations vs. the advertiser's incentives to target ads to user segments based on behavioral data.
@@ -725,7 +731,7 @@ Multiple studies, for example {{BEHAVE}} and {{BEHAVE2}}, have reported large im
 This provides a strong incentive for advertisers to gain access to the data necessary to perform behavioral targeting, leading some to engage in what is indistinguishable from a pervasive monitoring attack ({{RFC7258}}) based on user tracking in order to collect the relevant data,
 A more complete review of issues in this space is available in {{BALANCING}}.
 
-On top of these competing objectives, this market historically has had incidents of ad fraud (misreporting of ad delivery to end users for financial gain) {{ADFRAUD}}.
+On top of these competing objectives, this market historically has had incidents of misreporting of ad delivery to end users for financial gain {{ADFRAUD}}.
 As a mitigation for concerns driven by those incidents, some SSPs have required the use of specific media players that include features like reporting of ad delivery, or providing additional user information that can be used for tracking.
 
 In general, this is a rapidly developing space with many considerations, and media streaming operators engaged in advertising may need to research these and other concerns to find solutions that meet their user experience, user privacy, and financial goals.
@@ -779,7 +785,6 @@ As many end devices have moved to wireless connections for the final hop (such a
 
 In most real-world operating environments, wireless links can often experience sudden changes in capacity as the end user device moves from place to place or encounters new sources of interference.
 Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of more than a factor of 2 while active [Micro].
-5G and LTE likewise can easily see rate variation by a factor of 2 or more over a span of seconds as users move around.
 
 These swings in actual transport capacity can result in user experience issues when interacting with ABR algorithms that aren't tuned to handle the capacity variation gracefully.
 
@@ -801,10 +806,10 @@ Many assume that the CDNs have a holistic view of the health and performance of 
 
 # Iransport Protocol Behaviors and Their Implications for Media Transport Protocols {#sec-trans}
 
-Within this document, the term "Media Transport Protocol" is used to describe any protocol that carries media metadata and media in its payload, and the term "Transport Protocol" describes any protocol that carries a Media Transport Protocol, or another Transport Protocol, in its payload. This is easier to understand if the reader assumes a protocol stack that looks something like this:
+Within this document, the term "Media Transport Protocol" is used to describe any protocol that carries media metadata and media segments in its payload, and the term "Transport Protocol" describes any protocol that carries a Media Transport Protocol, or another Transport Protocol, in its payload. This is easier to understand if the reader assumes a protocol stack that looks something like this:
 
 ~~~~
-               Media
+          Media Segments
     ---------------------------
            Media Format
     ---------------------------
@@ -815,19 +820,19 @@ Within this document, the term "Media Transport Protocol" is used to describe an
 
 where
 
-* "Media" would be something like the output of a codec, or other media source such as closed-captioning,
+* "Media Segments" would be something like the output of a codec, or some other source of media segments, such as closed-captioning,
 * "Media Format" would be something like an RTP payload format {{RFC2736}} or an ISOBMFF {{ISOBMFF}} profile,
-* "Media Transport Protocol" would be something like RTP or DASH {{MPEG-DASH}}, and
+* "Media Transport Protocol" would be something like RTP {{RFC3550}} or DASH {{MPEG-DASH}}, and
 * "Transport Protocol" would be a protocol that provides appropriate transport services, as described in Section 5 of {{RFC8095}}.
 
-Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to distinguish between the protocol layer that is aware it is transporting media, and underlying protocol layers that are not aware.
+Not all possible streaming media applications follow this model, but for the ones that do, it seems useful to distinguish between the protocol layer that is aware it is transporting media segments, and underlying protocol layers that are not aware.
 
 As described in the {{RFC8095}} Abstract, the IETF has standardized a number of protocols that provide transport services. Although these protocols, taken in total, provide a wide variety of transport services, {{sec-trans}} will distinguish between two extremes:
 
 - Transport protocols used to provide reliable, in-order media delivery to an endpoint, typically providing flow control and congestion control ({{reliable-behavior}}) and
 - Transport protocols used to provide unreliable, unordered media delivery to an endpoint, without flow control or congestion control ({{unreliable-behavior}}).
 
-Because newly standardized transport protocols such as QUIC {{RFC9000}} can evolve their transport behavior more rapidly than currently-used transport protocols, we have included a description of how the path characteristics that streaming media providers may see are likely to evolve in {{quic-behavior}}.
+Because newly standardized transport protocols such as QUIC {{RFC9000}} that are typically implemented in userspace can evolve their transport behavior more rapidly than currently-used transport protocols that are typically implemented in operating system kernel space, this document includes a description of how the path characteristics that streaming media providers may see are likely to evolve in {{quic-behavior}}.
 
 It is worth noting explicitly that the Transport Protocol layer might include more than one protocol. For example, a specific Media Transport Protocol might run over HTTP, or over WebTransport, which in turn runs over HTTP.
 
@@ -847,7 +852,7 @@ Although common TCP behavior has changed significantly since the days of {{Jacob
 
 Because UDP does not provide any feedback mechanism to senders to help limit impacts on other users, UDP-based application-level protocols have been responsible for the decisions that TCP-based applications have delegated to TCP - what to send, how much to send, and when to send it. Because UDP itself has no transport-layer feedback mechanisms, UDP-based applications that send and receive substantial amounts of information are expected to provide their own feedback mechanisms, and to respond to the feedback the application receives. This expectation is most recently codified as a Best Current Practice {{RFC8085}}.
 
-In contrast to adaptive segmented delivery over a reliable transport as described in {{adapt-deliver}}, some applications deliver streaming media using an unreliable transport, and rely on a variety of approaches, including:
+In contrast to adaptive segmented delivery over a reliable transport as described in {{adapt-deliver}}, some applications deliver streaming media segments using an unreliable transport, and rely on a variety of approaches, including:
 
 * raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}} over UDP, which makes no attempt to account for reordering or loss in the transport,
 * RTP {{RFC3550}}, which can notice packetloss and repair some limited reordering,
@@ -860,7 +865,7 @@ Congestion avoidance strategies for deployments using unreliable transport proto
 
 RTP relies on RTCP Sender and Receiver Reports {{RFC3550}} as its own feedback mechanism, and even includes Circuit Breakers for Unicast RTP Sessions {{RFC8083}} for situations when normal RTP congestion control has not been able to react sufficiently to RTP flows sending at rates that result in sustained packet loss.
 
-The notion of "Circuit Breakers" has also been applied to other UDP applications in {{RFC8084}}, such as tunneling packets over UDP that are potentially not congestion-controlled (for example, "Encapsulating MPLS in UDP," as described in {{RFC7510}}). If streaming media is carried in tunnels encapsulated in UDP, these media streams may encounter "tripped circuit breakers," with resulting user-visible impacts.
+The notion of "Circuit Breakers" has also been applied to other UDP applications in {{RFC8084}}, such as tunneling packets over UDP that are potentially not congestion-controlled (for example, "Encapsulating MPLS in UDP," as described in {{RFC7510}}). If streaming media segments are carried in tunnels encapsulated in UDP, these media streams may encounter "tripped circuit breakers," with resulting user-visible impacts.
 
 ## QUIC and Changing Transport Protocol Behavior {#quic-behavior}
 
@@ -892,7 +897,7 @@ It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traf
 - Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as end-to-end media encryption).
 - Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is *not* the ultimate media consumer, but has credentials allowing decryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as hop-by-hop media encryption).
 
-In this document, we will focus on media encrypted at the transport layer, whether encrypted hop-by-hop or end-to-end. Because media encrypted at the application layer will only be processed by application-level entities, this encryption does not have transport-layer implications. Of course, both hop-by-hop and end-to-end encrypted transport may carry media that is, in addition, encrypted at the application layer.
+This document focuses on media encrypted at the transport layer, whether encryption is performed hop-by-hop or end-to-end. Because media encrypted at the application layer will only be processed by application-level entities, this encryption does not have transport-layer implications. Of course, both hop-by-hop and end-to-end encrypted transport may carry media that is, in addition, encrypted at the application layer.
 
 Each of these encryption strategies is intended to achieve a different goal. For instance, application-level encryption may be used for business purposes, such as avoiding piracy or enforcing geographic restrictions on playback, while transport-layer encryption may be used to prevent media stream manipulation or to protect manifests.
 
@@ -920,11 +925,11 @@ Although the IETF has put considerable emphasis on end-to-end streaming media en
 
 There are a variety of ways to involve intermediaries, and some are much more intrusive than others.
 
-From a content provider's perspective, a number of considerations are in play. The first question is likely whether the content provider intends that intermediaries are explicitly addressed from endpoints, or whether the content provider is willing to allow intermediaries to "intercept" streaming content transparently, with no awareness or permission from either endpoint.
+From a media provider's perspective, a number of considerations are in play. The first question is likely whether the media provider  intends that intermediaries are explicitly addressed from endpoints, or whether the media provider  is willing to allow intermediaries to "intercept" streaming content transparently, with no awareness or permission from either endpoint.
 
-If a content provider does not actively work to avoid interception by intermediaries, the effect will be indistinguishable from "impersonation attacks," and endpoints cannot be assumed of any level of privacy.
+If a media provider  does not actively work to avoid interception by intermediaries, the effect will be indistinguishable from "impersonation attacks," and endpoints cannot be assumed of any level of privacy.
 
-Assuming that a content provider does intend to allow intermediaries to participate in content streaming and does intend to provide some level of privacy for endpoints, there are a number of possible tools, either already available or still being specified. These include
+Assuming that a media provider does intend to allow intermediaries to participate in content streaming and does intend to provide some level of privacy for endpoints, there are a number of possible tools, either already available or still being specified. These include
 
 - Server And Network assisted DASH {{MPEG-DASH-SAND}} - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
 - "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees.
@@ -932,7 +937,7 @@ Assuming that a content provider does intend to allow intermediaries to particip
 
 The choice of whether to involve intermediaries sometimes requires careful consideration.
 As an example, when ABR manifests were commonly sent unencrypted, some networks would modify manifests during peak hours by removing high-bitrate renditions to prevent players from choosing those renditions, thus reducing the overall bandwidth consumed for delivering these media streams and thereby improving the network load and the user experience for their customers.
-Now that ubiquitous encryption typically prevents this kind of modification to maintain the same level of network health and user experience across networks whose users would have benefited from this intervention a media streaming operator sometimes needs to choose between adding intermediaries who are authorized to change the manifests or adding significant extra complexity to their service.
+Now that ubiquitous encryption typically prevents this kind of modification, a streaming media provider who used intermediaries in the past, and who now wishes to maintain the same level of network health and user experience, must choose between adding intermediaries who are authorized to change the manifests or adding some other form of complexity to their service.
 
 Some resources that might inform other similar considerations are further discussed in {{RFC8824}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
@@ -942,7 +947,7 @@ End-to-end media encryption offers the potential of providing privacy for stream
 
 End-to-end media encryption has become much more widespread in the years since the IETF issued "Pervasive Monitoring Is an Attack" {{RFC7258}} as a Best Current Practice, describing pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered sensitive.
 
-Unfortunately, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an attacker, while allowing monitoring by a more benign entity who only wants to use DPI to examine HTTP requests and responses to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, intermediary streaming operators are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary streaming operator who is explicitly authorized to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
+However, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an attacker, while allowing monitoring by a more benign entity who only wants to use DPI to examine HTTP requests and responses to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, intermediary streaming operators are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary explicitly authorized by the streaming media provider who is  to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
 
 {{RFC7258}} said that "The IETF will strive to produce specifications that mitigate pervasive monitoring attacks," so streaming operators should expect the IETF's direction toward preventing unauthorized monitoring of IETF protocols to continue for the foreseeable future.
 
@@ -960,7 +965,7 @@ This document requires no actions from IANA.
 
 # Security Considerations
 
-Security is an important matter for streaming media applications and it was briefly touched on in {{gen-encrypt}}. This document itself introduces no new security issues.
+Security is an important matter for streaming media applications and the topic of media encryption was explained in {{stream-encrypt-media}}. This document itself introduces no new security issues.
 
 # Acknowledgments
 
