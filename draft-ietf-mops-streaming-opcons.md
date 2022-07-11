@@ -381,7 +381,7 @@ This document is intended to explain characteristics of streaming media delivery
 
 This document defines "high-bitrate streaming media" as follows:
 
-- "High-bitrate" means bitrates as least as high as the ones given in {{bvr}} for common codecs at low resolution values.
+- "High-bitrate" is a context-sensitive term broadly intended to capture rates that can be sustained over some but not all of the target audience's network connections. A snapshot of values commonly qualifying as high-bitrate on today's internet is given by the higher-value entries in {{bvr}}.
 - "Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.
    - The term "simultaneous" is critical, as media segment transmission is not considered "streaming" if one downloads a media file and plays it after the download is completed. Instead, this would be called "download and play".
    - This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).
@@ -396,9 +396,9 @@ This document focuses chiefly on large-scale delivery of streaming high-bitrate 
 It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
 This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
 
-For the purposes of this document, there is no distinction made between "live media", created as an event in progress, and "media on demand", where the server is providing recorded media from storage.
+Most of the considerations covered in this document apply both to "live media" (created and streamed as an event is in progress) and "media on demand" (previously recorded media that is streamed from storage), except where noted.
 
-For the purposes of this document, there is no distinction between media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a CDN cache or media recorder.
+Most of the considerations covered in this document apply both to media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a media recorder that is executing an ABR algorithm, except where noted.
 
 This document contains
 
@@ -485,7 +485,7 @@ Here are a few common resolutions used for video content, with typical ranges of
 | 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
 | 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
-- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding, because the codec does not have any idea what network paths and network path conditions will carry the encoded video, at some point in the future.
+- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding, because the codec does not have any idea what network paths and network path conditions will carry the encoded video, at somFblisse point in the future.
 - Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, as described in {{adapt-deliver}}.
 - In order to provide multiple encodings for video resources, the codec must produce multiple versions of the video resource encoded at various bitrates, as described in {{adapt-encode}}.
 
@@ -507,7 +507,7 @@ Even when the bandwidth requirements for video streams along a path are well und
 
 The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in QoE for users that is significantly lower than what could have been achieved.
 
-One might wonder why media servers and transport protocols are each so blissfully ignorant of what the other is doing, and there are multiple reasons for that. One reason is that media servers are often implemented as applications executing in user space, relying on a general-purpose operating system that typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.
+One might wonder why media servers and transport protocols are each unaware of what the other is doing, and there are multiple reasons for that. One reason is that media servers are often implemented as applications executing in user space, relying on a general-purpose operating system that typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.
 
 In one example, if a media server overestimates the available bandwidth to the media player,
 
