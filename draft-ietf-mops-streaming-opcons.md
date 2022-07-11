@@ -664,7 +664,7 @@ In some applications, optimizations are available to on-demand video that are no
 
 # Adaptive Encoding, Adaptive Delivery, and Measurement Collection {#sec-abr}
 
-This section describes one way of providing the best user experience possible over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.
+This section describes one of the best known ways to provide a good user experience over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.
 
 ## Overview {#abr-overview}
 
@@ -680,9 +680,9 @@ The challenges in filling the buffer in a timely way fall into two broad categor
 
 The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
 
-Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it, with the excess media being buffered along the network path, increasing latency and, if latency is not consistent over time, potentially presenting the user with a "choppy" listening and viewing experience.
+Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it without exhausting all available receive buffers.
 
-ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, and then choosing a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
+ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by first observing the successful application-layer download speed, and then, given the available bandwidth, the client chooses a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 ## Adaptive Encoding {#adapt-encode}
 
