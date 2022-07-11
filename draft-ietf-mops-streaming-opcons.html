@@ -1736,7 +1736,8 @@ These include videoconferencing or voice calls, remote video gameplay, remote co
       <h2 id="name-adaptive-encoding-adaptive-">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-adaptive-encoding-adaptive-" class="section-name selfRef">Adaptive Encoding, Adaptive Delivery, and Measurement Collection</a>
       </h2>
-<div id="overview">
+<p id="section-5-1">This section describes one of the best known ways to provide a good user experience over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="abr-overview">
 <section id="section-5.1">
         <h3 id="name-overview">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
@@ -1745,12 +1746,16 @@ These include videoconferencing or voice calls, remote video gameplay, remote co
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
 The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
-Content selection comprises all of the steps needed to determine which content variation to offer the client.
-Content variation is the number of content options that exist at any given selection point.
-A common example, easily visualized, is Adaptive BitRate (ABR), described in more detail below.
-The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.1-3">ABR is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The challenges in filling the buffer in a timely way fall into two broad categories:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-3.1">Content selection comprises all of the steps needed to determine which content variation to offer the client.<a href="#section-5.1-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.1-3.2">Content variation is the number of content options that exist at any given selection point.<a href="#section-5.1-3.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-5.1-4">The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it without exhausting all available receive buffers.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by first observing the successful application-layer download speed, and then, given the available bandwidth, the client chooses a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="adapt-encode">
@@ -1870,7 +1875,7 @@ Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of mor
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-measurement-collection" class="section-name selfRef">Measurement Collection</a>
         </h3>
 <p id="section-5.6-1">Media players use measurements to guide their segment-by-segment adaptive streaming requests, but may also provide measurements to streaming media providers.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.6-2">In turn, providers may base analytics on these measurements, to guide decisions such as whether adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.6-2">In turn, media providers may base analytics on these measurements, to guide decisions such as whether adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
 <p id="section-5.6-3">To that effect, the Consumer Technology Association (CTA), who owns the Web Application Video Ecosystem (WAVE) project, has published two important specifications.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.6-4.1">CTA-2066: Streaming Quality of Experience Events, Properties and Metrics<a href="#section-5.6-4.1" class="pilcrow">¶</a>
