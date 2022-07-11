@@ -1723,7 +1723,7 @@ These include videoconferencing or voice calls, remote video gameplay, remote co
       <h2 id="name-adaptive-encoding-adaptive-">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-adaptive-encoding-adaptive-" class="section-name selfRef">Adaptive Encoding, Adaptive Delivery, and Measurement Collection</a>
       </h2>
-<p id="section-5-1">This section describes one way of providing the best user experience possible over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">This section describes one of the best known ways to provide a good user experience over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="abr-overview">
 <section id="section-5.1">
         <h3 id="name-overview">
@@ -1741,8 +1741,8 @@ The fill process needs to be at least fast enough to ensure that the buffer is n
 </li>
         </ul>
 <p id="section-5.1-4">The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.1-5">Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it, with the excess media being buffered along the network path, increasing latency and, if latency is not consistent over time, potentially presenting the user with a "choppy" listening and viewing experience.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.1-6">ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, and then choosing a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it without exhausting all available receive buffers.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by first observing the successful application-layer download speed, and then, given the available bandwidth, the client chooses a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="adapt-encode">
@@ -2160,7 +2160,7 @@ Now that ubiquitous encryption typically prevents this kind of modification to m
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-manageability">[I-D.ietf-quic-manageability]</dt>
       <dd>
-<span class="refAuthor">Kuehlewind, M.</span> and <span class="refAuthor">B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-16</span>, <time datetime="2022-04-06" class="refDate">6 April 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-16">https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Kuehlewind, M.</span> and <span class="refAuthor">B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-17</span>, <time datetime="2022-07-11" class="refDate">11 July 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-17">https://datatracker.ietf.org/doc/html/draft-ietf-quic-manageability-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-tcpm-rfc793bis">[I-D.ietf-tcpm-rfc793bis]</dt>
       <dd>
