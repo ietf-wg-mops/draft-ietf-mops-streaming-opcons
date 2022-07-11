@@ -330,7 +330,6 @@ informative:
   RFC3550:
   RFC3758:
   RFC4733:
-  RFC4960:
   RFC5481:
   RFC5594:
   RFC5681:
@@ -380,19 +379,14 @@ This document provides an overview of operational networking and transport proto
 
 This document is intended to explain characteristics of streaming media delivery that have surprised network designers or transport experts who lack specific media expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of media delivery issues encountered when streaming media over those existing networks.
 
-This document defines "streaming media" as follows:
+This document defines "high-bitrate streaming media" as follows:
 
-- "Streaming" is the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.
-- In this definition, the term "simultaneous" is critical, as media segment transmission is not considered "streaming" if one downloads a media file and plays it after the download is completed. Instead, this would be called "download and play".
-- Here, "media" refers to any type of media and associated streams such as video, audio, metadata, etc.
-- For the purposes of this document, there is no distinction made between "live media", created as an event in progress, and "media on demand", where the server is providing recorded media from storage.
-- For the purposes of this document, there is no distinction between media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a CDN cache or media recorder.
-
-This has two implications.
-
-- First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun). In addition, any media segments sent by the media server that the client cannot accept may be buffered somewhere along the path between a server and the client, or may simply be discarded.
-
-- Second, the client's media segment consumption rate is limited not only by the path's available bandwidth, but also by media segment availability. The client cannot fetch media segments that have not been been sent from a media server yet.
+- "High-bitrate" means bitrates as least as high as the ones given in {{bvr}} for common codecs at low resolution values.
+- "Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.
+   - The term "simultaneous" is critical, as media segment transmission is not considered "streaming" if one downloads a media file and plays it after the download is completed. Instead, this would be called "download and play".
+   - This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).
+   - Second, the client's media segment consumption rate is limited not only by the path's available bandwidth, but also by media segment availability. The client cannot fetch media segments that a media server cannot provide (yet).
+- "Media" refers to any type of media and associated streams such as video, audio, metadata, etc.
 
 ## Document Scope
 
@@ -401,6 +395,10 @@ A full review of all streaming media considerations for all types of media over 
 This document focuses chiefly on large-scale delivery of streaming high-bitrate media to end users.
 It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
 This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.
+
+For the purposes of this document, there is no distinction made between "live media", created as an event in progress, and "media on demand", where the server is providing recorded media from storage.
+
+For the purposes of this document, there is no distinction between media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a CDN cache or media recorder.
 
 This document contains
 
@@ -529,7 +527,7 @@ There are many reasons why path characteristics might change in normal operation
 
 * If cross traffic that also traverses part or all of the same path topology increases or decreases, especially if this new cross traffic is "inelastic," and does not respond to indications of path congestion.
 
-* Wireless links (Wi-Fi, 5G, LTE, etc.) often see rapid changes to capacity from changes in radio interference and signal strength as endpoints move.
+* Wireless links (Wi-Fi, 5G, LTE, etc.) may see rapid changes to capacity from changes in radio interference and signal strength as endpoints move.
 
 To recognize that a path carrying streaming media segments has experienced a change, maintaining a baseline that captures its prior properties is fundamental.
 Analytics that aid in that recognition can be more or less sophisticated and can usefully operate on several different time scales, from milliseconds to hours or days.
@@ -787,7 +785,6 @@ As many end devices have moved to wireless connections for the final hop (such a
 
 In most real-world operating environments, wireless links can often experience sudden changes in capacity as the end user device moves from place to place or encounters new sources of interference.
 Microwave ovens, for example, can cause a throughput degradation in Wi-Fi of more than a factor of 2 while active [Micro].
-5G and LTE likewise can easily see rate variation by a factor of 2 or more over a span of seconds as users move around.
 
 These swings in actual transport capacity can result in user experience issues when interacting with ABR algorithms that aren't tuned to handle the capacity variation gracefully.
 
