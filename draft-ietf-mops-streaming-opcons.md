@@ -804,7 +804,7 @@ To that effect, the Consumer Technology Association (CTA), who owns the Web Appl
 
 Many assume that the CDNs have a holistic view of the health and performance of the streaming clients. However, this is not the case. The CDNs produce millions of log lines per second across hundreds of thousands of clients and they have no concept of a "session" as a client would have, so CDNs are decoupled from the metrics the clients generate and report. A CDN cannot tell which request belongs to which playback session, the duration of any media object, the bitrate, or whether any of the clients have stalled and are rebuffering or are about to stall and will rebuffer. The consequence of this decoupling is that a CDN cannot prioritize delivery for when the client needs it most, prefetch content, or trigger alerts when the network itself may be underperforming. One approach to couple the CDN to the playback sessions is for the clients to communicate standardized media-relevant information to the CDNs while they are fetching data. {{CTA-5004}} was developed exactly for this purpose.
 
-# Iransport Protocol Behaviors and Their Implications for Media Transport Protocols {#sec-trans}
+# Transport Protocol Behaviors and Their Implications for Media Transport Protocols {#sec-trans}
 
 Within this document, the term "Media Transport Protocol" is used to describe any protocol that carries media metadata and media segments in its payload, and the term "Transport Protocol" describes any protocol that carries a Media Transport Protocol, or another Transport Protocol, in its payload. This is easier to understand if the reader assumes a protocol stack that looks something like this:
 
