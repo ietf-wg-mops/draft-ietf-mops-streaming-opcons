@@ -672,20 +672,25 @@ In some applications, optimizations are available to on-demand video that are no
 
 # Adaptive Encoding, Adaptive Delivery, and Measurement Collection {#sec-abr}
 
-## Overview
+This section describes one of the best known ways to provide a good user experience over a given network path, but one thing to keep in mind is that application-level mechanisms cannot provide a better experience than the underlying network path can support.
+
+## Overview {#abr-overview}
 
 A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
 The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.
 
-The challenges in filling the buffer in a timely way fall into two broad categories: 1. content selection and 2. content variation.
-Content selection comprises all of the steps needed to determine which content variation to offer the client.
-Content variation is the number of content options that exist at any given selection point.
-A common example, easily visualized, is Adaptive BitRate (ABR), described in more detail below.
+The challenges in filling the buffer in a timely way fall into two broad categories:
+
+- Content selection comprises all of the steps needed to determine which content variation to offer the client.
+- Content variation is the number of content options that exist at any given selection point.
+
 The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
 
-ABR is a sort of application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by observing the successful application-layer download speed, then chooses a bitrate for each of the video, audio, subtitles and metadata (among the limited number of available options) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
+Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it without exhausting all available receive buffers.
+
+ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by first observing the successful application-layer download speed, and then, given the available bandwidth, the client chooses a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
 ## Adaptive Encoding {#adapt-encode}
 
@@ -792,7 +797,7 @@ These swings in actual transport capacity can result in user experience issues w
 
 Media players use measurements to guide their segment-by-segment adaptive streaming requests, but may also provide measurements to streaming media providers.
 
-In turn, providers may base analytics on these measurements, to guide decisions such as whether adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.
+In turn, media providers may base analytics on these measurements, to guide decisions such as whether adaptive encoding bitrates in use are the best ones to provide to media players, or whether current media content caching is providing the best experience for viewers.
 
 To that effect, the Consumer Technology Association (CTA), who owns the Web Application Video Ecosystem (WAVE) project, has published two important specifications.
 
