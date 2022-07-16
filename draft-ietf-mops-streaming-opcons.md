@@ -117,16 +117,6 @@ informative:
       - ins: Apple, Inc.
     date: 2020-06
 
-  IABcovid:
-    target: https://datatracker.ietf.org/doc/draft-iab-covid19-workshop/
-    title: Report from the IAB COVID-19 Network Impacts Workshop 2020
-    author:
-      - ins: J. Arkko
-      - ins: S. Farrel
-      - ins: M. Kühlewind
-      - ins: C. Perkins
-    date: 2020-11
-
   CTA-2066:
     target: https://shop.cta.tech/products/streaming-quality-of-experience-events-properties-and-metrics
     title: Streaming Quality of Experience Events, Properties and Metrics
@@ -303,7 +293,7 @@ informative:
 
   Survey360o:
     target: https://ieeexplore.ieee.org/document/9133103
-    title: "A Survey on Adaptive 360° Video Streaming: Solutions, Challenges and Opportunities"
+    title: "A Survey on Adaptive 360 Video Streaming: Solutions, Challenges and Opportunities"
     author:
       - ins: A. Yaqoob
       - ins: T.Bi
@@ -313,14 +303,12 @@ informative:
 
   ISOBMFF:
     target: https://www.iso.org/standard/83102.html
-    title: "ISO/IEC 14496-12:2022 Information technology — Coding of audio-visual objects — Part 12: ISO base media file format"
+    title: "ISO/IEC 14496-12:2022 Information technology - Coding of audio-visual objects - Part 12: ISO base media file format"
     date:  January 2022
 
   I-D.ietf-quic-manageability:
-  I-D.ietf-quic-datagram:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
-  I-D.ietf-httpbis-cache:
   I-D.ietf-tcpm-rfc793bis:
 
   RFC2001:
@@ -364,6 +352,9 @@ informative:
   RFC9065:
   RFC9114:
   RFC9260:
+  RFC9111:
+  RFC9221:
+  RFC9075:
 
 --- abstract
 
@@ -566,7 +557,7 @@ as low as a per-feed requirement instead of a per-user requirement.
 
 ## Caching Systems {#caching}
 
-When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in {{I-D.ietf-httpbis-cache}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester and how the benefits of caching and pre-loading caches balances against the costs of tracking stale content in caches and refreshing that content.
+When demand for content is relatively predictable, and especially when that content is relatively static, caching content close to requesters and pre-loading caches to respond quickly to initial requests is often useful (for example, HTTP/1.1 caching is described in {{RFC9111}}). This is subject to the usual considerations for caching - for example, how much data must be cached to make a significant difference to the requester and how the benefits of caching and pre-loading caches balances against the costs of tracking stale content in caches and refreshing that content.
 
 It is worth noting that not all high-demand content is "live" content. One relevant example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
 
@@ -598,7 +589,7 @@ Especially as end users increase use of video-based social networking applicatio
 
 ### Impact of Global Pandemic
 
-Early in 2020, the CoViD-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{IABcovid}} in November 2020. The following observations from the workshop report are worth considering.
+Early in 2020, the COVID-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns, due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{RFC9075}} in November 2020. The following observations from the workshop report are worth considering.
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
@@ -884,7 +875,7 @@ When HTTP/3 is encapsulated in QUIC, which is then encapsulated in UDP, streamin
 
 As noted in {{noisy-measurements}}, because TCP provides a reliable, in-order delivery service for applications, any packet loss for a TCP connection causes head-of-line blocking, so that no TCP segments arriving after a packet is lost will be delivered to the receiving application until retransmission of the lost packet has been received, allowing in-order delivery to the application to continue. As described in {{RFC9000}}, QUIC connections can carry multiple streams, and when packet losses do occur, only the streams carried in the lost packet are delayed.
 
-A QUIC extension currently being specified ({{I-D.ietf-quic-datagram}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
+A QUIC extension currently being specified ({{RFC9221}}) adds the capability for "unreliable" delivery, similar to the service provided by UDP, but these datagrams are still subject to the QUIC connection's congestion controller, providing some transport-level congestion avoidance measures, which UDP does not.
 
 As noted in {{reliable-behavior}}, there is an increasing interest in congestion control algorithms that respond to delay measurements, instead of responding to packet loss. These algorithms may deliver an improved user experience, but in some cases, have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be used for algorithm agility, and {{RFC9002}} defines a basic congestion control algorithm that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
 
