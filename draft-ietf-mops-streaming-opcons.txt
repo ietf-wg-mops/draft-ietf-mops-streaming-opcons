@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 12 January 2023                                 Networked Media
+Expires: 19 January 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            11 July 2022
+                                                            18 July 2022
 
 
              Operational Considerations for Streaming Media
@@ -20,7 +20,7 @@ Abstract
    transport protocol issues that pertain to the quality of experience
    when streaming video and other high-bitrate media over the Internet.
 
-   This document is intended to explain characteristics of streaming
+   This document is intended to explain the characteristics of streaming
    media delivery that have surprised network designers or transport
    experts who lack specific media expertise, since streaming media
    highlights key differences between common assumptions in existing
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 January 2023.
+   This Internet-Draft will expire on 19 January 2023.
 
 Copyright Notice
 
@@ -117,7 +117,7 @@ Table of Contents
    (QoE) when streaming video and other high-bitrate media over the
    Internet.
 
-   This document is intended to explain characteristics of streaming
+   This document is intended to explain the characteristics of streaming
    media delivery that have surprised network designers or transport
    experts who lack specific media expertise, since streaming media
    highlights key differences between common assumptions in existing
@@ -129,7 +129,7 @@ Table of Contents
    *  "High-bitrate" is a context-sensitive term broadly intended to
       capture rates that can be sustained over some but not all of the
       target audience's network connections.  A snapshot of values
-      commonly qualifying as high-bitrate on today's internet is given
+      commonly qualifying as high-bitrate on today's Internet is given
       by the higher-value entries in Section 3.1.1.
 
    *  "Streaming" means the continuous transmission of media segments
@@ -149,7 +149,7 @@ Table of Contents
          buffer before playback (buffer overrun).
 
       -  Second, the client's media segment consumption rate is limited
-         not only by the path's available bandwidth, but also by media
+         not only by the path's available bandwidth but also by media
          segment availability.  The client cannot fetch media segments
          that a media server cannot provide (yet).
 
@@ -162,12 +162,12 @@ Table of Contents
    media over all types of network paths is too broad a topic to cover
    comprehensively in a single document.
 
-   This document focuses chiefly on large-scale delivery of streaming
-   high-bitrate media to end users.  It is primarily intended for those
-   controlling endpoints involved in delivering streaming media traffic.
-   This can include origin servers publishing content, intermediaries
-   like content delivery networks (CDNs), and providers for client
-   devices and media players.
+   This document focuses chiefly on the large-scale delivery of
+   streaming high-bitrate media to end users.  It is primarily intended
+   for those controlling endpoints involved in delivering streaming
+   media traffic.  This can include origin servers publishing content,
+   intermediaries like content delivery networks (CDNs), and providers
+   for client devices and media players.
 
    Most of the considerations covered in this document apply both to
    "live media" (created and streamed as an event is in progress) and
@@ -210,7 +210,7 @@ Table of Contents
    *  in-depth examination of real-time two-way interactive media, such
       as video conferencing; although this document touches lightly on
       topics related to this space, the intent is to let readers know
-      that for more in-depth coverage they should look to other
+      that for more in-depth coverage, they should look to other
       documents, since the techniques and issues for interactive real-
       time two-way media differ so dramatically from those in large-
       scale one-way delivery of streaming media.
@@ -227,18 +227,18 @@ Table of Contents
       considered independent topics better addressed by other documents.
 
    *  transparent tunnels; while tunnels can have an impact on streaming
-      media via issues like the round trip time and the maximum
+      media via issues like the round-trip time and the maximum
       transmission unit (MTU) of packets carried over tunnels, for the
-      purposes of this document these issues are considered as part of
+      purposes of this document, these issues are considered as part of
       the set of network path properties.
 
-   It is worth pointing out explicitly, because questions about "Web
-   Real-Time Communication" or "WebRTC" have come up often, that some
-   WebRTC protocols ([RFC8834], [RFC8835]) are mentioned in this
-   document, including RTP, WebRTC's principal media transport protocol.
-   However, (as noted in Section 2) it is difficult to give general
-   guidance for unreliable media transport protocols used to carry
-   interactive real-time media.
+   It is worth pointing out explicitly because questions about "Web
+   Real-Time Communication (WebRTC)" has come up often, that some WebRTC
+   protocols ([RFC8834], [RFC8835]) are mentioned in this document,
+   including RTP, WebRTC's principal media transport protocol.  However,
+   (as noted in Section 2) it is difficult to give general guidance for
+   unreliable media transport protocols used to carry interactive real-
+   time media.
 
 1.2.  Notes for Contributors and Reviewers
 
@@ -302,7 +302,7 @@ Table of Contents
    *  HTTP has been demonstrated to provide acceptable performance over
       the open Internet,
 
-   *  HTTP includes state of the art standardized security mechanisms,
+   *  HTTP includes state-of-the-art standardized security mechanisms,
       and
 
    *  HTTP can use already-deployed caching infrastructure such as
@@ -358,9 +358,9 @@ Table of Contents
 
    *  Note that these codecs do not take the actual "available
       bandwidth" between streaming video servers and streaming video
-      receivers into account when encoding, because the codec does not
+      receivers into account when encoding because the codec does not
       have any idea what network paths and network path conditions will
-      carry the encoded video, at some point in the future.
+      carry the encoded video at some point in the future.
 
    *  Note that video receivers attempting to receive encoded video
       across a network path with insufficient available path bandwidth
@@ -374,7 +374,7 @@ Table of Contents
 3.1.2.  Virtual Reality Bitrates
 
    The bitrates given in Section 3.1.1 describe video streams that
-   provide the user with a single, fixed, point of view - so, the user
+   provide the user with a single, fixed point of view - so, the user
    has no "degrees of freedom," and the user sees all of the video image
    that is available.
 
@@ -449,7 +449,7 @@ Table of Contents
       transmission, so
 
    *  the transport protocol cannot probe for available path bandwidth
-      by sending at a higher rate, until the media receiver signals the
+      by sending at a higher rate until the media receiver signals the
       media server that the media server can increase its media segment
       sending rate.
 
@@ -495,7 +495,7 @@ Table of Contents
    *  loss rate (and explicit congestion notification (ECN) ([RFC3168]
       when in use)
 
-   *  out of order packet rate
+   *  out-of-order packet rate
 
    *  packet and byte receive rate
 
@@ -504,7 +504,7 @@ Table of Contents
    *  properties of other connections carrying competing traffic, in
       addition to the connections carrying the streaming media segments
 
-   *  externally provided measurements, for example from network cards
+   *  externally provided measurements, for example, from network cards
       or metrics collected by the operating system
 
 3.3.  Path Requirements
@@ -535,11 +535,11 @@ Table of Contents
    when that content is relatively static, caching content close to
    requesters and pre-loading caches to respond quickly to initial
    requests is often useful (for example, HTTP/1.1 caching is described
-   in [I-D.ietf-httpbis-cache]).  This is subject to the usual
-   considerations for caching - for example, how much data must be
-   cached to make a significant difference to the requester and how the
-   benefits of caching and pre-loading caches balances against the costs
-   of tracking stale content in caches and refreshing that content.
+   in [RFC9111]).  This is subject to the usual considerations for
+   caching - for example, how much data must be cached to make a
+   significant difference to the requester and how the benefit of
+   caching and pre-loading caches balances against the costs of tracking
+   stale content in caches and refreshing that content.
 
    It is worth noting that not all high-demand content is "live"
    content.  One relevant example is when popular streaming content can
@@ -576,7 +576,7 @@ Table of Contents
    cache could result in the cache holding a truncated segment and
    transmitting it to the end user's device.  In this case, players
    rendering the stream often had the video freeze until the player was
-   reset.  In some cases the truncated object was even cached that way
+   reset.  In some cases, the truncated object was even cached that way
    and served later to other players as well, causing continued stalls
    at the same spot in the video for all players playing the segment
    delivered from that cache node.
@@ -584,7 +584,7 @@ Table of Contents
 3.5.  Predictable Usage Profiles
 
    Historical data shows that users consume more videos and these videos
-   are encoded at a higher bitrate than they were in the past.
+   are encoded at a bitrate higher than they were in the past.
    Improvements in the codecs that help reduce the encoding bitrates
    with better compression algorithms could not have offset the increase
    in the demand for the higher quality video (higher resolution, higher
@@ -613,39 +613,39 @@ Table of Contents
 
    *  Many access networks for end users used underlying technologies
       that are inherently asymmetric, favoring downstream bandwidth
-      (e.g.  ADSL, cellular technologies, most IEEE 802.11 variants),
+      (e.g., ADSL, cellular technologies, most IEEE 802.11 variants),
       assuming that most users will need more downstream bandwidth than
       upstream bandwidth.  This is a good assumption for client-server
       applications such as streaming video or software downloads, but
       BitTorrent rewarded peers that uploaded as much as they
       downloaded, so BitTorrent users had much more symmetric usage
-      profiles which interacted badly with these assymetric access
+      profiles, which interacted badly with these asymetric access
       network technologies.
 
    *  BitTorrent also used distributed hash tables to organize peers
       into a ring topology, where each peer knew its "next peer" and
-      "previous peer".  There was no connection between the application-
+      "previous peer."  There was no connection between the application-
       level ring topology and the lower-level network topology, so a
       peer's "next peer" might be anywhere on the reachable Internet.
       Traffic models that expected most communication to take place with
       a relatively small number of servers were unable to cope with
       peer-to-peer traffic that was much less predictable.
 
-   Especially as end users increase use of video-based social networking
-   applications, it will be helpful for access network providers to
-   watch for increasing numbers of end users uploading significant
-   amounts of content.
+   Especially, as end users increase the use of video-based social
+   networking applications, it will be helpful for access network
+   providers to watch for increasing numbers of end users uploading
+   significant amounts of content.
 
 3.6.2.  Impact of Global Pandemic
 
-   Early in 2020, the CoViD-19 pandemic and resulting quarantines and
-   shutdowns led to significant changes in traffic patterns, due to a
+   Early in 2020, the COVID-19 pandemic and resulting quarantines and
+   shutdowns led to significant changes in traffic patterns due to a
    large number of people who suddenly started working and attending
    school remotely and using more interactive applications (video
    conferencing, in addition to streaming media).  Subsequently, the
    Internet Architecture Board (IAB) held a COVID-19 Network Impacts
-   Workshop [IABcovid] in November 2020.  The following observations
-   from the workshop report are worth considering.
+   Workshop [RFC9075] in November 2020.  The following observations from
+   the workshop report are worth considering.
 
    *  Participants describing different types of networks reported
       different kinds of impacts, but all types of networks saw impacts.
@@ -659,10 +659,9 @@ Table of Contents
       growth to land at a new normal that was much higher than
       anticipated.
 
-   *  At DE-CIX Frankfurt, the world's largest Internet Exchange Point
-      in terms of data throughput, the year 2020 has seen the largest
-      increase in peak traffic within a single year since the IXP was
-      founded in 1995.
+   *  At DE-CIX Frankfurt, the world's largest IXP in terms of data
+      throughput, the year 2020 has seen the largest increase in peak
+      traffic within a single year since the IXP was founded in 1995.
 
    *  The usage pattern changed significantly as work-from-home and
       videoconferencing usage peaked during normal work hours, which
@@ -751,12 +750,12 @@ Table of Contents
 
 4.1.1.  Near-Realtime Latency
 
-   Some internet applications that incorporate media streaming have
+   Some Internet applications that incorporate media streaming have
    specific interactivity or control-feedback requirements that drive
    much lower glass-to-glass media latency targets than one second.
    These include videoconferencing or voice calls, remote video
    gameplay, remote control of hardware platforms like drones, vehicles,
-   or surgical robots, and many other envisioned or deployed interactive
+   or surgical robots and many other envisioned or deployed interactive
    applications.
 
    Applications with latency targets in these regimes are out of scope
@@ -804,7 +803,7 @@ Table of Contents
 
    While an LL-HLS client retrieves each chunk with a separate HTTP GET
    request, an LL-DASH client uses the chunked transfer encoding feature
-   of the HTTP [CMAF-CTE] which allows the LL-DASH client to fetch all
+   of the HTTP [CMAF-CTE], which allows the LL-DASH client to fetch all
    the chunks belonging to a segment with a single GET request.  An HTTP
    server can transmit the CMAF chunks to the LL-DASH client as they
    arrive from the encoder/packager.  A detailed comparison of LL-HLS
@@ -856,7 +855,7 @@ Table of Contents
 
 5.  Adaptive Encoding, Adaptive Delivery, and Measurement Collection
 
-   This section describes one of the best known ways to provide a good
+   This section describes one of the best-known ways to provide a good
    user experience over a given network path, but one thing to keep in
    mind is that application-level mechanisms cannot provide a better
    experience than the underlying network path can support.
@@ -986,7 +985,7 @@ Table of Contents
    protocol specifications published by the Interactive Advertising
    Bureau [IAB-ADS], an industry trade organization.
 
-   This ecosystem balances several competing objectives, and integrating
+   This ecosystem balances several competing objectives and integrating
    with it naively can produce surprising user experience results.  For
    example, ad server provisioning and/or the bitrate of the ad segments
    might be different from that of the main video, and either of these
@@ -997,7 +996,7 @@ Table of Contents
 
    Another major source of competing objectives comes from user privacy
    considerations vs. the advertiser's incentives to target ads to user
-   segments based on behavioral data.  Multiple studies, for example
+   segments based on behavioral data.  Multiple studies, for example,
    [BEHAVE] and [BEHAVE2], have reported large improvements in ad
    effectiveness when using behaviorally targeted ads, relative to
    untargeted ads.  This provides a strong incentive for advertisers to
@@ -1129,7 +1128,7 @@ Table of Contents
    adaptive streaming requests, but may also provide measurements to
    streaming media providers.
 
-   In turn, media providers may base analytics on these measurements, to
+   In turn, media providers may base analytics on these measurements to
    guide decisions such as whether adaptive encoding bitrates in use are
    the best ones to provide to media players, or whether current media
    content caching is providing the best experience for viewers.
@@ -1307,8 +1306,8 @@ Table of Contents
       over UDP, which makes no attempt to account for reordering or loss
       in the transport,
 
-   *  RTP [RFC3550], which can notice packetloss and repair some limited
-      reordering,
+   *  RTP [RFC3550], which can notice packet loss and repair some
+      limited reordering,
 
    *  SCTP [RFC9260], which can use partial reliability [RFC3758] to
       recover from some loss, but can abandon recovery to limit head-of-
@@ -1391,9 +1390,9 @@ Table of Contents
    streams, and when packet losses do occur, only the streams carried in
    the lost packet are delayed.
 
-   A QUIC extension currently being specified ([I-D.ietf-quic-datagram])
-   adds the capability for "unreliable" delivery, similar to the service
-   provided by UDP, but these datagrams are still subject to the QUIC
+   A QUIC extension currently being specified ([RFC9221]) adds the
+   capability for "unreliable" delivery, similar to the service provided
+   by UDP, but these datagrams are still subject to the QUIC
    connection's congestion controller, providing some transport-level
    congestion avoidance measures, which UDP does not.
 
@@ -1769,26 +1768,12 @@ Table of Contents
               11 May 2022, <https://datatracker.ietf.org/doc/html/draft-
               pantos-hls-rfc8216bis-11>.
 
-   [I-D.ietf-httpbis-cache]
-              Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
-              Caching", Work in Progress, Internet-Draft, draft-ietf-
-              httpbis-cache-19, 12 September 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              cache-19>.
-
-   [I-D.ietf-quic-datagram]
-              Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
-              Datagram Extension to QUIC", Work in Progress, Internet-
-              Draft, draft-ietf-quic-datagram-10, 4 February 2022,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              datagram-10>.
-
    [I-D.ietf-quic-manageability]
               Kuehlewind, M. and B. Trammell, "Manageability of the QUIC
               Transport Protocol", Work in Progress, Internet-Draft,
-              draft-ietf-quic-manageability-17, 11 July 2022,
+              draft-ietf-quic-manageability-18, 15 July 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              manageability-17>.
+              manageability-18>.
 
    [I-D.ietf-tcpm-rfc793bis]
               Eddy, W. M., "Transmission Control Protocol (TCP)
@@ -1799,13 +1784,8 @@ Table of Contents
 
    [IAB-ADS]  "IAB", n.d., <https://www.iab.com/>.
 
-   [IABcovid] Arkko, J., Farrel, S., Kühlewind, M., and C. Perkins,
-              "Report from the IAB COVID-19 Network Impacts Workshop
-              2020", November 2020, <https://datatracker.ietf.org/doc/
-              draft-iab-covid19-workshop/>.
-
-   [ISOBMFF]  "ISO/IEC 14496-12:2022 Information technology — Coding of
-              audio-visual objects — Part 12: ISO base media file
+   [ISOBMFF]  "ISO/IEC 14496-12:2022 Information technology - Coding of
+              audio-visual objects - Part 12: ISO base media file
               format", January 2022,
               <https://www.iso.org/standard/83102.html>.
 
@@ -2062,8 +2042,23 @@ Table of Contents
               DOI 10.17487/RFC9065, July 2021,
               <https://www.rfc-editor.org/rfc/rfc9065>.
 
+   [RFC9075]  Arkko, J., Farrell, S., Kühlewind, M., and C. Perkins,
+              "Report from the IAB COVID-19 Network Impacts Workshop
+              2020", RFC 9075, DOI 10.17487/RFC9075, July 2021,
+              <https://www.rfc-editor.org/rfc/rfc9075>.
+
+   [RFC9111]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Caching", STD 98, RFC 9111,
+              DOI 10.17487/RFC9111, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9111>.
+
    [RFC9114]  Bishop, M., Ed., "HTTP/3", RFC 9114, DOI 10.17487/RFC9114,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9114>.
+
+   [RFC9221]  Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
+              Datagram Extension to QUIC", RFC 9221,
+              DOI 10.17487/RFC9221, March 2022,
+              <https://www.rfc-editor.org/rfc/rfc9221>.
 
    [RFC9260]  Stewart, R., Tüxen, M., and K. Nielsen, "Stream Control
               Transmission Protocol", RFC 9260, DOI 10.17487/RFC9260,
@@ -2081,7 +2076,7 @@ Table of Contents
 
    [Survey360o]
               Yaqoob, A., Bi, T., and G. Muntean, "A Survey on Adaptive
-              360° Video Streaming: Solutions, Challenges and
+              360 Video Streaming: Solutions, Challenges and
               Opportunities", IEEE Communications Surveys & Tutorials ,
               July 2020, <https://ieeexplore.ieee.org/document/9133103>.
 
