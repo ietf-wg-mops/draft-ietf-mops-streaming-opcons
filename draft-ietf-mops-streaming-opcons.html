@@ -1033,7 +1033,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Holland, et al.</td>
-<td class="center">Expires 19 January 2023</td>
+<td class="center">Expires 20 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mops-streaming-opcons-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-07-18" class="published">18 July 2022</time>
+<time datetime="2022-07-19" class="published">19 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-01-19">19 January 2023</time></dd>
+<dd class="expires"><time datetime="2023-01-20">20 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1094,7 +1094,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1354,7 +1354,7 @@ This can include origin servers publishing content, intermediaries like content 
           <li class="normal" id="section-1.1-8.4">transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.<a href="#section-1.1-8.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-1.1-9">It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that some WebRTC protocols (<span>[<a href="#RFC8834" class="xref">RFC8834</a>]</span>, <span>[<a href="#RFC8835" class="xref">RFC8835</a>]</span>) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in <a href="#sd" class="xref">Section 2</a>) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.<a href="#section-1.1-9" class="pilcrow">¶</a></p>
+<p id="section-1.1-9">It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that RTP, WebRTC's principal media transport protocol (<span>[<a href="#RFC8834" class="xref">RFC8834</a>]</span>, <span>[<a href="#RFC8835" class="xref">RFC8835</a>]</span>),  is mentioned in this document. However, (as noted in <a href="#sd" class="xref">Section 2</a>) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.<a href="#section-1.1-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="notes-for-contributors-and-reviewers">
@@ -1476,9 +1476,9 @@ the impact on video delivery.<a href="#section-2-3" class="pilcrow">¶</a></p>
             </tbody>
           </table>
 <ul class="normal">
-<li class="normal" id="section-3.1.1-4.1">Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding because the codec does not have any idea what network paths and network path conditions will carry the encoded video at some point in the future.<a href="#section-3.1.1-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3.1.1-4.1">Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding because the codec does not have any idea what network paths and network path conditions will carry the encoded video at some point in the future. It is common for codecs to offer a small number of resource variants, differing only in the bandwidth each variant targets.<a href="#section-3.1.1-4.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-3.1.1-4.2">Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, as described in <a href="#adapt-deliver" class="xref">Section 5.3</a>.<a href="#section-3.1.1-4.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-3.1.1-4.2">Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, at the cost of lower video quality, as described in <a href="#adapt-deliver" class="xref">Section 5.3</a>.<a href="#section-3.1.1-4.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.1.1-4.3">In order to provide multiple encodings for video resources, the codec must produce multiple versions of the video resource encoded at various bitrates, as described in <a href="#adapt-encode" class="xref">Section 5.2</a>.<a href="#section-3.1.1-4.3" class="pilcrow">¶</a>
 </li>
@@ -1521,7 +1521,7 @@ the impact on video delivery.<a href="#section-2-3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-6.4">because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so<a href="#section-3.2-6.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-6.5">the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver signals the media server that the media server can increase its media segment sending rate.<a href="#section-3.2-6.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-6.5">the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver requests segments that buffer enough data for the transport to perform the probing.<a href="#section-3.2-6.5" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-3.2-7">To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.<a href="#section-3.2-7" class="pilcrow">¶</a></p>

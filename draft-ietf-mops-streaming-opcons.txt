@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 19 January 2023                                 Networked Media
+Expires: 20 January 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            18 July 2022
+                                                            19 July 2022
 
 
              Operational Considerations for Streaming Media
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 January 2023.
+   This Internet-Draft will expire on 20 January 2023.
 
 Copyright Notice
 
@@ -233,12 +233,11 @@ Table of Contents
       the set of network path properties.
 
    It is worth pointing out explicitly because questions about "Web
-   Real-Time Communication (WebRTC)" has come up often, that some WebRTC
-   protocols ([RFC8834], [RFC8835]) are mentioned in this document,
-   including RTP, WebRTC's principal media transport protocol.  However,
-   (as noted in Section 2) it is difficult to give general guidance for
-   unreliable media transport protocols used to carry interactive real-
-   time media.
+   Real-Time Communication (WebRTC)" has come up often, that RTP,
+   WebRTC's principal media transport protocol ([RFC8834], [RFC8835]),
+   is mentioned in this document.  However, (as noted in Section 2) it
+   is difficult to give general guidance for unreliable media transport
+   protocols used to carry interactive real-time media.
 
 1.2.  Notes for Contributors and Reviewers
 
@@ -360,12 +359,15 @@ Table of Contents
       bandwidth" between streaming video servers and streaming video
       receivers into account when encoding because the codec does not
       have any idea what network paths and network path conditions will
-      carry the encoded video at some point in the future.
+      carry the encoded video at some point in the future.  It is common
+      for codecs to offer a small number of resource variants, differing
+      only in the bandwidth each variant targets.
 
    *  Note that video receivers attempting to receive encoded video
       across a network path with insufficient available path bandwidth
       might request the video server to provide video encoded for lower
-      bitrates, as described in Section 5.3.
+      bitrates, at the cost of lower video quality, as described in
+      Section 5.3.
 
    *  In order to provide multiple encodings for video resources, the
       codec must produce multiple versions of the video resource encoded
@@ -449,9 +451,9 @@ Table of Contents
       transmission, so
 
    *  the transport protocol cannot probe for available path bandwidth
-      by sending at a higher rate until the media receiver signals the
-      media server that the media server can increase its media segment
-      sending rate.
+      by sending at a higher rate until the media receiver requests
+      segments that buffer enough data for the transport to perform the
+      probing.
 
    To avoid these types of situations, which can potentially affect all
    the users whose streaming media segments traverse a bottleneck, there
