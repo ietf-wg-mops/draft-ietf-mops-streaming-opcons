@@ -637,7 +637,7 @@ Applications with latency targets in these regimes are out of scope for this doc
 
 Low-latency live delivery of media is defined here as having a glass-to-glass delay target under 10 seconds.
 
-This level of latency is targeted to have a user experience similar to traditional broadcast TV delivery.  A frequently cited problem with failing to achieve this level of latency for live sporting events is the user experience failure from having crowds within earshot of one another who react audibly to an important play, or from users who learn of an event in the match via some other channel, for example, social media, before it has happened on the screen showing the sporting event.
+This level of latency is targeted to have a user experience similar to broadcast TV delivery.  A frequently cited problem with failing to achieve this level of latency for live sporting events is the user experience failure from having crowds within earshot of one another who react audibly to an important play, or from users who learn of an event in the match via some other channel, for example, social media, before it has happened on the screen showing the sporting event.
 
 Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what is feasible in a higher latency service. The tradeoffs may include higher costs, delivering a lower quality video, reduced flexibility for adaptive bitrates or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
 
@@ -647,7 +647,7 @@ While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an
 
 ## Non-Low-Latency Live
 
-Non-low-latency live delivery of media is defined here as a live stream that does not have a latency target shorter than 10 seconds.
+Non-low-latency live delivery of media is defined here as a livestream that does not have a latency target shorter than 10 seconds.
 
 This level of latency is the historically common case for segmented video delivery using HLS {{RFC8216}} and DASH {{MPEG-DASH}}. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
 
