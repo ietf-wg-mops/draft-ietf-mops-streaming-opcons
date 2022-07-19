@@ -407,7 +407,7 @@ Topics outside this scope include:
  - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
  - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.
 
-It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that some WebRTC protocols ({{RFC8834}}, {{RFC8835}}) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.
+It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that RTP, WebRTC's principal media transport protocol ({{RFC8834}}, {{RFC8835}}),  is mentioned in this document. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.
 
 ## Notes for Contributors and Reviewers
 
@@ -476,8 +476,8 @@ Here are a few common resolutions used for video content, with typical ranges of
 | 1080p (2K) | 1920 x 1080 | 6-8 Mbps | 4.5-7 Mbps
 | 2160p (4k) | 3840 x 2160 | N/A | 10-20 Mbps
 
-- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding because the codec does not have any idea what network paths and network path conditions will carry the encoded video at some point in the future.
-- Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, as described in {{adapt-deliver}}.
+- Note that these codecs do not take the actual "available bandwidth" between streaming video servers and streaming video receivers into account when encoding because the codec does not have any idea what network paths and network path conditions will carry the encoded video at some point in the future. It is common for codecs to offer a small number of resource variants, differing only in the bandwidth each variant targets.
+- Note that video receivers attempting to receive encoded video across a network path with insufficient available path bandwidth might request the video server to provide video encoded for lower bitrates, at the cost of lower video quality, as described in {{adapt-deliver}}.
 - In order to provide multiple encodings for video resources, the codec must produce multiple versions of the video resource encoded at various bitrates, as described in {{adapt-encode}}.
 
 ### Virtual Reality Bitrates
@@ -506,7 +506,7 @@ In one example, if a media server overestimates the available bandwidth to the m
 * the media server adapts to application-level feedback from the media player and reduces its own sending rate,
 * the transport protocol sends media segments at the new, lower rate and confirms that this new, lower rate is "safe" because no transport-level loss is occurring, but
 * because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so
-* the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver signals the media server that the media server can increase its media segment sending rate.
+* the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver requests segments that buffer enough data for the transport to perform the probing.
 
 To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.
 
