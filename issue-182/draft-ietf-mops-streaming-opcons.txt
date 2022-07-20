@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 20 January 2023                                 Networked Media
+Expires: 21 January 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            19 July 2022
+                                                            20 July 2022
 
 
              Operational Considerations for Streaming Media
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 January 2023.
+   This Internet-Draft will expire on 21 January 2023.
 
 Copyright Notice
 
@@ -61,9 +61,10 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Document Scope
-     1.2.  Notes for Contributors and Reviewers
-       1.2.1.  Venues for Contribution and Discussion
+     1.1.  Key Definitions
+     1.2.  Document Scope
+     1.3.  Notes for Contributors and Reviewers
+       1.3.1.  Venues for Contribution and Discussion
    2.  Our Focus on Streaming Video
    3.  Bandwidth Provisioning
      3.1.  Scaling Requirements for Media Delivery
@@ -124,7 +125,10 @@ Table of Contents
    networking practices and observations of media delivery issues
    encountered when streaming media over those existing networks.
 
-   This document defines "high-bitrate streaming media" as follows:
+1.1.  Key Definitions
+
+   This document defines "high-bitrate streaming media over the
+   Internet" as follows:
 
    *  "High-bitrate" is a context-sensitive term broadly intended to
       capture rates that can be sustained over some but not all of the
@@ -156,7 +160,11 @@ Table of Contents
    *  "Media" refers to any type of media and associated streams such as
       video, audio, metadata, etc.
 
-1.1.  Document Scope
+   *  "Over the Internet" means that a single operator does not have
+      control of the entire path between media servers and media
+      clients, so not a "walled garden".
+
+1.2.  Document Scope
 
    A full review of all streaming media considerations for all types of
    media over all types of network paths is too broad a topic to cover
@@ -221,10 +229,11 @@ Table of Contents
       of reference for future solution proposals to describe how new
       technologies address or avoid existing problems.
 
-   *  generalized network performance techniques; while things like
-      datacenter design and transit network design can be crucial
-      dependencies for a performant streaming media service, these are
-      considered independent topics better addressed by other documents.
+   *  generalized network performance techniques; while considerations
+      such as datacenter design, transit network design, and "walled
+      garden" optimizations can be crucial components of a performant
+      streaming media service, these are considered independent topics
+      better addressed by other documents.
 
    *  transparent tunnels; while tunnels can have an impact on streaming
       media via issues like the round-trip time and the maximum
@@ -240,7 +249,7 @@ Table of Contents
    unreliable media transport protocols used to carry interactive real-
    time media.
 
-1.2.  Notes for Contributors and Reviewers
+1.3.  Notes for Contributors and Reviewers
 
    Note to RFC Editor: Please remove this section and its subsections
    before publication.
@@ -248,7 +257,7 @@ Table of Contents
    This section is to provide references to make it easier to review the
    development and discussion on the draft so far.
 
-1.2.1.  Venues for Contribution and Discussion
+1.3.1.  Venues for Contribution and Discussion
 
    This document is in the GitHub repository at:
 
@@ -923,24 +932,14 @@ Table of Contents
 
 5.3.  Adaptive Segmented Delivery
 
-   Adaptive Segmented Delivery (ASD) attempts to optimize its own use of
-   any given path.  As noted in Section 3.2, video streams can encounter
-   bottlenecks at many points along a path, whether the bottleneck
-   happens at a node or along a path segment along the path, and these
-   bottlenecks may involve processing power, buffering capacity, link
-   speed, or any other exhaustible resource.  The following description
-   of ASD assumes that the path has previously been evaluated for
-   bottlenecks - for instance, that any IEEE 802.11 wireless links along
-   the path have been configured with appropriate QoS parameters
-   [IEEE802.11], which is typically out of the control of the media
-   server (or even the media provider).
-
-   ABR playback is commonly implemented by streaming clients using HLS
-   [RFC8216] or DASH [MPEG-DASH] to perform a reliable segmented
-   delivery of media over HTTP.  Different implementations use different
-   strategies [ABRSurvey], often relying on proprietary algorithms
-   (called rate adaptation or bitrate selection algorithms) to perform
-   available bandwidth estimation/prediction and the bitrate selection.
+   Adaptive Segmented Delivery attempts to optimize its own use of the
+   path between a media server and a media client.  ABR playback is
+   commonly implemented by streaming clients using HLS [RFC8216] or DASH
+   [MPEG-DASH] to perform a reliable segmented delivery of media over
+   HTTP.  Different implementations use different strategies
+   [ABRSurvey], often relying on proprietary algorithms (called rate
+   adaptation or bitrate selection algorithms) to perform available
+   bandwidth estimation/prediction and the bitrate selection.
 
    Many systems will do an initial probe or a very simple throughput
    speed test at the start of video playback.  This is done to get a
@@ -1797,15 +1796,6 @@ Table of Contents
               rfc793bis-28>.
 
    [IAB-ADS]  "IAB", n.d., <https://www.iab.com/>.
-
-   [IEEE802.11]
-              "IEEE Standard for Information
-              Technology—Telecommunications and Information Exchange
-              between Systems Local and Metropolitan Area
-              Networks—Specific Requirements Part 11: Wireless LAN
-              Medium Access Control (MAC) and Physical Layer (PHY)
-              Specifications", December 2020,
-              <https://standards.ieee.org/ieee/802.11u/3694/>.
 
    [ISOBMFF]  "ISO/IEC 14496-12:2022 Information technology - Coding of
               audio-visual objects - Part 12: ISO base media file

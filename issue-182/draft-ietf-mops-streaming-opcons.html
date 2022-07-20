@@ -640,6 +640,11 @@ hr {
   font-weight: bold;
   min-width: 7em;
 }
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
 .references dd {
   margin-left: 8em;
   overflow: auto;
@@ -1033,7 +1038,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Holland, et al.</td>
-<td class="center">Expires 20 January 2023</td>
+<td class="center">Expires 21 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1051,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-mops-streaming-opcons-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-07-19" class="published">19 July 2022</time>
+<time datetime="2022-07-20" class="published">20 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-01-20">20 January 2023</time></dd>
+<dd class="expires"><time datetime="2023-01-21">21 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1094,7 +1099,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1127,13 +1132,16 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
             <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-document-scope" class="xref">Document Scope</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-key-definitions" class="xref">Key Definitions</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a></p>
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-document-scope" class="xref">Document Scope</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1"><a href="#section-1.3" class="xref">1.3</a>.  <a href="#name-notes-for-contributors-and-" class="xref">Notes for Contributors and Reviewers</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.1">
-                    <p id="section-toc.1-1.1.2.2.2.1.1" class="keepWithNext"><a href="#section-1.2.1" class="xref">1.2.1</a>.  <a href="#name-venues-for-contribution-and" class="xref">Venues for Contribution and Discussion</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3.2.1">
+                    <p id="section-toc.1-1.1.2.3.2.1.1" class="keepWithNext"><a href="#section-1.3.1" class="xref">1.3.1</a>.  <a href="#name-venues-for-contribution-and" class="xref">Venues for Contribution and Discussion</a></p>
 </li>
                 </ul>
 </li>
@@ -1299,86 +1307,95 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
       </h2>
 <p id="section-1-1">This document provides an overview of operational networking and transport protocol issues that pertain to the quality of experience (QoE) when streaming video and other high-bitrate media over the Internet.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This document is intended to explain the characteristics of streaming media delivery that have surprised network designers or transport experts who lack specific media expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of media delivery issues encountered when streaming media over those existing networks.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document defines "high-bitrate streaming media" as follows:<a href="#section-1-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1-4.1">"High-bitrate" is a context-sensitive term broadly intended to capture rates that can be sustained over some but not all of the target audience's network connections. A snapshot of values commonly qualifying as high-bitrate on today's Internet is given by the higher-value entries in <a href="#bvr" class="xref">Section 3.1.1</a>.<a href="#section-1-4.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-1-4.2">
-          <p id="section-1-4.2.1">"Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.<a href="#section-1-4.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1-4.2.2.1">The term "simultaneous" is critical, as media segment transmission is not considered "streaming" if one downloads a media file and plays it after the download is completed. Instead, this would be called "download and play".<a href="#section-1-4.2.2.1" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-1-4.2.2.2">This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).<a href="#section-1-4.2.2.2" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-1-4.2.2.3">Second, the client's media segment consumption rate is limited not only by the path's available bandwidth but also by media segment availability. The client cannot fetch media segments that a media server cannot provide (yet).<a href="#section-1-4.2.2.3" class="pilcrow">¶</a>
-</li>
-          </ul>
-</li>
-        <li class="normal" id="section-1-4.3">"Media" refers to any type of media and associated streams such as video, audio, metadata, etc.<a href="#section-1-4.3" class="pilcrow">¶</a>
-</li>
-      </ul>
-<div id="document-scope">
+<div id="key-def">
 <section id="section-1.1">
-        <h3 id="name-document-scope">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-document-scope" class="section-name selfRef">Document Scope</a>
+        <h3 id="name-key-definitions">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-key-definitions" class="section-name selfRef">Key Definitions</a>
         </h3>
-<p id="section-1.1-1">A full review of all streaming media considerations for all types of media over all types of network paths is too broad a topic to cover comprehensively in a single document.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.1-2">This document focuses chiefly on the large-scale delivery of streaming high-bitrate media to end users.
+<p id="section-1.1-1">This document defines "high-bitrate streaming media over the Internet" as follows:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1-2.1">"High-bitrate" is a context-sensitive term broadly intended to capture rates that can be sustained over some but not all of the target audience's network connections. A snapshot of values commonly qualifying as high-bitrate on today's Internet is given by the higher-value entries in <a href="#bvr" class="xref">Section 3.1.1</a>.<a href="#section-1.1-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-1.1-2.2">
+            <p id="section-1.1-2.2.1">"Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.<a href="#section-1.1-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.1-2.2.2.1">The term "simultaneous" is critical, as media segment transmission is not considered "streaming" if one downloads a media file and plays it after the download is completed. Instead, this would be called "download and play".<a href="#section-1.1-2.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-1.1-2.2.2.2">This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).<a href="#section-1.1-2.2.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-1.1-2.2.2.3">Second, the client's media segment consumption rate is limited not only by the path's available bandwidth but also by media segment availability. The client cannot fetch media segments that a media server cannot provide (yet).<a href="#section-1.1-2.2.2.3" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-1.1-2.3">"Media" refers to any type of media and associated streams such as video, audio, metadata, etc.<a href="#section-1.1-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-1.1-2.4">"Over the Internet" means that a single operator does not have control of the entire path between media servers and media clients, so not a "walled garden".<a href="#section-1.1-2.4" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+<div id="document-scope">
+<section id="section-1.2">
+        <h3 id="name-document-scope">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-document-scope" class="section-name selfRef">Document Scope</a>
+        </h3>
+<p id="section-1.2-1">A full review of all streaming media considerations for all types of media over all types of network paths is too broad a topic to cover comprehensively in a single document.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.2-2">This document focuses chiefly on the large-scale delivery of streaming high-bitrate media to end users.
 It is primarily intended for those controlling endpoints involved in delivering streaming media traffic.
-This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
-<p id="section-1.1-3">Most of the considerations covered in this document apply both to "live media" (created and streamed as an event is in progress) and "media on demand" (previously recorded media that is streamed from storage), except where noted.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<p id="section-1.1-4">Most of the considerations covered in this document apply both to media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a media recorder that is executing an ABR algorithm, except where noted.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
-<p id="section-1.1-5">This document contains<a href="#section-1.1-5" class="pilcrow">¶</a></p>
+This can include origin servers publishing content, intermediaries like content delivery networks (CDNs), and providers for client devices and media players.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.2-3">Most of the considerations covered in this document apply both to "live media" (created and streamed as an event is in progress) and "media on demand" (previously recorded media that is streamed from storage), except where noted.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.2-4">Most of the considerations covered in this document apply both to media that is consumed by a media player, for viewing by a human, and media that is consumed by a machine, such as a media recorder that is executing an ABR algorithm, except where noted.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
+<p id="section-1.2-5">This document contains<a href="#section-1.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1-6.1">A short description of streaming video characteristics in <a href="#sd" class="xref">Section 2</a>, to set the stage for the rest of the document,<a href="#section-1.1-6.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.2-6.1">A short description of streaming video characteristics in <a href="#sd" class="xref">Section 2</a>, to set the stage for the rest of the document,<a href="#section-1.2-6.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-6.2">General guidance on bandwidth provisioning (<a href="#bwprov" class="xref">Section 3</a>) and latency considerations (<a href="#latency-cons" class="xref">Section 4</a>) for streaming video delivery,<a href="#section-1.1-6.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-6.2">General guidance on bandwidth provisioning (<a href="#bwprov" class="xref">Section 3</a>) and latency considerations (<a href="#latency-cons" class="xref">Section 4</a>) for streaming video delivery,<a href="#section-1.2-6.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-6.3">A description of adaptive encoding and adaptive delivery techniques in common use for streaming video, along with a description of the challenges media senders face in detecting the bitrate available between the media sender and media receiver, and collection of measurements by a third party for use in analytics (<a href="#sec-abr" class="xref">Section 5</a>),<a href="#section-1.1-6.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-6.3">A description of adaptive encoding and adaptive delivery techniques in common use for streaming video, along with a description of the challenges media senders face in detecting the bitrate available between the media sender and media receiver, and collection of measurements by a third party for use in analytics (<a href="#sec-abr" class="xref">Section 5</a>),<a href="#section-1.2-6.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-6.4">A description of existing transport protocols used for video streaming and the issues encountered when using those protocols, along with a description of the QUIC transport protocol <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span> more recently used for streaming media (<a href="#sec-trans" class="xref">Section 6</a>),<a href="#section-1.1-6.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-6.4">A description of existing transport protocols used for video streaming and the issues encountered when using those protocols, along with a description of the QUIC transport protocol <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span> more recently used for streaming media (<a href="#sec-trans" class="xref">Section 6</a>),<a href="#section-1.2-6.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-6.5">A description of implications when streaming encrypted media (<a href="#stream-encrypt-media" class="xref">Section 7</a>), and<a href="#section-1.1-6.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-6.5">A description of implications when streaming encrypted media (<a href="#stream-encrypt-media" class="xref">Section 7</a>), and<a href="#section-1.2-6.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-6.6">Several pointers for further reading on this rapidly changing subject (<a href="#further" class="xref">Section 8</a>).<a href="#section-1.1-6.6" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-6.6">Several pointers for further reading on this rapidly changing subject (<a href="#further" class="xref">Section 8</a>).<a href="#section-1.2-6.6" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-1.1-7">Topics outside this scope include:<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.2-7">Topics outside this scope include:<a href="#section-1.2-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1-8.1">in-depth examination of real-time two-way interactive media, such as video conferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage, they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.<a href="#section-1.1-8.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.2-8.1">in-depth examination of real-time two-way interactive media, such as video conferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage, they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.<a href="#section-1.2-8.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-8.2">specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.<a href="#section-1.1-8.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-8.2">specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.<a href="#section-1.2-8.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-8.3">generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.<a href="#section-1.1-8.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-8.3">generalized network performance techniques; while considerations such as datacenter design, transit network design, and "walled garden" optimizations can be crucial components of a performant streaming media service, these are considered independent topics better addressed by other documents.<a href="#section-1.2-8.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.1-8.4">transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.<a href="#section-1.1-8.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-8.4">transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.<a href="#section-1.2-8.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-1.1-9">It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that some WebRTC protocols (<span>[<a href="#RFC8834" class="xref">RFC8834</a>]</span>, <span>[<a href="#RFC8835" class="xref">RFC8835</a>]</span>) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in <a href="#sd" class="xref">Section 2</a>) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.<a href="#section-1.1-9" class="pilcrow">¶</a></p>
+<p id="section-1.2-9">It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that some WebRTC protocols (<span>[<a href="#RFC8834" class="xref">RFC8834</a>]</span>, <span>[<a href="#RFC8835" class="xref">RFC8835</a>]</span>) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in <a href="#sd" class="xref">Section 2</a>) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.<a href="#section-1.2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="notes-for-contributors-and-reviewers">
-<section id="section-1.2">
+<section id="section-1.3">
         <h3 id="name-notes-for-contributors-and-">
-<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-notes-for-contributors-and-" class="section-name selfRef">Notes for Contributors and Reviewers</a>
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-notes-for-contributors-and-" class="section-name selfRef">Notes for Contributors and Reviewers</a>
         </h3>
-<p id="section-1.2-1">Note to RFC Editor: Please remove this section and its subsections
-before publication.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.2-2">This section is to provide references to make it easier to review the
-development and discussion on the draft so far.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.3-1">Note to RFC Editor: Please remove this section and its subsections
+before publication.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+<p id="section-1.3-2">This section is to provide references to make it easier to review the
+development and discussion on the draft so far.<a href="#section-1.3-2" class="pilcrow">¶</a></p>
 <div id="venue">
-<section id="section-1.2.1">
+<section id="section-1.3.1">
           <h4 id="name-venues-for-contribution-and">
-<a href="#section-1.2.1" class="section-number selfRef">1.2.1. </a><a href="#name-venues-for-contribution-and" class="section-name selfRef">Venues for Contribution and Discussion</a>
+<a href="#section-1.3.1" class="section-number selfRef">1.3.1. </a><a href="#name-venues-for-contribution-and" class="section-name selfRef">Venues for Contribution and Discussion</a>
           </h4>
-<p id="section-1.2.1-1">This document is in the GitHub repository at:<a href="#section-1.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.2.1-2"><a href="https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons">https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons</a><a href="#section-1.2.1-2" class="pilcrow">¶</a></p>
-<p id="section-1.2.1-3">Readers are welcome to open issues and send pull requests for this document.<a href="#section-1.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-1.2.1-4">Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).<a href="#section-1.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-1.3.1-1">This document is in the GitHub repository at:<a href="#section-1.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.3.1-2"><a href="https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons">https://github.com/ietf-wg-mops/draft-ietf-mops-streaming-opcons</a><a href="#section-1.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.3.1-3">Readers are welcome to open issues and send pull requests for this document.<a href="#section-1.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-1.3.1-4">Substantial discussion of this document should take place on the MOPS working group mailing list (mops@ietf.org).<a href="#section-1.3.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.2.1-5.1">Join: <a href="https://www.ietf.org/mailman/listinfo/mops">https://www.ietf.org/mailman/listinfo/mops</a><a href="#section-1.2.1-5.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.3.1-5.1">Join: <a href="https://www.ietf.org/mailman/listinfo/mops">https://www.ietf.org/mailman/listinfo/mops</a><a href="#section-1.3.1-5.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.2.1-5.2">Search: <a href="https://mailarchive.ietf.org/arch/browse/mops/">https://mailarchive.ietf.org/arch/browse/mops/</a><a href="#section-1.2.1-5.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-1.3.1-5.2">Search: <a href="https://mailarchive.ietf.org/arch/browse/mops/">https://mailarchive.ietf.org/arch/browse/mops/</a><a href="#section-1.3.1-5.2" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1772,10 +1789,9 @@ The buffer fill process needs to be at least fast enough to ensure that the buff
         <h3 id="name-adaptive-segmented-delivery">
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-adaptive-segmented-delivery" class="section-name selfRef">Adaptive Segmented Delivery</a>
         </h3>
-<p id="section-5.3-1">Adaptive Segmented Delivery (ASD) attempts to optimize its own use of any given path. As noted in <a href="#sec-band-constraints" class="xref">Section 3.2</a>, video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or along a path segment along the path, and these bottlenecks may involve processing power, buffering capacity, link speed, or any other exhaustible resource. The following description of ASD assumes that the path has previously been evaluated for bottlenecks - for instance, that any IEEE 802.11 wireless links along the path have been configured with appropriate QoS parameters <span>[<a href="#IEEE802.11" class="xref">IEEE802.11</a>]</span>, which is typically out of the control of the media server (or even the media provider).<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">ABR playback is commonly implemented by streaming clients using HLS <span>[<a href="#RFC8216" class="xref">RFC8216</a>]</span> or DASH <span>[<a href="#MPEG-DASH" class="xref">MPEG-DASH</a>]</span> to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies <span>[<a href="#ABRSurvey" class="xref">ABRSurvey</a>]</span>, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.3-3">Many systems will do an initial probe or a very simple throughput speed test at the start of video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<p id="section-5.3-4">The choice of bitrate occurs within the context of optimizing for one or more metrics monitored by the client, such as the highest achievable video quality or lowest chances for a rebuffering event (playback stall).<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.3-1">Adaptive Segmented Delivery attempts to optimize its own use of the path between a media server and a media client. ABR playback is commonly implemented by streaming clients using HLS <span>[<a href="#RFC8216" class="xref">RFC8216</a>]</span> or DASH <span>[<a href="#MPEG-DASH" class="xref">MPEG-DASH</a>]</span> to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies <span>[<a href="#ABRSurvey" class="xref">ABRSurvey</a>]</span>, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">Many systems will do an initial probe or a very simple throughput speed test at the start of video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-3">The choice of bitrate occurs within the context of optimizing for one or more metrics monitored by the client, such as the highest achievable video quality or lowest chances for a rebuffering event (playback stall).<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="advertising">
@@ -2174,10 +2190,6 @@ Now that ubiquitous encryption typically prevents this kind of modification, a s
 <dt id="IAB-ADS">[IAB-ADS]</dt>
       <dd>
 <span class="refTitle">"IAB"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iab.com/">https://www.iab.com/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="IEEE802.11">[IEEE802.11]</dt>
-      <dd>
-<span class="refTitle">"IEEE Standard for Information Technology—Telecommunications and Information Exchange between Systems Local and Metropolitan Area Networks—Specific Requirements Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications"</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://standards.ieee.org/ieee/802.11u/3694/">https://standards.ieee.org/ieee/802.11u/3694/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="ISOBMFF">[ISOBMFF]</dt>
       <dd>
