@@ -1165,7 +1165,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-path-bandwidth-constraints" class="xref">Path Bandwidth Constraints</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-path-bottlenecks-and-constr" class="xref">Path Bottlenecks and Constraints</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
                     <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-recognizing-changes-from-a-" class="xref">Recognizing Changes from a Baseline</a></p>
@@ -1516,32 +1516,33 @@ the impact on video delivery.<a href="#section-2-3" class="pilcrow">¶</a></p>
 </div>
 <div id="sec-band-constraints">
 <section id="section-3.2">
-        <h3 id="name-path-bandwidth-constraints">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-path-bandwidth-constraints" class="section-name selfRef">Path Bandwidth Constraints</a>
+        <h3 id="name-path-bottlenecks-and-constr">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-path-bottlenecks-and-constr" class="section-name selfRef">Path Bottlenecks and Constraints</a>
         </h3>
-<p id="section-3.2-1">Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points in the network. This analysis is necessary because media servers may react to bandwidth constraints using two independent feedback loops:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points along the path between media servers and media players. Video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or at a path segment along the path, and these bottlenecks may involve a lack of processing power, buffering capacity, link speed, or any other exhaustible resource.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Media servers may react to bandwidth constraints using two independent feedback loops:<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-2.1">Media servers often respond to application-level feedback from the media player that indicates a bottleneck somewhere along the path by adjusting the number of media segments that the media server will send to the media player in a given timeframe. This is described in greater detail in <a href="#sec-abr" class="xref">Section 5</a>.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3.2-3.1">Media servers often respond to application-level feedback from the media player that indicates a bottleneck somewhere along the path by adjusting the number of media segments that the media server will send to the media player in a given timeframe. This is described in greater detail in <a href="#sec-abr" class="xref">Section 5</a>.<a href="#section-3.2-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-2.2">Media servers also typically rely on transport protocols with capacity-seeking congestion controllers that probe for available path bandwidth and adjust the media segment sending rate based on transport mechanisms. This is described in greater detail in <a href="#sec-trans" class="xref">Section 6</a>.<a href="#section-3.2-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-3.2">Media servers also typically rely on transport protocols with capacity-seeking congestion controllers that probe for available path bandwidth and adjust the media segment sending rate based on transport mechanisms. This is described in greater detail in <a href="#sec-trans" class="xref">Section 6</a>.<a href="#section-3.2-3.2" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-3.2-3">The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in QoE for users that is significantly lower than what could have been achieved.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">One might wonder why media servers and transport protocols are each unaware of what the other is doing, and there are multiple reasons for that. One reason is that media servers are often implemented as applications executing in user space, relying on a general-purpose operating system that typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
-<p id="section-3.2-5">In one example, if a media server overestimates the available bandwidth to the media player,<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">The result is that these two (potentially competing) "helpful" mechanisms each respond to the same bottleneck with no coordination between themselves, so that each is unaware of actions taken by the other, and this can result in QoE for users that is significantly lower than what could have been achieved.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-5">One might wonder why media servers and transport protocols are each unaware of what the other is doing, and there are multiple reasons for that. One reason is that media servers are often implemented as applications executing in user space, relying on a general-purpose operating system that typically has its transport protocols implemented in the operating system kernel, making decisions that the media server never knows about.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+<p id="section-3.2-6">In one example, if a media server overestimates the available bandwidth to the media player,<a href="#section-3.2-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-6.1">the transport protocol detects loss due to congestion and reduces its sending window size per round trip,<a href="#section-3.2-6.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3.2-7.1">the transport protocol may detect loss due to congestion and reduce its sending window size per round trip,<a href="#section-3.2-7.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-6.2">the media server adapts to application-level feedback from the media player and reduces its own sending rate,<a href="#section-3.2-6.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-7.2">the media server adapts to application-level feedback from the media player and reduces its own sending rate,<a href="#section-3.2-7.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-6.3">the transport protocol sends media segments at the new, lower rate and confirms that this new, lower rate is "safe" because no transport-level loss is occurring, but<a href="#section-3.2-6.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-7.3">the transport protocol sends media segments at the new, lower rate and confirms that this new, lower rate is "safe" because no transport-level loss is occurring, but<a href="#section-3.2-7.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-6.4">because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so<a href="#section-3.2-6.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-7.4">because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so<a href="#section-3.2-7.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-6.5">the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver requests segments that buffer enough data for the transport to perform the probing.<a href="#section-3.2-6.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-7.5">the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver requests segments that buffer enough data for the transport to perform the probing.<a href="#section-3.2-7.5" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-3.2-7">To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
+<p id="section-3.2-8">To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck path segment, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.<a href="#section-3.2-8" class="pilcrow">¶</a></p>
 <div id="sec-know-your-traffic">
 <section id="section-3.2.1">
           <h4 id="name-recognizing-changes-from-a-">

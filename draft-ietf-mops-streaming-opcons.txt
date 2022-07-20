@@ -70,7 +70,7 @@ Table of Contents
      3.1.  Scaling Requirements for Media Delivery
        3.1.1.  Video Bitrates
        3.1.2.  Virtual Reality Bitrates
-     3.2.  Path Bandwidth Constraints
+     3.2.  Path Bottlenecks and Constraints
        3.2.1.  Recognizing Changes from a Baseline
      3.3.  Path Requirements
      3.4.  Caching Systems
@@ -407,13 +407,19 @@ Table of Contents
    require a bitrate of 30 Mbps or higher.  Refer to [MPEGI] and [PCC]
    for more details.
 
-3.2.  Path Bandwidth Constraints
+3.2.  Path Bottlenecks and Constraints
 
    Even when the bandwidth requirements for video streams along a path
    are well understood, additional analysis is required to understand
-   the constraints on bandwidth at various points in the network.  This
-   analysis is necessary because media servers may react to bandwidth
-   constraints using two independent feedback loops:
+   the constraints on bandwidth at various points along the path between
+   media servers and media players.  Video streams can encounter
+   bottlenecks at many points along a path, whether the bottleneck
+   happens at a node or at a path segment along the path, and these
+   bottlenecks may involve a lack of processing power, buffering
+   capacity, link speed, or any other exhaustible resource.
+
+   Media servers may react to bandwidth constraints using two
+   independent feedback loops:
 
    *  Media servers often respond to application-level feedback from the
       media player that indicates a bottleneck somewhere along the path
@@ -444,8 +450,8 @@ Table of Contents
    In one example, if a media server overestimates the available
    bandwidth to the media player,
 
-   *  the transport protocol detects loss due to congestion and reduces
-      its sending window size per round trip,
+   *  the transport protocol may detect loss due to congestion and
+      reduce its sending window size per round trip,
 
    *  the media server adapts to application-level feedback from the
       media player and reduces its own sending rate,
@@ -465,10 +471,10 @@ Table of Contents
       probing.
 
    To avoid these types of situations, which can potentially affect all
-   the users whose streaming media segments traverse a bottleneck, there
-   are several possible mitigations that streaming operators can use.
-   However, the first step toward mitigating a problem is knowing that a
-   problem is occurring.
+   the users whose streaming media segments traverse a bottleneck path
+   segment, there are several possible mitigations that streaming
+   operators can use.  However, the first step toward mitigating a
+   problem is knowing that a problem is occurring.
 
 3.2.1.  Recognizing Changes from a Baseline
 
