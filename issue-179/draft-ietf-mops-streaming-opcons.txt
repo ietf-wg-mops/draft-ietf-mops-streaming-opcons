@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 20 January 2023                                 Networked Media
+Expires: 21 January 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                            19 July 2022
+                                                            20 July 2022
 
 
              Operational Considerations for Streaming Media
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 January 2023.
+   This Internet-Draft will expire on 21 January 2023.
 
 Copyright Notice
 
@@ -69,7 +69,7 @@ Table of Contents
      3.1.  Scaling Requirements for Media Delivery
        3.1.1.  Video Bitrates
        3.1.2.  Virtual Reality Bitrates
-     3.2.  Path Bandwidth Bottlenecks and Constraints
+     3.2.  Path Bottlenecks and Constraints
        3.2.1.  Recognizing Changes from a Baseline
      3.3.  Path Requirements
      3.4.  Caching Systems
@@ -396,20 +396,16 @@ Table of Contents
    require a bitrate of 30 Mbps or higher.  Refer to [MPEGI] and [PCC]
    for more details.
 
-3.2.  Path Bandwidth Bottlenecks and Constraints
+3.2.  Path Bottlenecks and Constraints
 
    Even when the bandwidth requirements for video streams along a path
    are well understood, additional analysis is required to understand
    the constraints on bandwidth at various points along the path between
    media servers and media players.  Video streams can encounter
    bottlenecks at many points along a path, whether the bottleneck
-   happens at a node or along a path segment along the path, and these
-   bottlenecks may involve processing power, buffering capacity, link
-   speed, or any other exhaustible resource.  In order to scale video
-   delivery along the path, these bottlenecks must be identified, and,
-   where appropriate, given additional resources to allow acceptable
-   user experiences.  This will give the video server a path it can
-   manage by reacting to bandwidth constraints on the path.
+   happens at a node or at a path segment along the path, and these
+   bottlenecks may involve a lack of processing power, buffering
+   capacity, link speed, or any other exhaustible resource.
 
    Media servers may react to bandwidth constraints using two
    independent feedback loops:
