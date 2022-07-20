@@ -370,7 +370,9 @@ This document provides an overview of operational networking and transport proto
 
 This document is intended to explain the characteristics of streaming media delivery that have surprised network designers or transport experts who lack specific media expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of media delivery issues encountered when streaming media over those existing networks.
 
-This document defines "high-bitrate streaming media" as follows:
+## Key Definitions {#key-def}
+
+This document defines "high-bitrate streaming media over the Internet" as follows:
 
 - "High-bitrate" is a context-sensitive term broadly intended to capture rates that can be sustained over some but not all of the target audience's network connections. A snapshot of values commonly qualifying as high-bitrate on today's Internet is given by the higher-value entries in {{bvr}}.
 - "Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.
@@ -378,6 +380,7 @@ This document defines "high-bitrate streaming media" as follows:
    - This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).
    - Second, the client's media segment consumption rate is limited not only by the path's available bandwidth but also by media segment availability. The client cannot fetch media segments that a media server cannot provide (yet).
 - "Media" refers to any type of media and associated streams such as video, audio, metadata, etc.
+- "Over the Internet" means that a single operator does not have control of the entire path between media servers and media clients, so not a "walled garden".
 
 ## Document Scope
 
@@ -404,7 +407,7 @@ Topics outside this scope include:
 
  - in-depth examination of real-time two-way interactive media, such as video conferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage, they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.
  - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
- - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
+ - generalized network performance techniques; while considerations such as datacenter design, transit network design, and "walled garden" optimizations can be crucial components of a performant streaming media service, these are considered independent topics better addressed by other documents.
  - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.
 
 It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that RTP, WebRTC's principal media transport protocol ({{RFC8834}}, {{RFC8835}}),  is mentioned in this document. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.
@@ -641,7 +644,7 @@ This level of latency is targeted to have a user experience similar to broadcast
 
 Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what is feasible in a higher latency service. The tradeoffs may include higher costs, delivering a lower quality video, reduced flexibility for adaptive bitrates or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
 
-Implementation of a low-latency live video service can be achieved with the use of low-latency extensions of HLS (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} and DASH (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{MPEG-CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, using shorter segments means using more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
+Implementation of a low-latency live video service can be achieved with the use of "HTTP Live Streaming (HLS)" {{RFC8216}} by using its low-latency extension (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} or with "Dynamic Adaptive Streaming over HTTP (DASH)" {{MPEG-DASH}} by using its low-latency extension (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{MPEG-CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, using shorter segments means using more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
 
 While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an LL-DASH client uses the chunked transfer encoding feature of the HTTP {{CMAF-CTE}}, which allows the LL-DASH client to fetch all the chunks belonging to a segment with a single GET request. An HTTP server can transmit the CMAF chunks to the LL-DASH client as they arrive from the encoder/packager. A detailed comparison of LL-HLS and LL-DASH is given in {{MMSP20}}.
 
@@ -649,7 +652,7 @@ While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an
 
 Non-low-latency live delivery of media is defined here as a livestream that does not have a latency target shorter than 10 seconds.
 
-This level of latency is the historically common case for segmented video delivery using HLS {{RFC8216}} and DASH {{MPEG-DASH}}. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
+This level of latency is the historically common case for segmented video delivery using HLS and DASH. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
 
 This level of latency can typically be achieved at scale with commodity CDN services for HTTP(s) delivery, and in some cases, the increased time window can allow for the production of a wider range of encoding options relative to the requirements for a lower latency service without the need for increasing the hardware footprint, which can allow for wider device interoperability.
 
@@ -670,7 +673,7 @@ This section describes one of the best-known ways to provide a good user experie
 A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
-The fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.
+The buffer fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.
 
 The challenges in filling the buffer in a timely way fall into two broad categories:
 
@@ -691,7 +694,7 @@ The media server may also choose to alter which bitrates are made available to p
 
 ## Adaptive Segmented Delivery {#adapt-deliver}
 
-ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
+Adaptive Segmented Delivery attempts to optimize its own use of the path between a media server and a media client. ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
 
 Many systems will do an initial probe or a very simple throughput speed test at the start of video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
