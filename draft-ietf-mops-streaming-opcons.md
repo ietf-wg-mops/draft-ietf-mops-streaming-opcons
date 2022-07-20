@@ -491,9 +491,11 @@ Even basic virtual reality (360-degree) videos that allow users to look around f
 
 In more immersive applications, where limited user movement ("three degrees of freedom plus" or 3DoF+) or full user movement ("six degrees of freedom" or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.
 
-## Path Bandwidth Constraints {#sec-band-constraints}
+## Path Bottlenecks and Constraints {#sec-band-constraints}
 
-Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points in the network. This analysis is necessary because media servers may react to bandwidth constraints using two independent feedback loops:
+Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points along the path between media servers and media players. Video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or at a path segment along the path, and these bottlenecks may involve a lack of processing power, buffering capacity, link speed, or any other exhaustible resource.
+
+Media servers may react to bandwidth constraints using two independent feedback loops:
 
 * Media servers often respond to application-level feedback from the media player that indicates a bottleneck somewhere along the path by adjusting the number of media segments that the media server will send to the media player in a given timeframe. This is described in greater detail in {{sec-abr}}.
 
@@ -505,13 +507,13 @@ One might wonder why media servers and transport protocols are each unaware of w
 
 In one example, if a media server overestimates the available bandwidth to the media player,
 
-* the transport protocol detects loss due to congestion and reduces its sending window size per round trip,
+* the transport protocol may detect loss due to congestion and reduce its sending window size per round trip,
 * the media server adapts to application-level feedback from the media player and reduces its own sending rate,
 * the transport protocol sends media segments at the new, lower rate and confirms that this new, lower rate is "safe" because no transport-level loss is occurring, but
 * because the media server continues to send at the new, lower rate, the transport protocol's maximum sending rate is now limited by the amount of information the media server queues for transmission, so
 * the transport protocol cannot probe for available path bandwidth by sending at a higher rate until the media receiver requests segments that buffer enough data for the transport to perform the probing.
 
-To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.
+To avoid these types of situations, which can potentially affect all the users whose streaming media segments traverse a bottleneck path segment, there are several possible mitigations that streaming operators can use. However, the first step toward mitigating a problem is knowing that a problem is occurring.
 
 ### Recognizing Changes from a Baseline {#sec-know-your-traffic}
 
