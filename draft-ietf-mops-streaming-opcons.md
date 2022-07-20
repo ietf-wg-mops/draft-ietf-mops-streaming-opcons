@@ -306,11 +306,6 @@ informative:
     title: "ISO/IEC 14496-12:2022 Information technology - Coding of audio-visual objects - Part 12: ISO base media file format"
     date:  January 2022
 
-  IEEE802.11:
-    target: https://standards.ieee.org/ieee/802.11u/3694/
-    title: "IEEE Standard for Information Technology—Telecommunications and Information Exchange between Systems Local and Metropolitan Area Networks—Specific Requirements Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications"
-    date:  3 December 2020
-
   I-D.ietf-quic-manageability:
   I-D.cardwell-iccrg-bbr-congestion-control:
   I-D.draft-pantos-hls-rfc8216bis:
@@ -375,7 +370,9 @@ This document provides an overview of operational networking and transport proto
 
 This document is intended to explain the characteristics of streaming media delivery that have surprised network designers or transport experts who lack specific media expertise, since streaming media highlights key differences between common assumptions in existing networking practices and observations of media delivery issues encountered when streaming media over those existing networks.
 
-This document defines "high-bitrate streaming media" as follows:
+## Key Definitions {#key-def}
+
+This document defines "high-bitrate streaming media over the Internet" as follows:
 
 - "High-bitrate" is a context-sensitive term broadly intended to capture rates that can be sustained over some but not all of the target audience's network connections. A snapshot of values commonly qualifying as high-bitrate on today's Internet is given by the higher-value entries in {{bvr}}.
 - "Streaming" means the continuous transmission of media segments from a server to a client and its simultaneous consumption by the client.
@@ -383,6 +380,7 @@ This document defines "high-bitrate streaming media" as follows:
    - This has two implications. First, the sending rate for media segments must match the client's consumption rate (whether loosely or tightly) to provide uninterrupted playback. That is, the client must not run out of media segments (buffer underrun), and must not accept more media segments than it can buffer before playback (buffer overrun).
    - Second, the client's media segment consumption rate is limited not only by the path's available bandwidth but also by media segment availability. The client cannot fetch media segments that a media server cannot provide (yet).
 - "Media" refers to any type of media and associated streams such as video, audio, metadata, etc.
+- "Over the Internet" means that a single operator does not have control of the entire path between media servers and media clients, so not a "walled garden".
 
 ## Document Scope
 
@@ -409,7 +407,7 @@ Topics outside this scope include:
 
  - in-depth examination of real-time two-way interactive media, such as video conferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage, they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.
  - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
- - generalized network performance techniques; while things like datacenter design and transit network design can be crucial dependencies for a performant streaming media service, these are considered independent topics better addressed by other documents.
+ - generalized network performance techniques; while considerations such as datacenter design, transit network design, and "walled garden" optimizations can be crucial components of a performant streaming media service, these are considered independent topics better addressed by other documents.
  - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.
 
 It is worth pointing out explicitly because questions about "Web Real-Time Communication (WebRTC)" has come up often, that some WebRTC protocols ({{RFC8834}}, {{RFC8835}}) are mentioned in this document, including RTP, WebRTC's principal media transport protocol. However, (as noted in {{sd}}) it is difficult to give general guidance for unreliable media transport protocols used to carry interactive real-time media.
@@ -696,9 +694,7 @@ The media server may also choose to alter which bitrates are made available to p
 
 ## Adaptive Segmented Delivery {#adapt-deliver}
 
-Adaptive Segmented Delivery (ASD) attempts to optimize its own use of any given path. As noted in {{sec-band-constraints}}, video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or along a path segment along the path, and these bottlenecks may involve processing power, buffering capacity, link speed, or any other exhaustible resource. The following description of ASD assumes that the path has previously been evaluated for bottlenecks - for instance, that any IEEE 802.11 wireless links along the path have been configured with appropriate QoS parameters {{IEEE802.11}}, which is typically out of the control of the media server (or even the media provider).
-
-ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
+Adaptive Segmented Delivery attempts to optimize its own use of the path between a media server and a media client. ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
 
 Many systems will do an initial probe or a very simple throughput speed test at the start of video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
