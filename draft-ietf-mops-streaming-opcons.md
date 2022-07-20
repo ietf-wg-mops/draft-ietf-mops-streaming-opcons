@@ -488,9 +488,9 @@ Even basic virtual reality (360-degree) videos that allow users to look around f
 
 In more immersive applications, where limited user movement ("three degrees of freedom plus" or 3DoF+) or full user movement ("six degrees of freedom" or 6DoF) is allowed, the required bitrate grows even further. In this case, immersive content is typically referred to as volumetric media. One way to represent the volumetric media is to use point clouds, where streaming a single object may easily require a bitrate of 30 Mbps or higher. Refer to {{MPEGI}} and {{PCC}} for more details.
 
-## Path Bandwidth Bottlenecks and Constraints {#sec-band-constraints}
+## Path Bottlenecks and Constraints {#sec-band-constraints}
 
-Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points along the path between media servers and media players. Video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or along a path segment along the path, and these bottlenecks may involve processing power, buffering capacity, link speed, or any other exhaustible resource. In order to scale video delivery along the path, these bottlenecks must be identified, and, where appropriate, given additional resources to allow acceptable user experiences. This will give the video server a path it can manage by reacting to bandwidth constraints on the path.
+Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points along the path between media servers and media players. Video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or at a path segment along the path, and these bottlenecks may involve a lack of processing power, buffering capacity, link speed, or any other exhaustible resource.
 
 Media servers may react to bandwidth constraints using two independent feedback loops:
 
