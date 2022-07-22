@@ -397,15 +397,15 @@ Most of the considerations covered in this document apply both to media that is 
 This document contains
 
 - A short description of streaming video characteristics in {{sd}}, to set the stage for the rest of the document,
-- General guidance on bandwidth provisioning ({{bwprov}}) and latency considerations ({{latency-cons}}) for streaming video delivery,
+- General guidance on bandwidth provisioning ({{bwprov}}) and latency considerations ({{latency-cons}}) for streaming media delivery,
 - A description of adaptive encoding and adaptive delivery techniques in common use for streaming video, along with a description of the challenges media senders face in detecting the bitrate available between the media sender and media receiver, and collection of measurements by a third party for use in analytics ({{sec-abr}}),
-- A description of existing transport protocols used for video streaming and the issues encountered when using those protocols, along with a description of the QUIC transport protocol {{RFC9000}} more recently used for streaming media ({{sec-trans}}),
+- A description of existing transport protocols used for media streaming and the issues encountered when using those protocols, along with a description of the QUIC transport protocol {{RFC9000}} more recently used for streaming media ({{sec-trans}}),
 - A description of implications when streaming encrypted media ({{stream-encrypt-media}}), and
 - Several pointers for further reading on this rapidly changing subject ({{further}}).
 
 Topics outside this scope include:
 
- - in-depth examination of real-time two-way interactive media, such as video conferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage, they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.
+ - in-depth examination of real-time two-way interactive media, such as videoconferencing; although this document touches lightly on topics related to this space, the intent is to let readers know that for more in-depth coverage, they should look to other documents, since the techniques and issues for interactive real-time two-way media differ so dramatically from those in large-scale one-way delivery of streaming media.
  - specific recommendations on operational practices to mitigate issues described in this document; although some known mitigations are mentioned in passing, the primary intent is to provide a point of reference for future solution proposals to describe how new technologies address or avoid existing problems.
  - generalized network performance techniques; while considerations such as datacenter design, transit network design, and "walled garden" optimizations can be crucial components of a performant streaming media service, these are considered independent topics better addressed by other documents.
  - transparent tunnels; while tunnels can have an impact on streaming media via issues like the round-trip time and the maximum transmission unit (MTU) of packets carried over tunnels, for the purposes of this document, these issues are considered as part of the set of network path properties.
@@ -443,12 +443,12 @@ A substantial part of this growth is due to the increased use of streaming video
 While both streaming video and videoconferencing have real-time delivery and latency requirements, these requirements vary from one application to another.
 For additional discussion of latency requirements, see {{latency-cons}}.
 
-In many contexts, video traffic can be handled transparently as
+In many contexts, media traffic can be handled transparently as
 generic application-level traffic.  However, as the volume of
-video traffic continues to grow, it is becoming increasingly
+media traffic continues to grow, it is becoming increasingly
 important to consider the effects of network design decisions
 on application-level performance, with considerations for
-the impact on video delivery.
+the impact on media delivery.
 
 Much of the focus of this document is on media streaming over HTTP. HTTP is widely used for media streaming because
 
@@ -493,7 +493,7 @@ In more immersive applications, where limited user movement ("three degrees of f
 
 ## Path Bottlenecks and Constraints {#sec-band-constraints}
 
-Even when the bandwidth requirements for video streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points along the path between media servers and media players. Video streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or at a path segment along the path, and these bottlenecks may involve a lack of processing power, buffering capacity, link speed, or any other exhaustible resource.
+Even when the bandwidth requirements for media streams along a path are well understood, additional analysis is required to understand the constraints on bandwidth at various points along the path between media servers and media players. Media streams can encounter bottlenecks at many points along a path, whether the bottleneck happens at a node or at a path segment along the path, and these bottlenecks may involve a lack of processing power, buffering capacity, link speed, or any other exhaustible resource.
 
 Media servers may react to bandwidth constraints using two independent feedback loops:
 
@@ -570,7 +570,7 @@ Caching and pre-loading can also reduce exposure to peering point congestion, si
 
 All of this depends, of course, on the ability of a media provider  to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}).
 
-And as with other parts of the ecosystem, new technology brings new challenges. For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had the video freeze until the player was reset.  In some cases, the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the video for all players playing the segment delivered from that cache node.
+And as with other parts of the ecosystem, new technology brings new challenges. For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had a playback freeze until the player was reset.  In some cases, the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the media for all players playing the segment delivered from that cache node.
 
 ## Predictable Usage Profiles {#sec-predict}
 
@@ -586,7 +586,7 @@ Two examples are instructive.
 
 In the first example, described in "Report from the IETF Workshop on Peer-to-Peer (P2P) Infrastructure, May 28, 2008" ({{RFC5594}}), when the BitTorrent filesharing application came into widespread use in 2005, sudden and unexpected growth in peer-to-peer traffic led to complaints from ISP customers about the performance of delay-sensitive traffic (VoIP and gaming). These performance issues resulted from at least two causes:
 
-* Many access networks for end users used underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g., ADSL, cellular technologies, most IEEE 802.11 variants), assuming that most users will need more downstream bandwidth than upstream bandwidth. This is a good assumption for client-server applications such as streaming video or software downloads, but BitTorrent rewarded peers that uploaded as much as they downloaded, so BitTorrent users had much more symmetric usage profiles, which interacted badly with these asymetric access network technologies.
+* Many access networks for end users used underlying technologies that are inherently asymmetric, favoring downstream bandwidth (e.g., ADSL, cellular technologies, most IEEE 802.11 variants), assuming that most users will need more downstream bandwidth than upstream bandwidth. This is a good assumption for client-server applications such as streaming media or software downloads, but BitTorrent rewarded peers that uploaded as much as they downloaded, so BitTorrent users had much more symmetric usage profiles, which interacted badly with these asymetric access network technologies.
 
 * BitTorrent also used distributed hash tables to organize peers into a ring topology, where each peer knew its "next peer" and "previous peer." There was no connection between the application-level ring topology and the lower-level network topology, so a peer's "next peer" might be anywhere on the reachable Internet. Traffic models that expected most communication to take place with a relatively small number of servers were unable to cope with peer-to-peer traffic that was much less predictable.
 
@@ -594,13 +594,13 @@ Especially, as end users increase the use of video-based social networking appli
 
 ### Impact of Global Pandemic
 
-Early in 2020, the COVID-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (video conferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{RFC9075}} in November 2020. The following observations from the workshop report are worth considering.
+Early in 2020, the COVID-19 pandemic and resulting quarantines and shutdowns led to significant changes in traffic patterns due to a large number of people who suddenly started working and attending school remotely and using more interactive applications (videoconferencing, in addition to streaming media). Subsequently, the Internet Architecture Board (IAB) held a COVID-19 Network Impacts Workshop {{RFC9075}} in November 2020. The following observations from the workshop report are worth considering.
 
 - Participants describing different types of networks reported different kinds of impacts, but all types of networks saw impacts.
 - Mobile networks saw traffic reductions and residential networks saw significant increases.
 - Reported traffic increases from ISPs and Internet Exchange Points (IXP) over just a few weeks were as big as the traffic growth over the course of a typical year, representing a 15-20% surge in growth to land at a new normal that was much higher than anticipated.
 - At DE-CIX Frankfurt, the world's largest IXP in terms of data throughput, the year 2020 has seen the largest increase in peak traffic within a single year since the IXP was founded in 1995.
-- The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for video streaming applications.
+- The usage pattern changed significantly as work-from-home and videoconferencing usage peaked during normal work hours, which would have typically been off-peak hours with adults at work and children at school. One might expect that the peak would have had more impact on networks if it had happened during typical evening peak hours for streaming applications.
 - The increase in daytime bandwidth consumption reflected both significant increases in essential applications such as videoconferencing and virtual private networks (VPN), and entertainment applications as people watched videos or played games.
 - At the IXP level, it was observed that physical link utilization increased. This phenomenon could probably be explained by a higher level of uncacheable traffic such as videoconferencing and VPNs from residential users as they stopped commuting and switched to work-at-home.
 
@@ -608,7 +608,7 @@ Again, it will be helpful for streaming operators to monitor traffic as describe
 
 # Latency Considerations {#latency-cons}
 
-Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurrence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes video encoding/decoding and buffering time, and for most cases also the ingest to an intermediate service such as a CDN or other video distribution service, rather than a direct connection to an end user.
+Streaming media latency refers to the "glass-to-glass" time duration, which is the delay between the real-life occurrence of an event and the streamed media being appropriately displayed on an end user's device.  Note that this is different from the network latency (defined as the time for a packet to cross a network from one end to another end) because it includes media encoding/decoding and buffering time, and for most cases also the ingest to an intermediate service such as a CDN or other media distribution service, rather than a direct connection to an end user.
 
 The team working on this document found these rough categories to be useful when considering a streaming media application's latency requirements:
 
@@ -627,7 +627,7 @@ Applications requiring ultra-low latency for media delivery are usually tightly 
 
 Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}, which uses RTP as its Media Transport Protocol, along with several other protocols necessary for safe operation in browsers.
 
-Worth noting is that many applications for ultra-low-latency delivery do not need to scale to more than a few users at a time, which simplifies many delivery considerations relative to other use cases.
+Worth noting is that many applications for ultra-low-latency delivery do not need to scale to as many users as the low-latency and non-low-latency live delivery, which simplifies many delivery considerations relative to other use cases.
 
 Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
 
@@ -644,9 +644,9 @@ Low-latency live delivery of media is defined here as having a glass-to-glass de
 
 This level of latency is targeted to have a user experience similar to broadcast TV delivery.  A frequently cited problem with failing to achieve this level of latency for live sporting events is the user experience failure from having crowds within earshot of one another who react audibly to an important play, or from users who learn of an event in the match via some other channel, for example, social media, before it has happened on the screen showing the sporting event.
 
-Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live video, and some tradeoffs may be necessary relative to what is feasible in a higher latency service. The tradeoffs may include higher costs, delivering a lower quality video, reduced flexibility for adaptive bitrates or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
+Applications requiring low-latency live media delivery are generally feasible at scale with some restrictions.  This typically requires the use of a premium service dedicated to the delivery of live media, and some tradeoffs may be necessary relative to what is feasible in a higher latency service. The tradeoffs may include higher costs, delivering a lower quality media, reduced flexibility for adaptive bitrates or reduced flexibility for available resolutions so that fewer devices can receive an encoding tuned for their display. Low-latency live delivery is also more susceptible to user-visible disruptions due to transient network conditions than higher latency services.
 
-Implementation of a low-latency live video service can be achieved with the use of "HTTP Live Streaming (HLS)" {{RFC8216}} by using its low-latency extension (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} or with "Dynamic Adaptive Streaming over HTTP (DASH)" {{MPEG-DASH}} by using its low-latency extension (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{MPEG-CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, using shorter segments means using more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
+Implementation of a low-latency live media service can be achieved with the use of "HTTP Live Streaming (HLS)" {{RFC8216}} by using its low-latency extension (called LL-HLS) {{I-D.draft-pantos-hls-rfc8216bis}} or with "Dynamic Adaptive Streaming over HTTP (DASH)" {{MPEG-DASH}} by using its low-latency extension (called LL-DASH) {{LL-DASH}}. These extensions use the Common Media Application Format (CMAF) standard {{MPEG-CMAF}} that allows the media to be packaged into and transmitted in units smaller than segments, which are called chunks in CMAF language. This way, the latency can be decoupled from the duration of the media segments. Without a CMAF-like packaging, lower latencies can only be achieved by using very short segment durations. However, using shorter segments means using more frequent intra-coded frames and that is detrimental to video encoding quality. CMAF allows us to still use longer segments (improving encoding quality) without penalizing latency.
 
 While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an LL-DASH client uses the chunked transfer encoding feature of the HTTP {{CMAF-CTE}}, which allows the LL-DASH client to fetch all the chunks belonging to a segment with a single GET request. An HTTP server can transmit the CMAF chunks to the LL-DASH client as they arrive from the encoder/packager. A detailed comparison of LL-HLS and LL-DASH is given in {{MMSP20}}.
 
@@ -654,7 +654,7 @@ While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an
 
 Non-low-latency live delivery of media is defined here as a livestream that does not have a latency target shorter than 10 seconds.
 
-This level of latency is the historically common case for segmented video delivery using HLS and DASH. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
+This level of latency is the historically common case for segmented media delivery using HLS and DASH. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
 
 This level of latency can typically be achieved at scale with commodity CDN services for HTTP(s) delivery, and in some cases, the increased time window can allow for the production of a wider range of encoding options relative to the requirements for a lower latency service without the need for increasing the hardware footprint, which can allow for wider device interoperability.
 
@@ -662,9 +662,9 @@ This level of latency can typically be achieved at scale with commodity CDN serv
 
 On-demand media streaming refers to the playback of pre-recorded media based on a user's action.  In some cases, on-demand media is produced as a by-product of a live media production, using the same segments as the live event, but freezing the manifest that describes the media available from the media server after the live event has finished.  In other cases, on-demand media is constructed out of pre-recorded assets with no streaming necessarily involved during the production of the on-demand content.
 
-On-demand media generally is not subject to latency concerns, but other timing-related considerations can still be as important or even more important to the user experience than the same considerations with live events.  These considerations include the startup time, the stability of the media stream's playback quality, and avoidance of stalls and video artifacts during the playback under all but the most severe network conditions.
+On-demand media generally is not subject to latency concerns, but other timing-related considerations can still be as important or even more important to the user experience than the same considerations with live events.  These considerations include the startup time, the stability of the media stream's playback quality, and avoidance of stalls and other media artifacts during the playback under all but the most severe network conditions.
 
-In some applications, optimizations are available to on-demand video that are not always available to live events, such as pre-loading the first segment for a startup time that doesn't have to wait for a network download to begin.
+In some applications, optimizations are available to on-demand media that are not always available to live events, such as pre-loading the first segment for a startup time that does not have to wait for a network download to begin.
 
 # Adaptive Encoding, Adaptive Delivery, and Measurement Collection {#sec-abr}
 
@@ -672,7 +672,7 @@ This section describes one of the best-known ways to provide a good user experie
 
 ## Overview {#abr-overview}
 
-A simple model of video playback can be described as a video stream consumer, a buffer, and a transport mechanism that fills the buffer.
+A simple model of media playback can be described as a media stream consumer, a buffer, and a transport mechanism that fills the buffer.
 The consumption rate is fairly static and is represented by the content bitrate.
 The size of the buffer is also commonly a fixed size.
 The buffer fill process needs to be at least fast enough to ensure that the buffer is never empty, however, it also can have significant complexity when things like personalization or advertising insertion workflows are introduced.
@@ -684,7 +684,7 @@ The challenges in filling the buffer in a timely way fall into two broad categor
 
 The mechanism used to select the bitrate is part of the content selection, and the content variation are all of the different bitrate renditions.
 
-Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and video quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it without exhausting all available receive buffers.
+Adaptive bitrate streaming ("ABR streaming", or simply "ABR") is a commonly used technique for dynamically adjusting the compression level and media quality of a stream to match bandwidth availability. When this goal is achieved, the media server will tend to send enough media that the media player does not "stall", without sending so much media that the media player cannot accept it without exhausting all available receive buffers.
 
 ABR uses an application-level response strategy in which the streaming client attempts to detect the available bandwidth of the network path by first observing the successful application-layer download speed, and then, given the available bandwidth, the client chooses a bitrate for each of the video, audio, subtitles and metadata (among a limited number of available options for each type of media) that fits within that bandwidth, typically adjusting as changes in available bandwidth occur in the network or changes in capabilities occur during the playback (such as available memory, CPU, display size, etc.).
 
@@ -698,9 +698,9 @@ The media server may also choose to alter which bitrates are made available to p
 
 Adaptive Segmented Delivery attempts to optimize its own use of the path between a media server and a media client. ABR playback is commonly implemented by streaming clients using HLS {{RFC8216}} or DASH {{MPEG-DASH}} to perform a reliable segmented delivery of media over HTTP. Different implementations use different strategies {{ABRSurvey}}, often relying on proprietary algorithms (called rate adaptation or bitrate selection algorithms) to perform available bandwidth estimation/prediction and the bitrate selection.
 
-Many systems will do an initial probe or a very simple throughput speed test at the start of video playback. This is done to get a rough sense of the highest video bitrate in the ABR ladder that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
+Many systems will do an initial probe or a very simple throughput speed test at the start of media playback. This is done to get a rough sense of the highest (total) media bitrate that the network between the server and player will likely be able to provide under initial network conditions. After the initial testing, clients tend to rely upon passive network observations and will make use of player side statistics such as buffer fill rates to monitor and respond to changing network conditions.
 
-The choice of bitrate occurs within the context of optimizing for one or more metrics monitored by the client, such as the highest achievable video quality or lowest chances for a rebuffering event (playback stall).
+The choice of bitrate occurs within the context of optimizing for one or more metrics monitored by the client, such as the highest achievable audiovisual quality or lowest chances for a rebuffering event (playback stall).
 
 ## Advertising
 
@@ -716,16 +716,16 @@ Ads may be inserted either with Client-side Ad Insertion (CSAI) or Server-side A
 - In SSAI, the media segments may or may not be sourced from an external ad server like with CSAI.
 
 In general, the more targeted the ad request is, the more requests the ad service needs to be able to handle concurrently.
-If connectivity is poor to the ad service, this can cause rebuffering even if the underlying video assets (both content and ads) can be accessed quickly.
-The less targeted the ad request is, the more likely that ad requests can be consolidated, and that ads can be cached similarly to the video content.
+If connectivity is poor to the ad service, this can cause rebuffering even if the underlying media assets (both content and ads) can be accessed quickly.
+The less targeted the ad request is, the more likely that ad requests can be consolidated, and that ads can be cached similarly to the media content.
 
-In some cases, especially with SSAI, advertising space in a stream is reserved for a specific advertiser and can be integrated with the video so that the segments share the same encoding properties such as bitrate, dynamic range, and resolution.
+In some cases, especially with SSAI, advertising space in a stream is reserved for a specific advertiser and can be integrated with the video so that the segments share the same encoding properties such as bitrate, dynamic range and resolution.
 However, in many cases, ad servers integrate with a Supply Side Platform (SSP) that offers advertising space in real-time auctions via an Ad Exchange, with bids for the advertising space coming from Demand Side Platforms (DSPs) that collect money from advertisers for delivering the advertisements.
 Most such Ad Exchanges use application-level protocol specifications published by the Interactive Advertising Bureau {{IAB-ADS}}, an industry trade organization.
 
 This ecosystem balances several competing objectives and integrating with it naively can produce surprising user experience results.
-For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main video, and either of these differences can result in video stalls.
-For another example, since the inserted ads are often produced independently, they might have a different base volume level than the main video, which can make for a jarring user experience.
+For example, ad server provisioning and/or the bitrate of the ad segments might be different from that of the main content, and either of these differences can result in playback stalls.
+For another example, since the inserted ads are often produced independently, they might have a different base volume level than the main content, which can make for a jarring user experience.
 
 Another major source of competing objectives comes from user privacy considerations vs. the advertiser's incentives to target ads to user segments based on behavioral data.
 Multiple studies, for example, {{BEHAVE}} and {{BEHAVE2}}, have reported large improvements in ad effectiveness when using behaviorally targeted ads, relative to untargeted ads.
@@ -855,12 +855,12 @@ Because UDP does not provide any feedback mechanism to senders to help limit imp
 
 In contrast to adaptive segmented delivery over a reliable transport as described in {{adapt-deliver}}, some applications deliver streaming media segments using an unreliable transport, and rely on a variety of approaches, including:
 
-* raw MPEG Transport Stream ("MPEG-TS")-formatted video {{MPEG-TS}} over UDP, which makes no attempt to account for reordering or loss in the transport,
+* raw MPEG Transport Stream ("MPEG-TS")-formatted media {{MPEG-TS}} over UDP, which makes no attempt to account for reordering or loss in the transport,
 * RTP {{RFC3550}}, which can notice packet loss and repair some limited reordering,
 * SCTP {{RFC9260}}, which can use partial reliability {{RFC3758}} to recover from some loss, but can abandon recovery to limit head-of-line blocking, and
 * SRT {{SRT}}, which can use forward error correction and time-bound retransmission to recover from loss within certain limits, but can abandon recovery to limit head-of-line blocking.
 
-Under congestion and loss, approaches like the above generally experience transient video artifacts more often and delay of playback effects less often, as compared with reliable segment transport. Often one of the key goals of using a UDP-based transport that allows some unreliability is to reduce latency and better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
+Under congestion and loss, approaches like the above generally experience transient media artifacts more often and delay of playback effects less often, as compared with reliable segment transport. Often one of the key goals of using a UDP-based transport that allows some unreliability is to reduce latency and better support applications like videoconferencing, or for other live-action video with interactive components, such as some sporting events.
 
 Congestion avoidance strategies for deployments using unreliable transport protocols vary widely in practice, ranging from being entirely unresponsive to congestion, to using feedback signaling to change encoder settings (as in {{RFC5762}}), to using fewer enhancement layers (as in {{RFC6190}}), to using proprietary methods to detect QoE issues and turn off video to allow less bandwidth-intensive media such as audio to be delivered.
 
