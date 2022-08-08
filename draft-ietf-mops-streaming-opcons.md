@@ -38,10 +38,9 @@ author:
 informative:
 
   CVNI:
-    target: https://www.cisco.com/c/en/us/solutions/collateral/service-provider/visual-networking-index-vni/white-paper-c11-741490.html
-    date: 2020-03
-    title: "Cisco Visual Networking Index: Forecast and Trends, 2017-2022 White Paper"
-    date: 2019-02-27
+    target: https://www.ieee802.org/3/ad_hoc/bwa2/public/calls/19_0624/nowell_bwa_01_190624.pdf
+    title: "Cisco VNI Forecast update"
+    date: June 24, 2019
 
   PCC:
     target: https://ieeexplore.ieee.org/document/8571288
@@ -382,6 +381,27 @@ This document defines "high-bitrate streaming media over the Internet" as follow
 - "Media" refers to any type of media and associated streams such as video, audio, metadata, etc.
 - "Over the Internet" means that a single operator does not have control of the entire path between media servers and media clients, so not a "walled garden".
 
+This document uses these terms, to describe the streaming media ecosystem:
+
+Streaming Media Operator:
+: An entity that provides streaming media servers
+
+Media Server:
+: A server that provides streaming media to a media player
+: Also refered to as a streaming media server, or simply a server
+
+Intermediary:
+: An entity that is on-path, between the streaming media operator and the ultimate media consumer, and that is media-aware
+: When the streaming media is encrypted, an intermediary must have credentials that allow the intermediary to decrypt the media in order to be media-aware
+: An intermediary can be one of many specialized subtypes that meet this definition
+
+Media Player:
+: An endpoint that requests streaming media from a media player for an ultimate media consumer
+: Also referred to as a streaming media client, or simply a client
+
+Ultimate Media Consumer:
+: A human using a media player
+
 ## Document Scope
 
 A full review of all streaming media considerations for all types of media over all types of network paths is too broad a topic to cover comprehensively in a single document.
@@ -566,15 +586,15 @@ When demand for content is relatively predictable, and especially when that cont
 
 It is worth noting that not all high-demand content is "live" content. One relevant example is when popular streaming content can be staged close to a significant number of requesters, as can happen when a new episode of a popular show is released. This content may be largely stable, so low-cost to maintain in multiple places throughout the Internet. This can reduce demands for high end-to-end bandwidth without having to use mechanisms like multicast.
 
-Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks, especially when the content can be pre-loaded during off-peak hours, and especially if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms.
+Caching and pre-loading can also reduce exposure to peering point congestion, since less traffic crosses the peering point exchanges if the caches are placed in peer networks. This is especially true when the content can be pre-loaded during off-peak hours, and if the transfer can make use of "Lower-Effort Per-Hop Behavior (LE PHB) for Differentiated Services" {{RFC8622}}, "Low Extra Delay Background Transport (LEDBAT)" {{RFC6817}}, or similar mechanisms.
 
-All of this depends, of course, on the ability of a media provider  to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}).
+All of this depends, of course, on the ability of a streaming media operator  to predict usage and provision bandwidth, caching, and other mechanisms to meet the needs of users. In some cases ({{sec-predict}}), this is relatively routine, but in other cases, it is more difficult ({{sec-unpredict}}).
 
-And as with other parts of the ecosystem, new technology brings new challenges. For example, with the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had a playback freeze until the player was reset.  In some cases, the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the media for all players playing the segment delivered from that cache node.
+With the emergence of ultra-low-latency streaming, responses have to start streaming to the end user while still being transmitted to the cache, and while the cache does not yet know the size of the object.  Some of the popular caching systems were designed around cache footprint and had deeply ingrained assumptions about knowing the size of objects that are being stored, so the change in design requirements in long-established systems caused some errors in production.  Incidents occurred where a transmission error in the connection from the upstream source to the cache could result in the cache holding a truncated segment and transmitting it to the end user's device. In this case, players rendering the stream often had a playback freeze until the player was reset.  In some cases, the truncated object was even cached that way and served later to other players as well, causing continued stalls at the same spot in the media for all players playing the segment delivered from that cache node.
 
 ## Predictable Usage Profiles {#sec-predict}
 
-Historical data shows that users consume more videos and these videos are encoded at a bitrate higher than they were in the past. Improvements in the codecs that help reduce the encoding bitrates with better compression algorithms could not have offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage has shown a large jump over the years due to increased consumption of entertainment and conversational video.
+Historical data shows that users consume more videos and these videos are encoded at a bitrate higher than they were in the past. Improvements in the codecs that help reduce the encoding bitrates with better compression algorithms have not offset the increase in the demand for the higher quality video (higher resolution, higher frame rate, better color gamut, better dynamic range, etc.). In particular, mobile data usage in cellular access networks has shown a large jump over the years due to increased consumption of entertainment and conversational video.
 
 ## Unpredictable Usage Profiles {#sec-unpredict}
 
@@ -621,13 +641,11 @@ The team working on this document found these rough categories to be useful when
 
 Ultra-low-latency delivery of media is defined here as having a glass-to-glass delay target under one second.
 
-Some media content providers aim to achieve this level of latency for live media events. This introduces new challenges relative to less-restricted levels of latency requirements because this latency is the same scale as commonly observed end-to-end network latency variation (for example, due to effects such as bufferbloat ({{CoDel}}), Wi-Fi error correction, or packet reordering). These effects can make it difficult to achieve this level of latency for the general case, and may require tradeoffs in relatively frequent user-visible media artifacts. However, for controlled environments or targeted networks that provide mitigations against such effects, this level of latency is potentially achievable with the right provisioning.
-
-Applications requiring ultra-low latency for media delivery are usually tightly constrained on the available choices for media transport technologies and sometimes may need to operate in controlled environments to reliably achieve their latency and quality goals.
+Some media content providers aim to achieve this level of latency for live media events. This introduces new challenges when compared to the other latency categories described in {{latency-cons}}, because ultra-low-latency is on the same scale as commonly observed end-to-end network latency variation, often due to bufferbloat ({{CoDel}}), Wi-Fi error correction, or packet reordering. These effects can make it difficult to achieve ultra-low-latency for many users, and may require accepting relatively frequent user-visible media artifacts. However, for controlled environments that provide mitigations against such effects, ultra-low-latency is potentially achievable with the right provisioning and the right media transport technologies.
 
 Most applications operating over IP networks and requiring latency this low use the Real-time Transport Protocol (RTP) {{RFC3550}} or WebRTC {{RFC8825}}, which uses RTP as its Media Transport Protocol, along with several other protocols necessary for safe operation in browsers.
 
-Worth noting is that many applications for ultra-low-latency delivery do not need to scale to as many users as the low-latency and non-low-latency live delivery, which simplifies many delivery considerations relative to other use cases.
+Worth noting is that many applications for ultra-low-latency delivery do not need to scale to as many users as applications for low-latency and non-low-latency live delivery, which simplifies many delivery considerations.
 
 Recommended reading for applications adopting an RTP-based approach also includes {{RFC7656}}. For increasing the robustness of the playback by implementing adaptive playout methods, refer to {{RFC4733}} and {{RFC6843}}.
 
@@ -654,7 +672,7 @@ While an LL-HLS client retrieves each chunk with a separate HTTP GET request, an
 
 Non-low-latency live delivery of media is defined here as a livestream that does not have a latency target shorter than 10 seconds.
 
-This level of latency is the historically common case for segmented media delivery using HLS and DASH. This level of latency is often considered adequate for content like news or pre-recorded content.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
+This level of latency is the historically common case for segmented media delivery using HLS and DASH. This level of latency is often considered adequate for content like news.  This level of latency is also sometimes achieved as a fallback state when some part of the delivery system or the client-side players do not have the necessary support for the features necessary to support low-latency live streaming.
 
 This level of latency can typically be achieved at scale with commodity CDN services for HTTP(s) delivery, and in some cases, the increased time window can allow for the production of a wider range of encoding options relative to the requirements for a lower latency service without the need for increasing the hardware footprint, which can allow for wider device interoperability.
 
@@ -884,7 +902,7 @@ A QUIC extension currently being specified ({{RFC9221}}) adds the capability for
 
 As noted in {{reliable-behavior}}, there is an increasing interest in congestion control algorithms that respond to delay measurements, instead of responding to packet loss. These algorithms may deliver an improved user experience, but in some cases, have not responded to sustained packet loss, which exhausts available buffers along the end-to-end path that may affect other users sharing that path. The QUIC protocol provides a set of congestion control hooks that can be used for algorithm agility, and {{RFC9002}} defines a basic congestion control algorithm that is roughly similar to TCP NewReno {{RFC6582}}. However, QUIC senders can and do unilaterally choose to use different algorithms such as loss-based CUBIC {{RFC8312}}, delay-based COPA or BBR, or even something completely different.
 
-The Internet community does have experience with deploying new congestion controllers without melting the Internet. As noted in {{RFC8312}}, both the CUBIC congestion controller and its predecessor BIC have significantly different behavior from Reno-style congestion controllers such as TCP NewReno {{RFC6582}}, but both CUBIC and BIC were added to the Linux kernel to allow experimentation and analysis, and both were then selected as the default TCP congestion controllers in Linux, and both were deployed globally.
+The Internet community does have experience with deploying new congestion controllers without causing congestion collapse on the Internet. As noted in {{RFC8312}}, both the CUBIC congestion controller and its predecessor BIC have significantly different behavior from Reno-style congestion controllers such as TCP NewReno {{RFC6582}}, both were added to the Linux kernel to allow experimentation and analysis, and both were then selected as the default TCP congestion controllers in Linux, and both were deployed globally.
 
 The point mentioned in {{reliable-behavior}} about TCP congestion controllers being implemented in operating system kernels is different with QUIC. Although QUIC can be implemented in operating system kernels, one of the design goals when this work was chartered was "QUIC is expected to support rapid, distributed development and testing of features," and to meet this expectation, many implementers have chosen to implement QUIC in user space, outside the operating system kernel, and to even distribute QUIC libraries with their own applications. It is worth noting that streaming operators using HTTP/3, carried over QUIC, can expect more frequent deployment of new congestion controller behavior than has been the case with HTTP/1 and HTTP/2, carried over TCP.
 
@@ -894,7 +912,7 @@ It is worth considering that if TCP-based HTTP traffic and UDP-based HTTP/3 traf
 
 "Encrypted Media" has at least three meanings:
 
-- Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system, and typically remaining encrypted at rest, when senders and receivers store it.
+- Media encrypted at the application layer, typically using some sort of Digital Rights Management (DRM) system or other object encryption/security mechanism, and typically remaining encrypted at rest, when senders and receivers store it.
 - Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches the ultimate media consumer (in this document, referred to as end-to-end media encryption).
 - Media encrypted by the sender at the transport layer, and remaining encrypted until it reaches some intermediary that is *not* the ultimate media consumer, but has credentials allowing decryption of the media content. This intermediary may examine and even transform the media content in some way, before forwarding re-encrypted media content (in this document referred to as hop-by-hop media encryption).
 
@@ -906,11 +924,9 @@ This document does not take a position on whether those goals are "valid" (whate
 
 Both end-to-end and hop-by-hop media encryption have specific implications for streaming operators. These are described in {{hop-by-hop-encrypt}} and {{e2em-encrypt}}.
 
-## General Considerations for Media Encryption {#gen-encrypt}
+## General Considerations for Streaming Media Encryption {#gen-encrypt}
 
-The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either an intermediary or the ultimate media consumer, and this does prevent Deep Packet Inspection by any intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An intermediary that can identify an encrypted media stream without decrypting it, may be able to "fingerprint" the encrypted media stream of known content, and then match the targeted media stream against the fingerprints of known content. This protection can be lessened if a media provider is repeatedly encrypting the same content. {{CODASPY17}} is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred.
-
-If traffic analysis is successful at identifying encrypted content and associating it with specific users, this breaks privacy as certainly as examining decrypted traffic.
+The use of strong encryption does provide confidentiality for encrypted streaming media, from the sender to either the ultimate media consumer, or to an intermediary that possesses  credentials allowing decryption. This does prevent Deep Packet Inspection by any on-path intermediary that does not possess credentials allowing decryption. However, even encrypted content streams may be vulnerable to traffic analysis. An on-path observer that can identify that encrypted traffic contains a media stream, could “fingerprint” this encrypted media steam, and then compare it against “fingerprints” of known content. The protection provided by strong encryption can be further lessened if a streaming media operator is repeatedly encrypting the same content. "Identifying HTTPS-Protected Netflix Videos in Real-Time" ({{CODASPY17}}) is an example of what is possible when identifying HTTPS-protected videos over TCP transport, based either on the length of entire resources being transferred, or on characteristic packet patterns at the beginning of a resource being transferred. If traffic analysis is successful at identifying encrypted content and associating it with specific users, this tells an on-path observer what resource is being streamed, and by who, almost as certainly as examining decrypted traffic.
 
 Because HTTPS has historically layered HTTP on top of TLS, which is in turn layered on top of TCP, intermediaries have historically had access to unencrypted TCP-level transport information, such as retransmissions, and some carriers exploited this information in attempts to improve transport-layer performance {{RFC3135}}. The most recent standardized version of HTTPS, HTTP/3 {{RFC9114}}, uses the QUIC protocol {{RFC9000}} as its transport layer. QUIC relies on the TLS 1.3 initial handshake {{RFC8446}} only for key exchange {{RFC9001}}, and encrypts almost all transport parameters itself except for a few invariant header fields. In the QUIC short header, the only transport-level parameter which is sent "in the clear" is the Destination Connection ID {{RFC8999}}, and even in the QUIC long header, the only transport-level parameters sent "in the clear" are the Version, Destination Connection ID, and Source Connection ID. For these reasons, HTTP/3 is significantly more "opaque" than HTTPS with HTTP/1 or HTTP/2.
 
@@ -922,33 +938,34 @@ It is also worth noting that considerations for heavily-encrypted transport prot
 
 ## Considerations for Hop-by-Hop Media Encryption {#hop-by-hop-encrypt}
 
+Hop-by-hop media encryption offers the benefits described in {{gen-encrypt}} between the streaming media operator and authorized intermediaries, among authorized intermediaries, and between authorized intermediaries and the ultimate media consumer, but does not provide these benefits end-to-end. The streaming media operator and ultimate media consumer must trust the authorized intermediaries, and if these intermediaries cannot be trusted, the benefits of encryption are lost.
+
 Although the IETF has put considerable emphasis on end-to-end streaming media encryption, there are still important use cases that require the insertion of intermediaries.
 
 There are a variety of ways to involve intermediaries, and some are much more intrusive than others.
 
-From a media provider's perspective, a number of considerations are in play. The first question is likely whether the media provider  intends that intermediaries are explicitly addressed from endpoints, or whether the media provider  is willing to allow intermediaries to "intercept" streaming content transparently, with no awareness or permission from either endpoint.
+From a streaming media operator's perspective, a number of considerations are in play. The first question is likely whether the streaming media operator intends that intermediaries are explicitly addressed from endpoints, or whether the streaming media operator  is willing to allow intermediaries to "intercept" streaming content transparently, with no awareness or permission from either endpoint.
 
-If a media provider  does not actively work to avoid interception by intermediaries, the effect will be indistinguishable from "impersonation attacks," and endpoints cannot be assumed of any level of privacy.
+If a streaming media operator  does not actively work to avoid interception by on-path intermediaries, the effect will be indistinguishable from "impersonation attacks," and endpoints cannot be assured of any level of confidentiality, and cannot trust that the content received came from the expected sender.
 
-Assuming that a media provider does intend to allow intermediaries to participate in content streaming and does intend to provide some level of privacy for endpoints, there are a number of possible tools, either already available or still being specified. These include
+Assuming that a streaming media operator does intend to allow intermediaries to participate in content streaming and does intend to provide some level of privacy for endpoints, there are a number of possible tools, either already available or still being specified. These include
 
-- Server And Network assisted DASH {{MPEG-DASH-SAND}} - this specification introduces explicit messaging between DASH clients and network elements or between various network elements for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
+- Server And Network assisted DASH {{MPEG-DASH-SAND}} - this specification introduces explicit messaging between DASH clients and DASH-aware network elements or among various DASH-aware network elements, for the purpose of improving the efficiency of streaming sessions by providing information about real-time operational characteristics of networks, servers, proxies, caches, CDNs, as well as DASH client’s performance and status.
 - "Double Encryption Procedures for the Secure Real-Time Transport Protocol (SRTP)" {{RFC8723}} - this specification provides a cryptographic transform for the Secure Real-time Transport Protocol that provides both hop-by-hop and end-to-end security guarantees.
-- Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other transport protocols beyond SRTP.
+- Secure Media Frames {{SFRAME}} - {{RFC8723}} is closely tied to SRTP, and this close association impeded widespread deployment, because it could not be used for the most common media content delivery mechanisms. A more recent proposal, Secure Media Frames {{SFRAME}}, also provides both hop-by-hop and end-to-end security guarantees, but can be used with other media transport protocols beyond SRTP.
 
-The choice of whether to involve intermediaries sometimes requires careful consideration.
-As an example, when ABR manifests were commonly sent unencrypted, some networks would modify manifests during peak hours by removing high-bitrate renditions to prevent players from choosing those renditions, thus reducing the overall bandwidth consumed for delivering these media streams and thereby improving the network load and the user experience for their customers.
-Now that ubiquitous encryption typically prevents this kind of modification, a streaming media provider who used intermediaries in the past, and who now wishes to maintain the same level of network health and user experience, must choose between adding intermediaries who are authorized to change the manifests or adding some other form of complexity to their service.
+A streaming media operator's choice of whether to involve intermediaries requires careful consideration. As an example, when ABR manifests were commonly sent unencrypted, some access network operators would modify manifests during peak hours by removing high-bitrate renditions to prevent players from choosing those renditions, thus reducing the overall bandwidth consumed for delivering these media streams and thereby improving the network load and the user experience for their customers.
+Now that ubiquitous encryption typically prevents this kind of modification, a streaming media operator who used intermediaries in the past, and who now wishes to maintain the same level of network health and user experience, must choose between adding intermediaries who are authorized to change the manifests or adding some other form of complexity to their service.
 
 Some resources that might inform other similar considerations are further discussed in {{RFC8824}} (for WebRTC) and {{I-D.ietf-quic-manageability}} (for HTTP/3 and QUIC).
 
 ## Considerations for End-to-End Media Encryption {#e2em-encrypt}
 
-End-to-end media encryption offers the potential of providing privacy for streaming media consumers, with the idea being that if an unauthorized intermediary cannot decrypt streaming media, the intermediary cannot use Deep Packet Inspection to examine HTTP request and response headers and identify the media content being streamed.
+End-to-end media encryption offers the benefits described in {{gen-encrypt}} from the streaming media operator to the ultimate media consumer.
 
 End-to-end media encryption has become much more widespread in the years since the IETF issued "Pervasive Monitoring Is an Attack" {{RFC7258}} as a Best Current Practice, describing pervasive monitoring as a much greater threat than previously appreciated. After the Snowden disclosures, many content providers made the decision to use HTTPS protection - HTTP over TLS - for most or all content being delivered as a routine practice, rather than in exceptional cases for content that was considered sensitive.
 
-However, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an attacker, while allowing monitoring by a more benign entity who only wants to use DPI to examine HTTP requests and responses to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, intermediary streaming operators are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary explicitly authorized by the streaming media provider who is  to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
+However, as noted in {{RFC7258}}, there is no way to prevent pervasive monitoring by an attacker, while allowing monitoring by a more benign entity who only wants to use DPI to examine HTTP requests and responses to provide a better user experience. If a modern encrypted transport protocol is used for end-to-end media encryption, unauthorized on-path intermediaries are unable to examine transport and application protocol behavior. As described in {{hop-by-hop-encrypt}}, only an intermediary explicitly authorized by the streaming media operator who is  to examine packet payloads, rather than intercepting packets and examining them without authorization, can continue these practices.
 
 {{RFC7258}} said that "The IETF will strive to produce specifications that mitigate pervasive monitoring attacks," so streaming operators should expect the IETF's direction toward preventing unauthorized monitoring of IETF protocols to continue for the foreseeable future.
 
