@@ -5,10 +5,10 @@
 MOPS                                                          J. Holland
 Internet-Draft                                 Akamai Technologies, Inc.
 Intended status: Informational                                  A. Begen
-Expires: 7 February 2023                                 Networked Media
+Expires: 9 February 2023                                 Networked Media
                                                               S. Dawkins
                                                      Tencent America LLC
-                                                           6 August 2022
+                                                           8 August 2022
 
 
              Operational Considerations for Streaming Media
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 February 2023.
+   This Internet-Draft will expire on 9 February 2023.
 
 Copyright Notice
 
@@ -1453,8 +1453,8 @@ Table of Contents
    BBR, or even something completely different.
 
    The Internet community does have experience with deploying new
-   congestion controllers without causing massive congestion events for
-   the Internet.  As noted in [RFC8312], both the CUBIC congestion
+   congestion controllers without causing congestion collapse on the
+   Internet.  As noted in [RFC8312], both the CUBIC congestion
    controller and its predecessor BIC have significantly different
    behavior from Reno-style congestion controllers such as TCP NewReno
    [RFC6582], both were added to the Linux kernel to allow
@@ -1544,8 +1544,8 @@ Table of Contents
    on characteristic packet patterns at the beginning of a resource
    being transferred.  If traffic analysis is successful at identifying
    encrypted content and associating it with specific users, this tells
-   an on-path observer what resource is being streamed, and by who, as
-   certainly as examining decrypted traffic.
+   an on-path observer what resource is being streamed, and by who,
+   almost as certainly as examining decrypted traffic.
 
    Because HTTPS has historically layered HTTP on top of TLS, which is
    in turn layered on top of TCP, intermediaries have historically had
@@ -1789,11 +1789,9 @@ Table of Contents
               <https://shop.cta.tech/products/web-application-video-
               ecosystem-common-media-client-data-cta-5004>.
 
-   [CVNI]     "Cisco Visual Networking Index: Forecast and Trends,
-              2017-2022 White Paper", 27 February 2019,
-              <https://www.cisco.com/c/en/us/solutions/collateral/
-              service-operator/visual-networking-index-vni/white-paper-
-              c11-741490.html>.
+   [CVNI]     "Cisco VNI Forecast update", June 2019,
+              <https://www.ieee802.org/3/ad_hoc/bwa2/public/
+              calls/19_0624/nowell_bwa_01_190624.pdf>.
 
    [ELASTIC]  De Cicco, L., Caldaralo, V., Palmisano, V., and S.
               Mascolo, "ELASTIC: A client-side controller for dynamic
